@@ -12,7 +12,6 @@ module.exports = {
 
   	generationParams: {
   		type: 'json', 
-      required: true
   	},
 
     tasks: {
@@ -29,7 +28,12 @@ module.exports = {
     }
 
 
-  }
+  }, 
+
+   afterDestroy: function (workflow, cb) {
+    sails.log('Destroy workflow')
+    Task.destroy(workflow.tasks).exec(function (err) {return cb()})
+   }
 
 
 };

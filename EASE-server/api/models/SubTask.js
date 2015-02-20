@@ -10,24 +10,9 @@ module.exports = {
   attributes: {
 
   	
-  	task: {
-  		model: 'task'
-  	}
-  	, 
-
-  	beginAfter: {
-      collection: 'SubTask',
-      via: 'endBefore'
-    },
-
-    beginAfterDuration: {
-    	type: 'time'
-    },
-
-    endBefore: {
-      model: 'SubTask'
-    },
-
+  	taskAgentAdaptationInfos: {
+  		model: 'TaskAgentAdaptationInfos'
+  	}, 
 
     agent: {
       model: 'Agent'
@@ -41,6 +26,10 @@ module.exports = {
     	type: 'string'
     }
 
+  }, 
+  afterDestroy: function (subtask, cb) {
+    sails.log('Destroy subtask : ' + JSON.stringify(subtask))
+    cb()
   }
 };
 

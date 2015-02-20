@@ -22,7 +22,11 @@ module.exports = {
       model: 'WorkflowGeneratorTicket'
     }
     
-  }
+  }, 
+
+   afterDestroy: function (metaworkflow, cb) {
+      Metatask.destroy(metaworkflow.metatasks).exec(function(err){cb()})
+   }
 
 
 

@@ -9,6 +9,9 @@ module.exports = {
 	
 	signin: function(req, res) {
 
+
+		setTimeout(function() { console.log("Salut !")}, 5000)
+
 		User.find({username: req.body.username}).exec(function (err, users)
 		{
 			if (users.length != 1)

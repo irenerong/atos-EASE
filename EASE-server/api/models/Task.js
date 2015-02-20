@@ -13,33 +13,67 @@ module.exports = {
   		model: 'Metatask'
   	}, 
 
+    generationParams: {
+      type: 'json'
+    },
+
+    idTask: {
+      type: 'integer'
+    },
+
   	workflow: {
   		model: 'Workflow'
-  	},
+  	}, 
 
-    subtasks: {
-      collection: 'subTask',
+    taskAgentAdaptationInfos: {
+      collection: 'TaskAgentAdaptationInfos', 
       via: 'task'
-    },
-
-    beginAfter: {
-      collection: 'Task',
-      via: 'endBefore'
-    },
-
-    endBefore: {
-      model: 'Task'
-    },
-
-    agent: {
-      model: 'Agent'
-    }, 
-
-    action: {
-      type: 'json'
     }
     
-  }
+  }, 
+
+  afterDestroy: function (tasks, cb) {
+
+    if (!tasks) {
+      return cb()
+    }
+
+    async.each(tasks, 
+      function (task, cb2) {
+
+
+            TaskAgentAdaptationInfos.findOne(task.taskAgentAdaptationInfos)
+            .exec(function (err, taskInfos) {
+              if (!taskInfos)
+              {
+                return cb2()
+              }
+              sails.log('Task infos : ' + JSON.stringify(taskInfos))
+
+              SubTask.destroy(taskInfos.subtasks)
+              .exec(function (err) {
+                TaskAgentAdaptationInfos.destroy(taskInfos.id)
+                .exec(function (err) {
+                    cb2()
+                })
+              })
+
+            })
+
+
+
+      }, 
+
+      function (err) {
+        cb()
+      }
+
+      )
+
+
+
+    
+   }
 
 
 };

@@ -36,7 +36,11 @@ module.exports = {
         console.log('Destroy ticket and its workflows')
          
       Metaworkflow.destroy(ticket.metaworkflows)
-      .exec(function (err) {cb()})
+      .exec(function (err) {
+        Workflow.destroy(ticket.workflows)
+        .exec (function (err) {return cb()})
+
+      })
     }
 };
 

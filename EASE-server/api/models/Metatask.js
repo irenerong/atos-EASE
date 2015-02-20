@@ -20,21 +20,7 @@ module.exports = {
   	name: {
   		type: 'string'
 
-  	}, 
-
-  	description: {
-  		type: 'string'
-
   	},
-
-
-  	isBefore: {
-  		model: 'Metatask'
-  	},
-
-    isAfter: {
-      model: 'Metatask'
-    },
 
   	agentTypes: {
   		type: 'array'
@@ -43,11 +29,6 @@ module.exports = {
   	action: {
   		type: 'json'
   	},
-
-  	estimatedConsumption: {
-  		type: 'json'
-  	}, 
-
    
 
     afterCreate: function (metatask, cb) {

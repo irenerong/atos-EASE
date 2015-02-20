@@ -6,6 +6,8 @@
  */
 
 module.exports = {
-	
+	reset: function (req, res) {
+		SubTask.destroy({}).exec(function (err) {res.status(200), res.json("ok")})
+	}
 };
 

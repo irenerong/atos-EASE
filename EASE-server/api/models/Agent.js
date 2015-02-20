@@ -9,6 +9,23 @@ module.exports = {
 
   attributes: {
 
+  	agentBehavior : {
+  		model: 'AgentBehavior'
+  	}, 
+
+  	agentType : {
+  		type: 'string'
+  	}, 
+
+  	subTasksForTask : function(task, cb) {
+
+  		AgentBehavior.findOne(this.agentBehavior)
+      .exec(function (err, behavior) {
+        cb(behavior.subTasksForTask(task))
+      })
+  		
+  	}
+
   }
 };
 
