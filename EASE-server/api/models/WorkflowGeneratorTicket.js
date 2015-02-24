@@ -22,9 +22,13 @@ module.exports = {
   		via: 'ticket'
   	},
 
+    /*
+      GENERATING, WAITINGVALIDATION, VALIDATED, FINISHED
+    */
   	status: {
   		type: 'string'
   	}, 
+
 
 
 

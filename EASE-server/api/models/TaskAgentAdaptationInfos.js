@@ -19,7 +19,34 @@ module.exports = {
 
   	params: {
   		type: 'json'
-  	}
+  	}, 
+
+    consumption: function(cb) {
+
+      var cons = {}
+      SubTask.find({taskAgentAdaptationInfos: this.id})
+      .exec(function (err, subtasks) {
+
+
+        async.eachSeries(subtasks, 
+          function (subtask, cb2) {
+
+
+            MathService.sumKeysOfJSON(cons, subtask.consumption)
+            cb2()
+          }, 
+
+          function (err) {
+
+            cb(err, cons)
+
+          }
+
+          )
+
+      })
+
+    }
 
   }, 
   

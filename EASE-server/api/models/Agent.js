@@ -24,7 +24,20 @@ module.exports = {
         cb(behavior.subTasksForTask(task))
       })
   		
-  	}
+  	}, 
+
+    isAvailable: function (cb) {
+      var query = "SELECT COUNT(*) AS C FROM SubTask WHERE status = 'working' AND agent = " + this.id
+      Agent.query(query, 
+
+        function(err, rows) {
+
+          cb(rows[0] == 0)
+
+        }
+
+        )
+    }
 
   }
 };

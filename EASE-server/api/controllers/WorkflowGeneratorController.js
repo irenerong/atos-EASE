@@ -19,13 +19,17 @@ module.exports = {
 
 
 
+
+
     async.waterfall([
         function (cb) {
 
           //Create new ticket
           sails.log('Create new ticket');
 
-          WorkflowGeneratorTicket.create({user: userID}).exec(function (err, ticket) {cb(null, ticket)})
+          WorkflowGeneratorTicket.create({user: userID, status: 'GENERATING'}).exec(function (err, ticket) {cb(null, ticket)})
+
+
         },
         function (ticket, cb) {
           sails.log('Ticket created');
@@ -33,7 +37,11 @@ module.exports = {
           //Get and save Metaworkflows
           sails.log('Getting Metaworkflows');
 
-          WFC.getMetaworkflows(ticket.id, params, function () {cb(null, ticket)})
+          console.time('Get Metaworkflows')
+
+          WFC.getMetaworkflows(ticket.id, params, function () {          console.timeEnd('Get Metaworkflows')
+; cb(null, ticket)})
+
 
         },
         function (ticket, cb) {
@@ -43,13 +51,23 @@ module.exports = {
           //Adapting Metaworkflows
           sails.log('Adapting Metaworkflows');
 
-          WFC.adaptMetaworkflows(ticket.id, params, function() {cb(null, ticket)})
+          console.time('Adapt Metaworkflows')
+
+          WFC.adaptMetaworkflows(ticket.id, params, function() {          console.timeEnd('Adapt Metaworkflows')
+; cb(null, ticket)})
         },
+
+        function (ticket, cb) {
+          ticket.status = 'WAITINGVALIDATION'
+          ticket.save(function (err, newTicket) {cb(err, ticket)})
+
+        }, 
+
         function (ticket, cb) {
 
           //Results
           res.status(200);
-          res.json({ticket: ticket.id})
+          res.json(ticket)
         }
       ],
       function (err) {
@@ -101,7 +119,6 @@ module.exports = {
 
 
 
-
   },
 
   importMetaworkflowFromOutside: function (ticketID, metaworkflow, cb) {
@@ -127,7 +144,6 @@ module.exports = {
             },
             function (err) {
 
-              sails.log('	Metaworkflow Imported !');
               cb2(err)
 
 
@@ -144,6 +160,7 @@ module.exports = {
 
   },
 
+
   importMetataskFromOutside: function (metaworkflowID, metatask, cb) {
 
     Metatask.create({idTask: metatask.idTask, metaworkflow: metaworkflowID, agentTypes: metatask.agentTypes})
@@ -152,29 +169,38 @@ module.exports = {
       });  //Create the metatask and link it to the metaworkflow
   },
 
+
+
   adaptMetaworkflows : function (ticketID, params, cb) {
     var WFC = this;
 
 
     async.waterfall([
         function (cb2) {
+
+          console.time('Seek Metaworkflows')
           Metaworkflow.find({ticket: ticketID}).populate('metatasks')
-            .exec(function (err, metaworkflows) {cb2(err, metaworkflows)})
+            .exec(function (err, metaworkflows) {  cb2(err, metaworkflows)})
         },
         function (metaworkflows, cb2) {
+          console.timeEnd('Seek Metaworkflows')
 
 
           async.each(metaworkflows, //For each metaworkflow
             function (metaworkflow, cb3) {
 
               //Adapt metaworkflow to agents
-              WFC.adaptMetaworkflowToAgents(params, ticketID, metaworkflow, function () {cb3(null)})
+              WFC.adaptMetaworkflowToAgents(params, ticketID, metaworkflow, function (err) {cb3(null)})
 
 
             },
             function (err) {
+              if (err == 'NoAgent')
+              {
+                return cb2(err)
+              }
+
               WFC.adaptMetaworkflowsToTime(function () {
-                sails.log('	Metaworkflow Imported !');
                 cb2(err)
               })
 
@@ -218,14 +244,32 @@ module.exports = {
               Task.create({metatask: metatask.id, workflow: workflow.id, idTask: metatask.idTask})
                 .exec(function (err, task) {
                   //Adapt the task to the agent by creating subtasks
-                  WFC.adaptTaskToAgent(task, metatask, function () {cb3()})
+                  console.time('Task Adaptation' + task.id)
+                  WFC.adaptTaskToAgents(task, metatask, function (err) { console.timeEnd('Task Adaptation' + task.id)
+; cb3(err)})
 
                 })
 
 
             },
             function (err) {
-              cb2(err)
+              if (err == 'NoAgent') {
+                Workflow.destroy(workflow.id)
+                .exec(function (err) {
+
+                  Metaworkflow.destroy(metaworkflow.id)
+                  .exec(function (err) {
+                     cb2(err)
+                  })
+
+                })
+              }
+              else
+              {
+                 cb2(err)
+
+              }
+
             }
           )
 
@@ -234,7 +278,7 @@ module.exports = {
     ],
 
       function (err) {
-        cb()
+        cb(err)
       }
     )
 
@@ -244,7 +288,7 @@ module.exports = {
 
   },
 
-  adaptTaskToAgent : function (task, metatask, cb) {
+  adaptTaskToAgents : function (task, metatask, cb) {
     var WFC = this;
 
 
@@ -256,6 +300,11 @@ module.exports = {
       },
       function (agents, cb2) {
 
+        if (agents.length == 0) {
+          console.log('Task ' + task.id + ' cant be done')
+          return cb2('NoAgent')
+        }
+
         //Ask subtasks to agents
         WFC.askSubTasksToAgents(task, agents, function() {cb2(null)})
       }
@@ -263,7 +312,7 @@ module.exports = {
     ],
 
       function (err) {
-        cb()
+        cb(err)
       }
     )
 
@@ -291,13 +340,10 @@ module.exports = {
           function (subtasks) {
 
             if (subtasks) { //If this agent can do this task
-              sails.log('Agent ' + agent.id + ' can do task ' + task.id);
               WFC.importSubTasks(subtasks, task, agent.id, function () {cb2()}); //Import them
             }
             else
             {
-
-              sails.log('Agent ' + agent.id + ' cant do task ' + task.id);
 
               cb2()
             }
@@ -332,7 +378,7 @@ module.exports = {
               async.waterfall([
 
                   function (cb4) {
-                    SubTask.create({taskAgentAdaptationInfos: taskInfos.id, agent: agentID, action: subtask.action}) //Create the subtask
+                    SubTask.create({taskAgentAdaptationInfos: taskInfos.id, agent: agentID, action: subtask.action, consumption: subtask.consumption}) //Create the subtask
                       .exec(function (err, subtask) { cb4(err, subtask) })
                   },
 

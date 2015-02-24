@@ -25,7 +25,7 @@ module.exports = {
   }, 
 
    afterDestroy: function (metaworkflow, cb) {
-      Metatask.destroy(metaworkflow.metatasks).exec(function(err){cb()})
+      cb()
    }
 
 

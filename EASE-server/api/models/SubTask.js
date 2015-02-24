@@ -22,9 +22,31 @@ module.exports = {
       type: 'json'
     }, 
 
-    isDone: {
+    status: {
     	type: 'string'
+    }, 
+
+    consumption : {
+      type: 'json'
+    },
+
+
+
+    /*START CONDITION
+      
+    */
+    
+
+    startCondition: {
+      model: 'StartCondition'
+    }, 
+
+    nextStartConditions: {
+      collection: 'StartCondition', 
+      via: 'waitFor'
     }
+
+
 
   }, 
   afterDestroy: function (subtask, cb) {
