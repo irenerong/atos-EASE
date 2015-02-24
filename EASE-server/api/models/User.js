@@ -10,9 +10,36 @@ module.exports = {
   attributes: {
 
   	username: {
-      type: 'string'
+      type: 'string',
+      required: true
+  	},
+  	password: {
+  	  type : 'string',
+  	  required: true ,
+  	  minLength:6
+  	},
+  	admin :{
+  		type: 'boolean',
+  		defaultsTo: false
   	}
 
+
+  },
+
+  beforeCreate: function(user,cb){
+  	var bcrypt = require('bcrypt');
+
+  	bcrypt.genSalt(10,function(err,salt) {
+  		if (err) return res.json('error genSalt');
+
+  		bcrypt.hash(user.password,salt,function(err,hash){
+
+  			if (err) return cb(err);
+
+  			user.password=hash;
+  			cb();
+  		});
+  	});
   }
 };
 

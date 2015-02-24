@@ -55,7 +55,15 @@ WorkflowGeneratorController: {
 
   generate: 'sessionAuth'
 
+},
+
+UserControllor:{
+
+  changeAdmin: 'adminAuth'
+
 }
+
+
   
   
 };
