@@ -49,7 +49,7 @@ module.exports.connections = {
     host: 'localhost',
     port: 8889,
     user: 'root',
-    password: 'admin',
+    password: 'root',
     database: 'EASE'
   },
 
