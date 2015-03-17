@@ -21,7 +21,7 @@ module.exports = {
 
   		AgentBehavior.findOne(this.agentBehavior)
       .exec(function (err, behavior) {
-        cb(behavior.subTasksForTask(task))
+        cb(err, behavior.subTasksForTask(task))
       })
   		
   	}, 

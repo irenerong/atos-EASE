@@ -1,0 +1,1 @@
+PODS_YLPROGRESSBAR_OTHER_LDFLAGS = -framework "CoreGraphics"
