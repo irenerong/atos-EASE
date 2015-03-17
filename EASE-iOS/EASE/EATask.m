@@ -8,6 +8,9 @@
 
 #import "EATask.h"
 
+#import "EADateInterval.h"
+#import "EAAgent.h"
+
 @implementation EATask
 
 @end

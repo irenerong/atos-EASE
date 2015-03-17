@@ -29,6 +29,16 @@
 			<key>isShown</key>
 			<false/>
 		</dict>
+		<key>Pods-RESideMenu.xcscheme</key>
+		<dict>
+			<key>isShown</key>
+			<false/>
+		</dict>
+		<key>Pods-SCLAlertView-Objective-C.xcscheme</key>
+		<dict>
+			<key>isShown</key>
+			<false/>
+		</dict>
 		<key>Pods-UINavigationItem+Loading.xcscheme</key>
 		<dict>
 			<key>isShown</key>
@@ -44,6 +54,11 @@
 			<key>isShown</key>
 			<false/>
 		</dict>
+		<key>Pods-YLProgressBar.xcscheme</key>
+		<dict>
+			<key>isShown</key>
+			<false/>
+		</dict>
 		<key>Pods.xcscheme</key>
 		<dict>
 			<key>isShown</key>
@@ -52,47 +67,62 @@
 	</dict>
 	<key>SuppressBuildableAutocreation</key>
 	<dict>
-		<key>297B00079B4D4813F1F349F4</key>
+		<key>07C23EA3A3F06E4931F04DBE</key>
 		<dict>
 			<key>primary</key>
 			<true/>
 		</dict>
-		<key>3FCFED22CDBBD629FC4D93EA</key>
+		<key>0D040FA628C76A19C81FF34A</key>
 		<dict>
 			<key>primary</key>
 			<true/>
 		</dict>
-		<key>56711FA663D1C4A73125A91F</key>
+		<key>3C92A27D5C379608588A5812</key>
 		<dict>
 			<key>primary</key>
 			<true/>
 		</dict>
-		<key>7A17511F9652849217588D42</key>
+		<key>45D765CBC1B4D36732AE2ECD</key>
 		<dict>
 			<key>primary</key>
 			<true/>
 		</dict>
-		<key>86A8925EEEF58376D3112DC8</key>
+		<key>484BCD9AFEC64329972FB2B8</key>
 		<dict>
 			<key>primary</key>
 			<true/>
 		</dict>
-		<key>959B48B3DFB2C2716883EE3F</key>
+		<key>4F3E5D2E4DBD1E76E3DCFD34</key>
 		<dict>
 			<key>primary</key>
 			<true/>
 		</dict>
-		<key>9B30D31ACDEE51F9CA5602C9</key>
+		<key>6578C289C5DE05439C59E626</key>
 		<dict>
 			<key>primary</key>
 			<true/>
 		</dict>
-		<key>A187B2345F7B839E7A737E8E</key>
+		<key>86858721FE10E86E9EF49173</key>
 		<dict>
 			<key>primary</key>
 			<true/>
 		</dict>
-		<key>B2F71F3F44609F810961ED02</key>
+		<key>A17F67F407ABB9FA279F4F26</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
+		<key>EBFDAB6D6366F262948D0955</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
+		<key>EFE7EEC307BDA3D4F722E7D7</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
+		<key>F259623EBDBBF9F325102D51</key>
 		<dict>
 			<key>primary</key>
 			<true/>

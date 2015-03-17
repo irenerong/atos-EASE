@@ -47,6 +47,9 @@
     
     NSInteger numberOfItems = [self.collectionView numberOfItemsInSection:0];
     
+    if (numberOfItems <= 0)
+        return;
+    
     self.dateInterval = [EADateInterval new];
     
     NSMutableArray *taskDateIntervals;
@@ -118,6 +121,18 @@
 
 -(void)updateTimeAchorsWithDateIntervals:(NSArray*)dateIntervals
 {
+    
+    /*self.timeAnchorsY = [NSMutableArray array];
+    [self.timeAnchorsY addObject:@(self.yOffset)];
+    [self.timeAnchorsY addObject:@(self.yOffset+1500)];
+
+    
+    self.timeAnchorsDate = [NSMutableArray array];
+    [self.timeAnchorsDate addObject:[NSDate dateWithTimeInterval:-10*3600 sinceDate:[NSDate date]]];
+    [self.timeAnchorsDate addObject:[NSDate dateWithTimeInterval:10*3600 sinceDate:[NSDate date]]];
+     */
+    
+    
     const CGFloat minHeight = 70;
     const CGFloat maxHeight = 150;
     

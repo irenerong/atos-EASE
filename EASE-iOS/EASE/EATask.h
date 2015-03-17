@@ -7,7 +7,10 @@
 //
 
 #import <Foundation/Foundation.h>
-#import "EADateInterval.h"
+
+@class EAWorkflow;
+@class EADateInterval;
+@class EAAgent;
 
 @interface EATask : NSObject
 {
@@ -19,6 +22,7 @@
 @property(nonatomic, strong) NSString *taskDescription;
 @property(nonatomic, strong) EADateInterval *dateInterval;
 
-
+@property(nonatomic, weak) EAAgent *agent;
+@property(nonatomic, weak) EAWorkflow *workflow;
 
 @end

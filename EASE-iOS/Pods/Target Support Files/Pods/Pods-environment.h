@@ -78,6 +78,18 @@
 #define COCOAPODS_VERSION_MINOR_MarqueeLabel 5
 #define COCOAPODS_VERSION_PATCH_MarqueeLabel 0
 
+// RESideMenu
+#define COCOAPODS_POD_AVAILABLE_RESideMenu
+#define COCOAPODS_VERSION_MAJOR_RESideMenu 4
+#define COCOAPODS_VERSION_MINOR_RESideMenu 0
+#define COCOAPODS_VERSION_PATCH_RESideMenu 7
+
+// SCLAlertView-Objective-C
+#define COCOAPODS_POD_AVAILABLE_SCLAlertView_Objective_C
+#define COCOAPODS_VERSION_MAJOR_SCLAlertView_Objective_C 0
+#define COCOAPODS_VERSION_MINOR_SCLAlertView_Objective_C 5
+#define COCOAPODS_VERSION_PATCH_SCLAlertView_Objective_C 5
+
 // UINavigationItem+Loading
 #define COCOAPODS_POD_AVAILABLE_UINavigationItem_Loading
 #define COCOAPODS_VERSION_MAJOR_UINavigationItem_Loading 1
@@ -88,11 +100,17 @@
 #define COCOAPODS_POD_AVAILABLE_Wit
 #define COCOAPODS_VERSION_MAJOR_Wit 3
 #define COCOAPODS_VERSION_MINOR_Wit 1
-#define COCOAPODS_VERSION_PATCH_Wit 1
+#define COCOAPODS_VERSION_PATCH_Wit 2
 
 // XLRemoteImageView
 #define COCOAPODS_POD_AVAILABLE_XLRemoteImageView
 #define COCOAPODS_VERSION_MAJOR_XLRemoteImageView 2
 #define COCOAPODS_VERSION_MINOR_XLRemoteImageView 0
 #define COCOAPODS_VERSION_PATCH_XLRemoteImageView 0
+
+// YLProgressBar
+#define COCOAPODS_POD_AVAILABLE_YLProgressBar
+#define COCOAPODS_VERSION_MAJOR_YLProgressBar 3
+#define COCOAPODS_VERSION_MINOR_YLProgressBar 5
+#define COCOAPODS_VERSION_PATCH_YLProgressBar 2
 

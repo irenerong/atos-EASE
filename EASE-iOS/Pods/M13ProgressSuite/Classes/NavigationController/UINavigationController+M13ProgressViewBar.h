@@ -16,7 +16,6 @@
 /**A UINavagationController category that adds a progress view to the UINavigationBar.*/
 @interface UINavigationController (M13ProgressViewBar)
 
-
 /**@name Actions*/
 
 /**Show the progress bar.*/
@@ -49,7 +48,5 @@
  @param secondaryColor The color to set.
  */
 - (void)setSecondaryColor:(UIColor *)secondaryColor;
-
-
 
 @end

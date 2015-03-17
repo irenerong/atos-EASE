@@ -18,10 +18,10 @@
         
         
         
-        self.layer.shadowColor = [UIColor blackColor].CGColor;
-        self.layer.shadowOpacity = 0.1;
-        self.layer.shadowOffset = CGSizeMake(0, 2);
-        self.layer.shadowRadius = 2;
+        self.layer.shadowColor = [UIColor colorWithWhite:210/255. alpha:1.].CGColor;
+        self.layer.shadowOpacity = 0.9;
+        self.layer.shadowOffset = CGSizeMake(0, 1);
+        self.layer.shadowRadius = 1;
         
        
         

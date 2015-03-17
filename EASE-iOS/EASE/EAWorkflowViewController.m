@@ -125,6 +125,9 @@
     self.dateScrollView.contentOffset = CGPointMake(0, -10);
     
     
+    if (self.pullDownController)
+    {
+        
     
     
     EAWorkflowInfosViewController *infosViewController = self.pullDownController.backController;
@@ -144,7 +147,7 @@
     CGFloat topYofImage = offsetY;
     CGFloat heightOfImage = MAX(bottomYofImage-topYofImage, 0);
     
-   
+    }
     
 }
 

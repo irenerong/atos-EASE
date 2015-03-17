@@ -15,15 +15,17 @@
 
 
 #import "EAWorkflowMasterViewController.h"
-
+#import "EANetworkingHelper.h"
 
 @interface EAWorkflowListCollectionViewController : UICollectionViewController <FRGWaterfallCollectionViewDelegate>
 {
     
     NSArray *colors;
+    BOOL seekingWorkflows;
 }
 
 
 @property(nonatomic, strong) NSArray *workflows;
+@property(nonatomic, readwrite) int totalNumberOfWorkflows;
 
 @end

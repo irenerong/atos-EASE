@@ -25,7 +25,7 @@ module.exports = {
 				if (err) {
 					res.json({status: "server error"} );
 				}
-				if (match){
+				else if (match){
 					req.session.userID= user.id;
 
 					if (user.admin)

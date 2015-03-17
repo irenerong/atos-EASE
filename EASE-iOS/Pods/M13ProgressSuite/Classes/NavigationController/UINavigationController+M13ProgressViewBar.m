@@ -20,7 +20,6 @@ static char isShowingProgressKey;
 static char primaryColorKey;
 static char secondaryColorKey;
 
-
 @implementation UINavigationController (M13ProgressViewBar)
 
 #pragma mark Title
@@ -141,8 +140,6 @@ static char secondaryColorKey;
     }];
     
     [self setIsShowingProgressBar:YES];
-    
-
 }
 
 - (void)updateProgress

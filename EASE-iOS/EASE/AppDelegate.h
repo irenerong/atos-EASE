@@ -8,6 +8,8 @@
 
 #import <UIKit/UIKit.h>
 #import <Wit.h>
+#import <MZFormSheetSegue.h>
+#import "EANetworkingHelper.h"
 
 @interface AppDelegate : UIResponder <UIApplicationDelegate>
 

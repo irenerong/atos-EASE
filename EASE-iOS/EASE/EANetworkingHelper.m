@@ -7,7 +7,11 @@
 //
 
 #import "EANetworkingHelper.h"
-
+#import "EAWorkflow.h"
+#import "EADateInterval.h"
+#import "EATask.h"
+#import "EAPendingTask.h"
+#import "EAWorkingTask.h"
 
 @interface NSDictionary (BVJSONString)
 -(NSString*) bv_jsonStringWithPrettyPrint:(BOOL) prettyPrint;
@@ -42,14 +46,25 @@
 
 @implementation EANetworkingHelper
 
-static NSString* witServerAdress = @"https://api.wit.ai/";
-static NSString *witHeader = @"Authorization";
+ NSString* const witServerAdress = @"https://api.wit.ai/";
+ NSString* const witHeader = @"Authorization";
 
-static NSString *witToken = @"Bearer Z6RAMHMFQLP6FG2KSPTT4F23XH5GK5L4";
+NSString* const witToken = @"Bearer Z6RAMHMFQLP6FG2KSPTT4F23XH5GK5L4";
+NSString* const witAPIVersion = @"20150212";
 
-static NSString *witAPIVersion = @"20150212";
 
 
+
+NSString* const EAPendingTaskAdd = @"EAPendingTaskAdd";
+NSString* const EAPendingTaskRemove = @"EAPendingTaskRemove";
+
+ NSString* const EAWorkingTaskAdd = @"EAWorkingTaskAdd";
+ NSString* const EAWorkingTaskRemove = @"EAWorkingTaskRemove";
+NSString* const EAWorkingTaskUpdate = @"EAWorkingTaskUpdate";
+
+
+
+ 
 
 + (EANetworkingHelper *)sharedHelper
 {
@@ -68,6 +83,11 @@ static NSString *witAPIVersion = @"20150212";
 {
     if (self = [super init])
     {
+        
+        _pendingTasks = [NSMutableArray array];
+        _workingTasks = [NSMutableArray array];
+        _completedTasks = [NSMutableArray array];
+        
         [Wit sharedInstance].accessToken = @"Z6RAMHMFQLP6FG2KSPTT4F23XH5GK5L4";
         [Wit sharedInstance].delegate = self;
         
@@ -77,14 +97,16 @@ static NSString *witAPIVersion = @"20150212";
         
         self.witServerManager.responseSerializer = [AFJSONResponseSerializer serializer];
 
-    
-        
-        
+        [NSTimer scheduledTimerWithTimeInterval:3 target:self selector:@selector(receivedPendingTask) userInfo:nil repeats:true];
+
+        self.displayNotificationPopup = true;
         
     }
     
     return self;
 }
+
+#pragma mark - WIT
 
 -(void)witProcessed:(NSString*)string completionBlock:(void (^)(NSDictionary*, NSError*))completionBlock
 {
@@ -104,9 +126,9 @@ static NSString *witAPIVersion = @"20150212";
         
     } failure:^(NSURLSessionDataTask *task, NSError *error) {
         NSLog(@"Fail : %@", error);
-
+        
         completionBlock(nil, error);
-
+        
     }];
     
 }
@@ -117,11 +139,11 @@ static NSString *witAPIVersion = @"20150212";
     NSDictionary *outcomeDictionary = [((NSArray*)witDictionary[@"outcomes"]) firstObject];
     
     NSString *intent = outcomeDictionary[@"intent"];
-
+    
     
     dictionary[@"intent"] = intent;
     
-
+    
     
     
     NSDictionary *entities = outcomeDictionary[@"entities"];
@@ -160,7 +182,7 @@ static NSString *witAPIVersion = @"20150212";
             NSLog(@"From %@ : %@\nTo %@ : %@", fromDateString, fromDate, toDateString, toDate);
         }
         
-
+        
     }
     
     NSDictionary *searchQuery = ((NSDictionary*)((NSArray*)entities[@"search_query"]).firstObject);
@@ -186,11 +208,11 @@ static NSString *witAPIVersion = @"20150212";
 -(NSDate*)witStringToDate:(NSString*)dateString
 {
     
-
+    
     dateString = [dateString stringByReplacingOccurrencesOfString:@":" withString:@"" options:0 range:NSMakeRange(dateString.length-3, 3)];
     
     
-   
+    
     
     
     NSDateFormatter *dateFormat = [[NSDateFormatter alloc] init];
@@ -206,65 +228,262 @@ static NSString *witAPIVersion = @"20150212";
 -(void)witDidGraspIntent:(NSArray *)outcomes messageId:(NSString *)messageId customData:(id)customData error:(NSError *)e
 {
     NSLog(@"\n%@ \n%@ \n%@ \n%@", outcomes, messageId, customData, e);
-   
+    
 }
 
+#pragma mark - Workflow Search
 
--(void)searchForWorkflowsWithConstraints:(NSDictionary*)constraints completionBlock:(void (^) (NSArray*, NSError*))completionBlock
+-(void)searchWorkflowsWithConstraints:(NSDictionary*)constraints completionBlock:(void (^) (int totalNumberOfWorkflows, NSArray* workflows, NSError* error))completionBlock
 {
     
     NSLog(@"%@", [constraints bv_jsonStringWithPrettyPrint:true]);
     
     dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(1.0 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
         
-        workflow = [EAWorkflow new];
-        workflow.imageURL = [NSURL URLWithString:@"http://www.supermarchesmatch.fr/userfiles/images/Poulet%20au%20curry.jpg"];
+        workflowTest = [EAWorkflow new];
+        workflowTest.imageURL = [NSURL URLWithString:@"http://www.supermarchesmatch.fr/userfiles/images/Poulet%20au%20curry.jpg"];
+        workflowTest.workflowiD = 0;
+        workflowTest.title = @"Poulet au curry";
+        workflowTest.sortTag = @"Hour";
         
-        workflow.title = @"Poulet au curry";
-        EADateInterval *dateInterval;
+        completionBlock(100, @[workflowTest,workflowTest,workflowTest,workflowTest], nil);
+    });
+    
+    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(2 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
         
-        EATask *task1 = [EATask new];
-        task1.title = @"Préparer le poulet";
-        task1.taskDescription = @"Task1 - Description";
-        dateInterval = [EADateInterval new];
-        dateInterval.startDate = [NSDate date];
-        dateInterval.endDate = [NSDate dateWithTimeIntervalSinceNow:10*60];
-        task1.dateInterval = dateInterval;
+        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Time to start" message:@"Plop" delegate:nil cancelButtonTitle:@"OK" otherButtonTitles: nil];
+        [alert show];
+    });
+}
+
+-(void)searchWorklowsBetweenId:(int)id1 andId:(int)id2 completionBlock:(void (^) (NSArray* workflows, NSError* error))completionBlock
+{
+    
+    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(1.0 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
         
-        EATask *task2 = [EATask new];
-        task2.title = @"Task2";
-        task2.taskDescription = @"Task2 - Description";
-        dateInterval = [EADateInterval new];
-        dateInterval.startDate = [NSDate dateWithTimeIntervalSinceNow:10*60];
-        dateInterval.endDate = [NSDate dateWithTimeIntervalSinceNow:30*60];
-        task2.dateInterval = dateInterval;
+        workflowTest = [EAWorkflow new];
+        workflowTest.imageURL = [NSURL URLWithString:@"http://www.supermarchesmatch.fr/userfiles/images/Poulet%20au%20curry.jpg"];
+        workflowTest.workflowiD = 0;
+        workflowTest.title = @"Poulet au curry";
+        workflowTest.sortTag = @"Hour";
+        completionBlock(@[workflowTest,workflowTest,workflowTest,workflowTest], nil);
+    });
+    
+}
+
+-(void)retrieveWorkflow:(EAWorkflow*)workflow completionBlock:(void (^) (NSError *error))completionBlock
+{
+    
+    
+    EADateInterval *dateInterval;
+    
+    EATask *task1 = [EATask new];
+    task1.title = @"Préparer le poulet";
+    task1.taskDescription = @"Task1 - Description";
+    dateInterval = [EADateInterval new];
+    dateInterval.startDate = [NSDate date];
+    dateInterval.endDate = [NSDate dateWithTimeIntervalSinceNow:10*60];
+    task1.dateInterval = dateInterval;
+    task1.workflow = workflowTest;
+    
+    EATask *task2 = [EATask new];
+    task2.title = @"Task2";
+    task2.taskDescription = @"Task2 - Description";
+    dateInterval = [EADateInterval new];
+    dateInterval.startDate = [NSDate dateWithTimeIntervalSinceNow:10*60];
+    dateInterval.endDate = [NSDate dateWithTimeIntervalSinceNow:30*60];
+    task2.dateInterval = dateInterval;
+    task2.workflow = workflowTest;
+    
+    EATask *task3 = [EATask new];
+    task3.title = @"Task3";
+    task3.taskDescription = @"Task3 - Description";
+    dateInterval = [EADateInterval new];
+    dateInterval.startDate = [NSDate dateWithTimeIntervalSinceNow:30*60];
+    dateInterval.endDate = [NSDate dateWithTimeIntervalSinceNow:70*60];
+    task3.dateInterval = dateInterval;
+    task3.workflow = workflowTest;
+    
+    EATask *task4 = [EATask new];
+    task4.title = @"Task4";
+    task4.taskDescription = @"Task4 - Description";
+    dateInterval = [EADateInterval new];
+    dateInterval.startDate = [NSDate dateWithTimeIntervalSinceNow:75*60];
+    dateInterval.endDate = [NSDate dateWithTimeIntervalSinceNow:100*60];
+    task4.dateInterval = dateInterval;
+    task4.workflow = workflowTest;
+    
+    EATask *task5 = [EATask new];
+    task5.title = @"Cuire le poulet";
+    task5.taskDescription = @"Task5 - Description";
+    dateInterval = [EADateInterval new];
+    dateInterval.startDate = [NSDate dateWithTimeIntervalSinceNow:25*60];
+    dateInterval.endDate = [NSDate dateWithTimeIntervalSinceNow:45*60];
+    task5.dateInterval = dateInterval;
+    task5.workflow = workflowTest;
+    
+    workflow.tasks = [NSArray arrayWithObjects:task1, task2, task3, task4, task5, nil];
+    
+    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(1.0 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
         
-        EATask *task3 = [EATask new];
-        task3.title = @"Task3";
-        task3.taskDescription = @"Task3 - Description";
-        dateInterval = [EADateInterval new];
-        dateInterval.startDate = [NSDate dateWithTimeIntervalSinceNow:30*60];
-        dateInterval.endDate = [NSDate dateWithTimeIntervalSinceNow:70*60];
-        task3.dateInterval = dateInterval;
         
-        EATask *task4 = [EATask new];
-        task4.title = @"Task4";
-        task4.taskDescription = @"Task4 - Description";
-        dateInterval = [EADateInterval new];
-        dateInterval.startDate = [NSDate dateWithTimeIntervalSinceNow:75*60];
-        dateInterval.endDate = [NSDate dateWithTimeIntervalSinceNow:100*60];
-        task4.dateInterval = dateInterval;
         
-        EATask *task5 = [EATask new];
-        task5.title = @"Cuire le poulet";
-        task5.taskDescription = @"Task5 - Description";
-        dateInterval = [EADateInterval new];
-        dateInterval.startDate = [NSDate dateWithTimeIntervalSinceNow:25*60];
-        dateInterval.endDate = [NSDate dateWithTimeIntervalSinceNow:45*60];
-        task5.dateInterval = dateInterval;
+        completionBlock(nil);
+    });
+    
+    
+}
+
+-(void)validateWorkflow:(EAWorkflow*)workflow completionBlock:(void (^)  (NSError *error)) completionBlock
+{
+    
+    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(1.0 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
         
-        workflow.tasks = @[task1, task2, task3, task4, task5];
-        completionBlock(@[workflow,workflow,workflow,workflow,workflow,workflow,workflow,workflow], nil);
+        completionBlock(nil);
+    });
+    
+}
+
+
+-(void)tasksAtDay:(NSDate*)date completionBlock:(void (^) (NSArray *tasks)) completionBlock
+{
+    
+    EADateInterval *dateInterval;
+    
+    EATask *task1 = [EATask new];
+    task1.title = @"Préparer le poulet";
+    task1.taskDescription = @"Task1 - Description";
+    dateInterval = [EADateInterval new];
+    dateInterval.startDate = [NSDate date];
+    dateInterval.endDate = [NSDate dateWithTimeIntervalSinceNow:10*60];
+    task1.dateInterval = dateInterval;
+    task1.workflow = workflowTest;
+    
+    EATask *task2 = [EATask new];
+    task2.title = @"Task2";
+    task2.taskDescription = @"Task2 - Description";
+    dateInterval = [EADateInterval new];
+    dateInterval.startDate = [NSDate dateWithTimeIntervalSinceNow:10*60];
+    dateInterval.endDate = [NSDate dateWithTimeIntervalSinceNow:30*60];
+    task2.dateInterval = dateInterval;
+    task2.workflow = workflowTest;
+    
+    EATask *task3 = [EATask new];
+    task3.title = @"Task3";
+    task3.taskDescription = @"Task3 - Description";
+    dateInterval = [EADateInterval new];
+    dateInterval.startDate = [NSDate dateWithTimeIntervalSinceNow:30*60];
+    dateInterval.endDate = [NSDate dateWithTimeIntervalSinceNow:70*60];
+    task3.dateInterval = dateInterval;
+    task3.workflow = workflowTest;
+    
+    EATask *task4 = [EATask new];
+    task4.title = @"Task4";
+    task4.taskDescription = @"Task4 - Description";
+    dateInterval = [EADateInterval new];
+    dateInterval.startDate = [NSDate dateWithTimeIntervalSinceNow:75*60];
+    dateInterval.endDate = [NSDate dateWithTimeIntervalSinceNow:100*60];
+    task4.dateInterval = dateInterval;
+    task4.workflow = workflowTest;
+    
+    EATask *task5 = [EATask new];
+    task5.title = @"Cuire le poulet";
+    task5.taskDescription = @"Task5 - Description";
+    dateInterval = [EADateInterval new];
+    dateInterval.startDate = [NSDate dateWithTimeIntervalSinceNow:25*60];
+    dateInterval.endDate = [NSDate dateWithTimeIntervalSinceNow:45*60];
+    task5.dateInterval = dateInterval;
+    task5.workflow = workflowTest;
+    
+  
+    
+    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(1.0 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+        
+        
+        
+        completionBlock( [NSArray arrayWithObjects:task1, task2, task3, task4, task5, nil]);
+    });
+
+}
+
+#pragma mark - Notifications
+
+-(void)receivedPendingTask {
+    
+    
+    //if (!workflowTest || !workflowTest.tasks || ! workflowTest.tasks.count)
+      //  return;
+    
+    EAPendingTask *pendingTask = [EAPendingTask new];
+    pendingTask.alertMessage = @"Check up the oven !";
+   // pendingTask.task = workflowTest.tasks[arc4random()%workflowTest.tasks.count];
+    
+    [self.pendingTasks addObject:pendingTask];
+    
+    if (self.displayNotificationPopup)
+    {
+        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Pop" message:@"Plop" delegate:nil cancelButtonTitle:@"OK" otherButtonTitles: nil];
+        //[alert show];
+    }
+    else
+    {
+        [[NSNotificationCenter defaultCenter] postNotificationName:EAPendingTaskAdd object:nil];
+
+    }
+}
+
+-(void)receivedWorkingTask:(EAWorkingTask*)workingTask {
+    
+    
+    [self.workingTasks addObject:workingTask];
+    
+    if (self.displayNotificationPopup)
+    {
+        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Pop" message:@"Plop" delegate:nil cancelButtonTitle:@"OK" otherButtonTitles: nil];
+        //[alert show];
+    }
+    else
+    {
+        [[NSNotificationCenter defaultCenter] postNotificationName:EAWorkingTaskAdd object:nil];
+        
+    }
+    
+    [NSTimer scheduledTimerWithTimeInterval:arc4random()%5 target:self selector:@selector(updateWorkingTask:) userInfo:workingTask repeats:NO];
+}
+
+-(void)updateWorkingTask:(NSTimer*)timer
+{
+    EAWorkingTask *task = timer.userInfo;
+    task.completionPercentage += 0.1;
+    [[NSNotificationCenter defaultCenter] postNotificationName:EAWorkingTaskUpdate object:self userInfo:@{@"workingTask": task}];
+    
+    if (task.completionPercentage < 1)
+        [NSTimer scheduledTimerWithTimeInterval:arc4random()%5 target:self selector:@selector(updateWorkingTask:) userInfo:task repeats:NO];
+}
+
+
+-(void)startPendingTask:(EAPendingTask*)task completionBlock:(void (^) (BOOL ok, EAWorkingTask *workingTask) )completionBlock
+{
+
+    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(1 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+        [self.pendingTasks removeObject:task];
+        EAWorkingTask *workingTask = [EAWorkingTask new];
+        workingTask.status = @"Cooking";
+        
+        
+        [self receivedWorkingTask:workingTask];
+
+        completionBlock(YES, workingTask);
+    });
+    
+    
+}
+
+-(void)endWorkingTask:(EAWorkingTask*)task completionBlock:(void (^) (BOOL ok) )completionBlock
+{
+    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(1 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+        [self.workingTasks removeObject:task];
+        completionBlock(YES);
     });
 }
 

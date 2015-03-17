@@ -56,9 +56,12 @@
     [self.view addSubview:self.searchBar];
     
     [self updateTableData];
-   
-
-
+    
+    
+    self.navigationController.navigationBar.titleTextAttributes = [NSDictionary dictionaryWithObjectsAndKeys:[UIColor colorWithWhite:132/255. alpha:1], NSForegroundColorAttributeName, nil];
+    
+    
+    self.navigationController.navigationBar.barTintColor = nil;
 }
 
 - (void)didReceiveMemoryWarning {
@@ -86,7 +89,7 @@
     if (constraints[@"toDate"])
     {
         self.endDate = constraints[@"toDate"];
-
+        
     }
     
     
@@ -105,8 +108,8 @@
     NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
     dateFormatter.timeStyle = NSDateFormatterShortStyle;
     dateFormatter.dateStyle = NSDateFormatterShortStyle;
-
-dateFormatter.doesRelativeDateFormatting = YES;
+    
+    dateFormatter.doesRelativeDateFormatting = YES;
     
     [UIView transitionWithView:self.intentLabel duration:.5f*animated options:UIViewAnimationOptionCurveEaseInOut | UIViewAnimationOptionTransitionCrossDissolve animations:^{
         self.intentLabel.text = self.intent;
@@ -134,11 +137,11 @@ dateFormatter.doesRelativeDateFormatting = YES;
         
         else
             self.endDateLabel.text = [dateFormatter stringFromDate:self.endDate];
-
+        
     } completion:nil];
     
     
- 
+    
     
     
     
@@ -154,7 +157,7 @@ dateFormatter.doesRelativeDateFormatting = YES;
     {
         if (!self.firstDatePickerEnabled)
             return 0;
-       
+        
         
     }
     
@@ -173,38 +176,38 @@ dateFormatter.doesRelativeDateFormatting = YES;
 
 
 /*
-// Override to support conditional editing of the table view.
-- (BOOL)tableView:(UITableView *)tableView canEditRowAtIndexPath:(NSIndexPath *)indexPath {
-    // Return NO if you do not want the specified item to be editable.
-    return YES;
-}
-*/
+ // Override to support conditional editing of the table view.
+ - (BOOL)tableView:(UITableView *)tableView canEditRowAtIndexPath:(NSIndexPath *)indexPath {
+ // Return NO if you do not want the specified item to be editable.
+ return YES;
+ }
+ */
 
 /*
-// Override to support editing the table view.
-- (void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath {
-    if (editingStyle == UITableViewCellEditingStyleDelete) {
-        // Delete the row from the data source
-        [tableView deleteRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationFade];
-    } else if (editingStyle == UITableViewCellEditingStyleInsert) {
-        // Create a new instance of the appropriate class, insert it into the array, and add a new row to the table view
-    }   
-}
-*/
+ // Override to support editing the table view.
+ - (void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath {
+ if (editingStyle == UITableViewCellEditingStyleDelete) {
+ // Delete the row from the data source
+ [tableView deleteRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationFade];
+ } else if (editingStyle == UITableViewCellEditingStyleInsert) {
+ // Create a new instance of the appropriate class, insert it into the array, and add a new row to the table view
+ }
+ }
+ */
 
 /*
-// Override to support rearranging the table view.
-- (void)tableView:(UITableView *)tableView moveRowAtIndexPath:(NSIndexPath *)fromIndexPath toIndexPath:(NSIndexPath *)toIndexPath {
-}
-*/
+ // Override to support rearranging the table view.
+ - (void)tableView:(UITableView *)tableView moveRowAtIndexPath:(NSIndexPath *)fromIndexPath toIndexPath:(NSIndexPath *)toIndexPath {
+ }
+ */
 
 /*
-// Override to support conditional rearranging of the table view.
-- (BOOL)tableView:(UITableView *)tableView canMoveRowAtIndexPath:(NSIndexPath *)indexPath {
-    // Return NO if you do not want the item to be re-orderable.
-    return YES;
-}
-*/
+ // Override to support conditional rearranging of the table view.
+ - (BOOL)tableView:(UITableView *)tableView canMoveRowAtIndexPath:(NSIndexPath *)indexPath {
+ // Return NO if you do not want the item to be re-orderable.
+ return YES;
+ }
+ */
 
 #pragma mark - UITableViewDelegate
 
@@ -226,20 +229,20 @@ dateFormatter.doesRelativeDateFormatting = YES;
         
         
     }
-
+    
     else
     {
         self.firstDatePickerEnabled = false;
         self.secondDatePickerEnabled = false;
-
-
+        
+        
     }
     
     [self.tableView reloadRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationFade];
-
+    
     
     [self.tableView reloadData];
-
+    
 }
 
 -(void)scrollViewDidScroll:(UIScrollView *)scrollView
@@ -247,21 +250,21 @@ dateFormatter.doesRelativeDateFormatting = YES;
     
     CGFloat width = scrollView.frame.size.width;
     CGFloat height = 67;
-
+    
     [scrollView bringSubviewToFront:self.searchBar];
     self.searchBar.frame = CGRectMake(0, scrollView.contentOffset.y+64, width, height);
     
 }
 
 /*
-#pragma mark - Navigation
-
-// In a storyboard-based application, you will often want to do a little preparation before navigation
-- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
-    // Get the new view controller using [segue destinationViewController].
-    // Pass the selected object to the new view controller.
-}
-*/
+ #pragma mark - Navigation
+ 
+ // In a storyboard-based application, you will often want to do a little preparation before navigation
+ - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
+ // Get the new view controller using [segue destinationViewController].
+ // Pass the selected object to the new view controller.
+ }
+ */
 
 #pragma mark - UISearchBarDelegate
 
@@ -279,7 +282,7 @@ dateFormatter.doesRelativeDateFormatting = YES;
 {
     NSLog(@"end");
     [self.navigationController setProgressTitle:@"Processing Language"];
-
+    
     [self.navigationController setIndeterminate:true];
     [self.navigationController showProgress];
     [self.navigationController setProgress:0.5 animated:false];
@@ -296,8 +299,8 @@ dateFormatter.doesRelativeDateFormatting = YES;
         [UIView animateWithDuration:0.3 animations:^{
             self.tableView.alpha = 1;
         }];
-
-       
+        
+        
         if (error)
         {
             UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Error" message:@"Impossible de se connecter à Internet" delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil];
@@ -320,7 +323,7 @@ dateFormatter.doesRelativeDateFormatting = YES;
     
     NSDate *date = sender.date;
     
-        NSIndexPath *indexPath;
+    NSIndexPath *indexPath;
     
     if (sender.tag == 1)
     {
@@ -336,7 +339,7 @@ dateFormatter.doesRelativeDateFormatting = YES;
         indexPath = [NSIndexPath indexPathForRow:2 inSection:1];
         self.endDate = date;
     }
-
+    
     
     
     [self updateTableData];
@@ -352,7 +355,7 @@ dateFormatter.doesRelativeDateFormatting = YES;
         indexPath = [NSIndexPath indexPathForRow:0 inSection:1];
         self.startDate = nil;
         self.firstDatePickerEnabled = false;
-
+        
     }
     
     else if (sender.tag == 2)
@@ -372,29 +375,29 @@ dateFormatter.doesRelativeDateFormatting = YES;
 - (IBAction)didClickSearchButton:(UIBarButtonItem *)sender {
     [self.navigationItem startAnimatingAt:ANNavBarLoaderPositionRight];
     [self.navigationController setProgressTitle:@"Creating Workflows"];
-
+    
     [self.navigationController setIndeterminate:true];
-
+    
     [self.navigationController showProgress];
     [self.navigationController setProgress:0.5 animated:false];
-
+    
     [UIView animateWithDuration:0.3 animations:^{
         self.tableView.alpha = 0.5;
     }];
     
     
     
-    [[EANetworkingHelper sharedHelper] searchForWorkflowsWithConstraints:self.constraints completionBlock:^(NSArray *workflows, NSError *error) {
+    [[EANetworkingHelper sharedHelper] searchWorkflowsWithConstraints:self.constraints completionBlock:^(int totalNumberOfWorkflows, NSArray *workflows, NSError *error) {
         
         
-
+        
         
         if (error)
         {
             [UIView animateWithDuration:0.3 animations:^{
                 self.tableView.alpha = 1;
             }];
-
+            
             
             [self.navigationController setProgressTitle:nil];
             
@@ -415,23 +418,23 @@ dateFormatter.doesRelativeDateFormatting = YES;
             if (!workflows || workflows.count == 0)
             {
                 [self.navigationController setProgressTitle:@"No Result"];
-
+                
             }
             
-            else if (workflows.count != 1)
+            else if (totalNumberOfWorkflows)
             {
-                [self.navigationController setProgressTitle:[NSString stringWithFormat:@"Found %d workflows", workflows.count]];
-
+                [self.navigationController setProgressTitle:[NSString stringWithFormat:@"Found %d workflows", totalNumberOfWorkflows]];
+                
             }
             else
             {
                 [self.navigationController setProgressTitle:[NSString stringWithFormat:@"Found 1 workflow"]];
-
+                
             }
             
             [self.navigationController finishProgress];
-
-
+            
+            
             
             [UIView animateWithDuration:0.7 animations:^{
                 self.tableView.alpha = 1;
@@ -439,7 +442,7 @@ dateFormatter.doesRelativeDateFormatting = YES;
                 
                 [self.navigationItem stopAnimating];
                 [self.navigationController setProgressTitle:nil];
-
+                
                 
                 if (!workflows || workflows.count == 0)
                 {
@@ -452,6 +455,7 @@ dateFormatter.doesRelativeDateFormatting = YES;
                 {
                     EAWorkflowListCollectionViewController *controller = [self.storyboard instantiateViewControllerWithIdentifier:@"Results"];
                     controller.workflows = workflows;
+                    controller.totalNumberOfWorkflows = totalNumberOfWorkflows;
                     [self.navigationController pushViewController:controller animated:true];
                 }
                 else
@@ -461,11 +465,11 @@ dateFormatter.doesRelativeDateFormatting = YES;
                     
                     [self.navigationController pushViewController:controller animated:true];
                 }
-
-
+                
+                
                 
             }];
-
+            
             
         }
         
@@ -487,15 +491,15 @@ dateFormatter.doesRelativeDateFormatting = YES;
     
     if (self.search)
         constraints[@"search"] = self.search;
-
+    
     
     if (self.startDate)
         constraints[@"startDate"] = self.startDate.description;
-
+    
     
     if (self.endDate)
         constraints[@"endDate"] = self.endDate.description;
-
+    
     return constraints;
     
 }
@@ -512,7 +516,7 @@ dateFormatter.doesRelativeDateFormatting = YES;
 -(BOOL)textFieldShouldReturn:(UITextField *)textField
 {
     [textField resignFirstResponder];
-
+    
     return true;
 }
 

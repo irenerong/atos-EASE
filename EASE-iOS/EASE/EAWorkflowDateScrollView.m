@@ -45,10 +45,10 @@
     
     self.backgroundColor = [UIColor colorWithWhite:255/255.0 alpha:1.0];
     self.layer.masksToBounds = false;
-    self.layer.shadowColor = [UIColor blackColor].CGColor;
+    self.layer.shadowColor = [UIColor colorWithWhite:210/255. alpha:1.0].CGColor;
     self.layer.shadowOffset = CGSizeMake(1, 0);
-    self.layer.shadowOpacity = 0.1;
-    self.layer.shadowRadius = 2;
+    self.layer.shadowOpacity = 0.9;
+    self.layer.shadowRadius = 1;
     
      self.labelsArray = [NSMutableArray array];
     self.auxLabelsArray = [NSMutableArray array];

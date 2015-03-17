@@ -18,6 +18,6 @@
 
 -(void)updateScrollViewWithTimeAnchorsDate:(NSArray*)timeAnchorsDate andTimeAnchorsY:(NSArray*)timeAnchorsY;
 
-@property(nonatomic, weak) UIColor *color;
+@property(nonatomic, strong) UIColor *color;
 
 @end

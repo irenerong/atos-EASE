@@ -32,20 +32,20 @@ static NSString * const reuseIdentifier = @"Cell";
     
     
     
+    seekingWorkflows = true;
     
-    
-//    self.navigationController.navigationBar.layer.shadowColor = [UIColor blackColor].CGColor;
-//    self.navigationController.navigationBar.layer.shadowOffset = CGSizeMake(0, 2);
-//    self.navigationController.navigationBar.layer.shadowOpacity = 0.1;
-//    self.navigationController.navigationBar.layer.shadowRadius = 3;
-//    self.navigationController.navigationBar.layer.masksToBounds = false;
-//    self.navigationController.navigationBar.layer.shadowPath = CGPathCreateWithRect(self.navigationController.navigationBar.layer.bounds, NULL);
+    //    self.navigationController.navigationBar.layer.shadowColor = [UIColor blackColor].CGColor;
+    //    self.navigationController.navigationBar.layer.shadowOffset = CGSizeMake(0, 2);
+    //    self.navigationController.navigationBar.layer.shadowOpacity = 0.1;
+    //    self.navigationController.navigationBar.layer.shadowRadius = 3;
+    //    self.navigationController.navigationBar.layer.masksToBounds = false;
+    //    self.navigationController.navigationBar.layer.shadowPath = CGPathCreateWithRect(self.navigationController.navigationBar.layer.bounds, NULL);
     
     //self.navigationController.navigationBar.titleTextAttributes = [NSDictionary dictionaryWithObjectsAndKeys:[UIColor whiteColor], NSForegroundColorAttributeName, [UIFont fontWithName:@"HelveticaNeue-Bold" size:20], NSFontAttributeName, nil];
     
     //self.navigationController.navigationBar.tintColor = [UIColor colorWithRed:10/255.0 green:130/255.0 blue:88/255.0 alpha:1.0];
     
-    
+    self.collectionView.backgroundColor = [UIColor colorWithWhite:245/255. alpha:1.0];
     FRGWaterfallCollectionViewLayout *layout = self.collectionViewLayout;
     layout.delegate = self;
     
@@ -59,12 +59,7 @@ static NSString * const reuseIdentifier = @"Cell";
     
     
     
-    
-    [[MZFormSheetBackgroundWindow appearance] setBackgroundBlurEffect:true];
-    [[MZFormSheetBackgroundWindow appearance] setBlurRadius:5.0];
-    [[MZFormSheetBackgroundWindow appearance] setBackgroundColor:[UIColor clearColor]];
-    
-    // Do any additional setup after loading the view.
+      // Do any additional setup after loading the view.
 }
 
 - (void)didReceiveMemoryWarning {
@@ -74,9 +69,12 @@ static NSString * const reuseIdentifier = @"Cell";
 
 -(void)viewWillAppear:(BOOL)animated
 {
-    self.navigationController.navigationBar.titleTextAttributes = [NSDictionary dictionaryWithObjectsAndKeys:[UIColor colorWithWhite:0/255.0 alpha:0.4], NSForegroundColorAttributeName, nil];
-    self.navigationController.navigationBar.barTintColor = nil;
+    
+    
+}
 
+-(void)viewDidAppear:(BOOL)animated {
+    seekingWorkflows = false;
 }
 
 -(void)setWorkflows:(NSArray *)workflows
@@ -96,20 +94,7 @@ static NSString * const reuseIdentifier = @"Cell";
     // Pass the selected object to the new view controller.
     
     
-    if ([segue.identifier isEqualToString:@"PushWorkflow"])
-        {
-            
-            int index = [self.collectionView indexPathForCell:sender].row;
-            
-            EAWorkflow *selectedWorkflow = self.workflows[index];
-            selectedWorkflow.color = colors[index%5];
-
-    
-            EAWorkflowMasterViewController *viewController = segue.destinationViewController;
-            viewController.workflow = selectedWorkflow;
-        }
-    
-    else if ([segue.identifier isEqualToString:@"SortFilter"])
+    if ([segue.identifier isEqualToString:@"SortFilter"])
     {
         MZFormSheetSegue *formSheetSegue = (MZFormSheetSegue *)segue;
         
@@ -118,8 +103,8 @@ static NSString * const reuseIdentifier = @"Cell";
         formSheet.cornerRadius = 8.0;
         formSheet.shouldCenterVertically = true;
         formSheet.presentedFormSheetSize = CGSizeMake(300, 300);
-
-      
+        
+        
         
         formSheet.shouldDismissOnBackgroundViewTap = YES;
         
@@ -128,11 +113,19 @@ static NSString * const reuseIdentifier = @"Cell";
             NSLog(@"Dismiss");
             
         };
-
+        
     }
-
+    
 }
 
+-(void)pushWorkflow:(EAWorkflow*)workflow {
+    
+    EAWorkflowMasterViewController *workflowViewController = [self.storyboard instantiateViewControllerWithIdentifier:@"MasterInfo"];
+    workflowViewController.workflow = workflow;
+    [self.navigationController pushViewController:workflowViewController animated:true];
+    
+    
+}
 
 #pragma mark <UICollectionViewDataSource>
 
@@ -167,13 +160,13 @@ static NSString * const reuseIdentifier = @"Cell";
         cell.color =workflow.color;
         
         
-            cell.imageView.progressIndicatorView.strokeProgressColor = workflow.color;
-            cell.imageView.progressIndicatorView.strokeRemainingColor = [UIColor colorWithWhite:230/255.0 alpha:1.0];
-            cell.imageView.progressIndicatorView.strokeWidth = 2;
-
-            [cell.imageView setImageWithProgressIndicatorAndURL:workflow.imageURL];
+        cell.imageView.progressIndicatorView.strokeProgressColor = workflow.color;
+        cell.imageView.progressIndicatorView.strokeRemainingColor = [UIColor colorWithWhite:230/255.0 alpha:1.0];
+        cell.imageView.progressIndicatorView.strokeWidth = 2;
         
-       
+        [cell.imageView setImageWithProgressIndicatorAndURL:workflow.imageURL];
+        
+        
         
         
         return cell;
@@ -195,34 +188,46 @@ static NSString * const reuseIdentifier = @"Cell";
 
 #pragma mark <UICollectionViewDelegate>
 
-/*
-// Uncomment this method to specify if the specified item should be highlighted during tracking
-- (BOOL)collectionView:(UICollectionView *)collectionView shouldHighlightItemAtIndexPath:(NSIndexPath *)indexPath {
-	return YES;
-}
-*/
-
-/*
-// Uncomment this method to specify if the specified item should be selected
-- (BOOL)collectionView:(UICollectionView *)collectionView shouldSelectItemAtIndexPath:(NSIndexPath *)indexPath {
-    return YES;
-}
-*/
-
-/*
-// Uncomment these methods to specify if an action menu should be displayed for the specified item, and react to actions performed on the item
-- (BOOL)collectionView:(UICollectionView *)collectionView shouldShowMenuForItemAtIndexPath:(NSIndexPath *)indexPath {
-	return NO;
-}
-
-- (BOOL)collectionView:(UICollectionView *)collectionView canPerformAction:(SEL)action forItemAtIndexPath:(NSIndexPath *)indexPath withSender:(id)sender {
-	return NO;
+-(void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath {
+    EAWorkflow *workflow = self.workflows[indexPath.row];
+    
+    
+    
+    if (workflow.tasks.count) {
+        [self pushWorkflow:workflow];
+        
+    }
+    else
+    {
+        [[EANetworkingHelper sharedHelper] retrieveWorkflow:workflow completionBlock:^(NSError *error) {
+            [self pushWorkflow:workflow];
+            
+        }];
+        
+    }
+    
 }
 
-- (void)collectionView:(UICollectionView *)collectionView performAction:(SEL)action forItemAtIndexPath:(NSIndexPath *)indexPath withSender:(id)sender {
-	
+-(void)scrollViewDidScroll:(UIScrollView *)scrollView {
+    
+    if (!seekingWorkflows && self.workflows.count < self.totalNumberOfWorkflows) {
+        if (scrollView.contentOffset.y > scrollView.contentSize.height-scrollView.frame.size.height) {
+            
+            seekingWorkflows = true;
+            
+            [[EANetworkingHelper sharedHelper] searchWorklowsBetweenId:self.workflows.count andId:self.workflows.count completionBlock:^(NSArray *workflows, NSError *error) {
+                
+                int workflowsCount = self.workflows.count;
+                self.workflows = [self.workflows arrayByAddingObjectsFromArray:workflows];
+                
+                [self.collectionView reloadData];
+                seekingWorkflows = false;
+                
+            }];
+        }
+        
+    }
 }
-*/
 
 #pragma mark - FRGWaterfallCollectionViewDelegate
 
@@ -236,7 +241,7 @@ heightForHeaderAtIndexPath:(NSIndexPath *)indexPath
 - (CGFloat) collectionView:(UICollectionView *)collectionView layout:(FRGWaterfallCollectionViewLayout *)collectionViewLayout heightForItemAtIndexPath:(NSIndexPath *)indexPath
 {
     return 250 + indexPath.row%3*50;
-
+    
 }
 
 @end
