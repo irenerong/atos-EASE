@@ -20,6 +20,9 @@ module.exports = {
 
     ticket: {
       model: 'WorkflowGeneratorTicket'
+    },
+    ingredient :{
+      type: 'array'
     }
     
   }, 

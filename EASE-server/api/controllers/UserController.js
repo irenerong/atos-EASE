@@ -59,19 +59,68 @@ module.exports = {
 
 		});
 
-		User.update({username:req.body.username},{admin:true}).exec(function (err,newadmin)
+		User.update({username:req.param('username')},{admin:true}).exec(function (err,newadmins)
 			{
 				if (err) return res.jason({status: 'database error'});
-				if (newadmin){
+				if (newadmins[0]){
 					
-						res.json({status: 'the admin has been changed to '+ newadmin.username+' you\'re no longer admin' });
+						res.json({status: 'the admin has been changed to '+ newadmins[0].username+' you\'re no longer admin' });
 
 				}else{
-					return res.json({error:'you can not change administrator to'+req.body.username});
+					return res.json({error:'you can not change administrator to'+req.param('username')});
 				}
 
 			});
 
+	},
+
+	addIngredient: function(req,res){
+
+		ingre=req.param('ingredient').split(',');
+
+		User.addIngredient(req.session.userID,ingre,function(err,user){
+			if (err) return res.json({err:'addIngredient error'});
+
+			return res.json({ingredient: user.ingredient});
+			console.log("add ingredient finished");
+
+		});
+
+
+	},
+
+	NBIngredientManque :function(req,res){
+
+		User.findOne({id:req.session.userID}).exec(function (err,user) {
+		    if (err) return res.json({err:'findone error'});
+		    ingre=req.param('ingredient').split(',');
+		    console.log(user.ingredient.length+' ingredients exist');
+		    console.log(ingre.length+' ingredients demande');
+
+		    var diff =[]; // missing ingredient    
+		    var a =[]; // for loop container
+
+		    for (var i=0;i < ingre.length; i++)
+		    {
+		    	a[ingre[i]]= true;
+		    }
+		    for (var i=0; i<user.ingredient.length; i++ ){
+		    	if (a[user.ingredient[i]]) delete a[user.ingredient[i]];
+		    }
+
+		   for (var k in a ){
+		   	diff.push(k);
+		   }
+
+			/*var nb = user.ingredient.length-ingre.length;
+			console.log(nb+' ingredients manquant');*/
+			console.log('you\'re short of '+diff.length+' ingredient!');
+			return res.json({manque:diff}); 
+			
+		})
+
+
+		
 	}
 
 };

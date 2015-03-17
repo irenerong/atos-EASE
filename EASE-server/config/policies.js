@@ -59,7 +59,8 @@ WorkflowGeneratorController: {
 
 UserControllor:{
 
-  changeAdmin: 'adminAuth'
+  changeAdmin: 'adminAuth',
+  addIngredient: 'sessionAuth'
 
 }
 

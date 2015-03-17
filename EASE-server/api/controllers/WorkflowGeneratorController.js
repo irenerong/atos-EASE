@@ -127,8 +127,8 @@ module.exports = {
 
     async.waterfall([
         function (cb2) {
-          //Create the metaworkflow and link it to the ticket
-          Metaworkflow.create({title: metaworkflow.title, ticket: ticketID}).exec(function (err, metaworkflowCreated) {cb2(err, metaworkflowCreated)})
+          //Create the metaworkflow and link it to the ticket ++add ingredient
+          Metaworkflow.create({title: metaworkflow.title, ticket: ticketID, ingredient: metaworkflow.ingredient}).exec(function (err, metaworkflowCreated) {cb2(err, metaworkflowCreated)})
 
         },
 

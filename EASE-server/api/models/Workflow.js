@@ -43,14 +43,29 @@ module.exports = {
     getSubWorkflows: function (cb) {
 
       var workflow = this
-      var workflowJSONModel = {id: workflow.id, tasks: [], title: workflow.title}
+      var mttitle = '' //title de metaworkflow
+      var mtingredient= [] //ingredient de metaworflow
+      var workflowJSONModel = {id: workflow.id, tasks: [], title:"", ingredient: []}
       var infosConsumption = {}
 
-      //console.log('MODEL : ' + JSON.stringify(workflowJSONModel))
+      //console.log(this.metaworkflow);
+     
+      
+      
+      
 
+     
       async.waterfall([
 
         function (cb2) {
+
+        Metaworkflow.findOne(workflow.metaworkflow).exec(function (err,metaworkflow){
+
+          console.log(metaworkflow.title+'   '+metaworkflow.ingredient);
+          workflowJSONModel.title = metaworkflow.title
+          workflowJSONModel.ingredient = metaworkflow.ingredient
+
+        })
 
           Task.find({workflow: workflow.id}).populate('taskAgentAdaptationInfos')
           .exec(function(err, tasks) {cb2(err, tasks)})
@@ -142,6 +157,7 @@ module.exports = {
                   }, 
                   function (err) {
                     W.consumption = consumption
+                    console.log(W.ingredient)
                     cb3(null, W)
 
                   }

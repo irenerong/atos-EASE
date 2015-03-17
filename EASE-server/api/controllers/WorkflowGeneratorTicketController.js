@@ -15,6 +15,8 @@ module.exports = {
 		/*GETTING PARAMS*/
 		var params = req.params.all()
 
+		var betterWF=[];
+
 		var start = 0, end = 9
 		var sortBy = 'title'
 		var sortOption = 1
@@ -132,8 +134,81 @@ module.exports = {
 					console.timeEnd('Fetching Workflows')
 					console.log('Il y a ' + workflows.length + ' workflows')
 
-					res.status(200)
-					res.json({count: workflows.length, start: start, end: end, workflows: workflows.slice(start, end)})
+					betterWF = workflows.slice(start, end);
+
+					async.waterfall([
+					function (cb) {
+
+						WorkflowGeneratorTicket.findOne(params.ticketID)
+						.exec(function (err, ticket) {cb(err, ticket)})
+
+					}, 
+					function (ticket, cb) {
+						User.findOne(ticket.user).exec(function(err,user){
+						var userIngre=user.ingredient;
+						console.log('afficher: '+userIngre);
+						cb(null,userIngre);
+						})
+						
+					},
+					function (userIngre,cb){
+
+						for (var j=0; j<betterWF.length ;j++){
+							//console.log('sort with difference of ingredient');
+							ingre=betterWF[j].ingredient;
+
+						    var diff =[]; // missing ingredient    
+						    var a =[]; // for loop container
+
+						    for (var i=0;i < ingre.length; i++)
+						    {
+						    	a[ingre[i]]= true;
+						    }
+						    for (var i=0; i<userIngre.length; i++ ){
+						    	if (a[userIngre[i]]) delete a[userIngre[i]];
+						    }
+
+						   for (var k in a ){
+						   	diff.push(k);
+						   }
+						   //filter of missing ingredient
+						   betterWF[j].ingredient=diff;
+						   console.log(betterWF[j].ingredient)
+
+						}
+
+						cb(null,betterWF);
+
+					}],
+
+					function (err,betterWF){
+
+						sortFunc = function(a, b) {
+
+							var order = sortOption
+
+							if (a.ingredient.length < b.ingredient.length )
+								return  -1*order
+							if (a.ingredient.length  > b.ingredient.length )
+								return  1*order
+
+							return 0
+	
+						}
+
+						betterWF.sort(sortFunc);
+						res.status(200)
+						res.json({betterWF: betterWF});
+
+					}
+					)
+
+
+
+
+					
+
+					//res.json({count: workflows.length, start: start, end: end, workflows: workflows.slice(start, end)})
 				}
 
 			}
