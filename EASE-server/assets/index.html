@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title></title>
+</head>
+<body>
+<div id= "incoming-chat-window"></div>>
+<form id ="outgoing-chat-form">
+	<input size="50" type="text" id="outgoing-chat-field" ></input>
+	<input type="submit"> start a task </input>
+</form>>
+
+<button id="create">create a new task </button>
+
+<script type="text/javascript" src="./js/dependencies/sails.io.js"></script>
+<script type="text/javascript">
+
+socket = io.connect();
+ 
+typeof console !== 'undefined' &&
+console.log('Connecting Socket.io to Sails.js...');
+ 
+// Attach a listener which fires when a connection is established:
+socket.on('connect', function socketConnected() {
+ 
+  typeof console !== 'undefined' &&
+  console.log(
+    'Socket is now connected and globally accessible as `socket`.\n' +
+    'e.g. to send a GET request to Sails via Socket.io, try: \n' +
+    '`socket.get("/foo", function (response) { console.log(response); })`'
+  );
+  io.socket.post('/subtask/start/',{SubTaskID:1});
+  io.socket.on('subtask',function(obj){
+          if (obj.verb == 'updated') {
+          	console.log('client side catch publishcreated');
+            var previous = obj.previous;
+            var data = obj.data;
+            console.log('SubTask '+previous.isDone+' has been updated to '+data.isDone);
+          }
+       });
+  // io.socket.post('/subtask/create',{agent:"oven", duration:30}, function (newst) {
+		// //staskID=newst.id
+		// console.log(newst);
+		// console.log('create new task ID: ');
+	 // })
+});
+</script>
+</body>
+</html>
+
