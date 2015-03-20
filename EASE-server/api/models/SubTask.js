@@ -47,18 +47,18 @@ module.exports = {
     },
 
     start: function() {
-      this.finish();
-      // var duree= this.duration;
-      // var myVar=setInterval(function () {myTimer()}, 1000);
-      // function myTimer() {
-      //   if (duree > 0) duree= duree-1;
+      var duree= this.duration;
+      var myVar=setInterval(function () {myTimer()}, 1000);
+      function myTimer() {
+        if (duree > 0) {duree= duree-1;
+            console.log(duree+ " left before finish");}
 
-      //   else {
-      //     clearInterval(myVar);
-      //     this.finish();
-      //     return;
-      //   }
-      // }
+        else {
+          clearInterval(myVar);
+          this.finish();
+          return;
+        }
+      }
 
     },
 

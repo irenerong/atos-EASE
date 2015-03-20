@@ -3,14 +3,34 @@
 // Constructor
 function Workflow(metaworkflow) {
   this.metaworkflowID = metaworkflow.id
+
+  //console.log(metaworkflow.metatasks.length+"\n");
   this.tasks = []
+  var tmp = [];
+   // sails.models.metaworkflow.findOne({id:metaworkflow.id}).populate('metatasks').exec(
+  // 	function(err,metaworkflow){
+  // 		console.log(metaworkflow.metatasks.length)
+  		
+  // 		for (var i = 0; i < metaworkflow.metatasks.length; i++) {
 
-  for (var i = 0; i < metaworkflow.metatasks.length; i++) {
+		// var task = new Task(oldthis, metaworkflow.metatasks[i])
 
-  	var task = new WorkflowGeneratorService.task(this, metaworkflow.metatasks[i])
-  	this.tasks.push(task)
+		// //console.log(task)
+		// tmp.push(task)
 
-  };
+  // };
+
+
+
+  // 	})
+  		console.log(metaworkflow.metatasks.length)
+  		
+  		for (var i = 0; i < metaworkflow.metatasks.length; i++) {
+
+		var task = new Task(this, metaworkflow.metatasks[i])
+
+		//console.log(task)
+		this.tasks.push(task) }
 
 
 }
@@ -23,6 +43,7 @@ function Task(workflow, metatask) {
 	this.agentTypes = metatask.agentTypes
 	this.agentAdaptations = [];
 	this.metatask = metatask;
+	console.log("n "+this.agentTypes+" \n");
 }
 
 
@@ -79,15 +100,21 @@ module.exports = {
 
 		sails.session.generatedWorkflows = sails.session.generatedWorkflows || []
 
-		var workflow = new this.workflow(metaworkflow)
 		async.waterfall(
-			[
-			function (cb)
-			{
+			[function (cb){
+				workflow = new Workflow(metaworkflow);
+				 cb (null,workflow);
+			}
+			,
+			function (workflow,cb)
+			{	
+				console.log(workflow);
+// until here, task undefined
 				async.each(workflow.tasks, 
 
 					function (task, cb2)
-					{
+					{	
+						console.log(task);
 						task.getSubtasks(function (err) {cb2(err)})
 					}, 
 
@@ -99,11 +126,11 @@ module.exports = {
 				)
 			}
 
-				
 
-				, 
 
-				function (cb) {
+			], 
+
+			function (err) {
 					
 					console.log('Workflow : \n ' + JSON.stringify(workflow, null, 4))
 
@@ -119,19 +146,9 @@ module.exports = {
 					workflow.paths = paths = MathService.cartesianProduct(agentAdaptations);
 					console.log('Cartesian : \n' + JSON.stringify(workflow.paths, null, 4))
 
-					cb(null)
+				
 
 				} 
-
-
-
-
-			], 
-
-			function (err) {
-				
-			}
-
 
 		)
 
@@ -140,3 +157,19 @@ module.exports = {
 
 	}
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

@@ -3,7 +3,6 @@
 var oven = {
 }
 
-oven.changeMarque()
 oven.subtasks = function (task) {
 		var subtask1 = {}
 		subtask1.action = {action: "SUBTASK1"}
