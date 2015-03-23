@@ -1,11 +1,16 @@
 var Arrangement = function(){
 }
 module.exports = Arrangement;
+/Initialization with the constraint and timetable of agents
+Arrangement.init = function(constraint, agentsNonDispo){
+	this._constraint = constraint;
+	this._agentsNonDispo = agentsNonDispo;
+}
 
-Arrangement.arrange = function(constraint, arrangeElements, agentDispo){
+Arrangement.arrange = function(arrangeElements){
 	//res is an array containing the returned information: couples like <subTaskID, beginTime>
-	var res = new Array();
-	var margin = 5; // A default margin(in advance or a delay according to the "type")
+	var res = [];
+	var margin = 15; // A default margin(in advance or a delay according to the "type")
 	var compatible = false;
 	var coef1 = 0; // 0 if "at", -1 if "before" and 1 if "after"
 	var coef2 = 0; // 0 if "Begin", 1 if "Finish"
@@ -13,24 +18,28 @@ Arrangement.arrange = function(constraint, arrangeElements, agentDispo){
 	var comflit = [];
 	var be;;
 	var message = "";
-	if(constraint._type == 1) // If Finish
+	//By default, coef2 = 0
+	if(this._constraint._type == 1) // If Finish
 		coef2 = 1;
-	if(constraint._option == 0)// if Before
+
+	//By default, coef1 = 0
+	if(this._constraint._option == 0)// if Before
 		coef1 = -1;
 	else
-		if(constraint._option == 1)// If after
+		if(this._constraint._option == 1)// If after
 			coef1 = 1;
 
 	//Gets workflow's duration
-	var sumDuration = new Array();
+	var sumDuration = [];
 	arrangeElements.forEach(function(e,i,a){sumDuration.push(e._duration);});
 	var wfDuration = sumDuration.reduce(function(previousValue, currentValue, index, array) {
   		return previousValue + currentValue;
   	});
 	//Begin time of work flow 
-	var beginWF = new Date(constraint._time);
-	beginWF.setMinutes(beginWF.getMinutes() - coef2 * wfDuration - coef1 * margin);
-	res = arrangeTime(sortTasks(arrangeElements), beginWF, agentDispo);
+	var beginWF = new Date(this._constraint._time);
+	beginWF.setMinutes(beginWF.getMinutes() - coef2 * wfDuration + coef1 * margin);
+	// res = arrangeTime(sortTasks(arrangeElements), beginWF, this._agentsDispo);
+	res = arrangeTimeNonDispo(sortTasks(arrangeElements), beginWF, this._agentsNonDispo)
 	if(res.length == length)
 		return res;
 	else{
@@ -57,6 +66,7 @@ Arrangement.arrange = function(constraint, arrangeElements, agentDispo){
 	}
 	
 };
+
 
 //Test
 function salut(){
