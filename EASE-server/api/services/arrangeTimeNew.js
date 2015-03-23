@@ -126,7 +126,8 @@ function arrangeTimeNonDispo(arrangeElements, time, agentsNonDispo){
 				tmpTime.setMinutes(tmpTime.getMinutes() + e3._duration);
 				finishTime.push(tmpTime);
 			});
-			tmpFinish.setMinutes(new Date(Math.max.apply(null,finishTime)).getMinutes()+ defaultMargin);
+			tmpFinish = new Date(Math.max.apply(null,finishTime));
+			tmpFinish.setMinutes(tmpFinish.getMinutes()+ defaultMargin);
 			nextBegin = tmpFinish;
 			tmpFinish = new Date(nextBegin)
 			tmpFinish.setMinutes(tmpFinish.getMinutes() + e._duration);
