@@ -224,7 +224,7 @@ module.exports = {
 
 							console.log(ae);
 
-							var res = arrangeTimeNew.arrange(ae)
+							var res = arrangeTimeNew.renamesubtask(ae)
 
 						console.log(res);
 
