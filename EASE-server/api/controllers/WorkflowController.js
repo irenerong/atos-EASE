@@ -17,11 +17,12 @@ module.exports = {
 // 	})
 // })
 Metaworkflow.findOne({id:12}).populate('metatasks').exec(function(err,metaworkflow){
-	console.log(metaworkflow);
+	//console.log(metaworkflow);
 	var workflow=WorkflowGeneratorService.generateWorkflows(metaworkflow,15);
+	res.status(200);
+	res.json({workflow:workflow});
 
 })
-return 0;
 	}
 
 

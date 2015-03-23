@@ -1,7 +1,7 @@
 // var test = require("../../arrangeTimeNew");
-// // test.afficher()
-// // var res = test.arrange(contrainte, ae, agentsDispo);
-// // console.log(res);
+// test.afficher()
+// var res = test.arrange(contrainte, ae, agentsDispo);
+// console.log(res);
 // // console.log(ae);
 // // agentsDispo.forEach(function(e,i,a){
 // // 	console.log({_id : e._id, _periodes: e._periodes});
@@ -73,7 +73,7 @@
 //    [ { _duration: 1900,
 //        _begin: new Date("Sun Feb 01 2015 01:40:00 GMT+0100 (CET)"),
 //        _end: new Date("Mon Feb 02 2015 09:20:00 GMT+0100 (CET)") } ] }]
-// // agentsDispo
+// agentsDispo
 // );
 // console.log(res);
 

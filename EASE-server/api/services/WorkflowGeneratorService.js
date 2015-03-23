@@ -1,12 +1,12 @@
 
-
+var timeadapt = require("../../arrangeTimeNew");
 // Constructor
 function Workflow(metaworkflow) {
   this.metaworkflowID = metaworkflow.id
 
   //console.log(metaworkflow.metatasks.length+"\n");
   this.tasks = []
-  var tmp = [];
+  //var tmp = [];
    // sails.models.metaworkflow.findOne({id:metaworkflow.id}).populate('metatasks').exec(
   // 	function(err,metaworkflow){
   // 		console.log(metaworkflow.metatasks.length)
@@ -23,7 +23,7 @@ function Workflow(metaworkflow) {
 
 
   // 	})
-  		console.log(metaworkflow.metatasks.length)
+  		//console.log(metaworkflow.metatasks.length)
   		
   		for (var i = 0; i < metaworkflow.metatasks.length; i++) {
 
@@ -43,7 +43,7 @@ function Task(workflow, metatask) {
 	this.agentTypes = metatask.agentTypes
 	this.agentAdaptations = [];
 	this.metatask = metatask;
-	console.log("n "+this.agentTypes+" \n");
+//	console.log("n "+this.agentTypes+" \n");
 }
 
 
@@ -72,7 +72,7 @@ Task.prototype.getSubtasks = function(cb) {
     	function (err, agentAdaptations) 
     	{
     		task.agentAdaptations = agentAdaptations;
-    		console.log("Agent adaptations : " + JSON.stringify(agentAdaptations, null, 4));
+    	//	console.log("Agent adaptations : " + JSON.stringify(agentAdaptations, null, 4));
     		cb(err) 
 
     	}
@@ -87,7 +87,6 @@ Task.prototype.getSubtasks = function(cb) {
 function SubTask() {
 
 }
-
 
 
 module.exports = {
@@ -108,13 +107,13 @@ module.exports = {
 			,
 			function (workflow,cb)
 			{	
-				console.log(workflow);
+				//console.log(workflow);
 // until here, task undefined
 				async.each(workflow.tasks, 
 
 					function (task, cb2)
 					{	
-						console.log(task);
+						//console.log(task);
 						task.getSubtasks(function (err) {cb2(err)})
 					}, 
 
@@ -132,23 +131,96 @@ module.exports = {
 
 			function (err) {
 					
-					console.log('Workflow : \n ' + JSON.stringify(workflow, null, 4))
+					//console.log('Workflow : \n ' + JSON.stringify(workflow, null, 4))
 
 					var agentAdaptations = [];
 
 					for (var i = 0; i < workflow.tasks.length; i++)
 					{
 						var task = workflow.tasks[i];
-						console.log('Task : \n' + JSON.stringify(task, null, 4));
+						//console.log('Task : \n' + JSON.stringify(task, null, 4));
 						agentAdaptations.push(task.agentAdaptations);
 					}
 
 					workflow.paths = paths = MathService.cartesianProduct(agentAdaptations);
-					console.log('Cartesian : \n' + JSON.stringify(workflow.paths, null, 4))
+					console.log('Cartesian : \n' + JSON.stringify(workflow.paths, null, 4));
+
+					for (var i =0; i < workflow.paths.length; i++){
+
+						var oneworkflow=workflow.paths[i];
+						var ae=[];
+						var num=0;
+						//console.log(oneworkflow);
+
+						for (var j=0; j<workflow.paths[i].length;j++){
+
+
+							var onetask=workflow.paths[i][j];
+							for (var k=0; k< workflow.paths[i][j].subtasks.length; k++){
+
+									num++;
+									var subtask={};
+								    subtask._subTask=num
+ 								    subtask._predecessor= [ num-1 ]
+								    subtask._beginTime= 0
+								    subtask._agentID=onetask.agentID
+
+								    ae.push(subtask);
+
+								}
+
+							}
+
+							console.log(ae);
+
+					// 		var res = timeadapt.arrange(
+					// 			{ _type: 1,
+					// 			  _option: 0,
+					// 			  _time: new Date("Sun Feb 01 2015 23:00:00 GMT+0100 (CET)") 
+					// 			},
+					// 			ae,
+					// 			[{ _id: 0,
+					// 			  _periodes: 
+					// 			   [ { _duration: 1000,
+					// 			       _begin: new Date("Sun Feb 01 2015 01:40:00 GMT+0100 (CET)"),
+					// 			       _end: new Date("Sun Feb 01 2015 18:20:00 GMT+0100 (CET)") },
+					// 			     { _duration: 500,
+					// 			       _begin: new Date("Mon Feb 02 2015 01:00:00 GMT+0100 (CET)"),
+					// 			       _end: new Date("Mon Feb 02 2015 09:20:00 GMT+0100 (CET)") } ] },
+					// 			{ _id: 1,
+					// 			  _periodes: 
+					// 			   [ { _duration: 1900,
+					// 			       _begin: new Date("Sun Feb 01 2015 01:40:00 GMT+0100 (CET)"),
+					// 			       _end: new Date("Mon Feb 02 2015 09:20:00 GMT+0100 (CET)") } ] },
+					// 			{ _id: 2,
+					// 			  _periodes: 
+					// 			   [ { _duration: 1900,
+					// 			       _begin: new Date("Sun Feb 01 2015 01:40:00 GMT+0100 (CET)"),
+					// 			       _end: new Date("Mon Feb 02 2015 09:20:00 GMT+0100 (CET)") } ] },
+					// 			{ _id: 3,
+					// 			  _periodes: 
+					// 			   [ { _duration: 1900,
+					// 			       _begin: new Date("Sun Feb 01 2015 01:40:00 GMT+0100 (CET)"),
+					// 			       _end: new Date("Mon Feb 02 2015 09:20:00 GMT+0100 (CET)") } ] },
+					// 			{ _id: 4,
+					// 			  _periodes: 
+					// 			   [ { _duration: 1900,
+					// 			       _begin: new Date("Sun Feb 01 2015 01:40:00 GMT+0100 (CET)"),
+					// 			       _end: new Date("Mon Feb 02 2015 09:20:00 GMT+0100 (CET)") } ] }]
+					// 		);
+
+					// 	console.log(res);
+
+
+					}
+
+
+
+					}
 
 				
 
-				} 
+				
 
 		)
 
