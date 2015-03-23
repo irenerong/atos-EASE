@@ -6,6 +6,48 @@ Arrangement.init = function(constraint, agentsNonDispo){
 	this._constraint = constraint;
 	this._agentsNonDispo = agentsNonDispo;
 }
+Arrangement.renamesubtask = function(subtasks){
+	var res = [];
+	var tmp;
+	var max = 0;
+	// var nbBytes = 0;
+	subtasks.forEach(function(e,i,a){
+		// nbBytes = 0;
+		// while(e._subTask/10 > 0){
+		// 	nbBytes ++;
+		// }
+		if(e._predecessor.length == 0){
+			if(e._subTask % (10) != 1){
+				e._predecessor.push(e._subTask - 1)
+			}
+		}
+		else{
+			if(e._subTask % 10 == 1){
+
+				e._predecessor.forEach(function(e3,i3,a3){
+					max = 0;
+					subtasks.forEach(function(e2,i2,a2){
+						if(e3 == Math.floor(e2._subTask/10)){
+							if(e2._subTask % 10 > max){
+								// tmp = e2._subTask;
+								e._predecessor.splice(i3,1, e2._subTask);
+
+								max = e2._subTask % 10;
+							}
+						}
+					});
+					// e._predecessor.splice(i3,1, tmp);
+				});
+			}
+			else{
+				e._predecessor.length = 0;
+				e._predecessor.push(e._subTask - 1);
+			}
+		}	
+			
+	});
+	console.log(subtasks);
+}
 
 Arrangement.arrange = function(arrangeElements){
 	//res is an array containing the returned information: couples like <subTaskID, beginTime>
