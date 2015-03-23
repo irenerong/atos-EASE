@@ -73,51 +73,87 @@ function salut(){
 	console.log("salut")
 }
 
-function arrangeTime(arrangeElements, time, agentDispo){
-	var decision = new Array();
-	arrangeElements.forEach(function(e,i,a){
-		var agentTimeTable = agentDispo.filter(function(e2,i2,a2){if(e2._id == e._agentID) return true; return false;})[0] // Finds the agent doing this task and gets his time table
-		var possibleTime = new Array(); // Possible begin times (for now, we use only the first possible time)
-		var finishTime = new Array(); // Finish time of predecessors
-		var tmpFinish;
-		var defaultMargin = 5; // Margin 5min between the tasks
-		agentTimeTable._periodes.forEach(function(e2,i2,a2){
-			if(e._predecessor.length == 0){ // If no predecessor, meaninng the initial tasks
-				if(e2._begin <= time){
-					tmpTime = new Date(time);
-					tmpTime.setMinutes(tmpTime.getMinutes() + e._duration);
-					if(e2._end >= tmpTime){
-						e._beginTime = time;
-						possibleTime.push(time);
-					}
-				}
+function arrangeTimeNonDispo(arrangeElements, time, agentsNonDispo){
+	var decision = [];
+	var agentTimeTable;
+	var possibleTime = []; // Possible begin times 
+	var finishTime = []; // Finish time of predecessors
+	var tmpFinish;
+	var defaultMargin = 5; // Margin 5min between the tasks
+	var tmpTime;
+	var e;
+	var count;
+	for (var i = 0; i <= arrangeElements.length - 1; i++) {
+		e = arrangeElements[i];
+		agentTimeTable = agentsNonDispo.filter(function(e1,i1,a1){if(e1._id == e._agentID) return true; return false;})[0] // Finds the agent doing this task and gets his time table
+		possibleTime = []; // Possible begin times 
+		finishTime = []; // Finish time of predecessors		
+		if(e._predecessor.length == 0){
+			count = 0;
+			tmpFinish = new Date(time);
+			tmpFinish.setMinutes(tmpFinish.getMinutes() + e._duration);
+			agentTimeTable._periodes.forEach(function(e2,i2,a2){
+				tmpTime = new Date(e2._begin);
+				tmpTime.setMinutes(tmpTime.getMinutes()+e2._duration)	
+				if(tmpFinish < e2._begin || time > tmpTime)
+					count++;
+			});
+			// agentsNonDispo._periodes.forEach(function(e,i,a){
+			// 	if(time < e._begin || time > e._begin + e._duration)
+			// 		count ++;
+			// });
+			// if(count == agentsNonDispo.length){
+			// 	count = 0;
+			// 	tmpTime = new Date(time);
+			// 	tmpFinish = tmpTime.setMinutes(tmpTime.getMinutes() + e._duration);
+			// 	agentsNonDispo.forEach(function(e,i,a){
+			// 		if(( tmpFinish > e._begin + e._duration || tmpFinish < e._begin) && e._duration )
+			// 			count++;
+			// 	});
+			if(count == agentTimeTable._periodes.length){
+				e._beginTime = time;
+				possibleTime.push(time);
 			}
 			else{
-				finishTime.length = 0;
-				getPreds(e, arrangeElements).forEach(function(e3,i3,a3){ 
-					tmpTime = new Date(e3._beginTime);
-					tmpTime.setMinutes(tmpTime.getMinutes() + e3._duration);
-					finishTime.push(tmpTime);
-				});
-				tmpFinish = new Date(Math.max.apply(null,finishTime)); // The latest finish time of this predecessor
-				tmpFinish.setMinutes(tmpFinish.getMinutes() + defaultMargin);
-				if(e2._begin <= tmpFinish){
-					tmpTime = new Date(tmpFinish);
-					tmpTime.setMinutes(tmpTime.getMinutes() + e._duration);
-					if(e2._end >= tmpTime){
-						e._beginTime = tmpFinish;
-						possibleTime.push(tmpFinish);
-					}
-				}
-			}	
-		});
-		// console.log(possibleTime)
-		if(possibleTime.length > 0 ){
-			decision.push(new ReturnElement(e._subTask, possibleTime[0]));
+				break;
+			}
 		}
-	});
+		else{
+			count = 0;
+			finishTime.length = 0;
+			getPreds(e, arrangeElements).forEach(function(e3,i3,a3){ 
+				tmpTime = new Date(e3._beginTime);
+				tmpTime.setMinutes(tmpTime.getMinutes() + e3._duration);
+				finishTime.push(tmpTime);
+			});
+			tmpFinish.setMinutes(new Date(Math.max.apply(null,finishTime)).getMinutes()+ defaultMargin);
+			nextBegin = tmpFinish;
+			tmpFinish = new Date(nextBegin)
+			tmpFinish.setMinutes(tmpFinish.getMinutes() + e._duration);
+			agentTimeTable._periodes.forEach(function(e4,i4,a4){
+				tmpTime = new Date(e4._begin);
+				tmpTime.setMinutes(tmpTime.getMinutes()+e4._duration)
+				if(tmpFinish < e4._begin || nextBegin > tmpTime)
+					count ++;
+			});
+			if(count == agentTimeTable._periodes.length){
+				e._beginTime = nextBegin;
+				possibleTime.push(nextBegin);
+			}
+			else{
+				console.log(e._subTask + " not possible "+ count+" time :" + nextBegin)
+				break;
+			}
+		}
+		if(possibleTime.length > 0)
+			decision.push(new ReturnElement(e._subTask, possibleTime[0]));
+		else{
+			break;
+		}
+	}
 	return decision;
 };
+
 function sortTasks(arrangeElements){
 	var length = arrangeElements.length;
 	var res = [];
