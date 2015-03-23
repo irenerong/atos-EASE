@@ -1,7 +1,7 @@
 var Arrangement = function(){
 }
 module.exports = Arrangement;
-/Initialization with the constraint and timetable of agents
+//Initialization with the constraint and timetable of agents
 Arrangement.init = function(constraint, agentsNonDispo){
 	this._constraint = constraint;
 	this._agentsNonDispo = agentsNonDispo;
