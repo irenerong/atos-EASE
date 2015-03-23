@@ -5,10 +5,14 @@ var oven = {
 
 oven.subtasks = function (task) {
 		var subtask1 = {}
+		subtask1.waitFor = task.waitFor
+		subtask1.id = task.id*10+1;
 		subtask1.action = {action: "SUBTASK1"}
 		subtask1.consumption = {time: Math.random()*60, CO2: Math.random()}
 
 		var subtask2 = {}
+		subtask2.waitFor = task.waitFor
+		subtask2.id = task.id*10+2;
 		subtask2.action = {action: "SUBTASK2"}
 		subtask2.consumption = {time: Math.random()*60, WATER: Math.random()*10}
 

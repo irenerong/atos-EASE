@@ -1,5 +1,4 @@
 
-var timeadapt = require("../../arrangeTimeNew");
 // Constructor
 function Workflow(metaworkflow) {
   this.metaworkflowID = metaworkflow.id
@@ -43,6 +42,8 @@ function Task(workflow, metatask) {
 	this.agentTypes = metatask.agentTypes
 	this.agentAdaptations = [];
 	this.metatask = metatask;
+	this.id= metatask.idTask;
+	this.waitFor=metatask.waitFor;
 //	console.log("n "+this.agentTypes+" \n");
 }
 
@@ -59,7 +60,7 @@ Task.prototype.getSubtasks = function(cb) {
     	async.map(agents, function (agent, cb2)
     	{
     		var agentAdaptation = {agentID: agent.id}
-    		agent.subTasksForTask(task.metatask, function(err, subtasks)
+    		agent.subTasksForTask(task, function(err, subtasks)
     		{
     			agentAdaptation.subtasks = subtasks;
     			cb2(err, agentAdaptation)
@@ -145,6 +146,54 @@ module.exports = {
 					workflow.paths = paths = MathService.cartesianProduct(agentAdaptations);
 					console.log('Cartesian : \n' + JSON.stringify(workflow.paths, null, 4));
 
+					arrangeTimeNew.init({ _type: 0,
+										  _option: 1,
+										  _time: new Date("Sun Feb 01 2015 2:00:00 GMT+0100 (CET)") 
+										},
+
+										[ 
+										 { 
+										  _id: 0,
+										  _periodes: 
+										   [ 
+										   	 { _duration: 15,
+										       _begin: new Date("Sun Feb 01 2015 01:40:00 GMT+0100 (CET)")},
+										     { _duration: 30,
+										       _begin: new Date("Mon Feb 01 2015 04:00:00 GMT+0100 (CET)")}
+										   ]
+										 },
+
+										 {
+										  _id: 1,
+										  _periodes: 
+										   [ { _duration: 60,
+										       _begin: new Date("Sun Feb 01 2015 03:40:00 GMT+0100 (CET)")}
+										   ]
+										 },
+										 {
+										  _id: 2,
+										  _periodes: 
+										   [ { _duration: 20,
+										       _begin: new Date("Sun Feb 01 2015 04:40:00 GMT+0100 (CET)")}
+										   ]
+										 },
+										 {
+										  _id: 3,
+										  _periodes: 
+										   [ { _duration: 10,
+										       _begin: new Date("Sun Feb 01 2015 05:20:00 GMT+0100 (CET)")}
+										   ]
+										 },
+										 {
+										  _id: 4,
+										  _periodes: 
+										   [ { _duration: 19,
+										       _begin: new Date("Sun Feb 01 2015 06:00:00 GMT+0100 (CET)")  } 
+										   ] 
+										 }
+										]
+)
+
 					for (var i =0; i < workflow.paths.length; i++){
 
 						var oneworkflow=workflow.paths[i];
@@ -158,12 +207,14 @@ module.exports = {
 							var onetask=workflow.paths[i][j];
 							for (var k=0; k< workflow.paths[i][j].subtasks.length; k++){
 
-									num++;
 									var subtask={};
-								    subtask._subTask=num
- 								    subtask._predecessor= [ num-1 ]
+								    subtask._subTask=workflow.paths[i][j].subtasks[k].id
+
+								    subtask._predecessor= workflow.paths[i][j].subtasks[k].waitFor
+
 								    subtask._beginTime= 0
 								    subtask._agentID=onetask.agentID
+								    subtask._duration=Math.round(workflow.paths[i][j].subtasks[k].consumption.time);
 
 								    ae.push(subtask);
 
@@ -173,44 +224,9 @@ module.exports = {
 
 							console.log(ae);
 
-					// 		var res = timeadapt.arrange(
-					// 			{ _type: 1,
-					// 			  _option: 0,
-					// 			  _time: new Date("Sun Feb 01 2015 23:00:00 GMT+0100 (CET)") 
-					// 			},
-					// 			ae,
-					// 			[{ _id: 0,
-					// 			  _periodes: 
-					// 			   [ { _duration: 1000,
-					// 			       _begin: new Date("Sun Feb 01 2015 01:40:00 GMT+0100 (CET)"),
-					// 			       _end: new Date("Sun Feb 01 2015 18:20:00 GMT+0100 (CET)") },
-					// 			     { _duration: 500,
-					// 			       _begin: new Date("Mon Feb 02 2015 01:00:00 GMT+0100 (CET)"),
-					// 			       _end: new Date("Mon Feb 02 2015 09:20:00 GMT+0100 (CET)") } ] },
-					// 			{ _id: 1,
-					// 			  _periodes: 
-					// 			   [ { _duration: 1900,
-					// 			       _begin: new Date("Sun Feb 01 2015 01:40:00 GMT+0100 (CET)"),
-					// 			       _end: new Date("Mon Feb 02 2015 09:20:00 GMT+0100 (CET)") } ] },
-					// 			{ _id: 2,
-					// 			  _periodes: 
-					// 			   [ { _duration: 1900,
-					// 			       _begin: new Date("Sun Feb 01 2015 01:40:00 GMT+0100 (CET)"),
-					// 			       _end: new Date("Mon Feb 02 2015 09:20:00 GMT+0100 (CET)") } ] },
-					// 			{ _id: 3,
-					// 			  _periodes: 
-					// 			   [ { _duration: 1900,
-					// 			       _begin: new Date("Sun Feb 01 2015 01:40:00 GMT+0100 (CET)"),
-					// 			       _end: new Date("Mon Feb 02 2015 09:20:00 GMT+0100 (CET)") } ] },
-					// 			{ _id: 4,
-					// 			  _periodes: 
-					// 			   [ { _duration: 1900,
-					// 			       _begin: new Date("Sun Feb 01 2015 01:40:00 GMT+0100 (CET)"),
-					// 			       _end: new Date("Mon Feb 02 2015 09:20:00 GMT+0100 (CET)") } ] }]
-					// 		);
+							var res = arrangeTimeNew.arrange(ae)
 
-					// 	console.log(res);
-
+						console.log(res);
 
 					}
 

@@ -163,7 +163,7 @@ module.exports = {
 
   importMetataskFromOutside: function (metaworkflowID, metatask, cb) {
 
-    Metatask.create({idTask: metatask.idTask, metaworkflow: metaworkflowID, agentTypes: metatask.agentTypes})
+    Metatask.create({idTask: metatask.idTask, metaworkflow: metaworkflowID, agentTypes: metatask.agentTypes, waitFor: metatask.waitFor})
       .exec(function(err, task) {
         cb()
       });  //Create the metatask and link it to the metaworkflow
@@ -241,7 +241,7 @@ module.exports = {
             function (metatask, cb3) {
 
               //Create the task
-              Task.create({metatask: metatask.id, workflow: workflow.id, idTask: metatask.idTask})
+              Task.create({metatask: metatask.id, workflow: workflow.id, idTask: metatask.idTask , waitFor: metatask.waitFor})
                 .exec(function (err, task) {
                   //Adapt the task to the agent by creating subtasks
                   console.time('Task Adaptation' + task.id)
@@ -340,6 +340,9 @@ module.exports = {
           function (subtasks) {
 
             if (subtasks) { //If this agent can do this task
+
+              console.log(subtasks)
+
               WFC.importSubTasks(subtasks, task, agent.id, function () {cb2()}); //Import them
             }
             else
