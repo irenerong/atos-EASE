@@ -6,7 +6,7 @@ Arrangement.init = function(constraint, agentsNonDispo){
 	this._constraint = constraint;
 	this._agentsNonDispo = agentsNonDispo;
 }
-Arrangement.renamesubtask = function(subtasks){
+Arrangement.whatTheFuck = function(subtasks){
 	var res = [];
 	var tmp;
 	var max = 0;
@@ -46,7 +46,6 @@ Arrangement.renamesubtask = function(subtasks){
 		}	
 			
 	});
-	console.log(subtasks);
 }
 
 Arrangement.arrange = function(arrangeElements){
