@@ -58,7 +58,7 @@ Arrangement.whatTheFuck = function(subtasks2){
 
 Arrangement.arrange = function(arrangeElements){
 	//res is an array containing the returned information: couples like <subTaskID, beginTime>
-	var res = [];
+	var res = {};
 	var margin = 15; // A default margin(in advance or a delay according to the "type")
 	var compatible = false;
 	var coef1 = 0; // 0 if "at", -1 if "before" and 1 if "after"
@@ -89,8 +89,9 @@ Arrangement.arrange = function(arrangeElements){
 	beginWF.setMinutes(beginWF.getMinutes() - coef2 * wfDuration + coef1 * margin);
 	// res = arrangeTime(sortTasks(arrangeElements), beginWF, this._agentsDispo);
 	res = arrangeTimeNonDispo(sortTasks(arrangeElements), beginWF, this._agentsNonDispo)
-	if(res.length == length)
+	if(res.array.length == length){
 		return res;
+	}
 	else{
 		// copy.forEach(function(e,i,a){
 		// 	if(res.indexOf(e._subTask) == -1)
@@ -123,15 +124,18 @@ function salut(){
 }
 
 function arrangeTimeNonDispo(arrangeElements, time, agentsNonDispo){
-	var decision = [];
+	var decision = {};
 	var agentTimeTable;
 	var possibleTime = []; // Possible begin times 
 	var finishTime = []; // Finish time of predecessors
 	var tmpFinish;
+	var nextBegin;
 	var defaultMargin = 5; // Margin 5min between the tasks
 	var tmpTime;
 	var e;
 	var count;
+	var beginWF = 0;
+	var endWF = 0;
 	for (var i = 0; i <= arrangeElements.length - 1; i++) {
 		e = JSON.parse(JSON.stringify(arrangeElements[i]));
 		agentTimeTable = agentsNonDispo.filter(function(e1,i1,a1){if(e1._id == e._agentID) return true; return false;})[0] // Finds the agent doing this task and gets his time table
@@ -162,6 +166,13 @@ function arrangeTimeNonDispo(arrangeElements, time, agentsNonDispo){
 			if(count == agentTimeTable._periodes.length){
 				e._beginTime = time;
 				possibleTime.push(time);
+				if(beginWF == 0){
+					beginWF = e._beginTime;
+				}
+				else{
+					if(e._beginTime < beginWF)
+						beginWF = e._beginTime;
+				}
 			}
 			else{
 				break;
@@ -189,19 +200,30 @@ function arrangeTimeNonDispo(arrangeElements, time, agentsNonDispo){
 			if(count == agentTimeTable._periodes.length){
 				e._beginTime = nextBegin;
 				possibleTime.push(nextBegin);
+				if(endWF == 0){
+					endWF = tmpFinish;
+				}
+				else{
+					if(endWF < tmpFinish){
+						endWF = tmpFinish;
+					}
+				}
 			}
 			else{
 				console.log(e._subTask + " not possible "+ count+" time :" + nextBegin)
 				break;
 			}
 		}
-		if(possibleTime.length > 0)
+		if(possibleTime.length > 0){
 			//decision.push(new ReturnElement(e._subTask, possibleTime[0]));
-				decision.push(e);
+				decision.array.push(e);
+				decision.duration = Math.round((((endWF - beginWF) % 86400000) % 3600000) / 60000); // minutes
+		}		
 		else{
 			break;
 		}
 	}
+	
 	return decision;
 };
 
