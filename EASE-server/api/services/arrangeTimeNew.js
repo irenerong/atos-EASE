@@ -223,7 +223,7 @@ function arrangeTimeNonDispo(arrangeElements, time, agentsNonDispo){
 			break;
 		}
 	}
-	decision.duration = Math.round((((endWF - beginWF) % 86400000) % 3600000) / 60000); // minutes
+	decision.duration = Math.round((endWF - beginWF)60000); // minutes
 
 	return decision;
 };
