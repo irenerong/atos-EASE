@@ -125,7 +125,7 @@ function salut(){
 
 function arrangeTimeNonDispo(arrangeElements, time, agentsNonDispo){
 	var arrangeElements2 = JSON.parse(JSON.stringify(arrangeElements));
-	var decision = {};
+	var decision = {}; decision.array = []; decision.duration = 0;
 	var agentTimeTable;
 	var possibleTime = []; // Possible begin times 
 	var finishTime = []; // Finish time of predecessors
