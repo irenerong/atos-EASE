@@ -67,6 +67,7 @@ Arrangement.arrange = function(arrangeElements){
 	var comflit = [];
 	var be;;
 	var message = "";
+	var sortedTasks;
 	//By default, coef2 = 0
 	if(this._constraint._type == 1) // If Finish
 		coef2 = 1;
@@ -79,16 +80,13 @@ Arrangement.arrange = function(arrangeElements){
 			coef1 = 1;
 
 	//Gets workflow's duration
-	var sumDuration = [];
-	arrangeElements.forEach(function(e,i,a){sumDuration.push(e._duration);});
-	var wfDuration = sumDuration.reduce(function(previousValue, currentValue, index, array) {
-  		return previousValue + currentValue;
-  	});
+	sortedTasks = sortTasks(arrangeElements);
+	wfDuration = getDuration(sortedTasks);
 	//Begin time of work flow 
 	var beginWF = new Date(this._constraint._time);
 	beginWF.setMinutes(beginWF.getMinutes() - coef2 * wfDuration + coef1 * margin);
-	// res = arrangeTime(sortTasks(arrangeElements), beginWF, this._agentsDispo);
-	res = arrangeTimeNonDispo(sortTasks(arrangeElements), beginWF, this._agentsNonDispo)
+	
+	res = arrangeTimeNonDispo(sortedTasks, beginWF, this._agentsNonDispo)
 	if(res.array.length == length){
 		return res;
 	}
@@ -116,6 +114,31 @@ Arrangement.arrange = function(arrangeElements){
 	}
 	
 };
+
+function getDuration(arrangeElements){
+	var arrangeElements2 = JSON.parse(JSON.stringify(arrangeElements));
+	var tmpTime;
+	var finishTime = [];
+	var max = 0;
+	arrangeElements2.forEach(function(e,i,a){
+		if(e._predecessor.length == 0){
+			e._beginTime = 0;
+		}
+		else{
+			finishTime.length = 0;
+			getPreds(e, arrangeElements2).forEach(function(e3,i3,a3){
+				finishTime.push(e3._beginTime + e3._duration);
+			});
+			// console.log("finishTime " + finishTime)
+			nextBegin = Math.max.apply(null,finishTime);
+			e._beginTime = nextBegin;
+		}
+		if(e._beginTime + e._duration > max){
+			max = e._beginTime + e._duration;
+		}
+	});
+	return max;
+}
 
 
 //Test
