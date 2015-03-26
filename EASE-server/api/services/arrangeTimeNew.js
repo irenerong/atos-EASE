@@ -124,6 +124,7 @@ function salut(){
 }
 
 function arrangeTimeNonDispo(arrangeElements, time, agentsNonDispo){
+	var arrangeElements2 = JSON.parse(JSON.stringify(arrangeElements));
 	var decision = {};
 	var agentTimeTable;
 	var possibleTime = []; // Possible begin times 
@@ -136,8 +137,8 @@ function arrangeTimeNonDispo(arrangeElements, time, agentsNonDispo){
 	var count;
 	var beginWF = 0;
 	var endWF = 0;
-	for (var i = 0; i <= arrangeElements.length - 1; i++) {
-		e = JSON.parse(JSON.stringify(arrangeElements[i]));
+	for (var i = 0; i <= arrangeElements2.length - 1; i++) {
+		e = arrangeElements2[i];
 		agentTimeTable = agentsNonDispo.filter(function(e1,i1,a1){if(e1._id == e._agentID) return true; return false;})[0] // Finds the agent doing this task and gets his time table
 		possibleTime = []; // Possible begin times 
 		finishTime = []; // Finish time of predecessors		
@@ -181,7 +182,7 @@ function arrangeTimeNonDispo(arrangeElements, time, agentsNonDispo){
 		else{
 			count = 0;
 			finishTime.length = 0;
-			getPreds(e, arrangeElements).forEach(function(e3,i3,a3){ 
+			getPreds(e, arrangeElements2).forEach(function(e3,i3,a3){ 
 				tmpTime = new Date(e3._beginTime);
 				tmpTime.setMinutes(tmpTime.getMinutes() + e3._duration);
 				finishTime.push(tmpTime);
@@ -217,13 +218,13 @@ function arrangeTimeNonDispo(arrangeElements, time, agentsNonDispo){
 		if(possibleTime.length > 0){
 			//decision.push(new ReturnElement(e._subTask, possibleTime[0]));
 				decision.array.push(e);
-				decision.duration = Math.round((((endWF - beginWF) % 86400000) % 3600000) / 60000); // minutes
 		}		
 		else{
 			break;
 		}
 	}
-	
+	decision.duration = Math.round((((endWF - beginWF) % 86400000) % 3600000) / 60000); // minutes
+
 	return decision;
 };
 
