@@ -191,15 +191,13 @@ module.exports = {
 										       _begin: new Date("Sun Feb 01 2015 06:00:00 GMT+0100 (CET)")  } 
 										   ] 
 										 }
-										]
-)
+										])
 
 					for (var i =0; i < workflow.paths.length; i++){
 
 						var oneworkflow=workflow.paths[i];
 						var ae=[];
 						var num=0;
-						//console.log(oneworkflow);
 
 						for (var j=0; j<workflow.paths[i].length;j++){
 
@@ -224,10 +222,13 @@ module.exports = {
 
 							console.log(ae);
 
-							var res = arrangeTimeNew.renamesubtask(ae)
+							var res2=arrangeTimeNew.whatTheFuck(ae);
 
-						console.log(res);
+							console.log(res2);
 
+							var res = arrangeTimeNew.arrange(res2);
+
+							console.log(res);
 					}
 
 

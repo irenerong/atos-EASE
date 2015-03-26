@@ -61,6 +61,10 @@ module.exports = {
       }
 
     },
+    // valide: function() {
+    //   console.log(this.agent);
+    //   console.log(this.agent.)
+    // }
 
     
 

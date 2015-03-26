@@ -6,7 +6,12 @@ Arrangement.init = function(constraint, agentsNonDispo){
 	this._constraint = constraint;
 	this._agentsNonDispo = agentsNonDispo;
 }
-Arrangement.whatTheFuck = function(subtasks){
+Arrangement.whatTheFuck = function(subtasks2){
+
+	//console.log(subtasks);
+	var subtasks = JSON.parse(JSON.stringify(subtasks2));
+
+
 	var res = [];
 	var tmp;
 	var max = 0;
@@ -46,6 +51,9 @@ Arrangement.whatTheFuck = function(subtasks){
 		}	
 			
 	});
+
+	//console.log(subtasks);
+	return subtasks;
 }
 
 Arrangement.arrange = function(arrangeElements){
@@ -125,7 +133,7 @@ function arrangeTimeNonDispo(arrangeElements, time, agentsNonDispo){
 	var e;
 	var count;
 	for (var i = 0; i <= arrangeElements.length - 1; i++) {
-		e = arrangeElements[i];
+		e = JSON.parse(JSON.stringify(arrangeElements[i]));
 		agentTimeTable = agentsNonDispo.filter(function(e1,i1,a1){if(e1._id == e._agentID) return true; return false;})[0] // Finds the agent doing this task and gets his time table
 		possibleTime = []; // Possible begin times 
 		finishTime = []; // Finish time of predecessors		
@@ -188,7 +196,8 @@ function arrangeTimeNonDispo(arrangeElements, time, agentsNonDispo){
 			}
 		}
 		if(possibleTime.length > 0)
-			decision.push(new ReturnElement(e._subTask, possibleTime[0]));
+			//decision.push(new ReturnElement(e._subTask, possibleTime[0]));
+				decision.push(e);
 		else{
 			break;
 		}
