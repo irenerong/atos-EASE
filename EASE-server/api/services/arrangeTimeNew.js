@@ -3,8 +3,8 @@ var Arrangement = function(){
 module.exports = Arrangement;
 //Initialization with the constraint and timetable of agents
 Arrangement.init = function(constraint, agentsNonDispo){
-	this.constraint = constraint;
-	this.agentsNonDispo = agentsNonDispo;
+	this._constraint = constraint;
+	this._agentsNonDispo = agentsNonDispo;
 }
 Arrangement.whatTheFuck = function(subtasks2){
 
@@ -18,35 +18,35 @@ Arrangement.whatTheFuck = function(subtasks2){
 	// var nbBytes = 0;
 	subtasks.forEach(function(e,i,a){
 		// nbBytes = 0;
-		// while(e.subTask/10 > 0){
+		// while(e._subTask/10 > 0){
 		// 	nbBytes ++;
 		// }
-		if(e.predecessor.length == 0){
-			if(e.subTask % (10) != 1){
-				e.predecessor.push(e.subTask - 1)
+		if(e._predecessor.length == 0){
+			if(e._subTask % (10) != 1){
+				e._predecessor.push(e._subTask - 1)
 			}
 		}
 		else{
-			if(e.subTask % 10 == 1){
+			if(e._subTask % 10 == 1){
 
-				e.predecessor.forEach(function(e3,i3,a3){
+				e._predecessor.forEach(function(e3,i3,a3){
 					max = 0;
 					subtasks.forEach(function(e2,i2,a2){
-						if(e3 == Math.floor(e2.subTask/10)){
-							if(e2.subTask % 10 > max){
-								// tmp = e2.subTask;
-								e.predecessor.splice(i3,1, e2.subTask);
+						if(e3 == Math.floor(e2._subTask/10)){
+							if(e2._subTask % 10 > max){
+								// tmp = e2._subTask;
+								e._predecessor.splice(i3,1, e2._subTask);
 
-								max = e2.subTask % 10;
+								max = e2._subTask % 10;
 							}
 						}
 					});
-					// e.predecessor.splice(i3,1, tmp);
+					// e._predecessor.splice(i3,1, tmp);
 				});
 			}
 			else{
-				e.predecessor.length = 0;
-				e.predecessor.push(e.subTask - 1);
+				e._predecessor.length = 0;
+				e._predecessor.push(e._subTask - 1);
 			}
 		}	
 			
@@ -67,35 +67,33 @@ Arrangement.arrange = function(arrangeElements){
 	var comflit = [];
 	var be;;
 	var message = "";
+	var sortedTasks;
 	//By default, coef2 = 0
-	if(this.constraint.type == 1) // If Finish
+	if(this._constraint._type == 1) // If Finish
 		coef2 = 1;
 
 	//By default, coef1 = 0
-	if(this.constraint.option == 0)// if Before
+	if(this._constraint._option == 0)// if Before
 		coef1 = -1;
 	else
-		if(this.constraint.option == 1)// If after
+		if(this._constraint._option == 1)// If after
 			coef1 = 1;
 
 	//Gets workflow's duration
-	var sumDuration = [];
-	arrangeElements.forEach(function(e,i,a){sumDuration.push(e.duration);});
-	var wfDuration = sumDuration.reduce(function(previousValue, currentValue, index, array) {
-  		return previousValue + currentValue;
-  	});
+	sortedTasks = sortTasks(arrangeElements);
+	wfDuration = getDuration(sortedTasks);
 	//Begin time of work flow 
-	var beginWF = new Date(this.constraint.time);
+	var beginWF = new Date(this._constraint._time);
 	beginWF.setMinutes(beginWF.getMinutes() - coef2 * wfDuration + coef1 * margin);
-	// res = arrangeTime(sortTasks(arrangeElements), beginWF, this.agentsDispo);
-	res = arrangeTimeNonDispo(sortTasks(arrangeElements), beginWF, this.agentsNonDispo)
+	
+	res = arrangeTimeNonDispo(sortedTasks, beginWF, this._agentsNonDispo)
 	if(res.array.length == length){
 		return res;
 	}
 	else{
 		// copy.forEach(function(e,i,a){
-		// 	if(res.indexOf(e.subTask) == -1)
-		// 		comflit.push(e.subTask);
+		// 	if(res.indexOf(e._subTask) == -1)
+		// 		comflit.push(e._subTask);
 			
 		// });
 		// if(comflit.length == 1)
@@ -116,6 +114,31 @@ Arrangement.arrange = function(arrangeElements){
 	}
 	
 };
+
+function getDuration(arrangeElements){
+	var arrangeElements2 = JSON.parse(JSON.stringify(arrangeElements));
+	var tmpTime;
+	var finishTime = [];
+	var max = 0;
+	arrangeElements2.forEach(function(e,i,a){
+		if(e._predecessor.length == 0){
+			e._beginTime = 0;
+		}
+		else{
+			finishTime.length = 0;
+			getPreds(e, arrangeElements2).forEach(function(e3,i3,a3){
+				finishTime.push(e3._beginTime + e3._duration);
+			});
+			// console.log("finishTime " + finishTime)
+			nextBegin = Math.max.apply(null,finishTime);
+			e._beginTime = nextBegin;
+		}
+		if(e._beginTime + e._duration > max){
+			max = e._beginTime + e._duration;
+		}
+	});
+	return max;
+}
 
 
 //Test
@@ -139,40 +162,40 @@ function arrangeTimeNonDispo(arrangeElements, time, agentsNonDispo){
 	var endWF = 0;
 	for (var i = 0; i <= arrangeElements2.length - 1; i++) {
 		e = arrangeElements2[i];
-		agentTimeTable = agentsNonDispo.filter(function(e1,i1,a1){if(e1.id == e.agentID) return true; return false;})[0] // Finds the agent doing this task and gets his time table
+		agentTimeTable = agentsNonDispo.filter(function(e1,i1,a1){if(e1._id == e._agentID) return true; return false;})[0] // Finds the agent doing this task and gets his time table
 		possibleTime = []; // Possible begin times 
 		finishTime = []; // Finish time of predecessors		
-		if(e.predecessor.length == 0){
+		if(e._predecessor.length == 0){
 			count = 0;
 			tmpFinish = new Date(time);
-			tmpFinish.setMinutes(tmpFinish.getMinutes() + e.duration);
-			agentTimeTable.periodes.forEach(function(e2,i2,a2){
-				tmpTime = new Date(e2.begin);
-				tmpTime.setMinutes(tmpTime.getMinutes()+e2.duration)	
-				if(tmpFinish < e2.begin || time > tmpTime)
+			tmpFinish.setMinutes(tmpFinish.getMinutes() + e._duration);
+			agentTimeTable._periodes.forEach(function(e2,i2,a2){
+				tmpTime = new Date(e2._begin);
+				tmpTime.setMinutes(tmpTime.getMinutes()+e2._duration)	
+				if(tmpFinish < e2._begin || time > tmpTime)
 					count++;
 			});
-			// agentsNonDispo.periodes.forEach(function(e,i,a){
-			// 	if(time < e.begin || time > e.begin + e.duration)
+			// agentsNonDispo._periodes.forEach(function(e,i,a){
+			// 	if(time < e._begin || time > e._begin + e._duration)
 			// 		count ++;
 			// });
 			// if(count == agentsNonDispo.length){
 			// 	count = 0;
 			// 	tmpTime = new Date(time);
-			// 	tmpFinish = tmpTime.setMinutes(tmpTime.getMinutes() + e.duration);
+			// 	tmpFinish = tmpTime.setMinutes(tmpTime.getMinutes() + e._duration);
 			// 	agentsNonDispo.forEach(function(e,i,a){
-			// 		if(( tmpFinish > e.begin + e.duration || tmpFinish < e.begin) && e.duration )
+			// 		if(( tmpFinish > e._begin + e._duration || tmpFinish < e._begin) && e._duration )
 			// 			count++;
 			// 	});
-			if(count == agentTimeTable.periodes.length){
-				e.beginTime = time;
+			if(count == agentTimeTable._periodes.length){
+				e._beginTime = time;
 				possibleTime.push(time);
 				if(beginWF == 0){
-					beginWF = e.beginTime;
+					beginWF = e._beginTime;
 				}
 				else{
-					if(e.beginTime < beginWF)
-						beginWF = e.beginTime;
+					if(e._beginTime < beginWF)
+						beginWF = e._beginTime;
 				}
 			}
 			else{
@@ -183,23 +206,23 @@ function arrangeTimeNonDispo(arrangeElements, time, agentsNonDispo){
 			count = 0;
 			finishTime.length = 0;
 			getPreds(e, arrangeElements2).forEach(function(e3,i3,a3){ 
-				tmpTime = new Date(e3.beginTime);
-				tmpTime.setMinutes(tmpTime.getMinutes() + e3.duration);
+				tmpTime = new Date(e3._beginTime);
+				tmpTime.setMinutes(tmpTime.getMinutes() + e3._duration);
 				finishTime.push(tmpTime);
 			});
 			tmpFinish = new Date(Math.max.apply(null,finishTime));
 			tmpFinish.setMinutes(tmpFinish.getMinutes()+ defaultMargin);
 			nextBegin = tmpFinish;
 			tmpFinish = new Date(nextBegin)
-			tmpFinish.setMinutes(tmpFinish.getMinutes() + e.duration);
-			agentTimeTable.periodes.forEach(function(e4,i4,a4){
-				tmpTime = new Date(e4.begin);
-				tmpTime.setMinutes(tmpTime.getMinutes()+e4.duration)
-				if(tmpFinish < e4.begin || nextBegin > tmpTime)
+			tmpFinish.setMinutes(tmpFinish.getMinutes() + e._duration);
+			agentTimeTable._periodes.forEach(function(e4,i4,a4){
+				tmpTime = new Date(e4._begin);
+				tmpTime.setMinutes(tmpTime.getMinutes()+e4._duration)
+				if(tmpFinish < e4._begin || nextBegin > tmpTime)
 					count ++;
 			});
-			if(count == agentTimeTable.periodes.length){
-				e.beginTime = nextBegin;
+			if(count == agentTimeTable._periodes.length){
+				e._beginTime = nextBegin;
 				possibleTime.push(nextBegin);
 				if(endWF == 0){
 					endWF = tmpFinish;
@@ -211,12 +234,12 @@ function arrangeTimeNonDispo(arrangeElements, time, agentsNonDispo){
 				}
 			}
 			else{
-				console.log(e.subTask + " not possible "+ count+" time :" + nextBegin)
+				console.log(e._subTask + " not possible "+ count+" time :" + nextBegin)
 				break;
 			}
 		}
 		if(possibleTime.length > 0){
-			//decision.push(new ReturnElement(e.subTask, possibleTime[0]));
+			//decision.push(new ReturnElement(e._subTask, possibleTime[0]));
 				decision.array.push(e);
 		}		
 		else{
@@ -243,7 +266,7 @@ function sortTasks(arrangeElements){
 			else{
 				preds = getPreds(e,arrangeElements);
 				for (var i = preds.length - 1; i >= 0; i--) {
-					if(preds[i].beginTime == 0){
+					if(preds[i]._beginTime == 0){
 						predsDone = false;
 						break;
 					}
@@ -262,13 +285,12 @@ function sortTasks(arrangeElements){
 function getPreds(subTask, arrangeElements){
 	var preds = new Array();
 	for (var i = arrangeElements.length - 1; i >= 0; i--) {
-		if(subTask.predecessor.indexOf(arrangeElements[i].subTask) != -1)
+		if(subTask._predecessor.indexOf(arrangeElements[i]._subTask) != -1)
 			preds.push(arrangeElements[i]);
 	}
 	return preds;
 };
 var ReturnElement = function(subTask, beginTime){
-	this.subTask = subTask;
-	this.beginTime = beginTime;
+	this._subTask = subTask;
+	this._beginTime = beginTime;
 };
-
