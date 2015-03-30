@@ -98,7 +98,7 @@ module.exports = {
 
 	generateWorkflows: function (metaworkflow, params) {
 
-		sails.session.generatedWorkflows = sails.session.generatedWorkflows || []
+		var generatedWorkflows = [];
 
 		async.waterfall(
 			[function (cb){
@@ -144,51 +144,51 @@ module.exports = {
 					}
 
 					workflow.paths = paths = MathService.cartesianProduct(agentAdaptations);
-					console.log('Cartesian : \n' + JSON.stringify(workflow.paths, null, 4));
+					//console.log('Cartesian : \n' + JSON.stringify(workflow.paths,null,4));
 
-					arrangeTimeNew.init({ _type: 0,
-										  _option: 1,
-										  _time: new Date("Sun Feb 01 2015 2:00:00 GMT+0100 (CET)") 
+					arrangeTimeNew.init({ type: 0,
+										  option: 1,
+										  time: new Date("Sun Feb 01 2015 2:00:00 GMT+0100 (CET)") 
 										},
 
 										[ 
 										 { 
-										  _id: 0,
-										  _periodes: 
+										  id: 0,
+										  periodes: 
 										   [ 
-										   	 { _duration: 15,
-										       _begin: new Date("Sun Feb 01 2015 01:40:00 GMT+0100 (CET)")},
-										     { _duration: 30,
-										       _begin: new Date("Mon Feb 01 2015 04:00:00 GMT+0100 (CET)")}
+										   	 { duration: 15,
+										       begin: new Date("Sun Feb 01 2015 01:40:00 GMT+0100 (CET)")},
+										     { duration: 30,
+										       begin: new Date("Mon Feb 01 2015 04:00:00 GMT+0100 (CET)")}
 										   ]
 										 },
 
 										 {
-										  _id: 1,
-										  _periodes: 
-										   [ { _duration: 60,
-										       _begin: new Date("Sun Feb 01 2015 03:40:00 GMT+0100 (CET)")}
+										  id: 1,
+										  periodes: 
+										   [ { duration: 60,
+										       begin: new Date("Sun Feb 01 2015 03:40:00 GMT+0100 (CET)")}
 										   ]
 										 },
 										 {
-										  _id: 2,
-										  _periodes: 
-										   [ { _duration: 20,
-										       _begin: new Date("Sun Feb 01 2015 04:40:00 GMT+0100 (CET)")}
+										  id: 2,
+										  periodes: 
+										   [ { duration: 20,
+										       begin: new Date("Sun Feb 01 2015 04:40:00 GMT+0100 (CET)")}
 										   ]
 										 },
 										 {
-										  _id: 3,
-										  _periodes: 
-										   [ { _duration: 10,
-										       _begin: new Date("Sun Feb 01 2015 05:20:00 GMT+0100 (CET)")}
+										  id: 3,
+										  periodes: 
+										   [ { duration: 10,
+										       begin: new Date("Sun Feb 01 2015 05:20:00 GMT+0100 (CET)")}
 										   ]
 										 },
 										 {
-										  _id: 4,
-										  _periodes: 
-										   [ { _duration: 19,
-										       _begin: new Date("Sun Feb 01 2015 06:00:00 GMT+0100 (CET)")  } 
+										  id: 4,
+										  periodes: 
+										   [ { duration: 19,
+										       begin: new Date("Sun Feb 01 2015 06:00:00 GMT+0100 (CET)")  } 
 										   ] 
 										 }
 										])
@@ -206,13 +206,13 @@ module.exports = {
 							for (var k=0; k< workflow.paths[i][j].subtasks.length; k++){
 
 									var subtask={};
-								    subtask._subTask=workflow.paths[i][j].subtasks[k].id
+								    subtask.subTask=workflow.paths[i][j].subtasks[k].id
 
-								    subtask._predecessor= workflow.paths[i][j].subtasks[k].waitFor
+								    subtask.predecessor= workflow.paths[i][j].subtasks[k].waitFor
 
-								    subtask._beginTime= 0
-								    subtask._agentID=onetask.agentID
-								    subtask._duration=Math.round(workflow.paths[i][j].subtasks[k].consumption.time);
+								    subtask.beginTime= 0
+								    subtask.agentID=onetask.agentID
+								    subtask.duration=Math.round(workflow.paths[i][j].subtasks[k].consumption.time);
 
 								    ae.push(subtask);
 
@@ -224,13 +224,18 @@ module.exports = {
 
 							var res2=arrangeTimeNew.whatTheFuck(ae);
 
-							console.log(res2);
+							//console.log(res2);
 
 							var res = arrangeTimeNew.arrange(res2);
+							res.consumption = 100;
+							res.metaworkflow = 25;
+							generatedWorkflows.push(res);// session = req.session passed by controller
 
-							console.log(res);
+
+
+							// console.log(JSON.stringify(res));
 					}
-
+					
 
 
 					}
@@ -241,7 +246,10 @@ module.exports = {
 
 		)
 
-	
+
+	console.log(JSON.stringify(generatedWorkflows,null,4));
+
+	return generatedWorkflows;
 
 
 	}

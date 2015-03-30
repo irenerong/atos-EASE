@@ -15,7 +15,8 @@ module.exports = {
 
   	waitFor: {
   		collection: 'SubTask', 
-  		via: 'nextStartConditions'
+  		via: 'nextStartConditions',
+      dominant: true
   	}, 
 
   	startDate: {
@@ -23,7 +24,7 @@ module.exports = {
   	}, 
 
   	delay: {
-  		type: 'time'
+  		type: 'integer'
   	}, 
 
   	conditionsMet: function(cb) {

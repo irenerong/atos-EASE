@@ -53,7 +53,8 @@ module.exports.policies = {
 WorkflowGeneratorController: {
   '*': false,
 
-  generate: 'sessionAuth'
+  generate: 'sessionAuth',
+  validate: 'sessionAuth'
 
 },
 

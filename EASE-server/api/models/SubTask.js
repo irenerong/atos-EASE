@@ -8,6 +8,18 @@
 module.exports = {
 
   attributes: {
+    workflow:{
+      model: 'Workflow'
+    },
+    taskID :{
+
+      type :'integer'
+
+    },
+    waitforID :{
+      type: 'array'
+
+    },
 
   	
   	taskAgentAdaptationInfos: {
@@ -22,9 +34,9 @@ module.exports = {
       type: 'json'
     }, 
 
-    status: {
-    	type: 'string'
-    }, 
+    // status: {
+    // 	type: 'string'
+    // }, 
 
     consumption : {
       type: 'json'

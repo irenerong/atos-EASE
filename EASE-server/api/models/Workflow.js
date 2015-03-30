@@ -25,10 +25,15 @@ module.exports = {
   		type: 'json', 
   	},
 
-    tasks: {
-      collection: 'Task',
+    // tasks: {
+    //   collection: 'Task',
+    //   via: 'workflow'
+    // }, 
+
+    subtasks: {
+      collection: 'SubTask',
       via: 'workflow'
-    }, 
+    },
 
     metaworkflow : {
       model: 'Metaworkflow'

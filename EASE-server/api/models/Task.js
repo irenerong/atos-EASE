@@ -21,9 +21,9 @@ module.exports = {
       type: 'integer'
     },
 
-  	workflow: {
-  		model: 'Workflow'
-  	}, 
+  	// workflow: {
+  	// 	model: 'Workflow'
+  	// }, 
 
     taskAgentAdaptationInfos: {
       collection: 'TaskAgentAdaptationInfos', 
