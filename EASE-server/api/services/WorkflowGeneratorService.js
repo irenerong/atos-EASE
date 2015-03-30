@@ -212,6 +212,8 @@ module.exports = {
 
 								    subtask.beginTime= 0
 								    subtask.agentID=onetask.agentID
+								    subtask.action= onetask.action
+								    subtask.consumption=workflow.paths[i][j].subtasks[k].consumption
 								    subtask.duration=Math.round(workflow.paths[i][j].subtasks[k].consumption.time);
 
 								    ae.push(subtask);

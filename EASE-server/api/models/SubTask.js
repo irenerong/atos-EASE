@@ -31,7 +31,7 @@ module.exports = {
     }, 
 
     action: {
-      type: 'json'
+      type: 'JSON'
     }, 
 
     // status: {
@@ -39,7 +39,7 @@ module.exports = {
     // }, 
 
     consumption : {
-      type: 'json'
+      type: 'JSON'
     },
 
     isDone :{
