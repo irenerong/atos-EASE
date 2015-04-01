@@ -95,10 +95,10 @@ module.exports = {
 	workflow : Workflow,
 	task: Task,
 
-
 	generateWorkflows: function (metaworkflow, params) {
 
 		var generatedWorkflows = [];
+		var agentNondispo = [];
 
 		async.waterfall(
 			[function (cb){
@@ -124,6 +124,34 @@ module.exports = {
 					}
 
 				)
+			},
+			function(cb){
+				agentNondispo = [];
+					sails.models.agent.find().exec(
+						function(err,agents){
+							agents.forEach(function(e,i,a){
+								if (e.agentNonDispo != null){
+								var tmp ={}
+								tmp = {id:e.id, periodes: e.agentNonDispo}
+								console.log(tmp);
+								agentNondispo.push(tmp);
+							}// if 
+								
+							})
+							
+
+							
+						})
+
+					setTimeout(
+								function(){console.log(agentNondispo);
+
+										arrangeTimeNew.init({ type: 0,
+										  option: 1,
+										  time: new Date("Wed Apr 01 2015 2:00:00 GMT+0100 (CET)") 
+										},agentNondispo)//finish init
+										cb(null);
+							},250)
 			}
 
 
@@ -145,53 +173,56 @@ module.exports = {
 
 					workflow.paths = paths = MathService.cartesianProduct(agentAdaptations);
 					//console.log('Cartesian : \n' + JSON.stringify(workflow.paths,null,4));
+					
 
-					arrangeTimeNew.init({ type: 0,
-										  option: 1,
-										  time: new Date("Sun Feb 01 2015 2:00:00 GMT+0100 (CET)") 
-										},
+					// arrangeTimeNew.init({ type: 0,
+					// 					  option: 1,
+					// 					  time: new Date("Sun Feb 01 2015 2:00:00 GMT+0100 (CET)") 
+					// 					},
+					// 					agentNondispo
 
-										[ 
-										 { 
-										  id: 0,
-										  periodes: 
-										   [ 
-										   	 { duration: 15,
-										       begin: new Date("Sun Feb 01 2015 01:40:00 GMT+0100 (CET)")},
-										     { duration: 30,
-										       begin: new Date("Mon Feb 01 2015 04:00:00 GMT+0100 (CET)")}
-										   ]
-										 },
+					// 					[ 
+					// 					 { 
+					// 					  id: 0,
+					// 					  periodes: 
+					// 					   [ 
+					// 					   	 { duration: 15,
+					// 					       begin: new Date("Sun Feb 01 2015 01:40:00 GMT+0100 (CET)")},
+					// 					     { duration: 30,
+					// 					       begin: new Date("Mon Feb 01 2015 04:00:00 GMT+0100 (CET)")}
+					// 					   ]
+					// 					 },
 
-										 {
-										  id: 1,
-										  periodes: 
-										   [ { duration: 60,
-										       begin: new Date("Sun Feb 01 2015 03:40:00 GMT+0100 (CET)")}
-										   ]
-										 },
-										 {
-										  id: 2,
-										  periodes: 
-										   [ { duration: 20,
-										       begin: new Date("Sun Feb 01 2015 04:40:00 GMT+0100 (CET)")}
-										   ]
-										 },
-										 {
-										  id: 3,
-										  periodes: 
-										   [ { duration: 10,
-										       begin: new Date("Sun Feb 01 2015 05:20:00 GMT+0100 (CET)")}
-										   ]
-										 },
-										 {
-										  id: 4,
-										  periodes: 
-										   [ { duration: 19,
-										       begin: new Date("Sun Feb 01 2015 06:00:00 GMT+0100 (CET)")  } 
-										   ] 
-										 }
-										])
+					// 					 {
+					// 					  id: 1,
+					// 					  periodes: 
+					// 					   [ { duration: 60,
+					// 					       begin: new Date("Sun Feb 01 2015 03:40:00 GMT+0100 (CET)")}
+					// 					   ]
+					// 					 },
+					// 					 {
+					// 					  id: 2,
+					// 					  periodes: 
+					// 					   [ { duration: 20,
+					// 					       begin: new Date("Sun Feb 01 2015 04:40:00 GMT+0100 (CET)")}
+					// 					   ]
+					// 					 },
+					// 					 {
+					// 					  id: 3,
+					// 					  periodes: 
+					// 					   [ { duration: 10,
+					// 					       begin: new Date("Sun Feb 01 2015 05:20:00 GMT+0100 (CET)")}
+					// 					   ]
+					// 					 },
+					// 					 {
+					// 					  id: 4,
+					// 					  periodes: 
+					// 					   [ { duration: 19,
+					// 					       begin: new Date("Sun Feb 01 2015 06:00:00 GMT+0100 (CET)")  } 
+					// 					   ] 
+					// 					 }
+					// 					]
+					// 					)
 
 					for (var i =0; i < workflow.paths.length; i++){
 
@@ -222,7 +253,7 @@ module.exports = {
 
 							}
 
-							console.log(ae);
+							//console.log(ae);
 
 							var res2=arrangeTimeNew.whatTheFuck(ae);
 
