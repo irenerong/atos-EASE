@@ -18,6 +18,11 @@ module.exports = {
     //subtasks = params.array;
 
     //console.log(params);
+    subtasks.forEach(function(e,i,a){
+      Agent.findOne(e.agentID).exec(function(err, agent){
+        agent.updateNonDispo(e.beginTime,e.duration);
+      })
+    })
    
     Workflow.create({metaworkflow : params.metaworkflow, consumption : params.consumption, duration : params.duration}).exec(
       function(err, workflow){

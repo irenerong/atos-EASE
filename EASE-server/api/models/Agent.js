@@ -16,6 +16,30 @@ module.exports = {
   	agentType : {
   		type: 'string'
   	}, 
+    agentNonDispo : {
+      type : 'array',
+      defaultsTo : [] 
+
+    },
+    updateNonDispo : function(begin, duration){
+      var tmp = []
+      var ele = {}
+      ele.duration = duration
+      ele.begin = begin
+      if(this.agentNonDispo == null)
+        {tmp.push(ele);
+        //console.log(tmp);
+        }
+
+      else
+        {tmp = this.agentNonDispo;
+        tmp.push(ele)
+       
+        }
+      
+      Agent.update(this.id,{agentNonDispo:tmp}).exec(function(err,agent){if (err){res.json({'err':err})}} );
+
+    },
 
   	subTasksForTask : function(task, cb) {
 

@@ -33,7 +33,7 @@ module.exports = {
 		function(workflows,cb){
 
 			//console.log('req.session'+req.session.generatedWorkflows);
-			res.json({"workflows":workflows[1].array});
+			res.json({"workflows":workflows});
 			cb();
 
 

@@ -20,7 +20,7 @@ module.exports = {
   	}, 
 
   	startDate: {
-  		type: 'date'
+  		type: 'datetime'
   	}, 
 
   	delay: {
