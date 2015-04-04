@@ -91,23 +91,25 @@
     [self.dismissButton setTitle:@"Dismiss" forState:UIControlStateNormal];
      */
     
+    self.progressBar.trackTintColor = [UIColor colorWithWhite:230/255. alpha:1.];
     
     
-    
+    self.progressBar.type = YLProgressBarTypeFlat;
+    self.progressBar.hideStripes = YES;
+    self.progressBar.hideGloss = YES;
+
 }
 
 -(void)update
 {
-    NSArray *colors = @[[UIColor colorWithRed:44/255.0 green:218/255.0 blue:252/255.0 alpha:1.0], [UIColor colorWithRed:28/255.0 green:253/255.0 blue:171/255.0 alpha:1.0], [UIColor colorWithRed:252/255.0 green:200/255.0 blue:53/255.0 alpha:1.0], [UIColor colorWithRed:253/255.0 green:101/255.0 blue:107/255.0 alpha:1.0], [UIColor colorWithRed:254/255.0 green:100/255.0 blue:192/255.0 alpha:1.0]];
+   
+    UIColor *color = self.taskNotification.color;
     
-    
-    UIColor *color = colors[arc4random()%5];
-    
+    self.progressBar.progressTintColors = @[color, color];
     
     self.beginLabel.textColor = [UIColor colorWithWhite:180/255. alpha:1.0];
     self.endLabel.textColor = [UIColor colorWithWhite:180/255. alpha:1.0];
     
-    self.buttonsBackgroundView.backgroundColor = [color colorWithAlphaComponent:0.8];
     
     self.agentNameBackgroundView.backgroundColor = color;
     
@@ -124,33 +126,10 @@
     {
         self.statusLabel.text = [NSString stringWithFormat:@"%@ (%d%%)", self.taskNotification.status, (int)(100*self.taskNotification.completionPercentage)];
         self.endLabel.textColor = color;
-
+        [self.progressBar setProgress: self.taskNotification.completionPercentage animated:NO];
 
     }
 
-    
-    for (UIButton *button in buttons)
-        [button removeFromSuperview];
-    
-    [buttons removeAllObjects];
-    
-    UIButton *button = [[UIButton alloc] initWithFrame:CGRectMake(0, 3, self.frame.size.width, self.buttonsBackgroundView.frame.size.height-3)];
-    [button addTarget:self action:@selector(didTapCenterButton:) forControlEvents:UIControlEventTouchUpInside];
-    
-    [button setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
-    //[button setTitleColor:[UIColor blackColor] forState:UIControlStateHighlighted];
-    button.titleLabel.font = [UIFont fontWithName:@"HelveticaNeue-Bold" size:18];
-
-    
-    if (_taskNotification.class == EAPendingTask.class)
-        [button setTitle:@"Start" forState:UIControlStateNormal];
-    
-    else if (_taskNotification.class == EAWorkingTask.class)
-        [button setTitle:@"Done" forState:UIControlStateNormal];
-
-    
-    [self.buttonsBackgroundView addSubview:button];
-    [buttons addObject:button];
     
 }
 
@@ -161,21 +140,6 @@
     
     
     [self update];
-}
-
--(void)didTapLeftButton:(UIButton*)leftButton
-{
-    [_delegate taskCellDidTapLeftButton:self];
-}
-
--(void)didTapRightButton:(UIButton*)rightButton
-{
-    [_delegate taskCellDidTapRightButton:self];
-}
-
--(void)didTapCenterButton:(UIButton*)centerButton
-{
-    [_delegate taskCellDidTapCenterButton:self];
 }
 
 

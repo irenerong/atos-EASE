@@ -27,4 +27,8 @@
 @property (weak, nonatomic) IBOutlet UILabel *agentsNumberLabel;
 @property (weak, nonatomic) IBOutlet UIView *separatorView;
 
+@property (weak, nonatomic) IBOutlet UIButton *buyButton;
+
+
+
 @end

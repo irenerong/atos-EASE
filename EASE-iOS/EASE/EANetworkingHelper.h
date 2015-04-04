@@ -33,9 +33,12 @@ extern NSString* const EAWorkingTaskUpdate;
 @interface EANetworkingHelper : NSObject <WitDelegate>
 {
     EAWorkflow *workflowTest;
+    NSArray *colors;
 }
 
 @property(nonatomic, weak) id <EANetworkingHelperDelegate> delegate;
+
+@property(nonatomic, readonly) NSMutableArray *currentWorkflows;
 
 @property(nonatomic, readonly) NSMutableArray *pendingTasks;
 
@@ -66,6 +69,8 @@ extern NSString* const EAWorkingTaskUpdate;
 -(void)validateWorkflow:(EAWorkflow*)workflow completionBlock:(void (^)  (NSError *error) )completionBlock;
 
 -(void)tasksAtDay:(NSDate*)date completionBlock:(void (^) (NSArray *tasks)) completionBlock;
+
+-(void)workflowsAtDay:(NSDate*)date completionBlock:(void (^) (NSArray *workflows)) completionBlock;
 
 //EASE NOTIFICATIONS
 

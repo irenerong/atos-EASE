@@ -56,7 +56,7 @@
 }
 
 -(NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-    return 5;
+    return 4;
 }
 
 -(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
@@ -66,7 +66,7 @@
 -(UITableViewCell*)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     
     
-    NSArray *menuItems = @[@"New Workflow", @"Dashboard", @"Calendar", @"Settings",@"Log Out"];
+    NSArray *menuItems = @[@"New Workflow", @"Dashboard", @"Calendar", @"Tasks"];
     UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"cell"];
     
     cell.backgroundColor = [UIColor clearColor];

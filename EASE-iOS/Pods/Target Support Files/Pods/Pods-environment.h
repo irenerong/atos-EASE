@@ -48,6 +48,12 @@
 #define COCOAPODS_VERSION_MINOR_AFNetworking_UIKit 5
 #define COCOAPODS_VERSION_PATCH_AFNetworking_UIKit 1
 
+// JTCalendar
+#define COCOAPODS_POD_AVAILABLE_JTCalendar
+#define COCOAPODS_VERSION_MAJOR_JTCalendar 1
+#define COCOAPODS_VERSION_MINOR_JTCalendar 2
+#define COCOAPODS_VERSION_PATCH_JTCalendar 1
+
 // M13ProgressSuite
 #define COCOAPODS_POD_AVAILABLE_M13ProgressSuite
 #define COCOAPODS_VERSION_MAJOR_M13ProgressSuite 1
@@ -77,6 +83,12 @@
 #define COCOAPODS_VERSION_MAJOR_MarqueeLabel 1
 #define COCOAPODS_VERSION_MINOR_MarqueeLabel 5
 #define COCOAPODS_VERSION_PATCH_MarqueeLabel 0
+
+// Masonry
+#define COCOAPODS_POD_AVAILABLE_Masonry
+#define COCOAPODS_VERSION_MAJOR_Masonry 0
+#define COCOAPODS_VERSION_MINOR_Masonry 6
+#define COCOAPODS_VERSION_PATCH_Masonry 1
 
 // RESideMenu
 #define COCOAPODS_POD_AVAILABLE_RESideMenu

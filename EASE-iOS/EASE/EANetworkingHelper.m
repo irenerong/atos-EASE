@@ -64,7 +64,6 @@ NSString* const EAWorkingTaskUpdate = @"EAWorkingTaskUpdate";
 
 
 
- 
 
 + (EANetworkingHelper *)sharedHelper
 {
@@ -84,6 +83,9 @@ NSString* const EAWorkingTaskUpdate = @"EAWorkingTaskUpdate";
     if (self = [super init])
     {
         
+        colors = @[[UIColor colorWithRed:44/255.0 green:218/255.0 blue:252/255.0 alpha:1.0], [UIColor colorWithRed:28/255.0 green:253/255.0 blue:171/255.0 alpha:1.0], [UIColor colorWithRed:252/255.0 green:200/255.0 blue:53/255.0 alpha:1.0], [UIColor colorWithRed:253/255.0 green:101/255.0 blue:107/255.0 alpha:1.0], [UIColor colorWithRed:254/255.0 green:100/255.0 blue:192/255.0 alpha:1.0]];
+
+        
         _pendingTasks = [NSMutableArray array];
         _workingTasks = [NSMutableArray array];
         _completedTasks = [NSMutableArray array];
@@ -97,7 +99,7 @@ NSString* const EAWorkingTaskUpdate = @"EAWorkingTaskUpdate";
         
         self.witServerManager.responseSerializer = [AFJSONResponseSerializer serializer];
 
-        [NSTimer scheduledTimerWithTimeInterval:3 target:self selector:@selector(receivedPendingTask) userInfo:nil repeats:true];
+        [NSTimer scheduledTimerWithTimeInterval:10 target:self selector:@selector(receivedPendingTask) userInfo:nil repeats:true];
 
         self.displayNotificationPopup = true;
         
@@ -107,6 +109,8 @@ NSString* const EAWorkingTaskUpdate = @"EAWorkingTaskUpdate";
 }
 
 #pragma mark - WIT
+
+
 
 -(void)witProcessed:(NSString*)string completionBlock:(void (^)(NSDictionary*, NSError*))completionBlock
 {
@@ -246,13 +250,26 @@ NSString* const EAWorkingTaskUpdate = @"EAWorkingTaskUpdate";
         workflowTest.title = @"Poulet au curry";
         workflowTest.sortTag = @"Hour";
         
+        EAAgent *agent = [[EAAgent alloc] init];
+        agent.type = @"Micro Wave";
+        agent.name = @"Philips Micro Wave";
+        agent.available = YES;
+        
+        workflowTest.agents = @[agent, agent];
+        
+        EAIngredient *ingredient = [[EAIngredient alloc] init];
+        ingredient.name = @"Poulet";
+        ingredient.quantity = @"500g";
+        ingredient.available = YES;
+        
+        workflowTest.ingredients = @[ingredient, ingredient];
+        
         completionBlock(100, @[workflowTest,workflowTest,workflowTest,workflowTest], nil);
     });
     
     dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(2 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
         
-        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Time to start" message:@"Plop" delegate:nil cancelButtonTitle:@"OK" otherButtonTitles: nil];
-        [alert show];
+       
     });
 }
 
@@ -406,6 +423,70 @@ NSString* const EAWorkingTaskUpdate = @"EAWorkingTaskUpdate";
 
 }
 
+-(void)workflowsAtDay:(NSDate*)date completionBlock:(void (^) (NSArray *workflows)) completionBlock
+{
+    
+    EADateInterval *dateInterval;
+    
+    EATask *task1 = [EATask new];
+    task1.title = @"Préparer le poulet";
+    task1.taskDescription = @"Task1 - Description";
+    dateInterval = [EADateInterval new];
+    dateInterval.startDate = [NSDate date];
+    dateInterval.endDate = [NSDate dateWithTimeIntervalSinceNow:10*60];
+    task1.dateInterval = dateInterval;
+    task1.workflow = workflowTest;
+    
+    EATask *task2 = [EATask new];
+    task2.title = @"Task2";
+    task2.taskDescription = @"Task2 - Description";
+    dateInterval = [EADateInterval new];
+    dateInterval.startDate = [NSDate dateWithTimeIntervalSinceNow:10*60];
+    dateInterval.endDate = [NSDate dateWithTimeIntervalSinceNow:30*60];
+    task2.dateInterval = dateInterval;
+    task2.workflow = workflowTest;
+    
+    EATask *task3 = [EATask new];
+    task3.title = @"Task3";
+    task3.taskDescription = @"Task3 - Description";
+    dateInterval = [EADateInterval new];
+    dateInterval.startDate = [NSDate dateWithTimeIntervalSinceNow:30*60];
+    dateInterval.endDate = [NSDate dateWithTimeIntervalSinceNow:70*60];
+    task3.dateInterval = dateInterval;
+    task3.workflow = workflowTest;
+    
+    EATask *task4 = [EATask new];
+    task4.title = @"Task4";
+    task4.taskDescription = @"Task4 - Description";
+    dateInterval = [EADateInterval new];
+    dateInterval.startDate = [NSDate dateWithTimeIntervalSinceNow:75*60];
+    dateInterval.endDate = [NSDate dateWithTimeIntervalSinceNow:100*60];
+    task4.dateInterval = dateInterval;
+    task4.workflow = workflowTest;
+    
+    EATask *task5 = [EATask new];
+    task5.title = @"Cuire le poulet";
+    task5.taskDescription = @"Task5 - Description";
+    dateInterval = [EADateInterval new];
+    dateInterval.startDate = [NSDate dateWithTimeIntervalSinceNow:25*60];
+    dateInterval.endDate = [NSDate dateWithTimeIntervalSinceNow:45*60];
+    task5.dateInterval = dateInterval;
+    task5.workflow = workflowTest;
+    
+    workflowTest = [[EAWorkflow alloc] init];
+    workflowTest.title = @"Poulet au Curry";
+    workflowTest.tasks = @[task1, task2, task3, task4, task5];
+    workflowTest.color = colors[arc4random()%5];
+    
+    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(1.0 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+        
+        
+        
+        completionBlock( [NSArray arrayWithObjects:workflowTest, nil]);
+    });
+    
+}
+
 #pragma mark - Notifications
 
 -(void)receivedPendingTask {
@@ -414,9 +495,17 @@ NSString* const EAWorkingTaskUpdate = @"EAWorkingTaskUpdate";
     //if (!workflowTest || !workflowTest.tasks || ! workflowTest.tasks.count)
       //  return;
     
+    
+    
+
+    
     EAPendingTask *pendingTask = [EAPendingTask new];
     pendingTask.alertMessage = @"Check up the oven !";
    // pendingTask.task = workflowTest.tasks[arc4random()%workflowTest.tasks.count];
+    
+    
+    pendingTask.color = colors[arc4random()%5];
+    
     
     [self.pendingTasks addObject:pendingTask];
     
@@ -469,6 +558,7 @@ NSString* const EAWorkingTaskUpdate = @"EAWorkingTaskUpdate";
         [self.pendingTasks removeObject:task];
         EAWorkingTask *workingTask = [EAWorkingTask new];
         workingTask.status = @"Cooking";
+        workingTask.color = task.color;
         
         
         [self receivedWorkingTask:workingTask];

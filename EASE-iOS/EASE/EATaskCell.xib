@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="6254" systemVersion="14A386b" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="6751" systemVersion="14A386b" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES">
     <dependencies>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="6247"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="6736"/>
         <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
     </dependencies>
     <objects>
@@ -104,7 +104,7 @@
                                     <constraint firstAttribute="width" constant="84" id="8px-J7-f3s"/>
                                 </constraints>
                                 <fontDescription key="fontDescription" name="HelveticaNeue" family="Helvetica Neue" pointSize="13"/>
-                                <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                 <nil key="highlightedColor"/>
                             </label>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="1:40pm" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="iXs-tI-FNt">
@@ -114,7 +114,7 @@
                                     <constraint firstAttribute="width" constant="71" id="im8-Rj-uyy"/>
                                 </constraints>
                                 <fontDescription key="fontDescription" name="HelveticaNeue" family="Helvetica Neue" pointSize="13"/>
-                                <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                 <nil key="highlightedColor"/>
                             </label>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="UUe-T6-QfV">
@@ -134,7 +134,7 @@
                                             </mask>
                                         </variation>
                                     </label>
-                                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="g9e-r5-4JO">
+                                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="g9e-r5-4JO" customClass="YLProgressBar">
                                         <rect key="frame" x="8" y="38" width="142" height="2"/>
                                         <color key="backgroundColor" red="0.90364583330000003" green="0.90364583330000003" blue="0.90364583330000003" alpha="1" colorSpace="calibratedRGB"/>
                                         <constraints>
@@ -199,6 +199,7 @@
                 <outlet property="dateBackgroundView" destination="OcP-dP-EEp" id="Vn9-ex-PSU"/>
                 <outlet property="endLabel" destination="iXs-tI-FNt" id="HnC-hI-CIR"/>
                 <outlet property="labelsBackgroundView" destination="zaN-1Y-Ja8" id="U3O-Xr-MIM"/>
+                <outlet property="progressBar" destination="g9e-r5-4JO" id="ddt-fX-eMw"/>
                 <outlet property="statusLabel" destination="evw-hW-9qm" id="vvi-Zf-eBN"/>
                 <outlet property="timeStatusLabel" destination="Mbi-cF-fKx" id="zoh-zG-D72"/>
                 <outlet property="topBackgroundView" destination="dLx-k0-GJp" id="YiG-pS-TlE"/>
