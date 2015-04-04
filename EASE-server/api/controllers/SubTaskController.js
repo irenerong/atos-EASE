@@ -11,6 +11,23 @@ module.exports = {
 	reset: function (req, res) {
 		SubTask.destroy({}).exec(function (err) {res.status(200), res.json("ok")})
 
-	}
-};
+	},
+	start : function (req, res) {
+		params = req.params.all();
 
+		if (req.isSocket && req.method === 'POST'){
+
+			console.log("socket received");
+
+			SubTask.findOne(params.SubTaskID).exec(function (err,subtask) {
+
+				console.log(subtask.id);
+
+				SubTask.subscribe(req.socket,subtask,['update']);
+
+				subtask.start();
+			})
+		}
+	}
+
+};

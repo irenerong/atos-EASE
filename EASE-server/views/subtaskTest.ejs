@@ -1,0 +1,48 @@
+<script src="http://localhost:1337/socket.io/socket.io.js"></script>
+<script type="text/javascript">
+var staskID = 0
+console.log('we are in subtaskTest page')
+window.onload = function Listen(){
+
+    socket=io.connect();
+    console.log('Connecting Socket.io to Sails.js...');
+    // listen to connect and start to listen subtask
+    socket.on('connect', function socketConnected() {
+      typeof console !== 'undefined' &&
+      console.log(
+        'Socket is now connected and globally accessible as `socket`.\n' +
+        'e.g. to send a GET request to Sails via Socket.io, try: \n' +
+        '`socket.get("/foo", function (response) { console.log(response); })`'
+      );
+
+    // Listen for the event called 'user'
+        socket.on('subtask',function(obj){
+          if (obj.verb == 'updated') {
+            var previous = obj.previous;
+            var data = obj.data;
+            console.log('User '+previous.name+' has been updated to '+data.name);
+          }
+        });
+    });
+};
+
+function start(){
+
+    // Send the ID to the start action on the 'Subtask' contoller
+
+    socket.post('/subtask/start/',{SubTaskID:staskID});
+}
+
+function create() {
+	// create a new subtask and subscribe user to this subtask
+
+	socket.post('/subtask/create',{agent:oven, duration:30},function (newst) {
+		staskID=newst.id
+	});
+}
+
+</script>
+<div class="addButton" onClick="start()">Click Me to start a task! </div>
+<div class='container'>
+    <a class="btn btn-medium btn-primary" onClick="start()">Click Me to start a task!</a>
+</div>

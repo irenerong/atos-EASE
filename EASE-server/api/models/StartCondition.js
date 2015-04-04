@@ -15,15 +15,16 @@ module.exports = {
 
   	waitFor: {
   		collection: 'SubTask', 
-  		via: 'nextStartConditions'
+  		via: 'nextStartConditions',
+      dominant: true
   	}, 
 
   	startDate: {
-  		type: 'date'
+  		type: 'datetime'
   	}, 
 
   	delay: {
-  		type: 'time'
+  		type: 'integer'
   	}, 
 
   	conditionsMet: function(cb) {

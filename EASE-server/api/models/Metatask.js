@@ -29,6 +29,10 @@ module.exports = {
   	action: {
   		type: 'json'
   	},
+
+    waitFor: {
+      type :'array'
+    },
    
 
     afterCreate: function (metatask, cb) {

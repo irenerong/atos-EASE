@@ -32,9 +32,14 @@ module.exports.routes = {
   *                                                                          *
   ***************************************************************************/
 
-  '/': {
+/*  '/': {
     view: 'homepage'
   },
+  'get /subtask/subtaskTest' :{
+    view: 'subtaskTest'
+  }*/
+
+  // add index.html in asset instead
 
 
   /***************************************************************************
