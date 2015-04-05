@@ -10,7 +10,7 @@ module.exports = Arrangement;
 /** 
  * Initialization with the constraint and timetable of agents(list of periodes not available)
  * @Param constraint Constraint given by the user, containing the temporal constraints of a work flow
- * @Param agentsNonDispo Containing the periodes not avaibles of each agent. See its structure in ArrangeTimeExample 
+ * @Param agentsNonDispo Containing the periodes not avaibles of each agent. See its structure in ArrangeTimeExample.js 
  * /
 Arrangement.init = function(constraint, agentsNonDispo){
 	this.constraint = constraint;
@@ -72,41 +72,55 @@ Arrangement.whatTheFuck = function(subtasks2){
 	return subtasks;
 }
 
+/**
+ * This function will arrange time to the subtasks
+ * @Param arrangeElements Containing the information of subtasks waiting to be given a start time
+ * @Return res See @return in function arrangeTimeNonDispo
+ * /
 Arrangement.arrange = function(arrangeElements){
-	//res is an array containing the returned information: couples like <subTaskID, beginTime>
 	var res = {};
-	var margin = 15; // A default margin(in advance or a delay according to the "type")
+	var margin = 15; // A default margin(in advance or a delay according to the "type", unit minute)
 	var compatible = false;
-	var coef1 = 0; // 0 if "at", -1 if "before" and 1 if "after"
-	var coef2 = 0; // 0 if "Begin", 1 if "Finish"
+	var coef1 = 0; // 0 if "at", -1 if "before" and 1 if "after" according to the constraints
+	var coef2 = 0; // 0 if "Begin", 1 if "Finish" according to the constraints
 	var length = arrangeElements.length;
 	var comflit = [];
-	var be;;
+	//var be;
 	var message = "";
 	var sortedTasks;
+	
 	//By default, coef2 = 0
-	if(this.constraint.type == 1) // If Finish
+	if(this.constraint.type == 1) // If "Finish"
 		coef2 = 1;
 
 	//By default, coef1 = 0
-	if(this.constraint.option == 0)// if Before
+	if(this.constraint.option == 0)// if "Before"
 		coef1 = -1;
 	else
-		if(this.constraint.option == 1)// If after
+		if(this.constraint.option == 1)// If "After"
 			coef1 = 1;
 
-	//Gets workflow's duration
-	sortedTasks = sortTasks(arrangeElements);
+
+	// Sorts the subtasks  See function sortTasks
+	sortedTasks = sortTasks(arrangeElements); 
+	
+	// Gets workflow's duration
 	wfDuration = getDuration(sortedTasks);
-	//Begin time of work flow 
+	
+	// Begin time of work flow 
 	var beginWF = new Date(this.constraint.time);
+	// Sets minutes of the begin time according to the constraints
 	beginWF.setMinutes(beginWF.getMinutes() - coef2 * wfDuration + coef1 * margin);
 	
+	// Arrange time
 	res = arrangeTimeNonDispo(sortedTasks, beginWF, this.agentsNonDispo)
+	
+	// If every subtasks receives a begin time. See @return of function arrangeTimeNonDispo
 	if(res.array.length == length){
 		return res;
 	}
 	else{
+		// TODO:
 		// copy.forEach(function(e,i,a){
 		// 	if(res.indexOf(e.subTask) == -1)
 		// 		comflit.push(e.subTask);
@@ -130,7 +144,9 @@ Arrangement.arrange = function(arrangeElements){
 	}
 	
 };
-
+/**
+ * Gets the duration of the work flow
+ * /
 function getDuration(arrangeElements){
 	var arrangeElements2 = JSON.parse(JSON.stringify(arrangeElements));
 	var tmpTime;
@@ -162,11 +178,17 @@ function salut(){
 	console.log("salut")
 }
 
+/**
+ * Arrange times
+ * @Param arrangeElements Containing information of subtasks
+ * @Param time Begin time of the work flow
+ * @Param agentsNonDispo Periodes not available of all agents. More information of its structure, see arrangeTimeExample.js
 function arrangeTimeNonDispo(arrangeElements, time, agentsNonDispo){
+	// Copy the arrange elements
 	var arrangeElements2 = JSON.parse(JSON.stringify(arrangeElements));
 	var decision = {}; decision.array = []; decision.duration = 0;
 	var agentTimeTable;
-	var possibleTime = []; // Possible begin times 
+	var possibleTime = []; // Possible begin times (for now, we use only the first one)
 	var finishTime = []; // Finish time of predecessors
 	var tmpFinish;
 	var nextBegin;
@@ -176,36 +198,35 @@ function arrangeTimeNonDispo(arrangeElements, time, agentsNonDispo){
 	var count;
 	var beginWF = 0;
 	var endWF = 0;
+	
+	// For each arrangeElements
 	for (var i = 0; i <= arrangeElements2.length - 1; i++) {
 		e = arrangeElements2[i];
-		agentTimeTable = agentsNonDispo.filter(function(e1,i1,a1){if(e1.id == e.agentID) return true; return false;})[0] // Finds the agent doing this task and gets his time table
+		
+		// Finds the agent doing this task and gets his time table
+		agentTimeTable = agentsNonDispo.filter(function(e1,i1,a1){if(e1.id == e.agentID) return true; return false;})[0]; 
+		
 		possibleTime = []; // Possible begin times 
 		finishTime = []; // Finish time of predecessors		
 		if(e.predecessor.length == 0){
 			count = 0;
+			// tmpFinish is the finish time of this subtask
 			tmpFinish = new Date(time);
 			tmpFinish.setMinutes(tmpFinish.getMinutes() + e.duration);
+			// For all the periodes not available for a given agent
 			agentTimeTable.periodes.forEach(function(e2,i2,a2){
 				tmpTime = new Date(e2.begin);
 				tmpTime.setMinutes(tmpTime.getMinutes()+e2.duration)	
 				if(tmpFinish < e2.begin || time > tmpTime)
 					count++;
 			});
-			// agentsNonDispo.periodes.forEach(function(e,i,a){
-			// 	if(time < e.begin || time > e.begin + e.duration)
-			// 		count ++;
-			// });
-			// if(count == agentsNonDispo.length){
-			// 	count = 0;
-			// 	tmpTime = new Date(time);
-			// 	tmpFinish = tmpTime.setMinutes(tmpTime.getMinutes() + e.duration);
-			// 	agentsNonDispo.forEach(function(e,i,a){
-			// 		if(( tmpFinish > e.begin + e.duration || tmpFinish < e.begin) && e.duration )
-			// 			count++;
-			// 	});
+			// If this subtask is compatible with all other subtasks waiting to be done by this agent
 			if(count == agentTimeTable.periodes.length){
+				// It could start at time "time"
 				e.beginTime = time;
 				possibleTime.push(time);
+				
+				//Updates the earliest begin time of the work flow in order to calculate the duration of the work flow
 				if(beginWF == 0){
 					beginWF = e.beginTime;
 				}
@@ -219,13 +240,17 @@ function arrangeTimeNonDispo(arrangeElements, time, agentsNonDispo){
 			}
 		}
 		else{
+			// Nearly the same thing to those in "if", but for the subtasks who have predecessors,
+			// we should calculate the latest finish time of his predecessors as his begin time
 			count = 0;
 			finishTime.length = 0;
+			// For each predecessor
 			getPreds(e, arrangeElements2).forEach(function(e3,i3,a3){ 
 				tmpTime = new Date(e3.beginTime);
 				tmpTime.setMinutes(tmpTime.getMinutes() + e3.duration);
 				finishTime.push(tmpTime);
 			});
+			// Gets the latest finish time
 			tmpFinish = new Date(Math.max.apply(null,finishTime));
 			tmpFinish.setMinutes(tmpFinish.getMinutes()+ defaultMargin);
 			nextBegin = tmpFinish;
@@ -250,13 +275,12 @@ function arrangeTimeNonDispo(arrangeElements, time, agentsNonDispo){
 				}
 			}
 			else{
-				console.log(e.subTask + " not possible "+ count+" time :" + nextBegin)
+				// console.log(e.subTask + " not possible "+ count+" time :" + nextBegin)
 				break;
 			}
 		}
 		if(possibleTime.length > 0){
-			//decision.push(new ReturnElement(e.subTask, possibleTime[0]));
-				decision.array.push(e);
+			decision.array.push(e);
 		}		
 		else{
 			break;
@@ -267,20 +291,26 @@ function arrangeTimeNonDispo(arrangeElements, time, agentsNonDispo){
 	return decision;
 };
 
+/**
+ * This function sorts the subtasks in order that when we go through the list to arrange time, we are sure of having 
+ * finished all his predecessors before traiting a subtask.
+ * /
 function sortTasks(arrangeElements){
 	var length = arrangeElements.length;
 	var res = [];
 	var predsDone = true;
 	var preds = [];
+	
+	// For each iteration, we go through the rest terms in arrangeElements to check if some of them could be added in to "res"
 	while(res.length != length){
 		arrangeElements.forEach(function(e,i,a){
 			predsDone = true;
 			if(getPreds(e, arrangeElements).length == 0){
 				res.push(e); // Push it into the final array
-				arrangeElements.splice(arrangeElements.indexOf(e),1);
+				arrangeElements.splice(arrangeElements.indexOf(e),1); // Remove this element from arrangeElements
 			}
 			else{
-				preds = getPreds(e,arrangeElements);
+				preds = getPreds(e, arrangeElements);
 				for (var i = preds.length - 1; i >= 0; i--) {
 					if(preds[i].beginTime == 0){
 						predsDone = false;
@@ -298,6 +328,11 @@ function sortTasks(arrangeElements){
 	return res;
 }; 
 
+/**
+ * Gets the predecessors of a subtask
+ * @Param subTask The current subtask
+ * @Param arrangeElements Containing all the subtasks
+ * /
 function getPreds(subTask, arrangeElements){
 	var preds = new Array();
 	for (var i = arrangeElements.length - 1; i >= 0; i--) {
@@ -306,6 +341,8 @@ function getPreds(subTask, arrangeElements){
 	}
 	return preds;
 };
+
+
 var ReturnElement = function(subTask, beginTime){
 	this.subTask = subTask;
 	this.beginTime = beginTime;
