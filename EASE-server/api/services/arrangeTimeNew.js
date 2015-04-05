@@ -1,58 +1,74 @@
+/**
+ * Constructor
+ * /
 var Arrangement = function(){
 }
+
+// Optional, because all in "services" is available through the project
 module.exports = Arrangement;
-//Initialization with the constraint and timetable of agents
+
+/** 
+ * Initialization with the constraint and timetable of agents(list of periodes not available)
+ * @Param constraint Constraint given by the user, containing the temporal constraints of a work flow
+ * @Param agentsNonDispo Containing the periodes not avaibles of each agent. See its structure in ArrangeTimeExample 
+ * /
 Arrangement.init = function(constraint, agentsNonDispo){
 	this.constraint = constraint;
 	this.agentsNonDispo = agentsNonDispo;
 }
+
+/**
+ * This function is called after the decomposition of tasks to subtasks. Attention, as here the information
+ * of "predecessors" in a subtask is no longer correct, we need to modify them according
+ * to the dependencies between them, more exactly, modify the attribut "predecessors" of subtasks. 
+ * If the ID of two subtasks has the same first number, this means that
+ * they are to be done by a same agent. But here, all the subtasks coming from one same task 
+ * have still the same predecessor as if they are a task,
+ * for example, subtask22 and subtask21 have both as predecessor task 1(because before decomposition
+ * task2's predecesssor is task1). Attention: here the second number of ID of all subtasks starts from 1, like subtask11,subtask12,subtask21,subtask22,subtask23
+ * if the second number of ID is "1", it is surely the first subtask of the corresponding task
+ * Here after modifications, we should have for example :
+ * subtask 12 should wait the end of subtask 11,  subtask 21 wait subtask 12(last subtask of task1) etc.
+ * @Param subtasks2 Subtasks need to deal with
+ * @return subtasks Subtasks after modification
+ * /
 Arrangement.whatTheFuck = function(subtasks2){
-
-	//console.log(subtasks);
+	// Copy the subtasks
 	var subtasks = JSON.parse(JSON.stringify(subtasks2));
-
-
-	var res = [];
-	var tmp;
 	var max = 0;
-	// var nbBytes = 0;
+	
+	// For each subtask
 	subtasks.forEach(function(e,i,a){
-		// nbBytes = 0;
-		// while(e.subTask/10 > 0){
-		// 	nbBytes ++;
-		// }
+		//If this subtask has no predecessor
 		if(e.predecessor.length == 0){
-			if(e.subTask % (10) != 1){
-				e.predecessor.push(e.subTask - 1)
+			// If this is not the first subtask of the task
+			if(e.subTask % (10) != 1){  // e.subTask is the ID of this subtask
+				e.predecessor.push(e.subTask - 1)  // His predecessor is the last subtask, for example, subtask13's predecessor is subtask12
 			}
 		}
-		else{
-			if(e.subTask % 10 == 1){
-
+		else{ // If this subtask has predecessor(s)
+			//If this is the first subtask
+			if(e.subTask % 10 == 1){ 
+				// For each of his predecesssors
 				e.predecessor.forEach(function(e3,i3,a3){
-					max = 0;
+					max = 0; // Remember the last subtask of his predecessor
+					// Remplace the old predecessor(task) by the new predecessor(last subtask of the task)
 					subtasks.forEach(function(e2,i2,a2){
 						if(e3 == Math.floor(e2.subTask/10)){
 							if(e2.subTask % 10 > max){
-								// tmp = e2.subTask;
 								e.predecessor.splice(i3,1, e2.subTask);
-
 								max = e2.subTask % 10;
 							}
 						}
 					});
-					// e.predecessor.splice(i3,1, tmp);
 				});
 			}
-			else{
+			else{ // If not the first subtask, just put the last subtask in his list of predecessors
 				e.predecessor.length = 0;
 				e.predecessor.push(e.subTask - 1);
 			}
 		}	
-			
 	});
-
-	//console.log(subtasks);
 	return subtasks;
 }
 
