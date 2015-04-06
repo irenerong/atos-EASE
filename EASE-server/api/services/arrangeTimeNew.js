@@ -120,7 +120,7 @@ Arrangement.arrange = function(arrangeElements){
 	
 	// If every subtasks receives a begin time. See @return of function arrangeTimeNonDispo
 
-	if(res.array.length == length){
+	if(res.subtasks.length == length){
 		return res;
 	}
 	else{
@@ -216,7 +216,7 @@ function salut(){
 function arrangeTimeNonDispo(arrangeElements, time, agentsNonDispo){
 	// Copy the arrange elements
 	var arrangeElements2 = JSON.parse(JSON.stringify(arrangeElements));
-	var decision = {}; decision.array = []; decision.duration = 0;
+	var decision = {}; decision.subtasks = []; decision.duration = 0;
 	var agentTimeTable;
 	var possibleTime = []; // Possible begin times (for now, we use only the first one)
 	var finishTime = []; // Finish time of predecessors
@@ -310,7 +310,7 @@ function arrangeTimeNonDispo(arrangeElements, time, agentsNonDispo){
 			}
 		}
 		if(possibleTime.length > 0){
-			decision.array.push(e);
+			decision.subtasks.push(e);
 		}		
 		else{
 			break;
@@ -336,7 +336,7 @@ function sortTasks(arrangeElements){
 		arrangeElements.forEach(function(e,i,a){
 			predsDone = true;
 			if(getPreds(e, arrangeElements).length == 0){
-				res.push(e); // Push it into the final array
+				res.push(e); // Push it into the final subtasks
 				arrangeElements.splice(arrangeElements.indexOf(e),1); // Remove this element from arrangeElements
 			}
 			else{

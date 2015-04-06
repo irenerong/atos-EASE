@@ -26,6 +26,7 @@ module.exports = {
    
     Workflow.create({metaworkflow : params.metaworkflow, consumption : params.consumption, duration : params.duration}).exec(
       function(err, workflow){
+        if (err) {console.log(err)}
 
         console.log('workflow '+workflow.id+ 'has been generate');
 
