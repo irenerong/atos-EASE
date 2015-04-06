@@ -95,10 +95,11 @@ module.exports = {
 	workflow : Workflow,
 	task: Task,
 
-	generateWorkflows: function (metaworkflow, params) {
+	generateWorkflows: function (metaworkflow, params,fn) {
 
 		var generatedWorkflows = [];
 		var agentNondispo = [];
+		var flag =0// stop flag
 
 		async.waterfall(
 			[function (cb){
@@ -126,6 +127,7 @@ module.exports = {
 				)
 			},
 			function(cb){
+				
 				agentNondispo = [];
 					sails.models.agent.find().exec(
 						function(err,agents){
@@ -133,18 +135,23 @@ module.exports = {
 								if (e.agentNonDispo != null){
 								var tmp ={}
 								tmp = {id:e.id, periodes: e.agentNonDispo}
-								console.log(tmp);
+								//console.log(tmp);
 								agentNondispo.push(tmp);
-							}// if 
+								}// if 
+								else{
+									agentNondispo.push({id:e.id, periodes:[]});
+								}
 								
 							})
 							
 
 							
 						})
+					// cb(null);
 
 					setTimeout(
-								function(){console.log(agentNondispo);
+								function(){
+									//console.log(JSON.stringify(agentNondispo,null,4));
 
 										arrangeTimeNew.init({ type: 0,
 										  option: 1,
@@ -179,7 +186,6 @@ module.exports = {
 					// 					  option: 1,
 					// 					  time: new Date("Sun Feb 01 2015 2:00:00 GMT+0100 (CET)") 
 					// 					},
-					// 					agentNondispo
 
 					// 					[ 
 					// 					 { 
@@ -260,31 +266,25 @@ module.exports = {
 							//console.log(res2);
 
 							var res = arrangeTimeNew.arrange(res2);
-							res.consumption = 100;
-							res.metaworkflow = 25;
-							generatedWorkflows.push(res);// session = req.session passed by controller
-
-
-
-							// console.log(JSON.stringify(res));
+								// res.subtasks.forEach(function(e,i,a) {
+								//     res.consumption += e.consumption.CO2;
+								// }); // add up comsumption of each subtask
+							console.log("total consumption "+res.consumption);
+							res.metaworkflow = metaworkflow.title;
+							generatedWorkflows.push(res);
 					}
 					
+							fn(generatedWorkflows); // call back of controller
 
 
 					}
-
-				
-
-				
 
 		)
 
-
-	console.log(JSON.stringify(generatedWorkflows,null,4));
-
-	return generatedWorkflows;
-
-
+	// // console.log(JSON.stringify(generatedWorkflows,null,4));
+	// while(flag == 0)
+	// 	if(flag == 1)
+		  // return generatedWorkflows;
 	}
 }
 

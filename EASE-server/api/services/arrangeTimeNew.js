@@ -87,6 +87,7 @@ Arrangement.arrange = function(arrangeElements){
 	beginWF.setMinutes(beginWF.getMinutes() - coef2 * wfDuration + coef1 * margin);
 	
 	res = arrangeTimeNonDispo(sortedTasks, beginWF, this.agentsNonDispo)
+	res.consumption = getConsumption(sortedTasks);
 	if(res.array.length == length){
 		return res;
 	}
@@ -114,6 +115,23 @@ Arrangement.arrange = function(arrangeElements){
 	}
 	
 };
+
+function getConsumption(arrangeElements){
+	var arrangeElements2 = JSON.parse(JSON.stringify(arrangeElements));
+	var total=0;
+	arrangeElements2.forEach(function(e,i,a){
+		if (e.consumption.CO2!=null){
+				total+=e.consumption.CO2;
+
+		}else{
+				total+=e.consumption.WATER;
+
+		}
+	
+	})
+	return total;
+
+}
 
 function getDuration(arrangeElements){
 	var arrangeElements2 = JSON.parse(JSON.stringify(arrangeElements));

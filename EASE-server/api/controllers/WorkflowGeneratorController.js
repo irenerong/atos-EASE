@@ -14,7 +14,7 @@ module.exports = {
     var index = parseInt(req.body.index);
     //console.log(index);
     var params = req.session.generatedWorkflows[index];
-    var subtasks=req.session.generatedWorkflows[index].array;
+    var subtasks=req.session.generatedWorkflows[index].subtasks;
     //subtasks = params.array;
 
     //console.log(params);
@@ -145,9 +145,9 @@ module.exports = {
                     })}
                 ],function(err){}
            )// end asynwaterfall 2
-          }
+          },
 
-} ; 
+ } ; 
 
 
 
@@ -307,7 +307,7 @@ module.exports = {
 
 //     Metatask.create({idTask: metatask.idTask, metaworkflow: metaworkflowID, agentTypes: metatask.agentTypes, waitFor: metatask.waitFor})
 //       .exec(function(err, task) {
-//         cb()
+//         cb(null)
 //       });  //Create the metatask and link it to the metaworkflow
 //   },
 
