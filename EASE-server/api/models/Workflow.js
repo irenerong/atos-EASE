@@ -22,7 +22,7 @@ module.exports = {
 
 
   	generationParams: {
-  		type: 'json', 
+  		type: 'json'
   	},
 
     // tasks: {
@@ -42,6 +42,14 @@ module.exports = {
     ticket: {
       model: 'WorkflowGeneratorTicket'
     }, 
+
+    duration:{
+      type : 'integer'
+    },
+
+    consumption :{
+      type : 'float'
+    },
 
      
 
