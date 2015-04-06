@@ -519,6 +519,8 @@ NSString* const EAWorkingTaskUpdate = @"EAWorkingTaskUpdate";
     workflowTest.title = @"Poulet au Curry";
     workflowTest.tasks = @[task1, task2, task3, task4, task5];
     workflowTest.color = colors[arc4random()%5];
+    workflowTest.imageURL = [NSURL URLWithString:@"http://www.supermarchesmatch.fr/userfiles/images/Poulet%20au%20curry.jpg"];
+
     
     dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(1.0 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
         
