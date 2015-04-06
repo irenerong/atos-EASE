@@ -46,12 +46,13 @@
 
 @implementation EANetworkingHelper
 
- NSString* const witServerAdress = @"https://api.wit.ai/";
+ NSString* const witServerAddress = @"https://api.wit.ai/";
  NSString* const witHeader = @"Authorization";
 
 NSString* const witToken = @"Bearer Z6RAMHMFQLP6FG2KSPTT4F23XH5GK5L4";
 NSString* const witAPIVersion = @"20150212";
 
+NSString *const EASEServerAddress = @"http://localhost:1337/";
 
 
 
@@ -93,7 +94,7 @@ NSString* const EAWorkingTaskUpdate = @"EAWorkingTaskUpdate";
         [Wit sharedInstance].accessToken = @"Z6RAMHMFQLP6FG2KSPTT4F23XH5GK5L4";
         [Wit sharedInstance].delegate = self;
         
-        self.witServerManager = [[AFHTTPSessionManager alloc] initWithBaseURL:[NSURL URLWithString:witServerAdress]];
+        self.witServerManager = [[AFHTTPSessionManager alloc] initWithBaseURL:[NSURL URLWithString:witServerAddress]];
         self.witServerManager.requestSerializer = [AFJSONRequestSerializer serializer];
         [self.witServerManager.requestSerializer setValue:witToken forHTTPHeaderField:witHeader];
         
@@ -103,6 +104,7 @@ NSString* const EAWorkingTaskUpdate = @"EAWorkingTaskUpdate";
 
         self.displayNotificationPopup = true;
         
+        _currentUser = nil;
     }
     
     return self;
@@ -232,6 +234,46 @@ NSString* const EAWorkingTaskUpdate = @"EAWorkingTaskUpdate";
 -(void)witDidGraspIntent:(NSArray *)outcomes messageId:(NSString *)messageId customData:(id)customData error:(NSError *)e
 {
     NSLog(@"\n%@ \n%@ \n%@ \n%@", outcomes, messageId, customData, e);
+    
+}
+
+#pragma mark - Workflow Login
+
+
+-(void)loginWithUsername:(NSString*)username andPassword:(NSString*)password completionBlock:(void (^) (NSError *error) )completionBlock
+{
+    
+    
+    
+    NSURL *baseURL = [NSURL URLWithString:EASEServerAddress];
+    NSDictionary *parameters = @{@"username": username, @"password" : password};
+    
+
+    AFHTTPSessionManager *manager = [[AFHTTPSessionManager alloc] initWithBaseURL:baseURL];
+    manager.responseSerializer =  [AFJSONResponseSerializer serializerWithReadingOptions:NSJSONReadingAllowFragments];
+ 
+        [manager POST:@"User/signin" parameters:parameters success:^(NSURLSessionDataTask *task, NSDictionary * responseObject) {
+            
+            if (responseObject[@"error"])
+            {
+                completionBlock([NSError errorWithDomain:responseObject[@"error"] code:0 userInfo:nil]);
+            }
+            else
+            {
+                _currentUser = [EAUser new];
+                _currentUser.username = responseObject[@"user"][@"username"];
+                completionBlock(nil);
+
+            }
+            
+            
+            
+        } failure:^(NSURLSessionDataTask *task, NSError *error) {
+            
+            completionBlock(error);
+        
+        }];
+    
     
 }
 

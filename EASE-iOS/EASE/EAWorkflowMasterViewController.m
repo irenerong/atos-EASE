@@ -15,6 +15,8 @@
 
 @interface EAWorkflowMasterViewController ()
 
+
+
 @end
 
 @implementation EAWorkflowMasterViewController
@@ -39,17 +41,16 @@
     [[MZFormSheetBackgroundWindow appearance] setBlurRadius:5.0];
     [[MZFormSheetBackgroundWindow appearance] setBackgroundColor:[UIColor clearColor]];
     
-    EAWorkflowViewController *frontViewController = [self.storyboard instantiateViewControllerWithIdentifier:@"FrontViewController"];
-    frontViewController.workflow = self.workflow;
-    
-    EAWorkflowInfosViewController *backViewController = [self.storyboard instantiateViewControllerWithIdentifier:@"BackViewController"];
-    backViewController.workflow = self.workflow;
+    self.frontController = [self.storyboard instantiateViewControllerWithIdentifier:@"FrontViewController"];
+    self.backController =  [self.storyboard instantiateViewControllerWithIdentifier:@"BackViewController"];
     
     self.closedTopOffset = 302;
     
-    self.backController = backViewController;
-    
-    self.frontController = frontViewController;
+    if (_workflow)
+    {
+        [self setWorkflow:_workflow];
+    }
+
     
 }
 
@@ -58,6 +59,19 @@
     // Dispose of any resources that can be recreated.
 }
 
+-(void)setWorkflow:(EAWorkflow *)workflow
+{
+    _workflow = workflow;
+    
+    if (self.isViewLoaded)
+    {
+        ((EAWorkflowInfosViewController*) self.frontController).workflow = self.workflow;
+        ((EAWorkflowViewController*) self.backController) .workflow = self.workflow;
+
+
+    }
+    
+}
 
 #pragma mark - Navigation
 

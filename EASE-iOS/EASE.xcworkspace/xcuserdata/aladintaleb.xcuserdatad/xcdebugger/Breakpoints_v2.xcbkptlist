@@ -10,11 +10,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "EASE/EAWorkflowViewController.m"
-            timestampString = "447072554.462855"
+            timestampString = "449868641.788595"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "49"
-            endingLineNumber = "49"
+            startingLineNumber = "53"
+            endingLineNumber = "53"
             landmarkName = "-setWorkflow:"
             landmarkType = "5">
          </BreakpointContent>
@@ -90,11 +90,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "EASE/EANetworkingHelper.m"
-            timestampString = "449342240.843529"
+            timestampString = "449864932.054446"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "548"
-            endingLineNumber = "548"
+            startingLineNumber = "590"
+            endingLineNumber = "590"
             landmarkName = "-updateWorkingTask:"
             landmarkType = "5">
          </BreakpointContent>
@@ -122,11 +122,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "EASE/EANetworkingHelper.m"
-            timestampString = "449342240.843529"
+            timestampString = "449864932.054446"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "500"
-            endingLineNumber = "500"
+            startingLineNumber = "542"
+            endingLineNumber = "542"
             landmarkName = "-receivedPendingTask"
             landmarkType = "5">
          </BreakpointContent>
@@ -153,12 +153,12 @@
             shouldBeEnabled = "Yes"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-            filePath = "EASE/EACalendarWorkflowCollectionViewCell.m"
-            timestampString = "449342387.345189"
+            filePath = "EASE/EAWorkflowInfosViewController.m"
+            timestampString = "449868443.456523"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "26"
-            endingLineNumber = "26"
+            startingLineNumber = "63"
+            endingLineNumber = "63"
             landmarkName = "-setWorkflow:"
             landmarkType = "5">
          </BreakpointContent>
@@ -169,13 +169,13 @@
             shouldBeEnabled = "Yes"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-            filePath = "EASE/EACalendarViewController.m"
-            timestampString = "449489964.258129"
+            filePath = "EASE/EAWorkflowMasterViewController.m"
+            timestampString = "449868520.835764"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "116"
-            endingLineNumber = "116"
-            landmarkName = "-viewDidLoad"
+            startingLineNumber = "68"
+            endingLineNumber = "68"
+            landmarkName = "-setWorkflow:"
             landmarkType = "5">
          </BreakpointContent>
       </BreakpointProxy>

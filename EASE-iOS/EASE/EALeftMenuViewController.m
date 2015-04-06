@@ -30,7 +30,22 @@
     
     [self.tasksButton setAttributedTitle:ingredientsString forState:UIControlStateNormal];
      */
-    [self.tasksButton setTitle:@"Task" forState:UIControlStateNormal];
+    
+    
+    
+    NSMutableAttributedString *welcomeText = [[NSMutableAttributedString alloc] initWithString:@"Welcome " attributes:@{NSFontAttributeName: [UIFont fontWithName:@"HelveticaNeue-Thin" size:17]}];
+    
+    if ([EANetworkingHelper sharedHelper].currentUser)
+    {
+        
+    
+        [welcomeText appendAttributedString:[[NSAttributedString alloc] initWithString:[EANetworkingHelper sharedHelper].currentUser.username attributes:@{NSFontAttributeName: [UIFont fontWithName:@"HelveticaNeue" size:17]}]];
+        
+        [welcomeText appendAttributedString:[[NSAttributedString alloc] initWithString:@" !" attributes:@{NSFontAttributeName: [UIFont fontWithName:@"HelveticaNeue-Thin" size:17]}]];
+    }
+    
+    self.welcomeTextLabel.attributedText = welcomeText;
+    
 
 }
 
@@ -70,12 +85,13 @@
     UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"cell"];
     
     cell.backgroundColor = [UIColor clearColor];
-    cell.textLabel.font = [UIFont fontWithName:@"HelveticaNeue-Light" size:20];
+    cell.textLabel.font = [UIFont fontWithName:@"HelveticaNeue" size:20];
     cell.textLabel.text = menuItems[indexPath.row];
+
     cell.textLabel.highlightedTextColor = [UIColor lightGrayColor];
     cell.selectedBackgroundView = [UIView new];
     
-    cell.textLabel.textColor = [UIColor whiteColor];
+    cell.textLabel.textColor = [UIColor colorWithWhite:100/255. alpha:1.];
     
     
     
@@ -115,4 +131,9 @@
     
 }
 
+- (IBAction)logout:(id)sender {
+    
+    
+    
+}
 @end

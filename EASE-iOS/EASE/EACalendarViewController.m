@@ -111,6 +111,8 @@
     [self.calendar reloadData];
     
     [self.calendar setCurrentDateSelected:self.date];
+    [self.calendar setCurrentDate:self.date];
+
     [self updateTitleWithDate:self.date];
 
     self.navigationItem.rightBarButtonItems = @[self.addButton, self.modeSwitchButton];
@@ -184,15 +186,23 @@
     self.date = _date;
 }
 
-/*
+
 #pragma mark - Navigation
 
 // In a storyboard-based application, you will often want to do a little preparation before navigation
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
-    // Get the new view controller using [segue destinationViewController].
-    // Pass the selected object to the new view controller.
+    
+    if ([segue.identifier isEqualToString:@"Workflow"])
+    {
+        EAWorkflowMasterViewController *vc = segue.destinationViewController;
+        EAWorkflow *selectedWorkflow =  _workflows[  ((NSIndexPath*) [[self.timelineCollectionView indexPathsForSelectedItems] firstObject]).row];
+        
+        vc.workflow = selectedWorkflow;
+        
+    }
+    
 }
-*/
+
 
 
 

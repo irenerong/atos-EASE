@@ -46,7 +46,7 @@
     self.ingredientsTableView.scrollIndicatorInsets = scrollInset;
     
     
-    
+    if (_workflow)
     self.workflow = _workflow;
 
 

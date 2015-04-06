@@ -13,6 +13,9 @@
 #import "EAWorkflowDateScrollView.h"
 #import "EACalendarWorkflowCollectionViewCell.h"
 #import "EACalendarTaskCollectionViewCell.h"
+
+#import "EAWorkflowMasterViewController.h"
+
 #import <JTCalendar.h>
 
 @interface EACalendarViewController : UIViewController <EACollectionViewWorkflowLayoutDelegate, JTCalendarDataSource>

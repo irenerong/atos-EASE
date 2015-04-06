@@ -10,4 +10,6 @@
 
 @interface EAUser : NSObject
 
+@property(nonatomic, strong) NSString *username;
+
 @end

@@ -42,6 +42,10 @@
     [self.collectionView addSubview:self.dateScrollView];
     
     self.dateScrollView.color = self.workflow.color;
+    
+    
+    if (_workflow)
+    self.workflow = _workflow;
 }
 
 -(void)setWorkflow:(EAWorkflow *)workflow

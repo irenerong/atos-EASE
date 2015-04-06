@@ -7,6 +7,7 @@
 //
 
 #import "EARootViewController.h"
+#import <UIImage+ImageEffects.h>
 
 @interface EARootViewController ()
 
@@ -33,9 +34,11 @@
     self.contentViewShadowOpacity = 0.6;
     self.contentViewShadowRadius = 3;
     self.contentViewShadowEnabled = YES;
-    self.backgroundImage = [UIImage imageNamed:@"MenuBG.png"];
+    self.backgroundImage = [[UIImage imageNamed:@"LoginBG"] applyBlurWithRadius:5 tintColor:nil saturationDeltaFactor:1 maskImage:nil];
     self.contentViewController = [self.storyboard instantiateViewControllerWithIdentifier:@"calendarViewController"];
     self.leftMenuViewController = [self.storyboard instantiateViewControllerWithIdentifier:@"leftMenuController"];
+    
+    
 }
 
 /*

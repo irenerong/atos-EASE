@@ -9,7 +9,7 @@
 #import <Foundation/Foundation.h>
 #import <AFNetworking.h>
 #import <Wit.h>
-
+#import "EAUser.h"
 
 extern NSString* const EAPendingTaskAdd;
 extern NSString* const EAPendingTaskRemove;
@@ -38,6 +38,8 @@ extern NSString* const EAWorkingTaskUpdate;
 
 @property(nonatomic, weak) id <EANetworkingHelperDelegate> delegate;
 
+@property(nonatomic, readonly) EAUser *currentUser;
+
 @property(nonatomic, readonly) NSMutableArray *currentWorkflows;
 
 @property(nonatomic, readonly) NSMutableArray *pendingTasks;
@@ -57,6 +59,9 @@ extern NSString* const EAWorkingTaskUpdate;
 
 
 //EASE SERVER NETWORKING
+
+-(void)loginWithUsername:(NSString*)username andPassword:(NSString*)password completionBlock:(void (^) (NSError *error) )completionBlock;
+
 
 -(void)searchWorkflowsWithConstraints:(NSDictionary*)constraints completionBlock:(void (^) (int totalNumberOfWorkflows, NSArray* workflows, NSError* error))completionBlock;
 
