@@ -6,12 +6,17 @@
 //  Copyright (c) 2015 Aladin TALEB. All rights reserved.
 //
 
+#import "NSDate+JSParse.h"
+
 #import "EANetworkingHelper.h"
 #import "EAWorkflow.h"
 #import "EADateInterval.h"
 #import "EATask.h"
 #import "EAPendingTask.h"
 #import "EAWorkingTask.h"
+#import "EASearchResults.h"
+
+#import "EALoginViewController.h"
 
 @interface NSDictionary (BVJSONString)
 -(NSString*) bv_jsonStringWithPrettyPrint:(BOOL) prettyPrint;
@@ -105,6 +110,9 @@ NSString* const EAWorkingTaskUpdate = @"EAWorkingTaskUpdate";
         self.displayNotificationPopup = true;
         
         _currentUser = nil;
+        
+        self.easeServerManager = [[AFHTTPSessionManager alloc] initWithBaseURL:[NSURL URLWithString:EASEServerAddress]];
+
     }
     
     return self;
@@ -214,21 +222,7 @@ NSString* const EAWorkingTaskUpdate = @"EAWorkingTaskUpdate";
 -(NSDate*)witStringToDate:(NSString*)dateString
 {
     
-    
-    dateString = [dateString stringByReplacingOccurrencesOfString:@":" withString:@"" options:0 range:NSMakeRange(dateString.length-3, 3)];
-    
-    
-    
-    
-    
-    NSDateFormatter *dateFormat = [[NSDateFormatter alloc] init];
-    
-    
-    [dateFormat setDateFormat:@"yyyy-MM-dd'T'HH:mm:ss.SSSZZZZZ"];
-    
-    NSDate *date = [dateFormat dateFromString:dateString];
-    
-    return date;
+    return [NSDate dateByParsingJSString:dateString];
 }
 
 -(void)witDidGraspIntent:(NSArray *)outcomes messageId:(NSString *)messageId customData:(id)customData error:(NSError *)e
@@ -245,14 +239,12 @@ NSString* const EAWorkingTaskUpdate = @"EAWorkingTaskUpdate";
     
     
     
-    NSURL *baseURL = [NSURL URLWithString:EASEServerAddress];
     NSDictionary *parameters = @{@"username": username, @"password" : password};
     
 
-    AFHTTPSessionManager *manager = [[AFHTTPSessionManager alloc] initWithBaseURL:baseURL];
-    manager.responseSerializer =  [AFJSONResponseSerializer serializerWithReadingOptions:NSJSONReadingAllowFragments];
+    self.easeServerManager.responseSerializer =  [AFJSONResponseSerializer serializerWithReadingOptions:NSJSONReadingAllowFragments];
  
-        [manager POST:@"User/signin" parameters:parameters success:^(NSURLSessionDataTask *task, NSDictionary * responseObject) {
+        [self.easeServerManager POST:@"User/signin" parameters:parameters success:^(NSURLSessionDataTask *task, NSDictionary * responseObject) {
             
             if (responseObject[@"error"])
             {
@@ -277,42 +269,53 @@ NSString* const EAWorkingTaskUpdate = @"EAWorkingTaskUpdate";
     
 }
 
+-(void)logout
+{
+    _currentUser = nil;
+    [self.loginViewController logout];
+}
+
 #pragma mark - Workflow Search
 
--(void)searchWorkflowsWithConstraints:(NSDictionary*)constraints completionBlock:(void (^) (int totalNumberOfWorkflows, NSArray* workflows, NSError* error))completionBlock
+-(void)searchWorkflowsWithConstraints:(NSDictionary*)constraints completionBlock:(void (^) (int totalNumberOfWorkflows, EASearchResults* searchResults, NSError* error))completionBlock;
 {
     
     NSLog(@"%@", [constraints bv_jsonStringWithPrettyPrint:true]);
     
-    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(1.0 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
-        
-        workflowTest = [EAWorkflow new];
-        workflowTest.imageURL = [NSURL URLWithString:@"http://www.supermarchesmatch.fr/userfiles/images/Poulet%20au%20curry.jpg"];
-        workflowTest.workflowiD = 0;
-        workflowTest.title = @"Poulet au curry";
-        workflowTest.sortTag = @"Hour";
-        
-        EAAgent *agent = [[EAAgent alloc] init];
-        agent.type = @"Micro Wave";
-        agent.name = @"Philips Micro Wave";
-        agent.available = YES;
-        
-        workflowTest.agents = @[agent, agent];
-        
-        EAIngredient *ingredient = [[EAIngredient alloc] init];
-        ingredient.name = @"Poulet";
-        ingredient.quantity = @"500g";
-        ingredient.available = YES;
-        
-        workflowTest.ingredients = @[ingredient, ingredient];
-        
-        completionBlock(100, @[workflowTest,workflowTest,workflowTest,workflowTest], nil);
-    });
+    NSMutableDictionary *parameters =  [NSMutableDictionary dictionary];
+    [parameters addEntriesFromDictionary:@{@"intent": constraints[@"intent"]}];
     
-    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(2 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+    if (constraints[@"endDate"])
+    {
+        [parameters addEntriesFromDictionary:@{@"time": constraints[@"endDate"]}];
+        [parameters addEntriesFromDictionary:@{@"type": @1}];
+        [parameters addEntriesFromDictionary:@{@"option": @1}];
+
+    }
+    else if(constraints[@"startDate"])
+    {
+        [parameters addEntriesFromDictionary:@{@"time": constraints[@"startDate"]}];
+        [parameters addEntriesFromDictionary:@{@"type": @0}];
+        [parameters addEntriesFromDictionary:@{@"option": @(-1)}];
+    }
+    
+    
+    [self.easeServerManager POST:@"workflow/createwf" parameters:parameters success:^(NSURLSessionDataTask *task, NSDictionary * responseObject) {
         
-       
-    });
+        EASearchResults *results = [EASearchResults searchResultsByParsingDictionary:responseObject];
+        
+        completionBlock(results.workflows.count, results, nil);
+        
+        
+    } failure:^(NSURLSessionDataTask *task, NSError *error) {
+        
+        completionBlock(0, nil, error);
+        
+    }];
+
+    
+    
+    
 }
 
 -(void)searchWorklowsBetweenId:(int)id1 andId:(int)id2 completionBlock:(void (^) (NSArray* workflows, NSError* error))completionBlock
@@ -322,7 +325,7 @@ NSString* const EAWorkingTaskUpdate = @"EAWorkingTaskUpdate";
         
         workflowTest = [EAWorkflow new];
         workflowTest.imageURL = [NSURL URLWithString:@"http://www.supermarchesmatch.fr/userfiles/images/Poulet%20au%20curry.jpg"];
-        workflowTest.workflowiD = 0;
+        workflowTest.workflowID = 0;
         workflowTest.title = @"Poulet au curry";
         workflowTest.sortTag = @"Hour";
         completionBlock(@[workflowTest,workflowTest,workflowTest,workflowTest], nil);

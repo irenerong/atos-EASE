@@ -7,7 +7,7 @@
 //
 
 #import "RESideMenu.h"
-
+#import "EALoginViewController.h"
 @interface EARootViewController : RESideMenu
 
 @end

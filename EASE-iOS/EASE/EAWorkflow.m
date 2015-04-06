@@ -12,6 +12,43 @@
 
 @implementation EAWorkflow
 
++(instancetype)workflowByParsingDictionary:(NSDictionary*)dictionary
+{
+    
+    return [[EAWorkflow alloc] initWithDicitonary:dictionary];
+}
+
+
+-(instancetype)initWithDicitonary:(NSDictionary*)dictionary
+{
+    
+    if (self = [super init])
+    {
+        
+        
+        self.title = dictionary[@"metaworkflow"];
+        
+        NSArray *tasks = dictionary[@"array"];
+        
+        NSMutableArray *parsedTasks = [NSMutableArray array];
+        
+        for (NSDictionary *taskDic in tasks)
+        {
+            
+            
+            EATask *task = [EATask taskByParsingDictionary:taskDic fromWorkflow:self];
+            [parsedTasks addObject:task];
+            
+        }
+        
+        _tasks = parsedTasks;
+        
+    }
+    
+    return self;
+    
+}
+
 -(int)availableIngredients {
     int nb = 0;
     for (EAIngredient *ingredient in _ingredients)

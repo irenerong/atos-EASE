@@ -8,6 +8,7 @@
 
 #import <Foundation/Foundation.h>
 
+
 @interface EADateInterval : NSObject
 
 @property(nonatomic, strong) NSDate *startDate;
@@ -15,5 +16,8 @@
 
 -(NSTimeInterval)timeInterval;
 -(BOOL)intersects:(EADateInterval*)dateInterval;
+
++(instancetype)dateIntervalFrom:(NSDate*)fromDate to:(NSDate*)toDate;
+-(instancetype)initWithBegin:(NSDate*)begin andEnd:(NSDate*)end;
 
 @end

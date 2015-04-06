@@ -9,10 +9,14 @@
 #import <UIKit/UIKit.h>
 #import "EANetworkingHelper.h"
 
+
+
 @interface EALoginViewController : UIViewController <UITextFieldDelegate>
 @property (weak, nonatomic) IBOutlet UIImageView *backgroundImageView;
 @property (weak, nonatomic) IBOutlet UITextField *usernameTextField;
 @property (weak, nonatomic) IBOutlet UITextField *passwordTextField;
 - (IBAction)login:(id)sender;
+-(void)logout;
+
 
 @end

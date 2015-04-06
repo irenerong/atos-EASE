@@ -91,7 +91,7 @@
     cell.textLabel.highlightedTextColor = [UIColor lightGrayColor];
     cell.selectedBackgroundView = [UIView new];
     
-    cell.textLabel.textColor = [UIColor colorWithWhite:100/255. alpha:1.];
+    cell.textLabel.textColor = [UIColor colorWithWhite:1 alpha:1.];
     
     
     
@@ -133,7 +133,7 @@
 
 - (IBAction)logout:(id)sender {
     
-    
+    [[EANetworkingHelper sharedHelper] logout];
     
 }
 @end

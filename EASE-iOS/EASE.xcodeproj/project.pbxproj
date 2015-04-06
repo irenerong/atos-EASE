@@ -32,7 +32,6 @@
 		3146E6CE1A80E2160072FC99 /* EASETests.m in Sources */ = {isa = PBXBuildFile; fileRef = 3146E6CD1A80E2160072FC99 /* EASETests.m */; };
 		3146E6DB1A80E57A0072FC99 /* EAWorkflow.m in Sources */ = {isa = PBXBuildFile; fileRef = 3146E6DA1A80E57A0072FC99 /* EAWorkflow.m */; };
 		3146E6DE1A80E62B0072FC99 /* EATask.m in Sources */ = {isa = PBXBuildFile; fileRef = 3146E6DD1A80E62B0072FC99 /* EATask.m */; };
-		3146E6E11A80E7A60072FC99 /* EAAction.m in Sources */ = {isa = PBXBuildFile; fileRef = 3146E6E01A80E7A60072FC99 /* EAAction.m */; };
 		3146E6E71A8152280072FC99 /* EACollectionViewWorkflowLayout.m in Sources */ = {isa = PBXBuildFile; fileRef = 3146E6E61A8152280072FC99 /* EACollectionViewWorkflowLayout.m */; };
 		3146E6EA1A8154870072FC99 /* EADateInterval.m in Sources */ = {isa = PBXBuildFile; fileRef = 3146E6E91A8154870072FC99 /* EADateInterval.m */; };
 		3146E6ED1A8165060072FC99 /* EAWorkflowTaskCollectionViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 3146E6EC1A8165060072FC99 /* EAWorkflowTaskCollectionViewCell.m */; };
@@ -49,6 +48,8 @@
 		31A7509F1A8F3FDA00FF0E7C /* EASearchSortTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 31A7509E1A8F3FDA00FF0E7C /* EASearchSortTableViewController.m */; };
 		31BA9A5A1AA46CA3005D4E22 /* EARootViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 31BA9A591AA46CA3005D4E22 /* EARootViewController.m */; };
 		31BA9A5D1AA4719D005D4E22 /* EALeftMenuViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 31BA9A5C1AA4719D005D4E22 /* EALeftMenuViewController.m */; };
+		31C02CF61AD2F22F00D4A915 /* EASearchResults.m in Sources */ = {isa = PBXBuildFile; fileRef = 31C02CF51AD2F22F00D4A915 /* EASearchResults.m */; };
+		31C02CFB1AD2F6B000D4A915 /* NSDate+JSParse.m in Sources */ = {isa = PBXBuildFile; fileRef = 31C02CFA1AD2F6B000D4A915 /* NSDate+JSParse.m */; };
 		31FFAE9D1AD04DE900AACD2D /* EALoginViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 31FFAE9C1AD04DE900AACD2D /* EALoginViewController.m */; };
 		660635EBCCABF0DA5A87A219 /* libPods.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 5A349251BDC63E909A65C4FB /* libPods.a */; };
 /* End PBXBuildFile section */
@@ -110,8 +111,6 @@
 		3146E6DA1A80E57A0072FC99 /* EAWorkflow.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EAWorkflow.m; sourceTree = "<group>"; };
 		3146E6DC1A80E62B0072FC99 /* EATask.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EATask.h; sourceTree = "<group>"; };
 		3146E6DD1A80E62B0072FC99 /* EATask.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EATask.m; sourceTree = "<group>"; };
-		3146E6DF1A80E7A60072FC99 /* EAAction.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EAAction.h; sourceTree = "<group>"; };
-		3146E6E01A80E7A60072FC99 /* EAAction.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EAAction.m; sourceTree = "<group>"; };
 		3146E6E51A8152280072FC99 /* EACollectionViewWorkflowLayout.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = EACollectionViewWorkflowLayout.h; path = ../EACollectionViewWorkflowLayout.h; sourceTree = "<group>"; };
 		3146E6E61A8152280072FC99 /* EACollectionViewWorkflowLayout.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = EACollectionViewWorkflowLayout.m; path = ../EACollectionViewWorkflowLayout.m; sourceTree = "<group>"; };
 		3146E6E81A8154870072FC99 /* EADateInterval.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EADateInterval.h; sourceTree = "<group>"; };
@@ -145,6 +144,10 @@
 		31BA9A5C1AA4719D005D4E22 /* EALeftMenuViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EALeftMenuViewController.m; sourceTree = "<group>"; };
 		31BA9A631AA47E14005D4E22 /* EATasksViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EATasksViewController.h; sourceTree = "<group>"; };
 		31BA9A641AA47E14005D4E22 /* EATasksViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EATasksViewController.m; sourceTree = "<group>"; };
+		31C02CF41AD2F22F00D4A915 /* EASearchResults.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EASearchResults.h; sourceTree = "<group>"; };
+		31C02CF51AD2F22F00D4A915 /* EASearchResults.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EASearchResults.m; sourceTree = "<group>"; };
+		31C02CF91AD2F6B000D4A915 /* NSDate+JSParse.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSDate+JSParse.h"; sourceTree = "<group>"; };
+		31C02CFA1AD2F6B000D4A915 /* NSDate+JSParse.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSDate+JSParse.m"; sourceTree = "<group>"; };
 		31FFAE9B1AD04DE900AACD2D /* EALoginViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EALoginViewController.h; sourceTree = "<group>"; };
 		31FFAE9C1AD04DE900AACD2D /* EALoginViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EALoginViewController.m; sourceTree = "<group>"; };
 		3D038CB637637CAD0E292855 /* Pods.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.debug.xcconfig; path = "Pods/Target Support Files/Pods/Pods.debug.xcconfig"; sourceTree = "<group>"; };
@@ -347,16 +350,10 @@
 		3146E6D81A80E55C0072FC99 /* Class */ = {
 			isa = PBXGroup;
 			children = (
-				3146E6D91A80E57A0072FC99 /* EAWorkflow.h */,
-				3146E6DA1A80E57A0072FC99 /* EAWorkflow.m */,
-				3146E6DC1A80E62B0072FC99 /* EATask.h */,
-				3146E6DD1A80E62B0072FC99 /* EATask.m */,
-				3146E6DF1A80E7A60072FC99 /* EAAction.h */,
-				3146E6E01A80E7A60072FC99 /* EAAction.m */,
 				3146E6E81A8154870072FC99 /* EADateInterval.h */,
 				3146E6E91A8154870072FC99 /* EADateInterval.m */,
-				316DBF451A8CB15800828BE2 /* EANetworkingHelper.h */,
-				316DBF461A8CB15800828BE2 /* EANetworkingHelper.m */,
+				31C02CF71AD2F35600D4A915 /* Workflows */,
+				31C02CF81AD2F36900D4A915 /* Networking */,
 				311915B71AA50E3A00DD4EDF /* EANotification.h */,
 				311915B81AA50E3A00DD4EDF /* EANotification.m */,
 				311915BE1AA5BB3500DD4EDF /* EAPendingTask.h */,
@@ -369,6 +366,8 @@
 				312988051AC8644F00036504 /* EAUser.m */,
 				312988011AC861F700036504 /* EAIngredient.h */,
 				312988021AC861F700036504 /* EAIngredient.m */,
+				31C02CF91AD2F6B000D4A915 /* NSDate+JSParse.h */,
+				31C02CFA1AD2F6B000D4A915 /* NSDate+JSParse.m */,
 			);
 			name = Class;
 			sourceTree = "<group>";
@@ -467,6 +466,28 @@
 				319CCBCD1AA66ED000567C14 /* Tasks */,
 			);
 			name = Notifications;
+			sourceTree = "<group>";
+		};
+		31C02CF71AD2F35600D4A915 /* Workflows */ = {
+			isa = PBXGroup;
+			children = (
+				3146E6D91A80E57A0072FC99 /* EAWorkflow.h */,
+				3146E6DA1A80E57A0072FC99 /* EAWorkflow.m */,
+				3146E6DC1A80E62B0072FC99 /* EATask.h */,
+				3146E6DD1A80E62B0072FC99 /* EATask.m */,
+			);
+			name = Workflows;
+			sourceTree = "<group>";
+		};
+		31C02CF81AD2F36900D4A915 /* Networking */ = {
+			isa = PBXGroup;
+			children = (
+				316DBF451A8CB15800828BE2 /* EANetworkingHelper.h */,
+				316DBF461A8CB15800828BE2 /* EANetworkingHelper.m */,
+				31C02CF41AD2F22F00D4A915 /* EASearchResults.h */,
+				31C02CF51AD2F22F00D4A915 /* EASearchResults.m */,
+			);
+			name = Networking;
 			sourceTree = "<group>";
 		};
 		31FFAE9E1AD04DF500AACD2D /* Login */ = {
@@ -637,7 +658,6 @@
 				3113A8521A82373D00E972F3 /* EAWorkflowDateScrollView.m in Sources */,
 				3146E6DB1A80E57A0072FC99 /* EAWorkflow.m in Sources */,
 				316DBF471A8CB15800828BE2 /* EANetworkingHelper.m in Sources */,
-				3146E6E11A80E7A60072FC99 /* EAAction.m in Sources */,
 				311915BC1AA510BB00DD4EDF /* EATaskCollectionViewCell.m in Sources */,
 				317622DA1AA875CD00B406CD /* EAWorkingTasksViewController.m in Sources */,
 				31BA9A5D1AA4719D005D4E22 /* EALeftMenuViewController.m in Sources */,
@@ -647,6 +667,7 @@
 				311915B91AA50E3A00DD4EDF /* EANotification.m in Sources */,
 				3146E6BA1A80E2160072FC99 /* EAWorkflowViewController.m in Sources */,
 				3146E6ED1A8165060072FC99 /* EAWorkflowTaskCollectionViewCell.m in Sources */,
+				31C02CF61AD2F22F00D4A915 /* EASearchResults.m in Sources */,
 				312988061AC8644F00036504 /* EAUser.m in Sources */,
 				31A50F0D1AC94ABF00BDF367 /* EACalendarTaskCollectionViewCell.m in Sources */,
 				311915BD1AA5122E00DD4EDF /* EATasksViewController.m in Sources */,
@@ -662,6 +683,7 @@
 				313078141A89213B0080E17B /* EAWorkflowInfosViewController.m in Sources */,
 				311915C01AA5BB3500DD4EDF /* EAPendingTask.m in Sources */,
 				3165B2B41AA9022800358DCC /* EAWorkingTask.m in Sources */,
+				31C02CFB1AD2F6B000D4A915 /* NSDate+JSParse.m in Sources */,
 				3146E6B71A80E2160072FC99 /* AppDelegate.m in Sources */,
 				317622D61AA873FD00B406CD /* EAPendingTasksViewController.m in Sources */,
 				3146E6B41A80E2160072FC99 /* main.m in Sources */,

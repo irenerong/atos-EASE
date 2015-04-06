@@ -98,8 +98,12 @@
             
             NSString *monthText = [[dateFormatter standaloneMonthSymbols][currentMonthIndex - 1] capitalizedString];
             
+            
             return [NSString stringWithFormat:@"%ld\n%@", comps.year, monthText];
         };
+        
+        [self.calendar setCurrentDateSelected:self.date];
+        [self.calendar setCurrentDate:[self.date dateByAddingTimeInterval:2*7*24*3600]];
         
         self.calendar.calendarAppearance.isWeekMode = true;
     }
@@ -110,8 +114,7 @@
     
     [self.calendar reloadData];
     
-    [self.calendar setCurrentDateSelected:self.date];
-    [self.calendar setCurrentDate:self.date];
+    
 
     [self updateTitleWithDate:self.date];
 

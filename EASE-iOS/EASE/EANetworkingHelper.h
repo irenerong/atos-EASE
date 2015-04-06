@@ -11,6 +11,7 @@
 #import <Wit.h>
 #import "EAUser.h"
 
+
 extern NSString* const EAPendingTaskAdd;
 extern NSString* const EAPendingTaskRemove;
 
@@ -25,6 +26,8 @@ extern NSString* const EAWorkingTaskUpdate;
 @class EATask;
 @class EAPendingTask;
 @class EAWorkingTask;
+@class EASearchResults;
+@class EALoginViewController;
 
 @protocol EANetworkingHelperDelegate <NSObject>
 
@@ -49,7 +52,7 @@ extern NSString* const EAWorkingTaskUpdate;
 
 @property(nonatomic, readonly) NSMutableArray *completedTasks;
 
-
+@property(nonatomic, weak) EALoginViewController *loginViewController;
 
 @property(nonatomic, readwrite) BOOL displayNotificationPopup;
 
@@ -62,8 +65,9 @@ extern NSString* const EAWorkingTaskUpdate;
 
 -(void)loginWithUsername:(NSString*)username andPassword:(NSString*)password completionBlock:(void (^) (NSError *error) )completionBlock;
 
+-(void)logout;
 
--(void)searchWorkflowsWithConstraints:(NSDictionary*)constraints completionBlock:(void (^) (int totalNumberOfWorkflows, NSArray* workflows, NSError* error))completionBlock;
+-(void)searchWorkflowsWithConstraints:(NSDictionary*)constraints completionBlock:(void (^) (int totalNumberOfWorkflows, EASearchResults* searchResults, NSError* error))completionBlock;
 
 -(void)searchWorklowsBetweenId:(int)id1 andId:(int)id2 completionBlock:(void (^) (NSArray* workflows, NSError* error))completionBlock;
 

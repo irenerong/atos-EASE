@@ -17,6 +17,8 @@
 #import "EAWorkflowMasterViewController.h"
 #import "EANetworkingHelper.h"
 
+#import "EASearchResults.h"
+
 @interface EAWorkflowListCollectionViewController : UICollectionViewController <FRGWaterfallCollectionViewDelegate>
 {
     
@@ -25,7 +27,7 @@
 }
 
 
-@property(nonatomic, strong) NSArray *workflows;
+@property(nonatomic, strong) EASearchResults *searchResults;
 @property(nonatomic, readwrite) int totalNumberOfWorkflows;
 
 @end

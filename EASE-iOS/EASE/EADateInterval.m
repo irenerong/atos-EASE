@@ -10,6 +10,26 @@
 
 @implementation EADateInterval
 
++(instancetype)dateIntervalFrom:(NSDate*)fromDate to:(NSDate*)toDate
+{
+    
+    return [[EADateInterval alloc] initWithBegin:fromDate andEnd:toDate];
+    
+}
+
+-(instancetype)initWithBegin:(NSDate*)begin andEnd:(NSDate*)end
+{
+    if (self = [super init])
+    {
+        
+        self.startDate = begin;
+        self.endDate = end;
+        
+    }
+    
+    return self;
+}
+
 -(NSTimeInterval)timeInterval
 {
     return [self.endDate timeIntervalSinceDate:self.startDate];

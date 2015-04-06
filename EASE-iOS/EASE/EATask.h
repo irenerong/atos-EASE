@@ -17,9 +17,15 @@
     
 }
 
++(instancetype)taskByParsingDictionary:(NSDictionary*)dictionary fromWorkflow:(EAWorkflow*)workflow;
+-(instancetype)initWithDictionary:(NSDictionary*)dictionary fromWorkflow:(EAWorkflow*)workflow;
+
+@property(nonatomic, readonly) int taskID;
+@property(nonatomic, readonly) NSArray *predecessors;
 
 @property(nonatomic, strong) NSString *title;
 @property(nonatomic, strong) NSString *taskDescription;
+
 @property(nonatomic, strong) EADateInterval *dateInterval;
 
 @property(nonatomic, weak) EAAgent *agent;

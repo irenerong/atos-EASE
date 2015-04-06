@@ -85,11 +85,19 @@
     {
         self.startDate = constraints[@"fromDate"];
     }
+    else
+    {
+        self.startDate = nil;
+    }
     
     if (constraints[@"toDate"])
     {
         self.endDate = constraints[@"toDate"];
         
+    }
+    else
+    {
+        self.endDate = nil;
     }
     
     
@@ -387,7 +395,7 @@
     
     
     
-    [[EANetworkingHelper sharedHelper] searchWorkflowsWithConstraints:self.constraints completionBlock:^(int totalNumberOfWorkflows, NSArray *workflows, NSError *error) {
+    [[EANetworkingHelper sharedHelper] searchWorkflowsWithConstraints:self.constraints completionBlock:^(int totalNumberOfWorkflows, EASearchResults *searchResults, NSError *error) {
         
         
         
@@ -413,7 +421,7 @@
         }
         else
         {
-            
+            NSArray *workflows = searchResults.workflows;
             
             if (!workflows || workflows.count == 0)
             {
@@ -454,7 +462,7 @@
                 else if (workflows.count != 1)
                 {
                     EAWorkflowListCollectionViewController *controller = [self.storyboard instantiateViewControllerWithIdentifier:@"Results"];
-                    controller.workflows = workflows;
+                    controller.searchResults = searchResults;
                     controller.totalNumberOfWorkflows = totalNumberOfWorkflows;
                     [self.navigationController pushViewController:controller animated:true];
                 }

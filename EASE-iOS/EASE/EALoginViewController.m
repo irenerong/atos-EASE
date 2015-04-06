@@ -19,6 +19,8 @@
     // Do any additional setup after loading the view.
     //self.backgroundImageView.image =  [[UIImage imageNamed:@"LoginBG"] applyBlurWithRadius:5 tintColor:[UIColor colorWithWhite:1 alpha:0.2] saturationDeltaFactor:1 maskImage:nil];
     
+    [EANetworkingHelper sharedHelper].loginViewController = self;
+    
     NSAttributedString *str = [[NSAttributedString alloc] initWithString:@"Username" attributes:@{ NSForegroundColorAttributeName : [UIColor colorWithWhite:200/255. alpha:1.0] }];
     
     self.usernameTextField.attributedPlaceholder = str;
@@ -41,6 +43,8 @@
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
     // Get the new view controller using [segue destinationViewController].
     // Pass the selected object to the new view controller.
+    
+    
 }
 
 
@@ -95,6 +99,10 @@
         if (!error)
         {
             [self performSegueWithIdentifier:@"ToMain" sender:self];
+            
+            self.passwordTextField.text = @"";
+            self.usernameTextField.text = @"";
+            
         }
         else
         {
@@ -115,7 +123,14 @@
     }];
     
     
+    
 }
+
+-(void)logout
+{
+    [self dismissViewControllerAnimated:true completion:nil];
+}
+
 
 #pragma mark - UITextFieldDelegate
 

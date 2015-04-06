@@ -593,7 +593,7 @@
                                         <color key="tintColor" cocoaTouchSystemColor="groupTableViewBackgroundColor"/>
                                         <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                         <fontDescription key="fontDescription" type="system" pointSize="14"/>
-                                        <textInputTraits key="textInputTraits"/>
+                                        <textInputTraits key="textInputTraits" secureTextEntry="YES"/>
                                         <connections>
                                             <outlet property="delegate" destination="2kl-l0-boA" id="PCJ-l8-adq"/>
                                         </connections>
@@ -1283,7 +1283,7 @@
                                     <outlet property="delegate" destination="Br2-Q8-2N2" id="WY8-oE-nOl"/>
                                 </connections>
                             </collectionView>
-                            <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="evQ-1I-RBb" customClass="EAWorkflowDateScrollView">
+                            <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" alpha="0.0" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="evQ-1I-RBb" customClass="EAWorkflowDateScrollView">
                                 <rect key="frame" x="0.0" y="0.0" width="70" height="600"/>
                                 <constraints>
                                     <constraint firstAttribute="width" constant="70" id="isn-Rl-Tbh"/>

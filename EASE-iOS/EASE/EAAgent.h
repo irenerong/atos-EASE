@@ -10,6 +10,8 @@
 
 @interface EAAgent : NSObject
 
+@property(nonatomic, readwrite) int agentID;
+
 @property(nonatomic, strong) NSString *type;
 @property(nonatomic, strong) NSString *name;
 

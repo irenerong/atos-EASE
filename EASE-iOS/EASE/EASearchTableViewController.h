@@ -15,6 +15,8 @@
 
 #import <UINavigationController+M13ProgressViewBar.h>
 
+#import "EASearchResults.h"
+
 @interface EASearchTableViewController : UITableViewController <UISearchBarDelegate, EANetworkingHelperDelegate, UITextFieldDelegate>
 
 @property (weak, nonatomic) IBOutlet UISearchBar *searchBar;

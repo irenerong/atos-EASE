@@ -77,9 +77,9 @@ static NSString * const reuseIdentifier = @"Cell";
     seekingWorkflows = false;
 }
 
--(void)setWorkflows:(NSArray *)workflows
+-(void)setSearchResults:(EASearchResults *)searchResults
 {
-    _workflows = workflows;
+    _searchResults = searchResults;
     if (self.isViewLoaded)
     {
         [self.collectionView reloadData];
@@ -137,7 +137,7 @@ static NSString * const reuseIdentifier = @"Cell";
 - (NSInteger)collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section
 {
     if (collectionView == self.collectionView)
-        return self.workflows.count;
+        return self.searchResults.workflows.count;
     
     return 5;
     
@@ -152,7 +152,7 @@ static NSString * const reuseIdentifier = @"Cell";
         
         // Configure the cell
         
-        EAWorkflow *workflow = self.workflows[indexPath.row];
+        EAWorkflow *workflow = self.searchResults.workflows[indexPath.row];
         workflow.color = colors[indexPath.row%5];
         
         cell.infosCollectionView.tag = indexPath.row;
@@ -189,7 +189,7 @@ static NSString * const reuseIdentifier = @"Cell";
 #pragma mark <UICollectionViewDelegate>
 
 -(void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath {
-    EAWorkflow *workflow = self.workflows[indexPath.row];
+    EAWorkflow *workflow = self.searchResults.workflows[indexPath.row];
     
     
     
@@ -210,12 +210,12 @@ static NSString * const reuseIdentifier = @"Cell";
 
 -(void)scrollViewDidScroll:(UIScrollView *)scrollView {
     
-    if (!seekingWorkflows && self.workflows.count < self.totalNumberOfWorkflows) {
+    /*if (!seekingWorkflows && self.searchResults.workflows.count < self.totalNumberOfWorkflows) {
         if (scrollView.contentOffset.y > scrollView.contentSize.height-scrollView.frame.size.height) {
             
             seekingWorkflows = true;
             
-            [[EANetworkingHelper sharedHelper] searchWorklowsBetweenId:self.workflows.count andId:self.workflows.count completionBlock:^(NSArray *workflows, NSError *error) {
+            [[EANetworkingHelper sharedHelper] searchWorklowsBetweenId:self.searchResults.workflows.count andId:self.workflows.count completionBlock:^(NSArray *workflows, NSError *error) {
                 
                 int workflowsCount = self.workflows.count;
                 self.workflows = [self.workflows arrayByAddingObjectsFromArray:workflows];
@@ -226,7 +226,7 @@ static NSString * const reuseIdentifier = @"Cell";
             }];
         }
         
-    }
+    }*/
 }
 
 #pragma mark - FRGWaterfallCollectionViewDelegate

@@ -19,7 +19,10 @@
     
 }
 
-@property(nonatomic, readwrite) int workflowiD;
++(instancetype)workflowByParsingDictionary:(NSDictionary*)dictionary;
+-(instancetype)initWithDicitonary:(NSDictionary*)dictionary;
+
+@property(nonatomic, readwrite) int workflowID;
 
 @property(nonatomic, strong) NSString *title;
 @property(nonatomic, strong) NSString *sortTag;
