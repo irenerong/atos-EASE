@@ -1,6 +1,6 @@
 /**
  * Constructor
- * /
+ */
 var Arrangement = function(){
 }
 
@@ -11,7 +11,7 @@ module.exports = Arrangement;
  * Initialization with the constraint and timetable of agents(list of periodes not available)
  * @Param constraint Constraint given by the user, containing the temporal constraints of a work flow
  * @Param agentsNonDispo Containing the periodes not avaibles of each agent. See its structure in ArrangeTimeExample.js 
- * /
+ */
 Arrangement.init = function(constraint, agentsNonDispo){
 	this.constraint = constraint;
 	this.agentsNonDispo = agentsNonDispo;
@@ -31,7 +31,7 @@ Arrangement.init = function(constraint, agentsNonDispo){
  * subtask 12 should wait the end of subtask 11,  subtask 21 wait subtask 12(last subtask of task1) etc.
  * @Param subtasks2 Subtasks need to deal with
  * @return subtasks Subtasks after modification
- * /
+ */
 Arrangement.whatTheFuck = function(subtasks2){
 	// Copy the subtasks
 	var subtasks = JSON.parse(JSON.stringify(subtasks2));
@@ -76,7 +76,7 @@ Arrangement.whatTheFuck = function(subtasks2){
  * This function will arrange time to the subtasks
  * @Param arrangeElements Containing the information of subtasks waiting to be given a start time
  * @Return res See @return in function arrangeTimeNonDispo
- * /
+ */
 Arrangement.arrange = function(arrangeElements){
 	var res = {};
 	var margin = 15; // A default margin(in advance or a delay according to the "type", unit minute)
@@ -170,7 +170,11 @@ function getConsumption(arrangeElements){
 
 /**
  * Gets the duration of the work flow
- * /
+
+ */
+
+
+
 
 function getDuration(arrangeElements){
 	var arrangeElements2 = JSON.parse(JSON.stringify(arrangeElements));
@@ -208,6 +212,7 @@ function salut(){
  * @Param arrangeElements Containing information of subtasks
  * @Param time Begin time of the work flow
  * @Param agentsNonDispo Periodes not available of all agents. More information of its structure, see arrangeTimeExample.js
+ */ 
 function arrangeTimeNonDispo(arrangeElements, time, agentsNonDispo){
 	// Copy the arrange elements
 	var arrangeElements2 = JSON.parse(JSON.stringify(arrangeElements));
@@ -319,7 +324,7 @@ function arrangeTimeNonDispo(arrangeElements, time, agentsNonDispo){
 /**
  * This function sorts the subtasks in order that when we go through the list to arrange time, we are sure of having 
  * finished all his predecessors before traiting a subtask.
- * /
+ */
 function sortTasks(arrangeElements){
 	var length = arrangeElements.length;
 	var res = [];
@@ -357,7 +362,7 @@ function sortTasks(arrangeElements){
  * Gets the predecessors of a subtask
  * @Param subTask The current subtask
  * @Param arrangeElements Containing all the subtasks
- * /
+ */
 function getPreds(subTask, arrangeElements){
 	var preds = new Array();
 	for (var i = arrangeElements.length - 1; i >= 0; i--) {
