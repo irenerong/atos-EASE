@@ -8,50 +8,129 @@
 module.exports = {
 
 	createwf : function(req,res){
-// 		ExternalMetaworkflow.findOne({id: 1}).exec(function (err,externalMetaworkflow){
-// 		console.log(externalMetaworkflow);
-// 		Metaworkflow.create({title: externalMetaworkflow.data.title, metatasks:externalMetaworkflow.data.metatasks,
-// 			ingredient: externalMetaworkflow.data.ingredient}).exec(function(err,metaworkflow){
-// 		var workflow=WorkflowGeneratorService.generateWorkflows(metaworkflow,15);
+		WFC=this;
+		params= req.body;
+		var sortFunction = null
+	if (req.session.lastsearch == params.intent){
+		console.log("this is a sort by"+req.session.lastsearch);
+		sortFunction = this.sort(params.sortBy);
+		req.session.generatedWorkflows.sort(sortFunction) ;
+		// if the the user just wants to do a workflow sort
 
-// 	})
-// })
-	Metaworkflow.findOne({id:25}).populate('metatasks').exec(function(err,metaworkflow){
-	//console.log(metaworkflow);
-		async.waterfall([function(cb){
+		res.json({"workflows":req.session.generatedWorkflows}) // with pagination
 
-			//req.session.generatedWorkflows = [{"consumption":100,"metaworkflow":12,"array":[{"subTask":11,"predecessor":[],"beginTime":"2015-02-01T01:15:00.000Z","agentID":1,"duration":20},{"subTask":12,"predecessor":[11],"beginTime":"2015-02-01T01:40:00.000Z","agentID":1,"duration":10},{"subTask":21,"predecessor":[12],"beginTime":"2015-02-01T01:55:00.000Z","agentID":1,"duration":20},{"subTask":31,"predecessor":[12],"beginTime":"2015-02-01T01:55:00.000Z","agentID":4,"duration":20},{"subTask":22,"predecessor":[21],"beginTime":"2015-02-01T02:20:00.000Z","agentID":1,"duration":10},{"subTask":32,"predecessor":[31],"beginTime":"2015-02-01T02:20:00.000Z","agentID":4,"duration":10},{"subTask":41,"predecessor":[22,32],"beginTime":"2015-02-01T02:35:00.000Z","agentID":2,"duration":20},{"subTask":42,"predecessor":[41],"beginTime":"2015-02-01T03:00:00.000Z","agentID":2,"duration":10}],"duration":115}] 
-			req.session.generatedWorkflows=WorkflowGeneratorService.generateWorkflows(metaworkflow, 15);
-			setTimeout(function(){
-			console.log(req.session.generatedWorkflows);
-			cb(err,req.session.generatedWorkflows);
-			},250);
+	}else{
+		// generate new workflows
+		console.log("generating workflows")
+		req.session.generatedWorkflows=[];
+		req.session.lastsearch = params.intent;
+		Metaworkflow.find({intent:params.intent}).populate('metatasks').exec(function(err,metaworkflows){
+
+			//console.log(metaworkflow);
+
+				async.waterfall([function(cb){
+
+					async.each(metaworkflows,
+						function(metaworkflow,cb2)
+						{WorkflowGeneratorService.generateWorkflows(metaworkflow, 15, 
+							function(generatedWorkflows)
+							{req.session.generatedWorkflows=req.session.generatedWorkflows.concat(generatedWorkflows);cb2(null);})},
+						function(err){
+							//console.log("all generatedWorkflows \n"+JSON.stringify(req.session.generatedWorkflows) )
+							//sort all generated workflows by params.sort
+
+							sortFunction = WFC.sort(params.sortBy);
+							req.session.generatedWorkflows.sort(sortFunction) ;
+							cb(null);
+						});// fin async each
+					
+					// WorkflowGeneratorService.generateWorkflows(metaworkflows[0], 15, 
+					// 		function(generatedWorkflows)
+					// 		{ console.log(metaworkflows[0]);
+					// 		req.session.generatedWorkflows=req.session.generatedWorkflows.concat(generatedWorkflows);
+					// 		sortFunction = WFC.sort(params.sortBy);
+					//  		req.session.generatedWorkflows.sort(sortFunction) ;
+					//  		cb(null);})
+
+
+
+					
+					
+					
+					
 			
-	
 
-		},
-		function(workflows,cb){
+				}// first cb of waterfall
 
-			//console.log('req.session'+req.session.generatedWorkflows);
-			res.json({"workflows":workflows});
-			cb();
-
-
-		}
-
-		],
-		
-		function (err){
-		
+				],
+				
+				function (err){
+					//console.log('req.session'+req.session.generatedWorkflows);
+					res.json({"workflows":req.session.generatedWorkflows});
+				
 
 
-		}) ;
-	
+				}) ;
+			
 
-	})
-
-
+			})
 	}
+	
+	
+
+
+	},
+sort :function(sortBy){
+
+					if (sortBy == 'title') {
+
+
+
+					return sortFunction = function(a, b) {
+
+							var order = 1
+							//console.log("a "+a.metaworkflow+" b "+b.metaworkflow)
+
+							if (a.metaworkflow < b.metaworkflow)
+								return  -1*order
+							if (a.metaworkflow > b.metaworkflow)
+								return  1*order
+
+							return 0
+	
+						}
+					}
+					else {
+
+					return sortFunction = function(a, b) {
+
+							var order = 1
+							if (sortBy == 'consumption'){
+								if (a.consumption < b.consumption)
+								return  -1*order
+								if (a.consumption > b.consumption)
+								return  1*order
+
+							return 0
+
+							}else{
+								if (a.duration < b.duration)
+								return  -1*order
+								if (a.duration > b.duration)
+								return  1*order
+
+							return 0
+
+							}
+							
+
+							
+	
+						}
+
+					}
+
+}
 
 
 

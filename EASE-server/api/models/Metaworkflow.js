@@ -12,6 +12,9 @@ module.exports = {
   	title: {
   		type: 'string'
   	},
+    intent: {
+      type: 'string'
+    },
 
   	metatasks: {
   		collection: 'Metatask',

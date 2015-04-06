@@ -1,0 +1,34 @@
+{
+  "title": "exotic chicken",
+  "ingredient":["chicken","sel","water","onion"],
+  "metatasks": [
+    {
+      "idTask": 1,
+      "name": "Cuire le poulet",
+      "description": "Plop",
+      "agentTypes": ["oven"],
+      "waitFor":[]
+    }, 
+    {
+      "idTask": 2,
+      "name": "Pouet",
+      "description": "Plop",
+      "agentTypes": ["oven", "microwave"],
+      "waitFor":[1]
+    }, 
+    {
+      "idTask": 3,
+      "name": "Pouet",
+      "description": "Plop",
+      "agentTypes": ["ricecooker2"],
+      "waitFor": [1]
+    }, 
+    {
+      "idTask": 4,
+      "name": "Pouet",
+      "description": "Plop",
+      "agentTypes": ["user"],
+      "waitFor" :[2,3]
+    }
+  ]
+}
