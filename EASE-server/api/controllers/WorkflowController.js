@@ -9,7 +9,11 @@ module.exports = {
 
 	createwf : function(req,res){
 		WFC=this;
-		params= req.body;
+		var params= req.body;
+		var timeConstraint={}
+			timeConstraint.type =req.body.type;
+			timeConstraint.option=req.body.option;
+			timeConstraint.time=req.body.time;
 		var sortFunction = null
 	if (req.session.lastsearch == params.intent){
 		console.log("this is a sort by"+req.session.lastsearch);
@@ -32,7 +36,7 @@ module.exports = {
 
 					async.each(metaworkflows,
 						function(metaworkflow,cb2)
-						{WorkflowGeneratorService.generateWorkflows(metaworkflow, 15, 
+						{WorkflowGeneratorService.generateWorkflows(metaworkflow,timeConstraint, 
 							function(generatedWorkflows)
 							{req.session.generatedWorkflows=req.session.generatedWorkflows.concat(generatedWorkflows);cb2(null);})},
 						function(err){

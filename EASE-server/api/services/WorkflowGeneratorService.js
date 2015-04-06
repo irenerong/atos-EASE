@@ -152,11 +152,9 @@ module.exports = {
 					setTimeout(
 								function(){
 									//console.log(JSON.stringify(agentNondispo,null,4));
+									//console.log(params);
 
-										arrangeTimeNew.init({ type: 0,
-										  option: 1,
-										  time: new Date("Wed Apr 01 2015 2:00:00 GMT+0100 (CET)") 
-										},agentNondispo)//finish init
+										arrangeTimeNew.init(params,agentNondispo)//finish init
 										cb(null);
 							},250)
 			}
@@ -269,8 +267,8 @@ module.exports = {
 								// res.subtasks.forEach(function(e,i,a) {
 								//     res.consumption += e.consumption.CO2;
 								// }); // add up comsumption of each subtask
-							console.log("total consumption "+res.consumption);
-							res.metaworkflow = metaworkflow.title;
+							//console.log("total consumption "+res.consumption);
+							res.metaworkflow = metaworkflow.id;
 							generatedWorkflows.push(res);
 					}
 					

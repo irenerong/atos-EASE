@@ -16,6 +16,9 @@ module.exports = {
     var params = req.session.generatedWorkflows[index];
     var subtasks=req.session.generatedWorkflows[index].subtasks;
     //subtasks = params.array;
+    var consumption = parseFloat(params.consumption);
+    var duration = parseInt(params.duration);
+    console.log("consumption "+consumption+" duration "+duration)
 
     //console.log(params);
     subtasks.forEach(function(e,i,a){
@@ -24,7 +27,7 @@ module.exports = {
       })
     })
    
-    Workflow.create({metaworkflow : params.metaworkflow, consumption : params.consumption, duration : params.duration}).exec(
+    Workflow.create({metaworkflow : params.metaworkflow,duration:duration,consumption:consumption}).exec(
       function(err, workflow){
         if (err) {console.log(err)}
 
@@ -53,7 +56,7 @@ module.exports = {
           }// function(workflow,cb)
           ],function(err){
 
-            console.log('new created workflow'+ workflow.id);
+            res.json({"new created workflow":workflow.id});
 
 
           })// fin async waterfall

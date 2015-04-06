@@ -13,7 +13,8 @@ module.exports = Arrangement;
  * @Param agentsNonDispo Containing the periodes not avaibles of each agent. See its structure in ArrangeTimeExample.js 
  */
 Arrangement.init = function(constraint, agentsNonDispo){
-	this.constraint = constraint;
+	this.constraint = JSON.parse(JSON.stringify(constraint));
+	//console.log(this.constraint.type)
 	this.agentsNonDispo = agentsNonDispo;
 }
 
@@ -108,7 +109,11 @@ Arrangement.arrange = function(arrangeElements){
 	wfDuration = getDuration(sortedTasks);
 	
 	// Begin time of work flow 
-	var beginWF = new Date(this.constraint.time);
+	var dateString = this.constraint.time;
+	//console.log(dateString);
+	var beginWF = new Date(dateString);
+	// var beginWF = new Date(this.constraint.time);
+	//console.log("beginWF "+beginWF);
 	// Sets minutes of the begin time according to the constraints
 	beginWF.setMinutes(beginWF.getMinutes() - coef2 * wfDuration + coef1 * margin);
 	
