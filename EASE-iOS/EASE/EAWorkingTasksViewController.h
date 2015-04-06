@@ -11,6 +11,6 @@
 #import "EATaskInfoViewController.h"
 
 
-@interface EAWorkingTasksViewController : EATasksViewController <EATasksViewControllerDelegates, EATaskCellDelegate>
+@interface EAWorkingTasksViewController : EATasksViewController <EATasksViewControllerDelegates>
 
 @end

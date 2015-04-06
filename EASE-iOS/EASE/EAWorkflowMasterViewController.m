@@ -11,36 +11,11 @@
 #import "MZFormSheetController.h"
 #import "MZFormSheetSegue.h"
 
-@interface UINavigationItem(MultipleButtonsAddition)
-@property (nonatomic, strong) IBOutletCollection(UIBarButtonItem) NSArray* rightBarButtonItemsCollection;
-@property (nonatomic, strong) IBOutletCollection(UIBarButtonItem) NSArray* leftBarButtonItemsCollection;
-@end
-
-@implementation UINavigationItem(MultipleButtonsAddition)
-
-- (void) setRightBarButtonItemsCollection:(NSArray *)rightBarButtonItemsCollection {
-    self.rightBarButtonItems = [rightBarButtonItemsCollection sortedArrayUsingDescriptors:@[[NSSortDescriptor sortDescriptorWithKey:@"tag" ascending:YES]]];
-}
-
-- (void) setLeftBarButtonItemsCollection:(NSArray *)leftBarButtonItemsCollection {
-    self.leftBarButtonItems = [leftBarButtonItemsCollection sortedArrayUsingDescriptors:@[[NSSortDescriptor sortDescriptorWithKey:@"tag" ascending:YES]]];
-}
-
-- (NSArray*) rightBarButtonItemsCollection {
-    return self.rightBarButtonItems;
-}
-
-- (NSArray*) leftBarButtonItemsCollection {
-    return self.leftBarButtonItems;
-}
-
-@end
-
-
-
 
 
 @interface EAWorkflowMasterViewController ()
+
+
 
 @end
 
@@ -60,21 +35,22 @@
     [super viewDidLoad];
     // Do any additional setup after loading the view.
     
+    self.navigationItem.rightBarButtonItems = @[self.editButton, self.doneButton];
+    
     [[MZFormSheetBackgroundWindow appearance] setBackgroundBlurEffect:true];
     [[MZFormSheetBackgroundWindow appearance] setBlurRadius:5.0];
     [[MZFormSheetBackgroundWindow appearance] setBackgroundColor:[UIColor clearColor]];
     
-    EAWorkflowViewController *frontViewController = [self.storyboard instantiateViewControllerWithIdentifier:@"FrontViewController"];
-    frontViewController.workflow = self.workflow;
-    
-    EAWorkflowInfosViewController *backViewController = [self.storyboard instantiateViewControllerWithIdentifier:@"BackViewController"];
-    backViewController.workflow = self.workflow;
+    self.frontController = [self.storyboard instantiateViewControllerWithIdentifier:@"FrontViewController"];
+    self.backController =  [self.storyboard instantiateViewControllerWithIdentifier:@"BackViewController"];
     
     self.closedTopOffset = 302;
     
-    self.backController = backViewController;
-    
-    self.frontController = frontViewController;
+    if (_workflow)
+    {
+        [self setWorkflow:_workflow];
+    }
+
     
 }
 
@@ -83,6 +59,19 @@
     // Dispose of any resources that can be recreated.
 }
 
+-(void)setWorkflow:(EAWorkflow *)workflow
+{
+    _workflow = workflow;
+    
+    if (self.isViewLoaded)
+    {
+        ((EAWorkflowInfosViewController*) self.frontController).workflow = self.workflow;
+        ((EAWorkflowViewController*) self.backController) .workflow = self.workflow;
+
+
+    }
+    
+}
 
 #pragma mark - Navigation
 

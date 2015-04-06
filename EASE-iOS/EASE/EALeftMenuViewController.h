@@ -9,6 +9,8 @@
 #import <UIKit/UIKit.h>
 #import <RESideMenu.h>
 
+#import "EANetworkingHelper.h"
+
 @interface EALeftMenuViewController : UIViewController <UITableViewDataSource, UITableViewDelegate>
 
 @property (weak, nonatomic) IBOutlet UITableView *tableView;
@@ -16,5 +18,7 @@
 
 @property (weak, nonatomic) IBOutlet UIButton *tasksButton;
 
+@property (weak, nonatomic) IBOutlet UILabel *welcomeTextLabel;
+- (IBAction)logout:(id)sender;
 
 @end

@@ -67,7 +67,7 @@
     formSheet.shouldDismissOnBackgroundViewTap = YES;
     
     formSheet.willDismissCompletionHandler = ^(UIViewController *presentedFSViewController) {
-        
+        [self.actionsCollectionView reloadData];
         NSLog(@"Dismiss");
         
     };
@@ -88,7 +88,6 @@
     
     
     cell.taskNotification = [EANetworkingHelper sharedHelper].workingTasks[indexPath.row];
-    cell.delegate = self;
     
     
     return cell;

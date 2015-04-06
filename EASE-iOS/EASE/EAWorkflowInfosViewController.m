@@ -35,6 +35,7 @@
     self.infosCollectionView.layer.shadowOffset = CGSizeMake(0,-1);
     
     
+    
     UIEdgeInsets contentInset = UIEdgeInsetsMake(0, 0, self.pullDownController.openBottomOffset+6, 0);
     UIEdgeInsets scrollInset = UIEdgeInsetsMake(0, 0, self.pullDownController.openBottomOffset+10, 0);
 
@@ -45,7 +46,7 @@
     self.ingredientsTableView.scrollIndicatorInsets = scrollInset;
     
     
-    
+    if (_workflow)
     self.workflow = _workflow;
 
 
@@ -79,9 +80,12 @@
         self.ingredientsTableView.backgroundColor = [UIColor colorWithWhite:255/255.0 alpha:1.0];
         self.agentsTableView.backgroundColor = [UIColor colorWithWhite:255/255.0 alpha:1.0];
         
-        NSMutableAttributedString *ingredientsString = [[NSMutableAttributedString alloc] initWithString:@"2/3" attributes:@{NSFontAttributeName: [UIFont fontWithName:@"HelveticaNeue-Thin" size:17]}];
         
-        [ingredientsString appendAttributedString:[[NSAttributedString alloc] initWithString:@" Ingrédients" attributes:@{NSFontAttributeName: [UIFont fontWithName:@"HelveticaNeue" size:13]}]];
+        
+        
+        NSMutableAttributedString *ingredientsString = [[NSMutableAttributedString alloc] initWithString:[NSString stringWithFormat:@"%d/%d", _workflow.availableIngredients, _workflow.ingredients.count] attributes:@{NSFontAttributeName: [UIFont fontWithName:@"HelveticaNeue-Thin" size:17]}];
+        
+        [ingredientsString appendAttributedString:[[NSAttributedString alloc] initWithString:@" Ingredients" attributes:@{NSFontAttributeName: [UIFont fontWithName:@"HelveticaNeue" size:13]}]];
         
         
         
@@ -89,7 +93,7 @@
         
         [agentsString appendAttributedString:[[NSAttributedString alloc] initWithString:@" Users  " attributes:@{NSFontAttributeName: [UIFont fontWithName:@"HelveticaNeue" size:13]}]];
         
-        [agentsString appendAttributedString:[[NSAttributedString alloc] initWithString:@" 6/7" attributes:@{NSFontAttributeName: [UIFont fontWithName:@"HelveticaNeue-Thin" size:17]}]];
+        [agentsString appendAttributedString:[[NSAttributedString alloc] initWithString:[NSString stringWithFormat:@" %d/%d", _workflow.availableAgents, _workflow.agents.count] attributes:@{NSFontAttributeName: [UIFont fontWithName:@"HelveticaNeue-Thin" size:17]}]];
         
         [agentsString appendAttributedString:[[NSAttributedString alloc] initWithString:@" Agents" attributes:@{NSFontAttributeName: [UIFont fontWithName:@"HelveticaNeue" size:13]}]];
         
@@ -98,7 +102,9 @@
         
         
         [self.imageView setImageWithProgressIndicatorAndURL:self.workflow.imageURL];
-
+        [self.buyButton setTitleColor:_workflow.color forState:UIControlStateNormal];
+        
+        
         
     }
 
@@ -111,11 +117,11 @@
     NSInteger rows = 0;
     if (tableView == self.ingredientsTableView)
     {
-        return 10;
+        return _workflow.ingredients.count;
     }
     else if (tableView == self.agentsTableView)
     {
-        return 10;
+        return _workflow.agents.count;
 
     }
     
@@ -134,13 +140,16 @@
     if (tableView == self.ingredientsTableView)
     {
         cell = [tableView dequeueReusableCellWithIdentifier:@"IngredientsCell"];
-        cell.textLabel.text = [NSString stringWithFormat:@"Ingredient %d", indexPath.row+1];
-        cell.detailTextLabel.text = [NSString stringWithFormat:@"Quantité %d", indexPath.row+1];
+        
+        EAIngredient *ingredient = _workflow.ingredients[indexPath.row];
+        
+        cell.textLabel.text = ingredient.name;
+        cell.detailTextLabel.text = ingredient.quantity;
 
         
         
         cell.tintColor = self.workflow.color;
-        cell.accessoryType = UITableViewCellAccessoryCheckmark;
+        cell.accessoryType = ingredient.available ? UITableViewCellAccessoryCheckmark : UITableViewCellAccessoryNone;
         
 
     }
@@ -148,16 +157,21 @@
     {
         cell = [tableView dequeueReusableCellWithIdentifier:@"AgentsCell"];
         
-        cell.textLabel.text = [NSString stringWithFormat:@"Agent %d", indexPath.row+1];
-        cell.detailTextLabel.text = [NSString stringWithFormat:@"Agent Info %d", indexPath.row+1];
+        EAAgent *agent = _workflow.agents[indexPath.row];
+        
+        cell.textLabel.text = agent.type;
+        cell.detailTextLabel.text = agent.name;
         cell.tintColor = self.workflow.color;
-        cell.accessoryType = UITableViewCellAccessoryCheckmark;
+        
+        cell.accessoryType = agent.available ? UITableViewCellAccessoryCheckmark : UITableViewCellAccessoryNone;
 
     }
     return cell;
 }
 
 #pragma mark - UITableViewDelegate
+
+
 
 #pragma mark - UICollectionViewDataSource
 

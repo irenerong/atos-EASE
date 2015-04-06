@@ -7,10 +7,13 @@
 //
 
 #import <UIKit/UIKit.h>
+#import <YLProgressBar.h>
+#import <MZFormSheetController.h>
 #import "EANetworkingHelper.h"
 #import "EAPendingTask.h"
 #import "EAWorkingTask.h"
 #import <SCLAlertView.h>
+#import <Masonry.h>
 
 @interface EATaskInfoViewController : UIViewController
 {
@@ -30,6 +33,7 @@
 @property (weak, nonatomic) IBOutlet UILabel *statusLabel;
 @property (weak, nonatomic) IBOutlet UILabel *timeStatusLabel;
 
+@property (weak, nonatomic) IBOutlet YLProgressBar *progressBar;
 
 @property(weak, nonatomic) EANotification *taskNotification;
 

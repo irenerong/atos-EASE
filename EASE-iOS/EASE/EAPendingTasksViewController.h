@@ -9,6 +9,6 @@
 #import "EATasksViewController.h"
 #import "EATaskInfoViewController.h"
 
-@interface EAPendingTasksViewController : EATasksViewController <EATasksViewControllerDelegates, EATaskCellDelegate>
+@interface EAPendingTasksViewController : EATasksViewController <EATasksViewControllerDelegates>
 
 @end

@@ -9,6 +9,11 @@
 			<key>isShown</key>
 			<false/>
 		</dict>
+		<key>Pods-JTCalendar.xcscheme</key>
+		<dict>
+			<key>isShown</key>
+			<false/>
+		</dict>
 		<key>Pods-M13ProgressSuite.xcscheme</key>
 		<dict>
 			<key>isShown</key>
@@ -25,6 +30,11 @@
 			<false/>
 		</dict>
 		<key>Pods-MarqueeLabel.xcscheme</key>
+		<dict>
+			<key>isShown</key>
+			<false/>
+		</dict>
+		<key>Pods-Masonry.xcscheme</key>
 		<dict>
 			<key>isShown</key>
 			<false/>
@@ -67,62 +77,72 @@
 	</dict>
 	<key>SuppressBuildableAutocreation</key>
 	<dict>
-		<key>07C23EA3A3F06E4931F04DBE</key>
+		<key>2688F0F60A556BB641E86506</key>
 		<dict>
 			<key>primary</key>
 			<true/>
 		</dict>
-		<key>0D040FA628C76A19C81FF34A</key>
+		<key>291D68B9875928C74E2B922A</key>
 		<dict>
 			<key>primary</key>
 			<true/>
 		</dict>
-		<key>3C92A27D5C379608588A5812</key>
+		<key>300FEBF258868FB4B3502827</key>
 		<dict>
 			<key>primary</key>
 			<true/>
 		</dict>
-		<key>45D765CBC1B4D36732AE2ECD</key>
+		<key>39042EAD0C4FDB33A72A2A46</key>
 		<dict>
 			<key>primary</key>
 			<true/>
 		</dict>
-		<key>484BCD9AFEC64329972FB2B8</key>
+		<key>3B2E7A9FE00789D60D1A6572</key>
 		<dict>
 			<key>primary</key>
 			<true/>
 		</dict>
-		<key>4F3E5D2E4DBD1E76E3DCFD34</key>
+		<key>62F54F22F3D67AA07E6B13CB</key>
 		<dict>
 			<key>primary</key>
 			<true/>
 		</dict>
-		<key>6578C289C5DE05439C59E626</key>
+		<key>72F53D946A4379CE17FD1354</key>
 		<dict>
 			<key>primary</key>
 			<true/>
 		</dict>
-		<key>86858721FE10E86E9EF49173</key>
+		<key>783186CDE99380680CBEB508</key>
 		<dict>
 			<key>primary</key>
 			<true/>
 		</dict>
-		<key>A17F67F407ABB9FA279F4F26</key>
+		<key>A7010AEED7C70D3F7BED955D</key>
 		<dict>
 			<key>primary</key>
 			<true/>
 		</dict>
-		<key>EBFDAB6D6366F262948D0955</key>
+		<key>C37043870C2286F17465C9B6</key>
 		<dict>
 			<key>primary</key>
 			<true/>
 		</dict>
-		<key>EFE7EEC307BDA3D4F722E7D7</key>
+		<key>DCABC650AE004E6B4B7F9C22</key>
 		<dict>
 			<key>primary</key>
 			<true/>
 		</dict>
-		<key>F259623EBDBBF9F325102D51</key>
+		<key>DE13F29289ECD4CC66877E87</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
+		<key>E32227EDFDB978A7EF8AFD5E</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
+		<key>FA95188FF8F9B8FF12427059</key>
 		<dict>
 			<key>primary</key>
 			<true/>

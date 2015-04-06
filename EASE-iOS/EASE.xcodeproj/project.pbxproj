@@ -19,6 +19,8 @@
 		311915BD1AA5122E00DD4EDF /* EATasksViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 31BA9A641AA47E14005D4E22 /* EATasksViewController.m */; };
 		311915C01AA5BB3500DD4EDF /* EAPendingTask.m in Sources */ = {isa = PBXBuildFile; fileRef = 311915BF1AA5BB3500DD4EDF /* EAPendingTask.m */; };
 		311915C31AA5BB6700DD4EDF /* EAAgent.m in Sources */ = {isa = PBXBuildFile; fileRef = 311915C21AA5BB6700DD4EDF /* EAAgent.m */; };
+		312988031AC861F700036504 /* EAIngredient.m in Sources */ = {isa = PBXBuildFile; fileRef = 312988021AC861F700036504 /* EAIngredient.m */; };
+		312988061AC8644F00036504 /* EAUser.m in Sources */ = {isa = PBXBuildFile; fileRef = 312988051AC8644F00036504 /* EAUser.m */; };
 		313078141A89213B0080E17B /* EAWorkflowInfosViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 313078131A89213B0080E17B /* EAWorkflowInfosViewController.m */; };
 		313893F01A8AB34400D0AF11 /* EASearchTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 313893EF1A8AB34400D0AF11 /* EASearchTableViewController.m */; };
 		3146E6B41A80E2160072FC99 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 3146E6B31A80E2160072FC99 /* main.m */; };
@@ -36,16 +38,18 @@
 		3146E6ED1A8165060072FC99 /* EAWorkflowTaskCollectionViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 3146E6EC1A8165060072FC99 /* EAWorkflowTaskCollectionViewCell.m */; };
 		315AC96E1AACFDF800E7B54C /* EACalendarViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 315AC96D1AACFDF800E7B54C /* EACalendarViewController.m */; };
 		3165B2B41AA9022800358DCC /* EAWorkingTask.m in Sources */ = {isa = PBXBuildFile; fileRef = 3165B2B31AA9022800358DCC /* EAWorkingTask.m */; };
-		3165B2BD1AA916A200358DCC /* MenuBG.png in Resources */ = {isa = PBXBuildFile; fileRef = 3165B2BC1AA916A200358DCC /* MenuBG.png */; };
 		316DBF441A8C11C600828BE2 /* EAWorkflowMasterViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 316DBF431A8C11C600828BE2 /* EAWorkflowMasterViewController.m */; };
 		316DBF471A8CB15800828BE2 /* EANetworkingHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = 316DBF461A8CB15800828BE2 /* EANetworkingHelper.m */; };
 		317622D61AA873FD00B406CD /* EAPendingTasksViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 317622D51AA873FD00B406CD /* EAPendingTasksViewController.m */; };
 		317622DA1AA875CD00B406CD /* EAWorkingTasksViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 317622D91AA875CD00B406CD /* EAWorkingTasksViewController.m */; };
+		3176D78F1ABF76F600B206A7 /* EACalendarWorkflowCollectionViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 3176D78E1ABF76F600B206A7 /* EACalendarWorkflowCollectionViewCell.m */; };
 		319CCBD31AA66FC900567C14 /* EATaskInfoViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 319CCBD21AA66FC900567C14 /* EATaskInfoViewController.m */; };
 		31A2A46C1AAC7D9B00C0F77F /* EATaskCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 31A2A46B1AAC7D9B00C0F77F /* EATaskCell.xib */; };
+		31A50F0D1AC94ABF00BDF367 /* EACalendarTaskCollectionViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 31A50F0C1AC94ABF00BDF367 /* EACalendarTaskCollectionViewCell.m */; };
 		31A7509F1A8F3FDA00FF0E7C /* EASearchSortTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 31A7509E1A8F3FDA00FF0E7C /* EASearchSortTableViewController.m */; };
 		31BA9A5A1AA46CA3005D4E22 /* EARootViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 31BA9A591AA46CA3005D4E22 /* EARootViewController.m */; };
 		31BA9A5D1AA4719D005D4E22 /* EALeftMenuViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 31BA9A5C1AA4719D005D4E22 /* EALeftMenuViewController.m */; };
+		31FFAE9D1AD04DE900AACD2D /* EALoginViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 31FFAE9C1AD04DE900AACD2D /* EALoginViewController.m */; };
 		660635EBCCABF0DA5A87A219 /* libPods.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 5A349251BDC63E909A65C4FB /* libPods.a */; };
 /* End PBXBuildFile section */
 
@@ -81,6 +85,10 @@
 		311915BF1AA5BB3500DD4EDF /* EAPendingTask.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EAPendingTask.m; sourceTree = "<group>"; };
 		311915C11AA5BB6700DD4EDF /* EAAgent.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EAAgent.h; sourceTree = "<group>"; };
 		311915C21AA5BB6700DD4EDF /* EAAgent.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EAAgent.m; sourceTree = "<group>"; };
+		312988011AC861F700036504 /* EAIngredient.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EAIngredient.h; sourceTree = "<group>"; };
+		312988021AC861F700036504 /* EAIngredient.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EAIngredient.m; sourceTree = "<group>"; };
+		312988041AC8644F00036504 /* EAUser.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EAUser.h; sourceTree = "<group>"; };
+		312988051AC8644F00036504 /* EAUser.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EAUser.m; sourceTree = "<group>"; };
 		313078121A89213B0080E17B /* EAWorkflowInfosViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EAWorkflowInfosViewController.h; sourceTree = "<group>"; };
 		313078131A89213B0080E17B /* EAWorkflowInfosViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EAWorkflowInfosViewController.m; sourceTree = "<group>"; };
 		313893EE1A8AB34400D0AF11 /* EASearchTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EASearchTableViewController.h; sourceTree = "<group>"; };
@@ -114,7 +122,6 @@
 		315AC96D1AACFDF800E7B54C /* EACalendarViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EACalendarViewController.m; sourceTree = "<group>"; };
 		3165B2B21AA9022800358DCC /* EAWorkingTask.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EAWorkingTask.h; sourceTree = "<group>"; };
 		3165B2B31AA9022800358DCC /* EAWorkingTask.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EAWorkingTask.m; sourceTree = "<group>"; };
-		3165B2BC1AA916A200358DCC /* MenuBG.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = MenuBG.png; sourceTree = "<group>"; };
 		316DBF421A8C11C600828BE2 /* EAWorkflowMasterViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EAWorkflowMasterViewController.h; sourceTree = "<group>"; };
 		316DBF431A8C11C600828BE2 /* EAWorkflowMasterViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EAWorkflowMasterViewController.m; sourceTree = "<group>"; };
 		316DBF451A8CB15800828BE2 /* EANetworkingHelper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EANetworkingHelper.h; sourceTree = "<group>"; };
@@ -123,9 +130,13 @@
 		317622D51AA873FD00B406CD /* EAPendingTasksViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EAPendingTasksViewController.m; sourceTree = "<group>"; };
 		317622D81AA875CD00B406CD /* EAWorkingTasksViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EAWorkingTasksViewController.h; sourceTree = "<group>"; };
 		317622D91AA875CD00B406CD /* EAWorkingTasksViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EAWorkingTasksViewController.m; sourceTree = "<group>"; };
+		3176D78D1ABF76F600B206A7 /* EACalendarWorkflowCollectionViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EACalendarWorkflowCollectionViewCell.h; sourceTree = "<group>"; };
+		3176D78E1ABF76F600B206A7 /* EACalendarWorkflowCollectionViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EACalendarWorkflowCollectionViewCell.m; sourceTree = "<group>"; };
 		319CCBD11AA66FC900567C14 /* EATaskInfoViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EATaskInfoViewController.h; sourceTree = "<group>"; };
 		319CCBD21AA66FC900567C14 /* EATaskInfoViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EATaskInfoViewController.m; sourceTree = "<group>"; };
 		31A2A46B1AAC7D9B00C0F77F /* EATaskCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = EATaskCell.xib; sourceTree = "<group>"; };
+		31A50F0B1AC94ABF00BDF367 /* EACalendarTaskCollectionViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EACalendarTaskCollectionViewCell.h; sourceTree = "<group>"; };
+		31A50F0C1AC94ABF00BDF367 /* EACalendarTaskCollectionViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EACalendarTaskCollectionViewCell.m; sourceTree = "<group>"; };
 		31A7509D1A8F3FDA00FF0E7C /* EASearchSortTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EASearchSortTableViewController.h; sourceTree = "<group>"; };
 		31A7509E1A8F3FDA00FF0E7C /* EASearchSortTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EASearchSortTableViewController.m; sourceTree = "<group>"; };
 		31BA9A581AA46CA3005D4E22 /* EARootViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EARootViewController.h; sourceTree = "<group>"; };
@@ -134,6 +145,8 @@
 		31BA9A5C1AA4719D005D4E22 /* EALeftMenuViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EALeftMenuViewController.m; sourceTree = "<group>"; };
 		31BA9A631AA47E14005D4E22 /* EATasksViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EATasksViewController.h; sourceTree = "<group>"; };
 		31BA9A641AA47E14005D4E22 /* EATasksViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EATasksViewController.m; sourceTree = "<group>"; };
+		31FFAE9B1AD04DE900AACD2D /* EALoginViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EALoginViewController.h; sourceTree = "<group>"; };
+		31FFAE9C1AD04DE900AACD2D /* EALoginViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EALoginViewController.m; sourceTree = "<group>"; };
 		3D038CB637637CAD0E292855 /* Pods.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.debug.xcconfig; path = "Pods/Target Support Files/Pods/Pods.debug.xcconfig"; sourceTree = "<group>"; };
 		4D2E7D23C6E8A69C23A7980B /* Pods.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.release.xcconfig; path = "Pods/Target Support Files/Pods/Pods.release.xcconfig"; sourceTree = "<group>"; };
 		5A349251BDC63E909A65C4FB /* libPods.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libPods.a; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -321,12 +334,12 @@
 				3146E6BB1A80E2160072FC99 /* Main.storyboard */,
 				3146E6BE1A80E2160072FC99 /* Images.xcassets */,
 				3146E6C01A80E2160072FC99 /* LaunchScreen.xib */,
+				31FFAE9E1AD04DF500AACD2D /* Login */,
 				31BA9A611AA47DEB005D4E22 /* Root */,
 				31BA9A621AA47DF0005D4E22 /* Left Menu */,
 				31BA9A661AA47E18005D4E22 /* Notifications */,
 				31BA9A601AA47DE4005D4E22 /* New Workflow */,
-				315AC96C1AACFDF800E7B54C /* EACalendarViewController.h */,
-				315AC96D1AACFDF800E7B54C /* EACalendarViewController.m */,
+				31A50F0E1AC94ACD00BDF367 /* Calendar */,
 			);
 			name = UI;
 			sourceTree = "<group>";
@@ -352,6 +365,10 @@
 				3165B2B31AA9022800358DCC /* EAWorkingTask.m */,
 				311915C11AA5BB6700DD4EDF /* EAAgent.h */,
 				311915C21AA5BB6700DD4EDF /* EAAgent.m */,
+				312988041AC8644F00036504 /* EAUser.h */,
+				312988051AC8644F00036504 /* EAUser.m */,
+				312988011AC861F700036504 /* EAIngredient.h */,
+				312988021AC861F700036504 /* EAIngredient.m */,
 			);
 			name = Class;
 			sourceTree = "<group>";
@@ -403,6 +420,19 @@
 			name = Tasks;
 			sourceTree = "<group>";
 		};
+		31A50F0E1AC94ACD00BDF367 /* Calendar */ = {
+			isa = PBXGroup;
+			children = (
+				315AC96C1AACFDF800E7B54C /* EACalendarViewController.h */,
+				315AC96D1AACFDF800E7B54C /* EACalendarViewController.m */,
+				3176D78D1ABF76F600B206A7 /* EACalendarWorkflowCollectionViewCell.h */,
+				3176D78E1ABF76F600B206A7 /* EACalendarWorkflowCollectionViewCell.m */,
+				31A50F0B1AC94ABF00BDF367 /* EACalendarTaskCollectionViewCell.h */,
+				31A50F0C1AC94ABF00BDF367 /* EACalendarTaskCollectionViewCell.m */,
+			);
+			name = Calendar;
+			sourceTree = "<group>";
+		};
 		31BA9A601AA47DE4005D4E22 /* New Workflow */ = {
 			isa = PBXGroup;
 			children = (
@@ -416,7 +446,6 @@
 		31BA9A611AA47DEB005D4E22 /* Root */ = {
 			isa = PBXGroup;
 			children = (
-				3165B2BC1AA916A200358DCC /* MenuBG.png */,
 				31BA9A581AA46CA3005D4E22 /* EARootViewController.h */,
 				31BA9A591AA46CA3005D4E22 /* EARootViewController.m */,
 			);
@@ -438,6 +467,15 @@
 				319CCBCD1AA66ED000567C14 /* Tasks */,
 			);
 			name = Notifications;
+			sourceTree = "<group>";
+		};
+		31FFAE9E1AD04DF500AACD2D /* Login */ = {
+			isa = PBXGroup;
+			children = (
+				31FFAE9B1AD04DE900AACD2D /* EALoginViewController.h */,
+				31FFAE9C1AD04DE900AACD2D /* EALoginViewController.m */,
+			);
+			name = Login;
 			sourceTree = "<group>";
 		};
 		6C59B58222487B9AB65A4B0B /* Frameworks */ = {
@@ -545,7 +583,6 @@
 				311734B71A87EAFB006B2B39 /* poulet.jpg in Resources */,
 				3146E6BF1A80E2160072FC99 /* Images.xcassets in Resources */,
 				31A2A46C1AAC7D9B00C0F77F /* EATaskCell.xib in Resources */,
-				3165B2BD1AA916A200358DCC /* MenuBG.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -596,6 +633,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				312988031AC861F700036504 /* EAIngredient.m in Sources */,
 				3113A8521A82373D00E972F3 /* EAWorkflowDateScrollView.m in Sources */,
 				3146E6DB1A80E57A0072FC99 /* EAWorkflow.m in Sources */,
 				316DBF471A8CB15800828BE2 /* EANetworkingHelper.m in Sources */,
@@ -609,6 +647,8 @@
 				311915B91AA50E3A00DD4EDF /* EANotification.m in Sources */,
 				3146E6BA1A80E2160072FC99 /* EAWorkflowViewController.m in Sources */,
 				3146E6ED1A8165060072FC99 /* EAWorkflowTaskCollectionViewCell.m in Sources */,
+				312988061AC8644F00036504 /* EAUser.m in Sources */,
+				31A50F0D1AC94ABF00BDF367 /* EACalendarTaskCollectionViewCell.m in Sources */,
 				311915BD1AA5122E00DD4EDF /* EATasksViewController.m in Sources */,
 				3146E6DE1A80E62B0072FC99 /* EATask.m in Sources */,
 				311734AE1A87E416006B2B39 /* FRGWaterfallDecorationReusableView.m in Sources */,
@@ -626,7 +666,9 @@
 				317622D61AA873FD00B406CD /* EAPendingTasksViewController.m in Sources */,
 				3146E6B41A80E2160072FC99 /* main.m in Sources */,
 				31A7509F1A8F3FDA00FF0E7C /* EASearchSortTableViewController.m in Sources */,
+				3176D78F1ABF76F600B206A7 /* EACalendarWorkflowCollectionViewCell.m in Sources */,
 				3146E6E71A8152280072FC99 /* EACollectionViewWorkflowLayout.m in Sources */,
+				31FFAE9D1AD04DE900AACD2D /* EALoginViewController.m in Sources */,
 				311734AB1A87E2E4006B2B39 /* FRGWaterfallCollectionViewLayout.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

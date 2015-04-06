@@ -20,6 +20,14 @@
     
     self.imageView.clipsToBounds = true;
     buttons = [NSMutableArray array];
+    
+    self.progressBar.trackTintColor = [UIColor colorWithWhite:230/255. alpha:1.];
+    
+    
+    self.progressBar.type = YLProgressBarTypeFlat;
+    self.progressBar.hideStripes = YES;
+    self.progressBar.hideGloss = YES;
+    
 }
 
 
@@ -37,12 +45,9 @@
     if (self.isViewLoaded) {
         
         
-        NSArray *colors = @[[UIColor colorWithRed:44/255.0 green:218/255.0 blue:252/255.0 alpha:1.0], [UIColor colorWithRed:28/255.0 green:253/255.0 blue:171/255.0 alpha:1.0], [UIColor colorWithRed:252/255.0 green:200/255.0 blue:53/255.0 alpha:1.0], [UIColor colorWithRed:253/255.0 green:101/255.0 blue:107/255.0 alpha:1.0], [UIColor colorWithRed:254/255.0 green:100/255.0 blue:192/255.0 alpha:1.0]];
+       
         
-        
-        UIColor *color = colors[arc4random()%5];
-        
-        
+        UIColor *color = self.taskNotification.color;
         
         self.agentNameBackgroundView.backgroundColor = color;
         
@@ -77,15 +82,21 @@
         self.beginLabel.textColor = color;
         self.endLabel.textColor = color;
         
+        self.progressBar.progressTintColors = @[color, color];
+        
         for (UIButton *button in buttons)
             [button removeFromSuperview];
         [buttons removeAllObjects];
+        
+        
         
         
         UIButton *button = [[UIButton alloc] initWithFrame:CGRectMake(0, 3, self.view.frame.size.width, self.buttonsBackgroundView.frame.size.height-3)];
         [button addTarget:self action:@selector(didTapCenterButton:) forControlEvents:UIControlEventTouchUpInside];
         
         [button setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
+        [button setTitleColor:[UIColor colorWithWhite:1 alpha:0.6] forState:UIControlStateHighlighted];
+
         button.titleLabel.font = [UIFont fontWithName:@"HelveticaNeue-Bold" size:18];
         
         
@@ -100,39 +111,34 @@
         [buttons addObject:button];
         
 
-        
+        [button mas_makeConstraints:^(MASConstraintMaker *make) {
+            make.edges.equalTo(button.superview).with.insets(UIEdgeInsetsMake(5, 5, 5, 5));
+        }];
         
         if (_taskNotification.class == EAWorkingTask.class)
         {
             [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(workingTaskUpdated:) name:EAWorkingTaskUpdate object:nil];
         }
-        [self update];
+        
+        if (self.taskNotification.class == EAPendingTask.class)
+        {
+            self.statusLabel.text = @"Pending";
+            
+            
+        }
+        else if (self.taskNotification.class == EAWorkingTask.class)
+        {
+            self.statusLabel.text = [NSString stringWithFormat:@"%@ (%d%%)", self.taskNotification.status, (int)(100*self.taskNotification.completionPercentage)];
+            self.progressBar.progress = self.taskNotification.completionPercentage;
+            
+        }
         
     }
     
     
 }
 
--(void)update
-{
-    
-    
-    
-    if (self.taskNotification.class == EAPendingTask.class)
-    {
-        self.statusLabel.text = @"Pending";
-        //self.beginLabel.textColor = color;
-        
-        
-    }
-    else if (self.taskNotification.class == EAWorkingTask.class)
-    {
-        self.statusLabel.text = [NSString stringWithFormat:@"%@ (%d%%)", self.taskNotification.status, (int)(100*self.taskNotification.completionPercentage)];
-        //self.endLabel.textColor = color;
-        
-    }
 
-}
 
 -(void)didTapCenterButton:(UIButton*)sender
 {
@@ -168,6 +174,18 @@
             
         }
     }
+    else if (_taskNotification.class == EAWorkingTask.class)
+    {
+        [[EANetworkingHelper sharedHelper] endWorkingTask:_taskNotification completionBlock:^(BOOL ok) {
+            if (ok) {
+                [self mz_dismissFormSheetControllerAnimated:YES completionHandler:^(MZFormSheetController *formSheetController) {
+                    // do sth
+                }];
+                
+            }
+        }];
+
+    }
     
    
 }
@@ -179,7 +197,7 @@
     int index = [[EANetworkingHelper sharedHelper].workingTasks indexOfObject:task];
     
     if (index != -1)
-        [self update];
+        self.taskNotification = task;
     
 }
 

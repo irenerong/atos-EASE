@@ -10,9 +10,12 @@
 #import "EAWorkflowViewController.h"
 #import "EAWorkflowInfosViewController.h"
 
+
 @interface EAWorkflowMasterViewController : MBPullDownController
 
 
 @property(nonatomic, weak) EAWorkflow *workflow;
+@property (strong, nonatomic) IBOutlet UIBarButtonItem *doneButton;
+@property (strong, nonatomic) IBOutlet UIBarButtonItem *editButton;
 
 @end

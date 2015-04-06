@@ -7,19 +7,13 @@
 //
 
 #import <UIKit/UIKit.h>
+#import <YLProgressBar.h>
 #import "EAPendingTask.h"
 #import "EAWorkingTask.h"
 
 @class EATaskCollectionViewCell;
 
-@protocol EATaskCellDelegate <NSObject>
 
--(void)taskCellDidTapLeftButton:(EATaskCollectionViewCell*)cell;
--(void)taskCellDidTapRightButton:(EATaskCollectionViewCell*)cell;
--(void)taskCellDidTapCenterButton:(EATaskCollectionViewCell*)cell;
-
-
-@end
 
 @interface EATaskCollectionViewCell : UICollectionViewCell
 {
@@ -27,7 +21,6 @@
 }
 
 @property(nonatomic, weak) EANotification *taskNotification;
-@property(nonatomic, weak) id <EATaskCellDelegate> delegate;
 
 @property (weak, nonatomic) IBOutlet UIImageView *workflowImageView;
 
@@ -40,8 +33,8 @@
 @property (weak, nonatomic) IBOutlet UIView *agentNameBackgroundView;
 @property (weak, nonatomic) IBOutlet UIView *dateBackgroundView;
 
+@property (weak, nonatomic) IBOutlet YLProgressBar *progressBar;
 
-@property (weak, nonatomic) IBOutlet UIView *buttonsBackgroundView;
 @property (weak, nonatomic) IBOutlet UIView *topBackgroundView;
 @property (weak, nonatomic) IBOutlet UILabel *beginLabel;
 @property (weak, nonatomic) IBOutlet UILabel *endLabel;

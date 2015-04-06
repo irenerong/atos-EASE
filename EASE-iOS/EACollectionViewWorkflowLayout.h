@@ -24,8 +24,14 @@
 
 
 @property(nonatomic, weak) id <EACollectionViewWorkflowLayoutDelegate> delegate;
+
 @property(nonatomic, readwrite) CGFloat itemWidth;
 
+@property(nonatomic, readwrite) CGFloat minHeight;
+
+@property(nonatomic, readwrite) CGFloat maxHeight;
+
+@property(nonatomic, readwrite) CGSize cellInset;
 
 @property(nonatomic, strong) NSMutableArray *timeAnchorsY;
 @property(nonatomic, strong) NSMutableArray *timeAnchorsDate;

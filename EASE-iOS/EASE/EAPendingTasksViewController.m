@@ -67,7 +67,7 @@
  
  formSheet.willDismissCompletionHandler = ^(UIViewController *presentedFSViewController) {
  
- NSLog(@"Dismiss");
+     [self.actionsCollectionView reloadData];
  
  };
  }
@@ -93,7 +93,6 @@
     
     
     cell.taskNotification = [EANetworkingHelper sharedHelper].pendingTasks[indexPath.row];
-    cell.delegate = self;
     
     
     return cell;

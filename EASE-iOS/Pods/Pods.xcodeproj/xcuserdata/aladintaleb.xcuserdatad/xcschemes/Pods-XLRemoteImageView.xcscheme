@@ -14,7 +14,7 @@
             buildForAnalyzing = "YES">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "07C23EA3A3F06E4931F04DBE"
+               BlueprintIdentifier = "62F54F22F3D67AA07E6B13CB"
                BuildableName = "libPods-XLRemoteImageView.a"
                BlueprintName = "Pods-XLRemoteImageView"
                ReferencedContainer = "container:Pods.xcodeproj">

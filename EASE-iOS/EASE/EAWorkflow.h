@@ -9,6 +9,11 @@
 #import <Foundation/Foundation.h>
 #import <UIKit/UIKit.h>
 
+#import "EAIngredient.h"
+#import "EAAgent.h"
+
+#import "EADateInterval.h"
+
 @interface EAWorkflow : NSObject
 {
     
@@ -25,9 +30,12 @@
 @property(nonatomic, strong) UIImage *image;
 @property(nonatomic, strong) UIColor *color;
 
+@property(nonatomic, strong) NSArray *ingredients;
+@property(nonatomic, strong) NSArray *agents;
 
+-(int)availableIngredients;
+-(int)availableAgents;
 
--(NSArray*)ingredients;
--(NSArray*)agents;
+-(EADateInterval*)dateInterval;
 
 @end

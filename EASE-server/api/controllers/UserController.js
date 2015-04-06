@@ -18,12 +18,12 @@ module.exports = {
 		{
 			if (!user)
 			{
-				return res.json({status: "User does not exist"})
+				return res.json({error: "User does not exist"})
 			}
 
 			bcrypt.compare(req.body.password, user.password,function(err,match){
 				if (err) {
-					res.json({status: "server error"} );
+					res.json({error: "server error"} );
 				}
 				else if (match){
 					req.session.userID= user.id;

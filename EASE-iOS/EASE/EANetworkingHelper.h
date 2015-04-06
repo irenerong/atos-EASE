@@ -9,7 +9,7 @@
 #import <Foundation/Foundation.h>
 #import <AFNetworking.h>
 #import <Wit.h>
-
+#import "EAUser.h"
 
 extern NSString* const EAPendingTaskAdd;
 extern NSString* const EAPendingTaskRemove;
@@ -33,9 +33,14 @@ extern NSString* const EAWorkingTaskUpdate;
 @interface EANetworkingHelper : NSObject <WitDelegate>
 {
     EAWorkflow *workflowTest;
+    NSArray *colors;
 }
 
 @property(nonatomic, weak) id <EANetworkingHelperDelegate> delegate;
+
+@property(nonatomic, readonly) EAUser *currentUser;
+
+@property(nonatomic, readonly) NSMutableArray *currentWorkflows;
 
 @property(nonatomic, readonly) NSMutableArray *pendingTasks;
 
@@ -55,6 +60,9 @@ extern NSString* const EAWorkingTaskUpdate;
 
 //EASE SERVER NETWORKING
 
+-(void)loginWithUsername:(NSString*)username andPassword:(NSString*)password completionBlock:(void (^) (NSError *error) )completionBlock;
+
+
 -(void)searchWorkflowsWithConstraints:(NSDictionary*)constraints completionBlock:(void (^) (int totalNumberOfWorkflows, NSArray* workflows, NSError* error))completionBlock;
 
 -(void)searchWorklowsBetweenId:(int)id1 andId:(int)id2 completionBlock:(void (^) (NSArray* workflows, NSError* error))completionBlock;
@@ -66,6 +74,8 @@ extern NSString* const EAWorkingTaskUpdate;
 -(void)validateWorkflow:(EAWorkflow*)workflow completionBlock:(void (^)  (NSError *error) )completionBlock;
 
 -(void)tasksAtDay:(NSDate*)date completionBlock:(void (^) (NSArray *tasks)) completionBlock;
+
+-(void)workflowsAtDay:(NSDate*)date completionBlock:(void (^) (NSArray *workflows)) completionBlock;
 
 //EASE NOTIFICATIONS
 

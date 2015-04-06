@@ -26,6 +26,7 @@
 @implementation EACollectionViewWorkflowLayout
 
 
+
 -(id)initWithCoder:(NSCoder *)aDecoder
 {
     if (self = [super initWithCoder:aDecoder])
@@ -33,9 +34,11 @@
         self.itemAttributes = [NSMutableArray array];
         self.itemWidth = 240;
         
-        
+        self.minHeight = 70;
+        self.maxHeight = 150;
         
         self.yOffset = 5;
+        self.cellInset = CGSizeMake(5, 5);
     }
     return self;
 }
@@ -105,7 +108,7 @@
         CGFloat yEnd = [self yForDate:taskDateInterval.endDate];
         
         
-        taskAttributes.frame = CGRectInset( CGRectMake(x, yStart, self.itemWidth, yEnd-yStart), 2, 2);
+        taskAttributes.frame = CGRectInset( CGRectMake(x, yStart, self.itemWidth, yEnd-yStart), self.cellInset.width, self.cellInset.height);
         
         [self.itemAttributes addObject:taskAttributes];
         
@@ -133,8 +136,7 @@
      */
     
     
-    const CGFloat minHeight = 70;
-    const CGFloat maxHeight = 150;
+    
     
     
     self.timeAnchorsY = [NSMutableArray array];
@@ -147,7 +149,7 @@
     NSDate *date = [self dateAfterDate:self.dateInterval.startDate inDateIntervals:dateIntervals];
     
     
-    [self.timeAnchorsY addObject:@((minHeight+maxHeight)/2)];
+    [self.timeAnchorsY addObject:@((self.minHeight+self.maxHeight)/2)];
     [self.timeAnchorsDate addObject:date];
     
     date = [self dateAfterDate:date inDateIntervals:dateIntervals];
@@ -162,14 +164,14 @@
         if (deltaDateY >= 0.001)
         {
         
-        if (deltaDateY < minHeight)
+        if (deltaDateY < self.minHeight)
         {
-            deltaDateY = minHeight;
+            deltaDateY = self.minHeight;
             
         }
-        else if (deltaDateY > maxHeight)
+        else if (deltaDateY > self.maxHeight)
         {
-            deltaDateY =maxHeight;
+            deltaDateY = self.maxHeight;
 
         }
         [self.timeAnchorsY addObject:@(deltaDateY+previousDateY)];

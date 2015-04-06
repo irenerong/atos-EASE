@@ -10,7 +10,9 @@
 
 @interface EAAgent : NSObject
 
-@property(nonatomic, strong) NSString *agentType;
-@property(nonatomic, strong) NSString *agentName;
+@property(nonatomic, strong) NSString *type;
+@property(nonatomic, strong) NSString *name;
+
+@property(nonatomic, readwrite) BOOL available;
 
 @end
