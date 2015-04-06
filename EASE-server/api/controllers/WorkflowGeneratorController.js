@@ -147,169 +147,146 @@ module.exports = {
            )// end asynwaterfall 2
           },
 
- } ; 
+ // } ; 
 
 
 
 
 
-//   generate: function(req, res) {
+  generate: function(req, res) {
 
-//     var WFC = this;
-//     var userID = req.session.userID;
-//     var params = req.params.all();
+    var WFC = this;
+    var userID = req.session.userID;
+    var params = req.params.all();
 
 
 
 
 
-//     async.waterfall([
-//         function (cb) {
+    async.waterfall([
+        function (cb) {
 
-//           //Create new ticket
-//           sails.log('Create new ticket');
+          //Create new ticket
+          sails.log('Create new ticket');
 
-//           WorkflowGeneratorTicket.create({user: userID, status: 'GENERATING'}).exec(function (err, ticket) {cb(null, ticket)})
+          WorkflowGeneratorTicket.create({user: userID, status: 'GENERATING'}).exec(function (err, ticket) {cb(null, ticket)})
 
 
-//         },
-//         function (ticket, cb) {
-//           sails.log('Ticket created');
+        },
+        function (ticket, cb) {
+          sails.log('Ticket created');
 
-//           //Get and save Metaworkflows
-//           sails.log('Getting Metaworkflows');
+          //Get and save Metaworkflows
+          sails.log('Getting Metaworkflows');
 
-//           console.time('Get Metaworkflows')
+          console.time('Get Metaworkflows')
 
-//           WFC.getMetaworkflows(ticket.id, params, function () {          console.timeEnd('Get Metaworkflows')
-// ; cb(null, ticket)})
+          WFC.getMetaworkflows(ticket.id, params, function () {          console.timeEnd('Get Metaworkflows')
+; cb(null)})
 
 
-//         },
-//         function (ticket, cb) {
-//           sails.log('Got Metaworkflows');
+        }
+      ],
+      function (err) {
 
+        res.json({"sucecced" :'create workflow with intent :'+params.intent})
 
-//           //Adapting Metaworkflows
-//           sails.log('Adapting Metaworkflows');
+      }
+    )
 
-//           console.time('Adapt Metaworkflows')
 
-//           WFC.adaptMetaworkflows(ticket.id, params, function() {          console.timeEnd('Adapt Metaworkflows')
-// ; cb(null, ticket)})
-//         },
 
-//         function (ticket, cb) {
-//           ticket.status = 'WAITINGVALIDATION'
-//           ticket.save(function (err, newTicket) {cb(err, ticket)})
 
-//         }, 
 
-//         function (ticket, cb) {
 
-//           //Results
-//           res.status(200);
-//           res.json(ticket)
-//         }
-//       ],
-//       function (err) {
+  },
 
-//       }
-//     )
+  getMetaworkflows : function (ticketID, params, cb) {
+    var WFC = this;
 
+    async.waterfall([
+        function (cb2) {
 
+          //Get metaworkflows from "ExternalMetaworkflow" database
+          ExternalMetaworkflow.find({intent: params.intent}).exec( function(err, metaworkflows) { cb2(err, metaworkflows) })
+        },
+        function (metaworkflows, cb2) {
 
+          //For each Metaworkflow
+          async.each(metaworkflows, function (metaworkflow, cb3) {
 
+            //Import this metaworkflow in the db
+            WFC.importMetaworkflowFromOutside(metaworkflow.intent,ticketID, metaworkflow.data ,function () {cb3()});
 
+          }, function(err) {
+            sails.log('End of metaworkflows importation');
+            cb2(err)
 
-//   },
+          })
 
-//   getMetaworkflows : function (ticketID, params, cb) {
-//     var WFC = this;
 
-//     async.waterfall([
-//         function (cb2) {
 
-//           //Get metaworkflows from "ExternalMetaworkflow" database
-//           ExternalMetaworkflow.find({intent: params.intent}).exec( function(err, metaworkflows) { cb2(err, metaworkflows) })
-//         },
-//         function (metaworkflows, cb2) {
+        }
+      ],
 
-//           //For each Metaworkflow
-//           async.each(metaworkflows, function (metaworkflow, cb3) {
+      function (err) {
+        cb()
+      }
 
-//             //Import this metaworkflow in the db
-//             WFC.importMetaworkflowFromOutside(ticketID, metaworkflow.data ,function () {cb3()});
+    )
 
-//           }, function(err) {
-//             sails.log('End of metaworkflows importation');
-//             cb2(err)
 
-//           })
 
 
+  },
 
-//         }
-//       ],
+  importMetaworkflowFromOutside: function (intent,ticketID, metaworkflow, cb) {
+    var WFC = this;
 
-//       function (err) {
-//         cb()
-//       }
 
-//     )
+    async.waterfall([
+        function (cb2) {
+          //Create the metaworkflow and link it to the ticket ++add ingredient
+          Metaworkflow.create({intent : intent ,title: metaworkflow.title, ticket: ticketID, ingredient: metaworkflow.ingredient}).exec(function (err, metaworkflowCreated) {cb2(err, metaworkflowCreated)})
 
+        },
 
+        function (metaworkflowCreated, cb2) {
 
+          //For each metatask in the created metaworkflow
+          async.each(metaworkflow.metatasks,
+            function (metatask, cb3) {
 
-//   },
+              //Import the metatask
+              WFC.importMetataskFromOutside(metaworkflowCreated.id, metatask, function () {cb3()}); //Create this metatask and link it to the metaworkflow
 
-//   importMetaworkflowFromOutside: function (ticketID, metaworkflow, cb) {
-//     var WFC = this;
+            },
+            function (err) {
 
+              cb2(err)
 
-//     async.waterfall([
-//         function (cb2) {
-//           //Create the metaworkflow and link it to the ticket ++add ingredient
-//           Metaworkflow.create({title: metaworkflow.title, ticket: ticketID, ingredient: metaworkflow.ingredient}).exec(function (err, metaworkflowCreated) {cb2(err, metaworkflowCreated)})
 
-//         },
 
-//         function (metaworkflowCreated, cb2) {
+            })
+        }
+      ],
+      function (err) {
+        cb()
+      }
+    )
 
-//           //For each metatask in the created metaworkflow
-//           async.each(metaworkflow.metatasks,
-//             function (metatask, cb3) {
 
-//               //Import the metatask
-//               WFC.importMetataskFromOutside(metaworkflowCreated.id, metatask, function () {cb3()}); //Create this metatask and link it to the metaworkflow
 
-//             },
-//             function (err) {
+  },
 
-//               cb2(err)
 
+  importMetataskFromOutside: function (metaworkflowID, metatask, cb) {
 
-
-//             })
-//         }
-//       ],
-//       function (err) {
-//         cb()
-//       }
-//     )
-
-
-
-//   },
-
-
-//   importMetataskFromOutside: function (metaworkflowID, metatask, cb) {
-
-//     Metatask.create({idTask: metatask.idTask, metaworkflow: metaworkflowID, agentTypes: metatask.agentTypes, waitFor: metatask.waitFor})
-//       .exec(function(err, task) {
-//         cb(null)
-//       });  //Create the metatask and link it to the metaworkflow
-//   },
+    Metatask.create({idTask: metatask.idTask, metaworkflow: metaworkflowID, agentTypes: metatask.agentTypes, waitFor: metatask.waitFor})
+      .exec(function(err, task) {
+        cb(null)
+      });  //Create the metatask and link it to the metaworkflow
+  },
 
 
 
@@ -568,4 +545,4 @@ module.exports = {
 
 
 
-
+};
