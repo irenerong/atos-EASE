@@ -10,7 +10,6 @@
 module.exports = {
 	reset: function (req, res) {
 		SubTask.destroy({}).exec(function (err) {res.status(200), res.json("ok")})
-
 	},
 	start : function (req, res) {
 		params = req.params.all();
@@ -27,6 +26,13 @@ module.exports = {
 
 				subtask.start();
 			})
+		}
+	},
+	test : function(req, res){
+		params = req.params.all();
+		if (req.method === 'POST'){
+			
+			SubTask.allSubTasks(params.day);
 		}
 	}
 

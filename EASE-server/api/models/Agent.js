@@ -21,6 +21,14 @@ module.exports = {
       defaultsTo : [] 
 
     },
+    subTaskInProgess : {
+      type : 'integer',
+      defaultsTo : null
+    },
+    // timeLeft : {
+    //   type: 'integer'
+    // },
+    
     updateNonDispo : function(begin, duration){
       var tmp = []
       var ele = {}

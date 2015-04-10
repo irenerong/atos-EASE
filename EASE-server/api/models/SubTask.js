@@ -79,7 +79,7 @@ module.exports = {
     // }
 
     
-
+    
 
 
     /*START CONDITION
@@ -96,9 +96,31 @@ module.exports = {
       via: 'waitFor'
     }
 
-
-
   }, 
+  allSubTasks : function(date){
+      var jour = "";
+      var day = new Date(date)
+      jour = jour + day.getFullYear()+ "-";
+      if(day.getMonth()<9)
+        jour = jour + "0" + (day.getMonth()+1)
+      else
+        jour = jour + (day.getMonth()+1);
+      jour = jour +"-";
+      if(day.getDate() < 9)
+        jour = jour + "0" + day.getDate();
+      else
+        jour = jour + day.getDate();
+      console.log(jour)
+      var subtasks = [];
+      var querySQL = "SELECT * FROM (SELECT STARTDATE, ST.ID FROM StartCondition SC JOIN SUBTASK ST ON SC.id = ST.STARTCONDITION) RES WHERE RES.STARTDATE REGEXP '"+jour+".*'  "
+      SubTask.query(querySQL, function(err, result){
+        if (err) {
+              return cb(false)
+        }
+        console.log(result)
+      })
+  },
+
   afterDestroy: function (subtask, cb) {
     sails.log('Destroy subtask : ' + JSON.stringify(subtask))
     cb()
