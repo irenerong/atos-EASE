@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html>
+<head>
+<style>
+img {
+position: absolute;
+left: 450px;
+top: 250px;
+<!-- z-index: -1; -->
+}
+</style>
+</head>
+<body>
+<div id= "incoming-chat-window"></div>
+<form id ="outgoing-chat-form">
+	<input size="50" type="text" id="outgoing-chat-field" ></input>
+	<input type="submit"> Feedback </input>
+</form>
+
+<img id = "oven" src="images/off.jpg" width = "300" height = "250">
+
+<SPAN style="position: absolute; top: 380 px; left: 100 px">
+<button id="create"> I am done</button>
+<button onclick = "tl()"> Time Left</button>
+<button id="launch" onclick= "launch()"> Launch </button>
+<button id="turnoff" onclick="turnOff()"> Turn off </button>
+</SPAN>
+<script type="text/javascript" src="./js/dependencies/sails.io.js"></script>
+<script type="text/javascript">
+
+socket = io.connect();
+var timeLeft;
+typeof console !== 'undefined' &&
+console.log('Connecting Socket.io to Sails.js...');
+// Attach a listener which fires when a connection is established:
+socket.on('connect', function sayHi() {
+  	console.log("hi, I am EASE-Oven KO883-eco, what do you want from me?")
+});
+
+io.socket.on('timeLeft', function whatTheFuck(res){
+
+	console.log("receive time left. I am starting");
+	timeLeft = res.timeLeft
+	// console.log("timeleft------> " + timeLeft)
+});
+
+function launch(){
+	io.socket.post('/agent/launch/', {agentID:1, subTask: 11});
+	turnOn();
+}
+var myVar=setInterval(myTimer, 5000);
+function turnOn(){
+	var img = document.getElementById("oven");
+	img.src="images/on.jpg";
+	
+	function myTimer() {
+		if (timeLeft > 0) {
+			timeLeft = timeLeft-1; 
+			// console.log("leftTime is " + leftTime)
+			}
+		else {
+		  	
+		  	turnOff();
+		  	return;
+		}
+	}
+	return false;
+}
+function turnOff(){
+	var img = document.getElementById("oven");
+	img.src="images/off.jpg";
+	clearInterval(myVar);
+}
+function tl(){
+	
+	console.log(timeLeft)
+}
+
+
+</script>
+</body>
+</html>
+
