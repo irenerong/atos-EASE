@@ -34,7 +34,7 @@ p {
 <div id= "incoming-chat-window"></div>
 <p class="results" id = "time"></p>
 <h2>EASE-Oven KO883-eco</h2>
-<img id = "oven" src="images/off.jpg" width = "300" height = "250">
+<img id = "oven" src="images/cookerOff.jpg" width = "300" height = "250">
 
 <div>
 <button onclick = "tl()"> Time Left</button>
@@ -65,7 +65,7 @@ console.log('Connecting Socket.io to Sails.js...');
 // Attach a listener which fires when a connection is established:
 socket.on('connect', function sayHi() {
   	console.log("hi, I am EASE-Oven KO883-eco, what do you want from me?")
-  	io.socket.post('/agent/joinRoom', {agentID:1})
+  	io.socket.post('/agent/joinRoom', {agentID:4})
 });
 
 // io.socket.on('rest', function hello(res){
@@ -113,7 +113,7 @@ function turnOn(){
 	var element = document.getElementById("time");
 	if(free || continueTask){
 		var img = document.getElementById("oven");
-		img.src="images/on.jpg";
+		img.src="images/cookerOn.jpg";
 		myVar=setInterval(myTimer, 2000);
 		if(continueTask){
 			element.innerHTML ="Task continues :)";
@@ -129,7 +129,7 @@ function turnOn(){
 }
 function changePic(){
 	var img = document.getElementById("oven");
-	img.src="images/off.jpg";
+	img.src="images/cookerOff.jpg";
 }
 function turnOff(){
 	var element = document.getElementById("time");
@@ -149,7 +149,7 @@ function tl(){
 	console.log(timeLeft)
 }
 function taskDone(){
-	io.socket.post('/subTask/finish/', {agentID:1, subTask: currentTask});
+	io.socket.post('/subTask/finish/', {agentID:4, subTask: currentTask});
 }
 
 </script>

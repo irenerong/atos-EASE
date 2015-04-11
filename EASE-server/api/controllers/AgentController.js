@@ -6,6 +6,20 @@
  */
 
 module.exports = {
+	NonDispo : function(req,res){
+		var params =req.params.all();
+		var id= params.id;
+		var nondispo=[];
+		Agent.findOne(id).exec(function(err,agent){
+			if (err) console.log(err)
+				else {
+					agent.agentNonDispo(function(non){nondispo=non,res.json({'nondispo':nondispo})});
+				}
+			
+
+		})
+
+	},
 
 	launch : function(req, res){
 		// if (req.isSocket && req.method === 'POST'){			
@@ -34,7 +48,7 @@ module.exports = {
 	},
 	taskDone : function(req, res){
 		var param = req.params.all();
-		if(res.isSocket && res.methode === 'POST')
+		// if(req.isSocket && req.methode === 'POST')
 			console.log("Subtask "+ param.subTask +" is done on agent "+ param.agentID)
 	}
 };

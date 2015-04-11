@@ -36,8 +36,16 @@ module.exports = {
 		params = req.params.all();
 		if (req.method === 'POST'){
 			
-			SubTask.allSubTasks(params.day);
+			SubTask.allSubTasks(params.day,function(r){
+				res.json(r);
+			});
 		}
+	},
+	finish : function(req, res){
+		params = req.params.all();
+		SubTask.findOne(params.subTask).exec(function(err, subtask){
+			subtask.finish();
+		})
 	}
 
 };

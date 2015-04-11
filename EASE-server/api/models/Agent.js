@@ -16,11 +16,6 @@ module.exports = {
   	agentType : {
   		type: 'string'
   	}, 
-    agentNonDispo : {
-      type : 'array',
-      defaultsTo : [] 
-
-    },
     subTaskInProgess : {
       type : 'integer',
       defaultsTo : null
@@ -28,6 +23,22 @@ module.exports = {
     // timeLeft : {
     //   type: 'integer'
     // },
+    agentNonDispo : function (cb){
+      console.log("in agent non dispo");
+      var query = "SELECT startDate, duration FROM SubTask JOIN StartCondition ON subtask.StartCondition = startcondition.id WHERE subtask.agent=" + this.id
+        Agent.query(query, 
+
+          function (err, rows) {
+            if (err) {
+              console.log(err);
+            }
+           // console.log(rows);
+            cb(rows)}
+            )
+
+    // var nondispo =  
+
+    },
     
     updateNonDispo : function(begin, duration){
       var tmp = []

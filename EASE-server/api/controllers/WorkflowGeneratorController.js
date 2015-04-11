@@ -59,6 +59,7 @@ module.exports = {
           ],function(err){
 
             res.json({"new created workflow":workflow.id});
+            req.session.generatedWorkflows= null;
 
 
           })// fin async waterfall

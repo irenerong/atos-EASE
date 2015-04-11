@@ -132,21 +132,26 @@ module.exports = {
 					sails.models.agent.find().exec(
 						function(err,agents){
 							agents.forEach(function(e,i,a){
-								if (e.agentNonDispo != null){
+								var periodes=[];
+								e.agentNonDispo(function(non){
+									non.forEach(function(noni,e2,a2){
+										periodes.push({begin:noni.startDate,duration:noni.duration}) 
+
+									})
+
+								})
 								var tmp ={}
-								tmp = {id:e.id, periodes: e.agentNonDispo}
+								tmp = {id:e.id, periodes: periodes}
 								//console.log(tmp);
 								agentNondispo.push(tmp);
-								}// if 
-								else{
-									agentNondispo.push({id:e.id, periodes:[]});
-								}
+								})
+								
 								
 							})
 							
 
 							
-						})
+						
 					// cb(null);
 
 					setTimeout(
