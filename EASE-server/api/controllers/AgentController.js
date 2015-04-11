@@ -11,15 +11,15 @@ module.exports = {
 		// if (req.isSocket && req.method === 'POST'){			
 		var	socketId = sails.sockets.id(req.socket);
 		// }
-		console.log("socketID "+socketId);
+		// console.log("socketID "+socketId);
 		var param = req.params.all()
 		SubTask.findOne(param.subTask).exec(function(err, subTask){
 			Agent.findOne(param.agentID).exec(function(err, agent){
 	      		// console.log("agentID "+ agent.id)
 	      		agent.subTaskInProgress = param.subTask;
 	      		agent.timeLeft = subTask.duration;
-	      		console.log("subtask" + param.subTask + " launched, subTask duration is "+ subTask.duration);
-	      		sails.sockets.emit(socketId, 'rest', {timeLeft:subTask.duration});
+	      		// console.log("subtask" + param.subTask + " launched, subTask duration is "+ subTask.duration);
+	      		// sails.sockets.emit(socketId, 'rest', {timeLeft:subTask.duration});
       		})
 		})	
 		
@@ -28,13 +28,14 @@ module.exports = {
    		});
 
 	},
-
-	timeLeft : function(req, res) {
+	joinRoom: function (req, res){
 		var param = req.params.all()
-		var currentTask;
-		Agent.findOne(param.agentID).exec(function(err, agent){
-			console.log(agent.timeLeft + " mins left ")
-		})	                              	
+		sails.sockets.join(req.socket, param.agentID)
+	},
+	taskDone : function(req, res){
+		var param = req.params.all();
+		if(res.isSocket && res.methode === 'POST')
+			console.log("Subtask "+ param.subTask +" is done on agent "+ param.agentID)
 	}
 };
 

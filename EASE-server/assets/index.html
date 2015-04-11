@@ -51,10 +51,10 @@ io.socket.on('message', function (msg){console.log(msg)});
             console.log('client side catch publishupdated');
             var previous = obj.previous;
             var data = obj.data;
-            console.log('SubTask with status '+previous.status+' has been updated to '+data.status);
+            // console.log('SubTask with status '+previous.status+' has been updated to '+data.status);
           }
           else if (obj.verb == 'created'){
-            console.log('client side catch publishcreated of subtask '+ obj.id+ JSON.stringify(obj.data, null,4)) ;
+            // console.log('client side catch publishcreated of subtask '+ obj.id+ JSON.stringify(obj.data, null,4)) ;
 
 
           }
@@ -62,7 +62,8 @@ io.socket.on('message', function (msg){console.log(msg)});
 
   io.socket.on('workflow',function (obj){
           if (obj.verb == 'created'){
-            console.log('client side catch publishcreated of workflow '+ obj.id+ JSON.stringify(obj.data, null,4)) };
+            // console.log('client side catch publishcreated of workflow '+ obj.id+ JSON.stringify(obj.data, null,4)) 
+          };
 
   });
 </script>

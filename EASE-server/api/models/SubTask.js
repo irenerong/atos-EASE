@@ -95,7 +95,10 @@ module.exports = {
           return;
         }
       }
-
+      var socket = sails.sockets.subscribers(this.agent+"")[0];
+      // console.s(socket)
+      // console.log(sails.sockets.id(socket)+" idsddd")
+      sails.sockets.emit(socket, 'youcanstart',{duration: this.duration})
     },
    
 
