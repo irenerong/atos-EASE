@@ -1,0 +1,6 @@
+framework module RESideMenu {
+  umbrella header "Pods-RESideMenu-umbrella.h"
+
+  export *
+  module * { export * }
+}

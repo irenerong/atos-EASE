@@ -39,7 +39,7 @@
                                                 <nil key="highlightedColor"/>
                                             </label>
                                         </subviews>
-                                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                        <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                         <constraints>
                                             <constraint firstItem="ZFi-Ca-vv9" firstAttribute="top" secondItem="bW4-Du-mbX" secondAttribute="top" constant="9" id="08O-23-GTP"/>
                                             <constraint firstAttribute="bottom" secondItem="ZFi-Ca-vv9" secondAttribute="bottom" constant="10" id="JHW-jM-zvk"/>
@@ -80,7 +80,7 @@
                                 </constraints>
                             </view>
                         </subviews>
-                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                         <constraints>
                             <constraint firstItem="lUI-Op-hi5" firstAttribute="top" secondItem="geC-SZ-paP" secondAttribute="top" constant="8" id="2r1-7E-zMD"/>
                             <constraint firstItem="zaN-1Y-Ja8" firstAttribute="leading" secondItem="geC-SZ-paP" secondAttribute="trailing" id="7xy-w2-Yhv"/>
@@ -164,7 +164,7 @@
                                 </constraints>
                             </view>
                         </subviews>
-                        <color key="backgroundColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
                             <constraint firstAttribute="trailing" secondItem="iXs-tI-FNt" secondAttribute="trailing" constant="8" id="6rZ-Be-ivE"/>
                             <constraint firstItem="p4S-yg-fkp" firstAttribute="leading" secondItem="OcP-dP-EEp" secondAttribute="leading" constant="8" id="Dd4-To-MIE"/>

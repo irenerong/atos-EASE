@@ -68,8 +68,15 @@
         ((EAWorkflowInfosViewController*) self.frontController).workflow = self.workflow;
         ((EAWorkflowViewController*) self.backController) .workflow = self.workflow;
 
-
     }
+    
+}
+
+-(void)viewDidAppear:(BOOL)animated
+{
+    [UIView animateWithDuration:0.5 animations:^{
+        self.navigationController.navigationBar.tintColor = self.workflow.color;
+    }];
     
 }
 

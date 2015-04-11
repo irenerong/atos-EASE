@@ -7,8 +7,9 @@
 //
 
 #import <Foundation/Foundation.h>
+#import "EANetworkingHelper.h"
 #import "EAWorkflow.h"
-
+#import "EAMetaworkflow.h"
 @interface EASearchResults : NSObject
 
 +(instancetype)searchResultsByParsingDictionary:(NSDictionary*)dictionary;
@@ -16,6 +17,8 @@
 -(instancetype)initWithDictionary:(NSDictionary*)dictionary;
 
 
+@property(nonatomic, strong) NSArray *metaworkflows;
 @property(nonatomic, strong) NSArray *workflows;
+
 
 @end

@@ -103,11 +103,8 @@ static NSString *const kJTCalendarDaySelected = @"kJTCalendarDaySelected";
 // Avoid to calcul constraints (very expensive)
 - (void)configureConstraintsForSubviews
 {
-    
-    CGFloat bottomOffset = 10;
-    
-    textLabel.frame = CGRectMake(0, 0, self.frame.size.width, self.frame.size.height-bottomOffset);
-    backgroundView.frame = CGRectMake(0, 0, self.frame.size.width, self.frame.size.height-bottomOffset);
+    textLabel.frame = CGRectMake(0, 0, self.frame.size.width, self.frame.size.height);
+    backgroundView.frame = CGRectMake(0, 0, self.frame.size.width, self.frame.size.height);
 
 
     CGFloat sizeCircle = MIN(self.frame.size.width, self.frame.size.height);
@@ -120,11 +117,11 @@ static NSString *const kJTCalendarDaySelected = @"kJTCalendarDaySelected";
     sizeDot = roundf(sizeDot);
     
     circleView.frame = CGRectMake(0, 0, sizeCircle, sizeCircle);
-    circleView.center = CGPointMake(self.frame.size.width / 2., (self.frame.size.height-bottomOffset) / 2.);
+    circleView.center = CGPointMake(self.frame.size.width / 2., self.frame.size.height / 2.);
     circleView.layer.cornerRadius = sizeCircle / 2.;
     
     dotView.frame = CGRectMake(0, 0, sizeDot, sizeDot);
-    dotView.center = CGPointMake(self.frame.size.width / 2., ((self.frame.size.height-bottomOffset) / 2.) + sizeDot * 2.5);
+    dotView.center = CGPointMake(self.frame.size.width / 2., (self.frame.size.height / 2.) + sizeDot * 2.5);
     dotView.layer.cornerRadius = sizeDot / 2.;
 }
 
@@ -238,11 +235,10 @@ static NSString *const kJTCalendarDaySelected = @"kJTCalendarDaySelected";
     }
     
     if(animated){
-        [UIView animateWithDuration:.5 delay:0 usingSpringWithDamping:0.5 initialSpringVelocity:10 options:0 animations:^{
+        [UIView animateWithDuration:.3 animations:^{
             circleView.layer.opacity = opacity;
             circleView.transform = tr;
-        } completion:nil
-        ];
+        }];
     }
     else{
         circleView.layer.opacity = opacity;

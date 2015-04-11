@@ -34,7 +34,8 @@
     self.dateScrollView.contentInset = UIEdgeInsetsMake(0, 0, 0, 0);
 
     
-   
+    ((EACollectionViewWorkflowLayout*)self.collectionView.collectionViewLayout).cellInset = CGSizeMake(5, 5);
+
     
     self.dateScrollView = [[EAWorkflowDateScrollView alloc] initWithFrame:CGRectMake(self.collectionView.contentOffset.x, 0, 67, self.collectionView.frame.size.height)];
     

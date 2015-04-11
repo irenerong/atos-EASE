@@ -28,7 +28,14 @@
 
 #import <UIKit/UIKit.h>
 
+@class AFHTTPRequestOperation;
+
 @protocol AFURLResponseSerialization, AFImageCache;
+
+@interface UIImageView (_AFNetworking)
+@property (readwrite, nonatomic, strong, setter = af_setImageRequestOperation:) AFHTTPRequestOperation *af_imageRequestOperation;
++ (NSOperationQueue *)af_sharedImageRequestOperationQueue ;
+@end
 
 /**
  This category adds methods to the UIKit framework's `UIImageView` class. The methods in this category provide support for loading remote images asynchronously from a URL.

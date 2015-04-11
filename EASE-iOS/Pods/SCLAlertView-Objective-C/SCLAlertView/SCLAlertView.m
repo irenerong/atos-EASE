@@ -782,7 +782,7 @@ NSTimer *durationTimer;
     {
         if (style == Warning)
         {
-            [btn setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
+            [btn setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
         }
         btn.defaultBackgroundColor = viewColor;
         
@@ -1213,7 +1213,7 @@ NSTimer *durationTimer;
                                 CGAffineTransformMakeScale(3.0f, 3.0f));
     self.view.alpha = 0.0f;
     
-    [UIView animateWithDuration:0.3f delay:0 usingSpringWithDamping:1 initialSpringVelocity:10 options:0 animations:^{
+    [UIView animateWithDuration:0.3f animations:^{
         self.backgroundView.alpha = _backgroundOpacity;
         
         //To

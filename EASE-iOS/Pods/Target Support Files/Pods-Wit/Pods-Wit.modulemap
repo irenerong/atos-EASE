@@ -1,0 +1,6 @@
+framework module Wit {
+  umbrella header "Pods-Wit-umbrella.h"
+
+  export *
+  module * { export * }
+}

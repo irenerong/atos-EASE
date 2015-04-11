@@ -10,6 +10,7 @@
 #import "MBPullDownController.h"
 
 
+
 @interface EAWorkflowInfosViewController ()
 
 @end
@@ -66,8 +67,7 @@
     {
         self.view.backgroundColor = [UIColor colorWithWhite:255/255.0 alpha:1.0];
         
-        self.imageView.image = workflow.image;
-    
+      
         self.titleLabel.text = workflow.title;
         self.titleLabel.textColor = workflow.color;
         
@@ -102,6 +102,10 @@
         
         
         [self.imageView setImageWithProgressIndicatorAndURL:self.workflow.imageURL];
+        [self.imageView.progressIndicatorView setStrokeProgressColor:self.workflow.color];
+        [self.imageView.progressIndicatorView setStrokeRemainingColor:[UIColor colorWithWhite:240/255. alpha:1.]];
+
+        
         [self.buyButton setTitleColor:_workflow.color forState:UIControlStateNormal];
         
         

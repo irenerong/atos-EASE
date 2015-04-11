@@ -1,0 +1,6 @@
+framework module JTCalendar {
+  umbrella header "Pods-JTCalendar-umbrella.h"
+
+  export *
+  module * { export * }
+}

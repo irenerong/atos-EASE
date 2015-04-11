@@ -7,7 +7,9 @@
 //
 
 #import "EATaskInfoViewController.h"
-
+#import "UIImage+ImageEffects.h"
+#import "UIImageView+XLProgressIndicator.h"
+#import "EAWorkflow.h"
 @interface EATaskInfoViewController ()
 
 @end
@@ -115,6 +117,18 @@
             make.edges.equalTo(button.superview).with.insets(UIEdgeInsetsMake(5, 5, 5, 5));
         }];
         
+        
+        [self.imageView setImageWithProgressIndicatorAndURL:self.taskNotification.task.workflow.imageURL placeholderImage:nil imageDidAppearBlock:^(UIImageView *imageView) {
+            
+            imageView.image = [imageView.image applyBlurWithRadius:5 tintColor:nil saturationDeltaFactor:1 maskImage:nil];
+            
+        }];
+        [self.imageView.progressIndicatorView setStrokeProgressColor:color];
+        
+        [self.imageView.progressIndicatorView setStrokeRemainingColor:[UIColor colorWithWhite:240/255. alpha:1.]];
+         
+
+        
         if (_taskNotification.class == EAWorkingTask.class)
         {
             [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(workingTaskUpdated:) name:EAWorkingTaskUpdate object:nil];
@@ -134,9 +148,7 @@
         }
         
     }
-    
-    
-}
+ }
 
 
 

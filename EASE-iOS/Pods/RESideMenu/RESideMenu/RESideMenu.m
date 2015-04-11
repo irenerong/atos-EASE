@@ -84,7 +84,7 @@
     _menuViewContainer = [[UIView alloc] init];
     _contentViewContainer = [[UIView alloc] init];
     
-    _animationDuration = 0.5f;
+    _animationDuration = 0.35f;
     _interactivePopGestureRecognizerEnabled = YES;
   
     _menuViewControllerTransformation = CGAffineTransformMakeScale(1.5f, 1.5f);
@@ -280,8 +280,7 @@
     [self updateContentViewShadow];
     [self resetContentViewScale];
     
-    
-    [UIView animateWithDuration:self.animationDuration delay:0 usingSpringWithDamping:1 initialSpringVelocity:5 options:0 animations:^{
+    [UIView animateWithDuration:self.animationDuration animations:^{
         if (self.scaleContentView) {
             self.contentViewContainer.transform = CGAffineTransformMakeScale(self.contentViewScaleValue, self.contentViewScaleValue);
         } else {
@@ -407,7 +406,7 @@
     
     if (animated) {
         [[UIApplication sharedApplication] beginIgnoringInteractionEvents];
-        [UIView animateWithDuration:self.animationDuration delay:0 usingSpringWithDamping:1 initialSpringVelocity:5 options:0 animations:^{
+        [UIView animateWithDuration:self.animationDuration animations:^{
             animationBlock();
         } completion:^(BOOL finished) {
             [[UIApplication sharedApplication] endIgnoringInteractionEvents];

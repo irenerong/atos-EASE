@@ -53,4 +53,13 @@
     
 }
 
+-(void) setHighlighted:(BOOL)highlighted {
+    [super setHighlighted:highlighted];
+    if (highlighted)
+        self.backgroundColor = [UIColor colorWithWhite:240/255. alpha:1.];
+    else
+        self.backgroundColor = [UIColor whiteColor];
+
+}
+
 @end

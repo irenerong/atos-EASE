@@ -7,7 +7,7 @@
 //
 
 #import <UIKit/UIKit.h>
-#import <UIImage+ImageEffects.h>
+#import "UIImage+ImageEffects.h"
 #import "EAWorkflow.h"
 #import "EATask.h"
 

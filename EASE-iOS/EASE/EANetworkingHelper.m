@@ -15,6 +15,7 @@
 #import "EAPendingTask.h"
 #import "EAWorkingTask.h"
 #import "EASearchResults.h"
+#import "EAMetaworkflow.h"
 
 #import "EALoginViewController.h"
 
@@ -57,7 +58,6 @@
 NSString* const witToken = @"Bearer Z6RAMHMFQLP6FG2KSPTT4F23XH5GK5L4";
 NSString* const witAPIVersion = @"20150212";
 
-NSString *const EASEServerAddress = @"http://localhost:1337/";
 
 
 
@@ -90,7 +90,7 @@ NSString* const EAWorkingTaskUpdate = @"EAWorkingTaskUpdate";
     {
         
         colors = @[[UIColor colorWithRed:44/255.0 green:218/255.0 blue:252/255.0 alpha:1.0], [UIColor colorWithRed:28/255.0 green:253/255.0 blue:171/255.0 alpha:1.0], [UIColor colorWithRed:252/255.0 green:200/255.0 blue:53/255.0 alpha:1.0], [UIColor colorWithRed:253/255.0 green:101/255.0 blue:107/255.0 alpha:1.0], [UIColor colorWithRed:254/255.0 green:100/255.0 blue:192/255.0 alpha:1.0]];
-
+        self.easeServerAdress = @"http://localhost:1337/";
         
         _pendingTasks = [NSMutableArray array];
         _workingTasks = [NSMutableArray array];
@@ -111,11 +111,17 @@ NSString* const EAWorkingTaskUpdate = @"EAWorkingTaskUpdate";
         
         _currentUser = nil;
         
-        self.easeServerManager = [[AFHTTPSessionManager alloc] initWithBaseURL:[NSURL URLWithString:EASEServerAddress]];
 
     }
     
     return self;
+}
+
+-(void)setEaseServerAdress:(NSString *)easeServerAdress
+{
+    _easeServerAdress = easeServerAdress;
+    self.easeServerManager = [[AFHTTPSessionManager alloc] initWithBaseURL:[NSURL URLWithString:_easeServerAdress]];
+
 }
 
 #pragma mark - WIT
@@ -289,14 +295,14 @@ NSString* const EAWorkingTaskUpdate = @"EAWorkingTaskUpdate";
     {
         [parameters addEntriesFromDictionary:@{@"time": constraints[@"endDate"]}];
         [parameters addEntriesFromDictionary:@{@"type": @1}];
-        [parameters addEntriesFromDictionary:@{@"option": @1}];
+        [parameters addEntriesFromDictionary:@{@"option": @0}];
 
     }
     else if(constraints[@"startDate"])
     {
         [parameters addEntriesFromDictionary:@{@"time": constraints[@"startDate"]}];
         [parameters addEntriesFromDictionary:@{@"type": @0}];
-        [parameters addEntriesFromDictionary:@{@"option": @(-1)}];
+        [parameters addEntriesFromDictionary:@{@"option": @1}];
     }
     
     
@@ -321,7 +327,7 @@ NSString* const EAWorkingTaskUpdate = @"EAWorkingTaskUpdate";
 -(void)searchWorklowsBetweenId:(int)id1 andId:(int)id2 completionBlock:(void (^) (NSArray* workflows, NSError* error))completionBlock
 {
     
-    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(1.0 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+    /*dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(1.0 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
         
         workflowTest = [EAWorkflow new];
         workflowTest.imageURL = [NSURL URLWithString:@"http://www.supermarchesmatch.fr/userfiles/images/Poulet%20au%20curry.jpg"];
@@ -329,7 +335,7 @@ NSString* const EAWorkingTaskUpdate = @"EAWorkingTaskUpdate";
         workflowTest.title = @"Poulet au curry";
         workflowTest.sortTag = @"Hour";
         completionBlock(@[workflowTest,workflowTest,workflowTest,workflowTest], nil);
-    });
+    });*/
     
 }
 
@@ -393,6 +399,22 @@ NSString* const EAWorkingTaskUpdate = @"EAWorkingTaskUpdate";
         completionBlock(nil);
     });
     
+    
+}
+
+-(void)retrieveMetaworkflowWithID:(int)metaworkflowID completionBlock:(void (^)(EAMetaworkflow *, NSError *))completionBlock
+{
+    
+    NSDictionary *parameters = @{@"id" : @(metaworkflowID)};
+    
+    [self.easeServerManager GET:@"metaworkflow/" parameters:parameters success:^(NSURLSessionDataTask *task, NSDictionary* responseObject) {
+        
+        EAMetaworkflow *metaworkflow = [EAMetaworkflow metaworkflowByParsingDictionary:responseObject];
+        completionBlock(metaworkflow, nil);
+        
+    } failure:^(NSURLSessionDataTask *task, NSError *error) {
+        completionBlock(nil, error);
+    }];
     
 }
 
@@ -519,11 +541,11 @@ NSString* const EAWorkingTaskUpdate = @"EAWorkingTaskUpdate";
     task5.workflow = workflowTest;
     
     workflowTest = [[EAWorkflow alloc] init];
-    workflowTest.title = @"Poulet au Curry";
+    //workflowTest.title = @"Poulet au Curry";
     workflowTest.tasks = @[task1, task2, task3, task4, task5];
     workflowTest.color = colors[arc4random()%5];
     workflowTest.imageURL = [NSURL URLWithString:@"http://www.supermarchesmatch.fr/userfiles/images/Poulet%20au%20curry.jpg"];
-
+    workflowTest.metaworkflow = [EAMetaworkflow metaworkflowByParsingDictionary:@{@"title": @"Poulet Curry"}];
     
     dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(1.0 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
         

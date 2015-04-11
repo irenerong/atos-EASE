@@ -16,7 +16,7 @@
 
 #import "EAWorkflowMasterViewController.h"
 
-#import <JTCalendar.h>
+#import "JTCalendar.h"
 
 @interface EACalendarViewController : UIViewController <EACollectionViewWorkflowLayoutDelegate, JTCalendarDataSource>
 {

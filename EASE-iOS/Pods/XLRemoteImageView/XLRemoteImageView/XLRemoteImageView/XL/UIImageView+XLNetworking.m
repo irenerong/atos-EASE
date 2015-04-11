@@ -7,8 +7,10 @@
 //
 
 #import "UIImageView+XLNetworking.h"
-#import <AFNetworking/AFNetworking.h>
-#import <AFNetworking/UIImageView+AFNetworking.h>
+
+#import "AFNetworking.h"
+#import "UIImageView+AFNetworking.h"
+
 #import "XLCircleProgressIndicator.h"
 #import <objc/message.h>
 
@@ -47,7 +49,12 @@
     [self cancelImageRequestOperation];
     
     // get AFNetworking UIImageView cache
-    AFImageCache * cache =  (AFImageCache *)objc_msgSend([self class], @selector(sharedImageCache));
+    //AFImageCache * cache =  (AFImageCache *)objc_msgSend([self class], @selector(sharedImageCache));
+    typedef AFImageCache* (*stcache)(UIImageView*);
+    
+    stcache methodInstance = (stcache)[[self class] instanceMethodForSelector:@selector(sharedImageCache)];
+    AFImageCache * cache = [UIImageView sharedImageCache];
+    
     // try to get the image from cache
     UIImage * cachedImage = [cache cachedImageForRequest:urlRequest];
     if (cachedImage) {
@@ -100,8 +107,10 @@
         // get the NSoperationQueue associated With UIImageView class
         #pragma clang diagnostic push
         #pragma clang diagnostic ignored "-Wundeclared-selector"
-        NSOperationQueue * operationQueue =  (NSOperationQueue *)objc_msgSend([self class], @selector(af_sharedImageRequestOperationQueue));
-        #pragma clang diagnostic pop
+        
+      NSOperationQueue * operationQueue = [UIImageView af_sharedImageRequestOperationQueue];
+
+#pragma clang diagnostic pop
         [operationQueue addOperation:self.af_imageRequestOperation];
     }
 }

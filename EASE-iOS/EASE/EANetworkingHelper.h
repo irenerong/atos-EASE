@@ -7,8 +7,8 @@
 //
 
 #import <Foundation/Foundation.h>
-#import <AFNetworking.h>
-#import <Wit.h>
+#import "AFNetworking.h"
+#import "Wit.h"
 #import "EAUser.h"
 
 
@@ -20,7 +20,7 @@ extern NSString* const EAWorkingTaskRemove;
 extern NSString* const EAWorkingTaskUpdate;
 
 
-
+@class EAMetaworkflow;
 @class EAWorkflow;
 @class EADateInterval;
 @class EATask;
@@ -40,6 +40,8 @@ extern NSString* const EAWorkingTaskUpdate;
 }
 
 @property(nonatomic, weak) id <EANetworkingHelperDelegate> delegate;
+
+@property(nonatomic, strong) NSString *easeServerAdress;
 
 @property(nonatomic, readonly) EAUser *currentUser;
 
@@ -72,6 +74,9 @@ extern NSString* const EAWorkingTaskUpdate;
 -(void)searchWorklowsBetweenId:(int)id1 andId:(int)id2 completionBlock:(void (^) (NSArray* workflows, NSError* error))completionBlock;
 
 -(void)retrieveWorkflow:(EAWorkflow*)workflow completionBlock:(void (^) (NSError *error))completionBlock;
+
+-(void)retrieveMetaworkflowWithID:(int)metaworkflowID completionBlock:(void (^) (EAMetaworkflow* metaworkflow, NSError *error))completionBlock;
+
 
 -(void)modifyWorkflow:(EAWorkflow*)workflow withParams:(NSDictionary*)params completionBlock:(void (^) (EAWorkflow *newWorkflow, NSError *error))completionBlock;
 

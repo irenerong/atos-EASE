@@ -12,7 +12,6 @@
 		311734AB1A87E2E4006B2B39 /* FRGWaterfallCollectionViewLayout.m in Sources */ = {isa = PBXBuildFile; fileRef = 311734AA1A87E2E4006B2B39 /* FRGWaterfallCollectionViewLayout.m */; };
 		311734AE1A87E416006B2B39 /* FRGWaterfallDecorationReusableView.m in Sources */ = {isa = PBXBuildFile; fileRef = 311734AD1A87E416006B2B39 /* FRGWaterfallDecorationReusableView.m */; };
 		311734B41A87E6E1006B2B39 /* EAWorkflowListCollectionViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 311734B31A87E6E1006B2B39 /* EAWorkflowListCollectionViewCell.m */; };
-		311734B71A87EAFB006B2B39 /* poulet.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 311734B61A87EAFB006B2B39 /* poulet.jpg */; };
 		311734C11A88B8E1006B2B39 /* MBPullDownController.m in Sources */ = {isa = PBXBuildFile; fileRef = 311734C01A88B8E1006B2B39 /* MBPullDownController.m */; };
 		311915B91AA50E3A00DD4EDF /* EANotification.m in Sources */ = {isa = PBXBuildFile; fileRef = 311915B81AA50E3A00DD4EDF /* EANotification.m */; };
 		311915BC1AA510BB00DD4EDF /* EATaskCollectionViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 311915BB1AA510BB00DD4EDF /* EATaskCollectionViewCell.m */; };
@@ -50,8 +49,9 @@
 		31BA9A5D1AA4719D005D4E22 /* EALeftMenuViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 31BA9A5C1AA4719D005D4E22 /* EALeftMenuViewController.m */; };
 		31C02CF61AD2F22F00D4A915 /* EASearchResults.m in Sources */ = {isa = PBXBuildFile; fileRef = 31C02CF51AD2F22F00D4A915 /* EASearchResults.m */; };
 		31C02CFB1AD2F6B000D4A915 /* NSDate+JSParse.m in Sources */ = {isa = PBXBuildFile; fileRef = 31C02CFA1AD2F6B000D4A915 /* NSDate+JSParse.m */; };
+		31C02CFE1AD3293200D4A915 /* EAMetaworkflow.m in Sources */ = {isa = PBXBuildFile; fileRef = 31C02CFD1AD3293200D4A915 /* EAMetaworkflow.m */; };
 		31FFAE9D1AD04DE900AACD2D /* EALoginViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 31FFAE9C1AD04DE900AACD2D /* EALoginViewController.m */; };
-		660635EBCCABF0DA5A87A219 /* libPods.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 5A349251BDC63E909A65C4FB /* libPods.a */; };
+		60711E5F69F762FB1F7D615E /* Pods.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8B823D8B3C18F8EEB2E51D44 /* Pods.framework */; settings = {ATTRIBUTES = (Weak, ); }; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -75,7 +75,6 @@
 		311734AD1A87E416006B2B39 /* FRGWaterfallDecorationReusableView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FRGWaterfallDecorationReusableView.m; sourceTree = "<group>"; };
 		311734B21A87E6E1006B2B39 /* EAWorkflowListCollectionViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EAWorkflowListCollectionViewCell.h; sourceTree = "<group>"; };
 		311734B31A87E6E1006B2B39 /* EAWorkflowListCollectionViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EAWorkflowListCollectionViewCell.m; sourceTree = "<group>"; };
-		311734B61A87EAFB006B2B39 /* poulet.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = poulet.jpg; sourceTree = "<group>"; };
 		311734BF1A88B8E1006B2B39 /* MBPullDownController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MBPullDownController.h; sourceTree = "<group>"; };
 		311734C01A88B8E1006B2B39 /* MBPullDownController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MBPullDownController.m; sourceTree = "<group>"; };
 		311915B71AA50E3A00DD4EDF /* EANotification.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EANotification.h; sourceTree = "<group>"; };
@@ -148,11 +147,13 @@
 		31C02CF51AD2F22F00D4A915 /* EASearchResults.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EASearchResults.m; sourceTree = "<group>"; };
 		31C02CF91AD2F6B000D4A915 /* NSDate+JSParse.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSDate+JSParse.h"; sourceTree = "<group>"; };
 		31C02CFA1AD2F6B000D4A915 /* NSDate+JSParse.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSDate+JSParse.m"; sourceTree = "<group>"; };
+		31C02CFC1AD3293200D4A915 /* EAMetaworkflow.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EAMetaworkflow.h; sourceTree = "<group>"; };
+		31C02CFD1AD3293200D4A915 /* EAMetaworkflow.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EAMetaworkflow.m; sourceTree = "<group>"; };
 		31FFAE9B1AD04DE900AACD2D /* EALoginViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EALoginViewController.h; sourceTree = "<group>"; };
 		31FFAE9C1AD04DE900AACD2D /* EALoginViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EALoginViewController.m; sourceTree = "<group>"; };
 		3D038CB637637CAD0E292855 /* Pods.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.debug.xcconfig; path = "Pods/Target Support Files/Pods/Pods.debug.xcconfig"; sourceTree = "<group>"; };
 		4D2E7D23C6E8A69C23A7980B /* Pods.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.release.xcconfig; path = "Pods/Target Support Files/Pods/Pods.release.xcconfig"; sourceTree = "<group>"; };
-		5A349251BDC63E909A65C4FB /* libPods.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libPods.a; sourceTree = BUILT_PRODUCTS_DIR; };
+		8B823D8B3C18F8EEB2E51D44 /* Pods.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -160,7 +161,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				660635EBCCABF0DA5A87A219 /* libPods.a in Frameworks */,
+				60711E5F69F762FB1F7D615E /* Pods.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -234,7 +235,6 @@
 		311734B51A87E6E7006B2B39 /* Cell */ = {
 			isa = PBXGroup;
 			children = (
-				311734B61A87EAFB006B2B39 /* poulet.jpg */,
 				311734B21A87E6E1006B2B39 /* EAWorkflowListCollectionViewCell.h */,
 				311734B31A87E6E1006B2B39 /* EAWorkflowListCollectionViewCell.m */,
 			);
@@ -471,6 +471,8 @@
 		31C02CF71AD2F35600D4A915 /* Workflows */ = {
 			isa = PBXGroup;
 			children = (
+				31C02CFC1AD3293200D4A915 /* EAMetaworkflow.h */,
+				31C02CFD1AD3293200D4A915 /* EAMetaworkflow.m */,
 				3146E6D91A80E57A0072FC99 /* EAWorkflow.h */,
 				3146E6DA1A80E57A0072FC99 /* EAWorkflow.m */,
 				3146E6DC1A80E62B0072FC99 /* EATask.h */,
@@ -502,7 +504,7 @@
 		6C59B58222487B9AB65A4B0B /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
-				5A349251BDC63E909A65C4FB /* libPods.a */,
+				8B823D8B3C18F8EEB2E51D44 /* Pods.framework */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -528,6 +530,7 @@
 				3146E6AB1A80E2160072FC99 /* Frameworks */,
 				3146E6AC1A80E2160072FC99 /* Resources */,
 				432D04691D02DCC4E2DEB4BA /* Copy Pods Resources */,
+				65F0DB11352213C6D525908A /* Embed Pods Frameworks */,
 			);
 			buildRules = (
 			);
@@ -601,7 +604,6 @@
 			files = (
 				3146E6BD1A80E2160072FC99 /* Main.storyboard in Resources */,
 				3146E6C21A80E2160072FC99 /* LaunchScreen.xib in Resources */,
-				311734B71A87EAFB006B2B39 /* poulet.jpg in Resources */,
 				3146E6BF1A80E2160072FC99 /* Images.xcassets in Resources */,
 				31A2A46C1AAC7D9B00C0F77F /* EATaskCell.xib in Resources */,
 			);
@@ -630,6 +632,21 @@
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
 			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods/Pods-resources.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		65F0DB11352213C6D525908A /* Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "Embed Pods Frameworks";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods/Pods-frameworks.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
 		E351C39CF5DA31DDD3F05CDE /* Check Pods Manifest.lock */ = {
@@ -676,6 +693,7 @@
 				311734C11A88B8E1006B2B39 /* MBPullDownController.m in Sources */,
 				31BA9A5A1AA46CA3005D4E22 /* EARootViewController.m in Sources */,
 				3146E6EA1A8154870072FC99 /* EADateInterval.m in Sources */,
+				31C02CFE1AD3293200D4A915 /* EAMetaworkflow.m in Sources */,
 				311734B41A87E6E1006B2B39 /* EAWorkflowListCollectionViewCell.m in Sources */,
 				315AC96E1AACFDF800E7B54C /* EACalendarViewController.m in Sources */,
 				316DBF441A8C11C600828BE2 /* EAWorkflowMasterViewController.m in Sources */,
@@ -816,9 +834,13 @@
 			baseConfigurationReference = 3D038CB637637CAD0E292855 /* Pods.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				INFOPLIST_FILE = EASE/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE = "";
 			};
 			name = Debug;
 		};
@@ -827,9 +849,13 @@
 			baseConfigurationReference = 4D2E7D23C6E8A69C23A7980B /* Pods.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				INFOPLIST_FILE = EASE/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE = "";
 			};
 			name = Release;
 		};

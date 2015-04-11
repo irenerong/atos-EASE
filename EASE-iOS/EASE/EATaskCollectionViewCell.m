@@ -7,6 +7,9 @@
 //
 
 #import "EATaskCollectionViewCell.h"
+#import "UIImageView+XLProgressIndicator.h"
+#import "UIImage+ImageEffects.h"
+#import "EAWorkflow.h"
 
 @implementation EATaskCollectionViewCell
 
@@ -60,7 +63,6 @@
     
     self.actionDescriptionLabel.textColor = [UIColor colorWithWhite:180/255.0 alpha:1.0];
     
-    self.dateBackgroundView.backgroundColor = [UIColor whiteColor];
     
     self.dateBackgroundView.layer.masksToBounds = false;
     self.dateBackgroundView.layer.shadowOffset = CGSizeMake(0, 0);
@@ -97,6 +99,8 @@
     self.progressBar.type = YLProgressBarTypeFlat;
     self.progressBar.hideStripes = YES;
     self.progressBar.hideGloss = YES;
+    
+       [self.workflowImageView.progressIndicatorView setStrokeRemainingColor:[UIColor colorWithWhite:240/255. alpha:1.]];
 
 }
 
@@ -131,6 +135,13 @@
     }
 
     
+    [self.workflowImageView setImageWithProgressIndicatorAndURL:self.taskNotification.task.workflow.imageURL placeholderImage:nil imageDidAppearBlock:^(UIImageView *imageView) {
+        
+        imageView.image = [imageView.image applyBlurWithRadius:5 tintColor:nil saturationDeltaFactor:1 maskImage:nil];
+        
+    }];
+    [self.workflowImageView.progressIndicatorView setStrokeProgressColor:color];
+
 }
 
 -(void)setTaskNotification:(EANotification *)taskNotification {
@@ -142,6 +153,25 @@
     [self update];
 }
 
+-(void) setHighlighted:(BOOL)highlighted {
+    [super setHighlighted:highlighted];
+    
 
+        
+        if (highlighted)
+        {
+            self.dateBackgroundView.backgroundColor = [UIColor colorWithWhite:240/255. alpha:1.];
+            self.labelsBackgroundView.backgroundColor = [UIColor colorWithWhite:240/255. alpha:1.];
+
+        }
+        else
+        {
+            self.dateBackgroundView.backgroundColor = [UIColor whiteColor];
+            self.labelsBackgroundView.backgroundColor = [UIColor whiteColor];
+        }
+
+
+    
+}
 
 @end
