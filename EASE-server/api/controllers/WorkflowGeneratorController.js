@@ -30,6 +30,8 @@ module.exports = {
     Workflow.create({metaworkflow : params.metaworkflow,duration:duration,consumption:consumption}).exec(
       function(err, workflow){
         if (err) {console.log(err)}
+//  send message to socket which watch Workflow model and subscribe the socket to the new instance
+        Workflow.publishCreate(workflow);
 
         console.log('workflow '+workflow.id+ 'has been generate');
 
@@ -80,6 +82,7 @@ module.exports = {
         agent: subtask.agentID, action: subtask.action, consumption: subtask.consumption, duration:subtask.duration}).exec(
          // after create subtask , il faut creer son startcondition
          function(err,st){
+          SubTask.publishCreate(st);
           //console.log('st'+JSON.stringify(st,null,4));
           //console.log('subtask'+ JSON.stringify(subtask,null,4));
           WFC.createStartCondition(st,subtask); 
@@ -104,7 +107,9 @@ module.exports = {
      // console.log(st.id+ '  '+ start.id)
 
       //SubTask.update(st.id,{startCondition:start.id}).exec()
-      SubTask.update(st.id,{startCondition:start.id}).populate('startCondition').exec(console.log)
+      SubTask.update(st.id,{startCondition:start.id}).populate('startCondition').exec(function (err,update){
+        SubTask.publishUpdate(update[0].id,{startcondition:update[0].startCondition});
+      })
 
       // console.log('start Condition'+start.id+ '//' + 'subtask'+ start.subtask);
     })

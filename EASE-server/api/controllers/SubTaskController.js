@@ -12,20 +12,24 @@ module.exports = {
 		SubTask.destroy({}).exec(function (err) {res.status(200), res.json("ok")})
 	},
 	start : function (req, res) {
-		params = req.params.all();
+		var params = req.params.all();
 
-		if (req.isSocket && req.method === 'POST'){
+		if (req.isSocket && req.method == 'POST'){
 
 			console.log("socket received");
+				
+				SubTask.update({id:params.id},{status:'start'}).exec(function(err,updateds){
+				if (err){console.log(err)};
 
-			SubTask.findOne(params.SubTaskID).exec(function (err,subtask) {
+				console.log(updateds[0].id +' is start to be executed'+updateds[0].status);
+				SubTask.publishUpdate(updateds[0].id,{status:updateds[0].status})
+				sails.sockets.emit(sails.sockets.id(req.socket),'message',{msg:'working fine with emit'});
 
-				console.log(subtask.id);
+				//SubTask.subscribe(req.session.socket,subtask,['update']);
+				//no need to subcribe socket because, when the subtask was create, socket has already been subscribed to it  
 
-				SubTask.subscribe(req.socket,subtask,['update']);
-
-				subtask.start();
-			})
+				updateds[0].start();
+				})
 		}
 	},
 	test : function(req, res){

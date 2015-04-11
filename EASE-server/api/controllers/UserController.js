@@ -12,7 +12,7 @@ module.exports = {
 		var bcrypt = require('bcrypt');
 
 
-		setTimeout(function() { console.log("Salut !")}, 5000);
+		console.log("Salut !");
 
 		User.findOne({username: req.body.username}).exec(function (err, user)
 		{
@@ -31,6 +31,19 @@ module.exports = {
 					if (user.admin)
 						req.session.admin= true;
 					res.json({user: user});
+					// subscribe this socket to all the workflow and subtasks
+					if (req.isSocket){
+						console.log('socket signin received');
+						
+						SubTask.watch(req);
+						Workflow.watch(req);
+						SubTask.findOne(25).exec(function (err, st){
+							if (err) console.log(err)
+							SubTask.subscribe(req,st);
+						})
+						
+						req.session.socketID = sails.sockets.id(req.socket);
+					}
 				}else{
 					if (req.session.user) req.session.userID={};
 					res.json({error:'invalid password'});

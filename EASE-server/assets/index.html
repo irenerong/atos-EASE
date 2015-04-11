@@ -10,7 +10,7 @@
 	<input type="submit"> start a task </input>
 </form>>
 
-<button id="create">create a new task </button>
+<button id="start" onclick="start()">start task 25 </button>
 
 <script type="text/javascript" src="./js/dependencies/sails.io.js"></script>
 <script type="text/javascript">
@@ -29,21 +29,42 @@ socket.on('connect', function socketConnected() {
     'e.g. to send a GET request to Sails via Socket.io, try: \n' +
     '`socket.get("/foo", function (response) { console.log(response); })`'
   );
-  io.socket.post('/subtask/start/',{SubTaskID:1});
-  io.socket.on('subtask',function(obj){
-          if (obj.verb == 'updated') {
-          	console.log('client side catch publishcreated');
-            var previous = obj.previous;
-            var data = obj.data;
-            console.log('SubTask '+previous.isDone+' has been updated to '+data.isDone);
-          }
-       });
+  io.socket.post('/user/signin/',{username:'hanhan',password:'1234567'});
+  
+ 
   // io.socket.post('/subtask/create',{agent:"oven", duration:30}, function (newst) {
 		// //staskID=newst.id
 		// console.log(newst);
 		// console.log('create new task ID: ');
 	 // })
 });
+
+function start(){
+  io.socket.post('/subtask/start/',{id:25});
+  
+
+}
+io.socket.on('message', function (msg){console.log(msg)});
+ io.socket.on('subtask', function (obj){
+  console.log('socket on subtask');
+          if (obj.verb == 'updated') {
+            console.log('client side catch publishupdated');
+            var previous = obj.previous;
+            var data = obj.data;
+            console.log('SubTask with status '+previous.status+' has been updated to '+data.status);
+          }
+          else if (obj.verb == 'created'){
+            console.log('client side catch publishcreated of subtask '+ obj.id+ JSON.stringify(obj.data, null,4)) ;
+
+
+          }
+       });
+
+  io.socket.on('workflow',function (obj){
+          if (obj.verb == 'created'){
+            console.log('client side catch publishcreated of workflow '+ obj.id+ JSON.stringify(obj.data, null,4)) };
+
+  });
 </script>
 </body>
 </html>
