@@ -47,6 +47,8 @@
 
 @property(nonatomic, strong) AFHTTPSessionManager *witServerManager;
 
+@property(nonatomic, strong) SocketIOClient* easeSocketManager;
+
 
 @end
 
@@ -90,7 +92,7 @@ NSString* const EAWorkingTaskUpdate = @"EAWorkingTaskUpdate";
     {
         
         colors = @[[UIColor colorWithRed:44/255.0 green:218/255.0 blue:252/255.0 alpha:1.0], [UIColor colorWithRed:28/255.0 green:253/255.0 blue:171/255.0 alpha:1.0], [UIColor colorWithRed:252/255.0 green:200/255.0 blue:53/255.0 alpha:1.0], [UIColor colorWithRed:253/255.0 green:101/255.0 blue:107/255.0 alpha:1.0], [UIColor colorWithRed:254/255.0 green:100/255.0 blue:192/255.0 alpha:1.0]];
-        self.easeServerAdress = @"http://localhost:1337/";
+        self.easeServerAdress = @"localhost:1337";
         
         _pendingTasks = [NSMutableArray array];
         _workingTasks = [NSMutableArray array];
@@ -98,6 +100,8 @@ NSString* const EAWorkingTaskUpdate = @"EAWorkingTaskUpdate";
         
         [Wit sharedInstance].accessToken = @"Z6RAMHMFQLP6FG2KSPTT4F23XH5GK5L4";
         [Wit sharedInstance].delegate = self;
+        
+        
         
         self.witServerManager = [[AFHTTPSessionManager alloc] initWithBaseURL:[NSURL URLWithString:witServerAddress]];
         self.witServerManager.requestSerializer = [AFJSONRequestSerializer serializer];
@@ -120,8 +124,43 @@ NSString* const EAWorkingTaskUpdate = @"EAWorkingTaskUpdate";
 -(void)setEaseServerAdress:(NSString *)easeServerAdress
 {
     _easeServerAdress = easeServerAdress;
-    self.easeServerManager = [[AFHTTPSessionManager alloc] initWithBaseURL:[NSURL URLWithString:_easeServerAdress]];
+    self.easeServerManager = [[AFHTTPSessionManager alloc] initWithBaseURL:[NSURL URLWithString:[NSString stringWithFormat:@"http://%@/", easeServerAdress]]];
+    
+   
+}
 
+-(void)setCookie:(NSHTTPCookie*)cookie
+{
+    
+    
+    NSString *cookieString = [NSString stringWithFormat:@"domain=\"%@\";path=\"%@\";name:\"%@\";value=\"%@\"", cookie.domain, cookie.path, cookie.name, cookie.value];
+    
+    self.easeSocketManager = [[SocketIOClient alloc] initWithSocketURL:_easeServerAdress options:@{@"Cookie": cookieString}];
+    
+    [self.easeSocketManager on: @"connect" callback: ^(NSArray* data, void (^ack)(NSArray*)) {
+        NSLog(@"connected \n %@", data);
+        
+    }];
+    
+    [self.easeSocketManager on: @"reconnect" callback: ^(NSArray* data, void (^ack)(NSArray*)) {
+        NSLog(@"reconnect \n %@", data);
+        
+    }];
+    
+    [self.easeSocketManager on:@"error" callback:^(NSArray *data, void (^ack)(NSArray*))  {
+        NSLog(@"error \n %@", data);
+        
+    }];
+    
+    [self.easeSocketManager on:@"subtask" callback:^(NSArray *data, void (^ack)(NSArray*)){
+        NSLog(@"subtasks \n %@", data);
+    }];
+    
+    [self.easeSocketManager onAny:^{
+        NSLog(@"ON !");
+    }];
+    
+    [self.easeSocketManager connect];
 }
 
 #pragma mark - WIT
@@ -184,6 +223,7 @@ NSString* const EAWorkingTaskUpdate = @"EAWorkingTaskUpdate";
             
             NSLog(@"From %@ : %@", fromDateString, fromDate);
             
+            if (fromDate)
             dictionary[@"fromDate"] = fromDate;
             
         }
@@ -194,8 +234,10 @@ NSString* const EAWorkingTaskUpdate = @"EAWorkingTaskUpdate";
             
             NSDate *fromDate = [self witStringToDate:fromDateString];
             NSDate *toDate = [self witStringToDate:toDateString];
-            
+            if (fromDate)
             dictionary[@"fromDate"] = fromDate;
+            
+            if (toDate)
             dictionary[@"toDate"] = toDate;
             
             
@@ -250,6 +292,35 @@ NSString* const EAWorkingTaskUpdate = @"EAWorkingTaskUpdate";
 
     self.easeServerManager.responseSerializer =  [AFJSONResponseSerializer serializerWithReadingOptions:NSJSONReadingAllowFragments];
  
+    
+    //[self.easeSocketManager emitObjc:@"get" withItems:@{@"url": @"/user/\"}"}];
+    
+    /*[[self.easeSocketManager emitWithAckObjc:@"post" withItems: @{@"url" : @"/user/signin/", @"data" : @{ @"username" : username, @"password" : password}} ]  onAck:0 withCallback:^(NSArray *cb) {
+        
+        
+        NSLog(@"cb : %@", cb);
+
+        
+        NSDictionary *responseObject = cb[0][@"body"];
+        
+        NSLog(@"cb : %@", responseObject);
+        
+        if (responseObject[@"error"])
+        {
+            completionBlock([NSError errorWithDomain:responseObject[@"error"] code:0 userInfo:nil]);
+        }
+        else
+        {
+            _currentUser = [EAUser new];
+            _currentUser.username = responseObject[@"user"][@"username"];
+            completionBlock(nil);
+            
+        }
+        
+    }];
+    */
+    
+    
         [self.easeServerManager POST:@"User/signin" parameters:parameters success:^(NSURLSessionDataTask *task, NSDictionary * responseObject) {
             
             if (responseObject[@"error"])
@@ -258,11 +329,21 @@ NSString* const EAWorkingTaskUpdate = @"EAWorkingTaskUpdate";
             }
             else
             {
+                
+                NSHTTPCookie *cookie = [[[NSHTTPCookieStorage sharedHTTPCookieStorage] cookiesForURL:[NSURL URLWithString:@"http://localhost:1337/"]] firstObject];
+                NSLog(@"%@", cookie.properties);
+                
+                [self setCookie:cookie];
                 _currentUser = [EAUser new];
                 _currentUser.username = responseObject[@"user"][@"username"];
-                completionBlock(nil);
+            completionBlock(nil);
 
             }
+            
+            
+          
+            
+            
             
             
             
@@ -271,6 +352,8 @@ NSString* const EAWorkingTaskUpdate = @"EAWorkingTaskUpdate";
             completionBlock(error);
         
         }];
+    
+    
     
     
 }
@@ -421,10 +504,18 @@ NSString* const EAWorkingTaskUpdate = @"EAWorkingTaskUpdate";
 -(void)validateWorkflow:(EAWorkflow*)workflow completionBlock:(void (^)  (NSError *error)) completionBlock
 {
     
-    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(1.0 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+    [self.easeServerManager POST:@"WorkflowGenerator/validate" parameters:@{@"index" : @(workflow.workflowID)} success:^(NSURLSessionDataTask *task, NSDictionary * responseObject) {
+        
+        NSLog(@"%@", responseObject);
         
         completionBlock(nil);
-    });
+        
+        
+    } failure:^(NSURLSessionDataTask *task, NSError *error) {
+        
+        completionBlock(error);
+        
+    }];
     
 }
 

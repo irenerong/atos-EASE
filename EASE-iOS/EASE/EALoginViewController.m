@@ -118,7 +118,6 @@
             [alertView show];
             
 
-            [self performSegueWithIdentifier:@"ToMain" sender:self];
 
 
         }
@@ -150,7 +149,7 @@
     
     if (textField == self.easeIPTextField)
     {
-        
+        [EANetworkingHelper sharedHelper].easeServerAdress = self.easeIPTextField.text;
     }
     
     return YES;

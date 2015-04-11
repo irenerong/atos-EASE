@@ -7,6 +7,9 @@
 //
 
 #import <Foundation/Foundation.h>
+
+
+#import "Socket_IO_Client_Swift-Swift.h"
 #import "AFNetworking.h"
 #import "Wit.h"
 #import "EAUser.h"

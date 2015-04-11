@@ -7,6 +7,7 @@
 //
 
 #import "MBPullDownController.h"
+#import "EANetworkingHelper.h"
 #import "EAWorkflowViewController.h"
 #import "EAWorkflowInfosViewController.h"
 
@@ -17,5 +18,8 @@
 @property(nonatomic, weak) EAWorkflow *workflow;
 @property (strong, nonatomic) IBOutlet UIBarButtonItem *doneButton;
 @property (strong, nonatomic) IBOutlet UIBarButtonItem *editButton;
+
+- (IBAction)validateWorkflow:(id)sender;
+
 
 @end

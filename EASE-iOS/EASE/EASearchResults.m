@@ -26,7 +26,7 @@
         
         
         NSArray *workflows = dictionary[@"workflows"];
-        
+        NSLog(@"%@", workflows);
         NSMutableArray *parsedWorkflows = [NSMutableArray array];
         NSMutableArray *parsedMetaworkflows = [NSMutableArray array];
 
@@ -40,6 +40,9 @@
 
             
             EAWorkflow *workflow = [EAWorkflow workflowByParsingDictionary:workflowDic];
+            if (!workflow)
+                continue;
+            
             workflow.workflowID = i;
             
             [parsedWorkflows addObject:workflow];

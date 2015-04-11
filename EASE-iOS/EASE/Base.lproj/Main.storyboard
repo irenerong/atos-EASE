@@ -25,7 +25,11 @@
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="hSf-ld-cj5" userLabel="First Responder" sceneMemberID="firstResponder"/>
-                <barButtonItem tag="2" systemItem="done" id="4zu-49-Mrt"/>
+                <barButtonItem tag="2" systemItem="done" id="4zu-49-Mrt">
+                    <connections>
+                        <action selector="validateWorkflow:" destination="jhY-nX-x2W" id="cC1-jl-mBg"/>
+                    </connections>
+                </barButtonItem>
                 <barButtonItem tag="3" systemItem="edit" id="1cv-EF-lcV">
                     <connections>
                         <segue destination="WLw-N3-FdQ" kind="custom" identifier="ReadaptWorkflow" customClass="MZFormSheetSegue" id="vfI-1i-jNa"/>

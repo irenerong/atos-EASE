@@ -111,4 +111,20 @@
 }
 
 
+- (IBAction)validateWorkflow:(id)sender {
+    
+    [[EANetworkingHelper sharedHelper] validateWorkflow:self.workflow completionBlock:^(NSError *error) {
+       
+        if (error)
+        {
+            [[[UIAlertView alloc] initWithTitle:@"Error" message:error.localizedDescription delegate:nil cancelButtonTitle:@"ok" otherButtonTitles: nil] show];
+        }
+        else
+        {
+            [[[UIAlertView alloc] initWithTitle:@"Validated" message:@"Houra" delegate:nil cancelButtonTitle:@"ok" otherButtonTitles: nil] show];
+        }
+        
+    }];
+    
+}
 @end
