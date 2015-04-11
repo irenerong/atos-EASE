@@ -15,15 +15,15 @@ module.exports = {
 			timeConstraint.option=req.body.option;
 			timeConstraint.time=req.body.time;
 		var sortFunction = null
-	if (req.session.lastsearch == params.intent){
-		console.log("this is a sort by"+req.session.lastsearch);
-		sortFunction = this.sort(params.sortBy);
-		req.session.generatedWorkflows.sort(sortFunction) ;
-		// if the the user just wants to do a workflow sort
+	// if (req.session.lastsearch == params.intent){
+	// 	console.log("this is a sort by"+req.session.lastsearch);
+	// 	sortFunction = this.sort(params.sortBy);
+	// 	req.session.generatedWorkflows.sort(sortFunction) ;
+	// 	// if the the user just wants to do a workflow sort
 
-		res.json({"workflows":req.session.generatedWorkflows}) // with pagination
+	// 	res.json({"workflows":req.session.generatedWorkflows}) // with pagination
 
-	}else{
+	// }else{
 		// generate new workflows
 		console.log("generating workflows")
 		req.session.generatedWorkflows=[];
@@ -78,63 +78,77 @@ module.exports = {
 			
 
 			})
-	}
+	//}
 	
 	
 
 
 	},
-sort :function(sortBy){
+	sortwf : function(req, res){
+		var params= req.body;
 
-					if (sortBy == 'title') {
+		if (req.session.lastsearch != null){
+				console.log("this is a sort by"+req.session.lastsearch);
+				sortFunction = this.sort(params.sortBy);
+				req.session.generatedWorkflows.sort(sortFunction) ;
+				// if the the user just wants to do a workflow sort
+
+				res.json({"workflows":req.session.generatedWorkflows}) // with pagination
+
+		}
+
+	},
+	sort :function(sortBy){
+
+						if (sortBy == 'title') {
 
 
 
-					return sortFunction = function(a, b) {
+						return sortFunction = function(a, b) {
 
-							var order = 1
-							//console.log("a "+a.metaworkflow+" b "+b.metaworkflow)
+								var order = 1
+								//console.log("a "+a.metaworkflow+" b "+b.metaworkflow)
 
-							if (a.metaworkflow < b.metaworkflow)
-								return  -1*order
-							if (a.metaworkflow > b.metaworkflow)
-								return  1*order
+								if (a.metaworkflow < b.metaworkflow)
+									return  -1*order
+								if (a.metaworkflow > b.metaworkflow)
+									return  1*order
 
-							return 0
-	
-						}
-					}
-					else {
-
-					return sortFunction = function(a, b) {
-
-							var order = 1
-							if (sortBy == 'consumption'){
-								if (a.consumption < b.consumption)
-								return  -1*order
-								if (a.consumption > b.consumption)
-								return  1*order
-
-							return 0
-
-							}else{
-								if (a.duration < b.duration)
-								return  -1*order
-								if (a.duration > b.duration)
-								return  1*order
-
-							return 0
-
+								return 0
+		
 							}
-							
+						}
+						else {
 
-							
-	
+						return sortFunction = function(a, b) {
+
+								var order = 1
+								if (sortBy == 'consumption'){
+									if (a.consumption < b.consumption)
+									return  -1*order
+									if (a.consumption > b.consumption)
+									return  1*order
+
+								return 0
+
+								}else{
+									if (a.duration < b.duration)
+									return  -1*order
+									if (a.duration > b.duration)
+									return  1*order
+
+								return 0
+
+								}
+								
+
+								
+		
+							}
+
 						}
 
-					}
-
-}
+	}
 
 
 

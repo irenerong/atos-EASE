@@ -81,6 +81,7 @@ Arrangement.whatTheFuck = function(subtasks2){
 Arrangement.arrange = function(arrangeElements){
 	var res = {};
 	var margin = 15; // A default margin(in advance or a delay according to the "type", unit minute)
+	var marginBetweenTasks = 5; // Default margin between sub tasks
 	var compatible = false;
 	var coef1 = 0; // 0 if "at", -1 if "before" and 1 if "after" according to the constraints
 	var coef2 = 0; // 0 if "Begin", 1 if "Finish" according to the constraints
@@ -105,8 +106,8 @@ Arrangement.arrange = function(arrangeElements){
 	// Sorts the subtasks  See function sortTasks
 	sortedTasks = sortTasks(arrangeElements); 
 	
-	// Gets workflow's duration
-	wfDuration = getDuration(sortedTasks);
+	// Gets workflow's duration with margins between the tasks(we suppose to have the maximum of margins)
+	wfDuration = getDuration(sortedTasks) + (length - 1) * marginBetweenTasks;
 	
 	// Begin time of work flow 
 	var dateString = this.constraint.time;

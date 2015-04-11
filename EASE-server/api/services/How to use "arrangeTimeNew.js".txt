@@ -1,0 +1,124 @@
+How to use "arrangeTimeNew.js"
+
+ArrangeTimeNew.js is a file which realizes the scheduling of tasks of a workflow. It is easy and simple to use.
+As this file is put in Services folder, it could be reached anywhere in the project without doing "require", which means
+the calling of functions follows the way like: arrangeTimeNew.function_name(parameter).
+
+
+
+Suppose we have already a list of sub-tasks waiting to be arranged(temporal adaptation). In order to arrange time to the subtasks, we should follow the steps below:
+
+1. Initialization. Call function arrangeTimeNew.init (see function in ArrangeTimeNew) to initialize the temporal adaptation with a "constraint" and a timetable "agentsNonDispo" containing all the periods of all the agents during which the agents are not availble. 
+a. "constaints" has the following structure:
+	{
+		type : {0, 1},        // 0 means users want the workflow "start" + time condition and 1 means "finish"  
+		option : {0, 1, 2},   // option indicates the relation with "time". 0 means "before" the time, 1 means "after" that time and 					   // 2 means "at"
+		time : Date           // Time in the constraint given by the user
+	}
+
+example:
+	{
+		type : 0,
+		option : 1,
+		time : new Date("Mon Feb 01 2015 04:00:00 GMT+0100 (CET)")
+	}
+	this example means the user wants this workflow start after 4 o'clock on monday, Feb 1 2015
+b. "agentsNonDispo" has the following structure:
+	{
+		[									   		   // Array of ...
+		    {
+			    id: Integer,   // ID of an agent
+			    periodes:   [ 						   // Array of periods not available of this agent
+				  				{ duration : Integer,  // Each element in this array contains a "duration" of type integer
+				  				  begin : Date		   // and a "begin" of time Date
+				  				} 
+			  			    ]
+			}
+		]
+	}
+example:
+[ 
+	{ 																		// Agent 0 is not available for 15 mins from 1:40 Sun ...
+		id: 0,																// neither for 30 mins from 4:00 Mon Feb ...
+		periodes: 
+		[ 
+			{ 
+				duration: 15,
+				begin: new Date("Sun Feb 01 2015 01:40:00 GMT+0100 (CET)")
+			},
+			{ 
+				duration: 30,
+				begin: new Date("Mon Feb 01 2015 04:00:00 GMT+0100 (CET)")
+			}
+		]
+	},
+
+	{
+		id: 1,
+		periodes: 
+		[ 
+			{ 
+				duration: 60,
+				begin: new Date("Sun Feb 01 2015 03:40:00 GMT+0100 (CET)")
+			}
+		]
+	},
+	{
+		id: 2,
+		periodes: 
+		[ 
+			{ 
+				duration: 20,
+				begin: new Date("Sun Feb 01 2015 04:40:00 GMT+0100 (CET)")
+			}
+		]
+	}
+ ]
+
+ 2. Arrangement. Call function ArrangeTimeNew.arrange to arrange the sub tasks passed in arguments. This function take one parameter "arrangeElement". This parameter MUST have this structure when you pass the parameter:
+ {
+ 	[									 // Array of ...
+ 		{ 
+ 			subTask: Integer,            // ID of the subtask
+		    duration: Integer,           // Duration of the subtask
+		    predecessor: Array<Integer>, // Array of ID of this subtask's predecessor(s) 
+		    beginTime: 0,                // 0 by default in entry, allocated of a Date after adaptation
+		    agentID: Integer             // ID of the agent which will carry out this subtask
+		}
+ 	]
+ }
+ This function returns exactly the same structure of the input parameter, however, the fileds "beginTime" will be filled with a Date which means the provisional begin time.
+
+ example:
+ ArrangeTimeNew.arrange(
+ [ { subTask: 3,
+    duration: 5,
+    predecessor: [ 1 ],
+    beginTime: 0,
+    agentID: 0 },
+  { subTask: 5,
+    duration:   0,
+    predecessor: [ 4 ],
+    beginTime: 0,
+    agentID: 3 },
+  { subTask: 4,
+    duration: 10,
+    predecessor: [ 1, 2 ],
+	beginTime: 0,
+	agentID: 2 },
+  { subTask: 2,
+    duration: 20,
+    predecessor: [],
+    beginTime: 0,
+    agentID: 1 },
+  { subTask: 6,
+    duration: 15,
+    predecessor: [ 3, 5 ],
+    beginTime: 0,
+    agentID: 4 },
+  { subTask: 1,
+    duration: 10,
+    predecessor: [],
+    beginTime: 0,
+    agentID: 0 } ]
+)
