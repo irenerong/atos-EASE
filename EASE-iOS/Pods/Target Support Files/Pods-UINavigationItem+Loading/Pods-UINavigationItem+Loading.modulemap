@@ -1,0 +1,6 @@
+framework module UINavigationItem_Loading {
+  umbrella header "Pods-UINavigationItem+Loading-umbrella.h"
+
+  export *
+  module * { export * }
+}

@@ -28,8 +28,8 @@
 
 NSString *const MZTransitionExceptionMethodNotImplemented = @"MZTransitionExceptionMethodNotImplemented";
 
-CGFloat const MZTransitionDefaultBounceDuration = 0.5;
-CGFloat const MZTransitionDefaultDropDownDuration = 0.5;
+CGFloat const MZTransitionDefaultBounceDuration = 0.4;
+CGFloat const MZTransitionDefaultDropDownDuration = 0.4;
 
 @implementation MZTransition
 

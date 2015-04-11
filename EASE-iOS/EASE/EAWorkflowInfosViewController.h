@@ -11,7 +11,7 @@
 #import "MarqueeLabel.h"
 #import "EAWorkflow.h"
 
-#import <UIImageView+XLProgressIndicator.h>
+#import "UIImageView+XLProgressIndicator.h"
 
 @interface EAWorkflowInfosViewController : UIViewController <UITableViewDataSource, UITableViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout>
 

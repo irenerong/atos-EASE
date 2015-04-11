@@ -7,13 +7,13 @@
 //
 
 #import <UIKit/UIKit.h>
-#import <UINavigationItem+Loading.h>
+#import "UINavigationItem+Loading.h"
 #import "EANetworkingHelper.h"
 
 #import "EAWorkflowListCollectionViewController.h"
 #import "EAWorkflowMasterViewController.h"
 
-#import <UINavigationController+M13ProgressViewBar.h>
+#import "UINavigationController+M13ProgressViewBar.h"
 
 #import "EASearchResults.h"
 

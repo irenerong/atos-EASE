@@ -157,7 +157,6 @@ static NSString * const reuseIdentifier = @"Cell";
         
         cell.infosCollectionView.tag = indexPath.row;
         cell.workflow = workflow;
-        cell.color =workflow.color;
         
         
         cell.imageView.progressIndicatorView.strokeProgressColor = workflow.color;
@@ -197,14 +196,7 @@ static NSString * const reuseIdentifier = @"Cell";
         [self pushWorkflow:workflow];
         
     }
-    else
-    {
-        [[EANetworkingHelper sharedHelper] retrieveWorkflow:workflow completionBlock:^(NSError *error) {
-            [self pushWorkflow:workflow];
-            
-        }];
-        
-    }
+  
     
 }
 

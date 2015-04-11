@@ -7,7 +7,7 @@
 //
 
 #import "EACalendarWorkflowCollectionViewCell.h"
-
+#import "UIImageView+XLProgressIndicator.h"
 @implementation EACalendarWorkflowCollectionViewCell
 
 -(id)initWithCoder:(NSCoder *)aDecoder
@@ -24,19 +24,37 @@
 {
     _workflow = workflow;
     
+    self.backgroundColor = [UIColor whiteColor];
+    
+    self.layer.masksToBounds = false;
+    self.layer.shadowColor = [UIColor colorWithWhite:100/255. alpha:1.0].CGColor;
+    self.layer.shadowOffset = CGSizeMake(0, 2);
+    self.layer.shadowOpacity = 0.5;
+    self.layer.shadowRadius = 2;
+    
     _labelBackgroundView.layer.masksToBounds = false;
     _labelBackgroundView.layer.shadowColor = [UIColor blackColor].CGColor;
-    _labelBackgroundView.layer.shadowOffset = CGSizeMake(0, 2);
+    _labelBackgroundView.layer.shadowOffset = CGSizeMake(0, -2);
     _labelBackgroundView.layer.shadowOpacity = 0.2;
-    _labelBackgroundView.layer.shadowRadius = 3;
+    _labelBackgroundView.layer.shadowRadius = 2;
+    
     
     self.workflowImageView.clipsToBounds = true;
-    self.labelBackgroundView.backgroundColor = _workflow.color;
+    self.labelBackgroundView.backgroundColor = [UIColor whiteColor];
     self.workflowNameLabel.text = _workflow.title;
-    self.workflowNameLabel.textColor = [UIColor whiteColor];
-    self.workflowNameLabel.font = [UIFont fontWithName:@"HelveticaNeue" size:18];
-
-    self.workflowImageView.image = [[UIImage imageNamed:@"poulet.jpg"] applyBlurWithRadius:5 tintColor:nil saturationDeltaFactor:1 maskImage:nil];
+    self.workflowNameLabel.font = [UIFont fontWithName:@"HelveticaNeue" size:16];
+    self.workflowNameLabel.textColor = _workflow.color;
+ 
+    
+    [self.workflowImageView setImageWithProgressIndicatorAndURL:self.workflow.imageURL placeholderImage:nil imageDidAppearBlock:^(UIImageView *imageView) {
+        
+        
+    }];
+    
+    //[self.workflowImageView setImageWithProgressIndicatorAndURL:self.workflow.imageURL];
+    
+    [self.workflowImageView.progressIndicatorView setStrokeProgressColor:self.workflow.color];
+    [self.workflowImageView.progressIndicatorView setStrokeRemainingColor:[UIColor colorWithWhite:240/255. alpha:1.]];
     
 }
 

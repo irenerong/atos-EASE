@@ -7,7 +7,7 @@
 //
 
 #import <UIKit/UIKit.h>
-#import <UIImageView+XLProgressIndicator.h>
+#import "UIImageView+XLProgressIndicator.h"
 
 #import "EAWorkflowListCollectionViewCell.h"
 

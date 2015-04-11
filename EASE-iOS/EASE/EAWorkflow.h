@@ -13,6 +13,7 @@
 #import "EAAgent.h"
 
 #import "EADateInterval.h"
+#import "EAMetaworkflow.h"
 
 @interface EAWorkflow : NSObject
 {
@@ -20,17 +21,18 @@
 }
 
 +(instancetype)workflowByParsingDictionary:(NSDictionary*)dictionary;
--(instancetype)initWithDicitonary:(NSDictionary*)dictionary;
+-(instancetype)initWithDictionary:(NSDictionary*)dictionary;
+
+@property(nonatomic, strong) EAMetaworkflow *metaworkflow;
 
 @property(nonatomic, readwrite) int workflowID;
 
-@property(nonatomic, strong) NSString *title;
+@property(nonatomic, readonly) NSString *title;
 @property(nonatomic, strong) NSString *sortTag;
 
 @property(nonatomic, strong) NSArray *tasks;
 
 @property(nonatomic, strong) NSURL *imageURL;
-@property(nonatomic, strong) UIImage *image;
 @property(nonatomic, strong) UIColor *color;
 
 @property(nonatomic, strong) NSArray *ingredients;

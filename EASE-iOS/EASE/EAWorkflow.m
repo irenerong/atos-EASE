@@ -15,20 +15,20 @@
 +(instancetype)workflowByParsingDictionary:(NSDictionary*)dictionary
 {
     
-    return [[EAWorkflow alloc] initWithDicitonary:dictionary];
+    return [[EAWorkflow alloc] initWithDictionary:dictionary];
 }
 
 
--(instancetype)initWithDicitonary:(NSDictionary*)dictionary
+-(instancetype)initWithDictionary:(NSDictionary*)dictionary
 {
     
     if (self = [super init])
     {
         
+        if (![dictionary isKindOfClass:[NSDictionary class]])
+            return nil;
         
-        self.title = dictionary[@"metaworkflow"];
-        
-        NSArray *tasks = dictionary[@"array"];
+        NSArray *tasks = dictionary[@"subtasks"];
         
         NSMutableArray *parsedTasks = [NSMutableArray array];
         
@@ -97,5 +97,12 @@
     return dateInterval;
     
 }
+
+-(NSString*)title
+{
+    return self.metaworkflow.title;
+}
+
+
 
 @end

@@ -119,7 +119,17 @@
     [self updateTitleWithDate:self.date];
 
     self.navigationItem.rightBarButtonItems = @[self.addButton, self.modeSwitchButton];
+
     
+}
+
+-(void)viewDidAppear:(BOOL)animated
+{
+    [UIView animateWithDuration:0.5 animations:^{
+        self.navigationController.navigationBar.tintColor = [UIColor colorWithRed:44/255.0 green:218/255.0 blue:252/255.0 alpha:1.0];
+
+    }];
+
 }
 
 - (void)didReceiveMemoryWarning {
@@ -232,13 +242,7 @@
     {
         EACalendarWorkflowCollectionViewCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:@"WorkflowCell" forIndexPath:indexPath];
         
-        cell.backgroundColor = [UIColor whiteColor];
-        
-        cell.layer.masksToBounds = false;
-        cell.layer.shadowColor = [UIColor colorWithWhite:100/255. alpha:1.0].CGColor;
-        cell.layer.shadowOffset = CGSizeMake(0, 2);
-        cell.layer.shadowOpacity = 0.5;
-        cell.layer.shadowRadius = 2;
+       
         
         cell.workflow = self.workflows[indexPath.row];
         
@@ -248,15 +252,7 @@
     {
         EACalendarTaskCollectionViewCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:@"TaskCell" forIndexPath:indexPath];
         
-        cell.backgroundColor = [UIColor whiteColor];
-        
-        cell.layer.masksToBounds = false;
-        cell.layer.shadowColor = [UIColor colorWithWhite:100/255. alpha:1.0].CGColor;
-        cell.layer.shadowOffset = CGSizeMake(0, 2);
-        cell.layer.shadowOpacity = 0.5;
-        cell.layer.shadowRadius = 2;
-        
-        cell.task = self.tasks[indexPath.row];
+
         
         return cell;
     }

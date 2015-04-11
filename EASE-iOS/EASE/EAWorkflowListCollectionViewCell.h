@@ -8,7 +8,6 @@
 
 #import <UIKit/UIKit.h>
 #import "EAWorkflow.h"
-#import "MarqueeLabel.h"
 
 @interface EAWorkflowListCollectionViewCell : UICollectionViewCell
 

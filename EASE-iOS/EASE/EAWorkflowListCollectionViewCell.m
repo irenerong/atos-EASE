@@ -7,6 +7,7 @@
 //
 
 #import "EAWorkflowListCollectionViewCell.h"
+#import "UIImageView+XLProgressIndicator.h"
 
 @implementation EAWorkflowListCollectionViewCell
 
@@ -56,8 +57,14 @@
     
     _workflow = workflow;
     
-    self.imageView.image = self.workflow.image;
+    
+    [self.imageView setImageWithProgressIndicatorAndURL:self.workflow.imageURL];
+    [self.imageView.progressIndicatorView setStrokeProgressColor:self.workflow.color];
+    [self.imageView.progressIndicatorView setStrokeRemainingColor:[UIColor colorWithWhite:240/255. alpha:1.]];
+    
     self.titleLabel.text = self.workflow.title;
+    
+    self.color = _workflow.color;
     
     [self.infosCollectionView reloadData];
 
@@ -66,14 +73,16 @@
 
 -(void)setColor:(UIColor *)color
 {
-    if (_color == color)
-        return;
     
-    self.layer.shadowColor = color.CGColor;
-    self.titleLabel.textColor = color;
+    
+    _color = color;
 
-    self.sortInfosView.backgroundColor = [color colorWithAlphaComponent:1];
-    self.infosCollectionView.backgroundColor = color;
+    
+    self.layer.shadowColor = _color.CGColor;
+    self.titleLabel.textColor = [UIColor blackColor];
+
+    self.sortInfosView.backgroundColor = [_color colorWithAlphaComponent:1];
+    self.infosCollectionView.backgroundColor = _color;
     
 }
 

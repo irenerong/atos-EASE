@@ -33,20 +33,20 @@
     
     
     
-    NSMutableAttributedString *welcomeText = [[NSMutableAttributedString alloc] initWithString:@"Welcome " attributes:@{NSFontAttributeName: [UIFont fontWithName:@"HelveticaNeue-Thin" size:17]}];
+    NSMutableAttributedString *welcomeText = [[NSMutableAttributedString alloc] initWithString:@"Welcome " attributes:@{NSFontAttributeName: [UIFont fontWithName:@"HelveticaNeue-Thin" size:20], NSForegroundColorAttributeName : [UIColor colorWithWhite:100/255. alpha:1.]}];
     
     if ([EANetworkingHelper sharedHelper].currentUser)
     {
         
     
-        [welcomeText appendAttributedString:[[NSAttributedString alloc] initWithString:[EANetworkingHelper sharedHelper].currentUser.username attributes:@{NSFontAttributeName: [UIFont fontWithName:@"HelveticaNeue" size:17]}]];
+        [welcomeText appendAttributedString:[[NSAttributedString alloc] initWithString:[EANetworkingHelper sharedHelper].currentUser.username attributes:@{NSFontAttributeName: [UIFont fontWithName:@"HelveticaNeue" size:20], NSForegroundColorAttributeName : [UIColor colorWithRed:44/255.0 green:218/255.0 blue:252/255.0 alpha:1.0]}]];
         
-        [welcomeText appendAttributedString:[[NSAttributedString alloc] initWithString:@" !" attributes:@{NSFontAttributeName: [UIFont fontWithName:@"HelveticaNeue-Thin" size:17]}]];
+        [welcomeText appendAttributedString:[[NSAttributedString alloc] initWithString:@" !" attributes:@{NSFontAttributeName: [UIFont fontWithName:@"HelveticaNeue-Thin" size:20], NSForegroundColorAttributeName : [UIColor colorWithWhite:100/255. alpha:1.]}]];
     }
     
     self.welcomeTextLabel.attributedText = welcomeText;
     
-
+    [self.logoutButton setTitleColor:[UIColor colorWithRed:44/255.0 green:218/255.0 blue:252/255.0 alpha:1.0] forState:UIControlStateNormal];
 }
 
 - (void)didReceiveMemoryWarning {
@@ -84,14 +84,14 @@
     NSArray *menuItems = @[@"New Workflow", @"Dashboard", @"Calendar", @"Tasks"];
     UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"cell"];
     
-    cell.backgroundColor = [UIColor clearColor];
-    cell.textLabel.font = [UIFont fontWithName:@"HelveticaNeue" size:20];
+    cell.textLabel.font = [UIFont fontWithName:@"HelveticaNeue" size:18];
     cell.textLabel.text = menuItems[indexPath.row];
+    //cell.textLabel.textAlignment = NSTextAlignmentCenter;
 
     cell.textLabel.highlightedTextColor = [UIColor lightGrayColor];
     cell.selectedBackgroundView = [UIView new];
     
-    cell.textLabel.textColor = [UIColor colorWithWhite:1 alpha:1.];
+    cell.textLabel.textColor = [UIColor colorWithWhite:100/255. alpha:1.];
     
     
     

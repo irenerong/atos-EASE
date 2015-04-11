@@ -7,7 +7,7 @@
 //
 
 #import "EALoginViewController.h"
-#import <UIImage+ImageEffects.h>
+#import "UIImage+ImageEffects.h"
 @interface EALoginViewController ()
 
 @end
@@ -21,13 +21,13 @@
     
     [EANetworkingHelper sharedHelper].loginViewController = self;
     
-    NSAttributedString *str = [[NSAttributedString alloc] initWithString:@"Username" attributes:@{ NSForegroundColorAttributeName : [UIColor colorWithWhite:200/255. alpha:1.0] }];
+    NSAttributedString *str = [[NSAttributedString alloc] initWithString:@"Username" attributes:@{ NSForegroundColorAttributeName : [UIColor colorWithWhite:180/255. alpha:1.0] }];
     
     self.usernameTextField.attributedPlaceholder = str;
 
-    str = [[NSAttributedString alloc] initWithString:@"Password" attributes:@{ NSForegroundColorAttributeName : [UIColor colorWithWhite:200/255. alpha:1.0] }];
+    str = [[NSAttributedString alloc] initWithString:@"Password" attributes:@{ NSForegroundColorAttributeName : [UIColor colorWithWhite:180/255. alpha:1.0] }];
     self.passwordTextField.attributedPlaceholder = str;
-
+    self.easeIPTextField.text = [EANetworkingHelper sharedHelper].easeServerAdress;
     
 }
 
@@ -52,7 +52,7 @@
 
 -(void)shakePassword
 {
-    self.passwordTextField.transform = CGAffineTransformMakeTranslation(50, 0);
+    self.passwordTextField.transform = CGAffineTransformMakeTranslation(40, 0);
     
     
     [UIView animateWithDuration:0.5 delay:0 usingSpringWithDamping:0.3 initialSpringVelocity:20 options:0 animations:^{
@@ -64,7 +64,7 @@
 
 -(void)shakeLogin
 {
-    self.usernameTextField.transform = CGAffineTransformMakeTranslation(-50, 0);
+    self.usernameTextField.transform = CGAffineTransformMakeTranslation(-40, 0);
     
     
     [UIView animateWithDuration:0.5 delay:0 usingSpringWithDamping:0.3 initialSpringVelocity:20 options:0 animations:^{
@@ -100,12 +100,16 @@
         {
             [self performSegueWithIdentifier:@"ToMain" sender:self];
             
-            self.passwordTextField.text = @"";
-            self.usernameTextField.text = @"";
+            
+            [NSTimer scheduledTimerWithTimeInterval:0.5 target:self selector:@selector(emptyTextFields) userInfo:nil repeats:NO];
+           
             
         }
         else
         {
+            
+            
+            
             UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"Error"
                                                                 message:[error localizedDescription]
                                                                delegate:nil
@@ -132,11 +136,23 @@
 }
 
 
+-(void)emptyTextFields
+{
+    self.passwordTextField.text = @"";
+    self.usernameTextField.text = @"";
+}
+
 #pragma mark - UITextFieldDelegate
 
 -(BOOL)textFieldShouldReturn:(UITextField *)textField
 {
     [textField resignFirstResponder];
+    
+    if (textField == self.easeIPTextField)
+    {
+        
+    }
+    
     return YES;
 }
 
