@@ -34,7 +34,7 @@ module.exports = {
 	},
 	taskDone : function(req, res){
 		var param = req.params.all();
-		if(res.isSocket && res.methode === 'POST')
+		// if(req.isSocket && req.methode === 'POST')
 			console.log("Subtask "+ param.subTask +" is done on agent "+ param.agentID)
 	}
 };
