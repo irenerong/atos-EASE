@@ -22,7 +22,8 @@ console.log('Connecting Socket.io to Sails.js...');
  
 // Attach a listener which fires when a connection is established:
 socket.on('connect', function socketConnected() {
- 
+  // window.open("http://localhost:1337/oven.html");
+
   typeof console !== 'undefined' &&
   console.log(
     'Socket is now connected and globally accessible as `socket`.\n' +
@@ -44,8 +45,7 @@ function start(){
   
 
 }
-io.socket.on('message', function (msg){console.log(msg)});
- io.socket.on('subtask', function (obj){
+io.socket.on('subtask', function (obj){
   console.log('socket on subtask');
           if (obj.verb == 'updated') {
             console.log('client side catch publishupdated');

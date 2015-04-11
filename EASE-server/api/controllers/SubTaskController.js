@@ -13,7 +13,7 @@ module.exports = {
 	},
 	start : function (req, res) {
 		var params = req.params.all();
-
+		req.session.userSocket = req.socket;
 		if (req.isSocket && req.method == 'POST'){
 
 			console.log("socket received");
@@ -23,7 +23,7 @@ module.exports = {
 
 				console.log(updateds[0].id +' is start to be executed'+updateds[0].status);
 				SubTask.publishUpdate(updateds[0].id,{status:updateds[0].status})
-				sails.sockets.emit(sails.sockets.id(req.socket),'message',{msg:'working fine with emit'});
+				// sails.sockets.emit(sails.sockets.id(req.socket),'message',{msg:'working fine with emit'});
 
 				//SubTask.subscribe(req.session.socket,subtask,['update']);
 				//no need to subcribe socket because, when the subtask was create, socket has already been subscribed to it  
