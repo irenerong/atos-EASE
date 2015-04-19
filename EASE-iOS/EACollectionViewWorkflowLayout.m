@@ -175,7 +175,7 @@
         
         CGFloat deltaDateY = dateY - previousDateY;
         
-        if (!fromStart)
+        if (!fromStart && self.timeAnchorsDate.count > 2)
             deltaDateY  = dateY - ([self yForDate:self.timeAnchorsDate[self.timeAnchorsDate.count-2]] - [self yForDate:self.timeAnchorsDate[self.timeAnchorsDate.count-3]]);
         
         

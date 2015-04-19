@@ -12,8 +12,7 @@
 #import "EAWorkflow.h"
 #import "EADateInterval.h"
 #import "EATask.h"
-#import "EAPendingTask.h"
-#import "EAWorkingTask.h"
+
 #import "EASearchResults.h"
 #import "EAMetaworkflow.h"
 
@@ -94,9 +93,7 @@ NSString* const EAWorkingTaskUpdate = @"EAWorkingTaskUpdate";
         colors = @[[UIColor colorWithRed:44/255.0 green:218/255.0 blue:252/255.0 alpha:1.0], [UIColor colorWithRed:28/255.0 green:253/255.0 blue:171/255.0 alpha:1.0], [UIColor colorWithRed:252/255.0 green:200/255.0 blue:53/255.0 alpha:1.0], [UIColor colorWithRed:253/255.0 green:101/255.0 blue:107/255.0 alpha:1.0], [UIColor colorWithRed:254/255.0 green:100/255.0 blue:192/255.0 alpha:1.0]];
         self.easeServerAdress = @"localhost:1337";
         
-        _pendingTasks = [NSMutableArray array];
-        _workingTasks = [NSMutableArray array];
-        _completedTasks = [NSMutableArray array];
+        
         
         [Wit sharedInstance].accessToken = @"Z6RAMHMFQLP6FG2KSPTT4F23XH5GK5L4";
         [Wit sharedInstance].delegate = self;
@@ -109,7 +106,6 @@ NSString* const EAWorkingTaskUpdate = @"EAWorkingTaskUpdate";
         
         self.witServerManager.responseSerializer = [AFJSONResponseSerializer serializer];
 
-        [NSTimer scheduledTimerWithTimeInterval:10 target:self selector:@selector(receivedPendingTask) userInfo:nil repeats:true];
 
         self.displayNotificationPopup = true;
         
@@ -424,6 +420,21 @@ NSString* const EAWorkingTaskUpdate = @"EAWorkingTaskUpdate";
     
 }
 
+-(void)getPendingTasksCompletionBlock:(void (^) (EASearchResults* searchResults, NSError* error))completionBlock
+{
+    [self.easeServerManager GET:@"workflow/getPendingTask" parameters:nil success:^(NSURLSessionDataTask *task, NSDictionary *responseObject) {
+        
+        
+        [EASearchResults searchResultsByParsingSearchDictionary:responseObject[@"pending"] completion:^(EASearchResults *searchResult) {
+           
+            completionBlock(searchResult, nil);
+        }];
+        
+    } failure:^(NSURLSessionDataTask *task, NSError *error) {
+        completionBlock(nil, error);
+    }];
+}
+
 -(void)searchWorklowsBetweenId:(int)id1 andId:(int)id2 completionBlock:(void (^) (NSArray* workflows, NSError* error))completionBlock
 {
     
@@ -604,93 +615,6 @@ NSString* const EAWorkingTaskUpdate = @"EAWorkingTaskUpdate";
 
 #pragma mark - Notifications
 
--(void)receivedPendingTask {
-    
-    
-    //if (!workflowTest || !workflowTest.tasks || ! workflowTest.tasks.count)
-      //  return;
-    
-    
-    
-
-    
-    EAPendingTask *pendingTask = [EAPendingTask new];
-    pendingTask.alertMessage = @"Check up the oven !";
-   // pendingTask.task = workflowTest.tasks[arc4random()%workflowTest.tasks.count];
-    
-    
-    pendingTask.color = colors[arc4random()%5];
-    
-    
-    [self.pendingTasks addObject:pendingTask];
-    
-    if (self.displayNotificationPopup)
-    {
-        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Pop" message:@"Plop" delegate:nil cancelButtonTitle:@"OK" otherButtonTitles: nil];
-        //[alert show];
-    }
-    else
-    {
-        [[NSNotificationCenter defaultCenter] postNotificationName:EAPendingTaskAdd object:nil];
-
-    }
-}
-
--(void)receivedWorkingTask:(EAWorkingTask*)workingTask {
-    
-    
-    [self.workingTasks addObject:workingTask];
-    
-    if (self.displayNotificationPopup)
-    {
-        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Pop" message:@"Plop" delegate:nil cancelButtonTitle:@"OK" otherButtonTitles: nil];
-        //[alert show];
-    }
-    else
-    {
-        [[NSNotificationCenter defaultCenter] postNotificationName:EAWorkingTaskAdd object:nil];
-        
-    }
-    
-    [NSTimer scheduledTimerWithTimeInterval:arc4random()%5 target:self selector:@selector(updateWorkingTask:) userInfo:workingTask repeats:NO];
-}
-
--(void)updateWorkingTask:(NSTimer*)timer
-{
-    EAWorkingTask *task = timer.userInfo;
-    task.completionPercentage += 0.1;
-    [[NSNotificationCenter defaultCenter] postNotificationName:EAWorkingTaskUpdate object:self userInfo:@{@"workingTask": task}];
-    
-    if (task.completionPercentage < 1)
-        [NSTimer scheduledTimerWithTimeInterval:arc4random()%5 target:self selector:@selector(updateWorkingTask:) userInfo:task repeats:NO];
-}
-
-
--(void)startPendingTask:(EAPendingTask*)task completionBlock:(void (^) (BOOL ok, EAWorkingTask *workingTask) )completionBlock
-{
-
-    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(1 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
-        [self.pendingTasks removeObject:task];
-        EAWorkingTask *workingTask = [EAWorkingTask new];
-        workingTask.status = @"Cooking";
-        workingTask.color = task.color;
-        
-        
-        [self receivedWorkingTask:workingTask];
-
-        completionBlock(YES, workingTask);
-    });
-    
-    
-}
-
--(void)endWorkingTask:(EAWorkingTask*)task completionBlock:(void (^) (BOOL ok) )completionBlock
-{
-    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(1 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
-        [self.workingTasks removeObject:task];
-        completionBlock(YES);
-    });
-}
 
 
 @end

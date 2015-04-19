@@ -35,6 +35,6 @@
 
 @property (weak, nonatomic) IBOutlet YLProgressBar *progressBar;
 
-@property(weak, nonatomic) EANotification *taskNotification;
+@property(weak, nonatomic) EATask *task;
 
 @end

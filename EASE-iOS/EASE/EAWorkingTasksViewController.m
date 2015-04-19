@@ -49,7 +49,7 @@
     // Pass the selected object to the new view controller.
     
     EATaskInfoViewController *vc = segue.destinationViewController;
-    vc.taskNotification = cell.taskNotification;
+    vc.task = cell.task;
     
     MZFormSheetSegue *formSheetSegue = (MZFormSheetSegue *)segue;
     
@@ -78,7 +78,7 @@
     
     
     
-    return [EANetworkingHelper sharedHelper].workingTasks.count;
+    return 0;//[EANetworkingHelper sharedHelper].workingTasks.count;
     
 }
 
@@ -87,7 +87,7 @@
     EATaskCollectionViewCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:@"TaskCell" forIndexPath:indexPath];
     
     
-    cell.taskNotification = [EANetworkingHelper sharedHelper].workingTasks[indexPath.row];
+    //cell.taskNotification = [EANetworkingHelper sharedHelper].workingTasks[indexPath.row];
     
     
     return cell;
@@ -101,41 +101,19 @@
 
 -(void)workingTasksDidAdd
 {
-    [self.actionsCollectionView insertItemsAtIndexPaths:@[[NSIndexPath indexPathForItem:[EANetworkingHelper sharedHelper].workingTasks.count-1 inSection:0]]];
+    //[self.actionsCollectionView insertItemsAtIndexPaths:@[[NSIndexPath indexPathForItem:[EANetworkingHelper sharedHelper].workingTasks.count-1 inSection:0]]];
 
 }
 
 -(void)workingTaskUpdated:(NSNotification*)notification
 {
-    int index = [[EANetworkingHelper sharedHelper].workingTasks indexOfObject:notification.userInfo[@"workingTask"]];
+   /* int index = [[EANetworkingHelper sharedHelper].workingTasks indexOfObject:notification.userInfo[@"workingTask"]];
     if (index != -1)
         [self.actionsCollectionView reloadItemsAtIndexPaths:@[[NSIndexPath indexPathForItem:index inSection:0]]];
-    
+  */
 }
 
 #pragma mark - EATaskCellDelegate
-
-- (void) taskCellDidTapCenterButton:(EATaskCollectionViewCell *)cell
-{
-    NSIndexPath *path = [self.actionsCollectionView indexPathForCell:cell];
-    
-    EAWorkingTask *workingTask = cell.taskNotification;
-    
-        [[EANetworkingHelper sharedHelper] endWorkingTask:workingTask completionBlock:^(BOOL ok) {
-            if (ok) {
-                [self.actionsCollectionView deleteItemsAtIndexPaths:@[path]];
-                
-            }
-        }];
-    
-  
-    
-    
-    
-    
-    
-}
-
 
 
 

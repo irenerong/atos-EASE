@@ -166,4 +166,15 @@
     }]];
 }
 
+-(NSArray*)pendingTasks
+{
+    NSMutableArray *array = [NSMutableArray array];
+    
+    for (EATask *task in self.tasks)
+        if (task.status == EATaskStatusPending)
+            [array addObject:task];
+    
+    return array;
+}
+
 @end

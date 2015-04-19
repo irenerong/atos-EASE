@@ -39,17 +39,17 @@
     // Dispose of any resources that can be recreated.
 }
 
--(void)setTaskNotification:(EANotification *)taskNotification
+-(void)setTask:(EATask *)task
 {
     
-    _taskNotification = taskNotification;
+    _task = task;
     
     if (self.isViewLoaded) {
         
         
        
         
-        UIColor *color = self.taskNotification.color;
+        UIColor *color = self.task.workflow.color;
         
         self.agentNameBackgroundView.backgroundColor = color;
         
@@ -102,10 +102,10 @@
         button.titleLabel.font = [UIFont fontWithName:@"HelveticaNeue-Bold" size:18];
         
         
-        if (_taskNotification.class == EAPendingTask.class)
+        if (_task.status == EATaskStatusPending)
             [button setTitle:@"Start" forState:UIControlStateNormal];
         
-        else if (_taskNotification.class == EAWorkingTask.class)
+        if (_task.status == EATaskStatusWorking)
             [button setTitle:@"Done" forState:UIControlStateNormal];
         
         
@@ -118,32 +118,28 @@
         }];
         
         
-        [self.imageView setImageWithProgressIndicatorAndURL:self.taskNotification.task.workflow.metaworkflow.imageURL placeholderImage:nil imageDidAppearBlock:^(UIImageView *imageView) {
-            
-            imageView.image = [imageView.image applyBlurWithRadius:5 tintColor:nil saturationDeltaFactor:1 maskImage:nil];
-            
-        }];
+        [self.imageView setImageWithProgressIndicatorAndURL:self.task.workflow.metaworkflow.imageURL];
         [self.imageView.progressIndicatorView setStrokeProgressColor:color];
         
         [self.imageView.progressIndicatorView setStrokeRemainingColor:[UIColor colorWithWhite:240/255. alpha:1.]];
          
 
         
-        if (_taskNotification.class == EAWorkingTask.class)
+        if (_task.status == EATaskStatusWorking)
         {
             [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(workingTaskUpdated:) name:EAWorkingTaskUpdate object:nil];
         }
         
-        if (self.taskNotification.class == EAPendingTask.class)
+        if (_task.status == EATaskStatusPending)
         {
             self.statusLabel.text = @"Pending";
             
             
         }
-        else if (self.taskNotification.class == EAWorkingTask.class)
+        if (_task.status == EATaskStatusWorking)
         {
-            self.statusLabel.text = [NSString stringWithFormat:@"%@ (%d%%)", self.taskNotification.status, (int)(100*self.taskNotification.completionPercentage)];
-            self.progressBar.progress = self.taskNotification.completionPercentage;
+            self.statusLabel.text = [NSString stringWithFormat:@"%@ (%d%%)", self.task.textStatus, (int)(100*self.task.completionPercentage)];
+            self.progressBar.progress = self.task.completionPercentage;
             
         }
         
@@ -155,7 +151,7 @@
 -(void)didTapCenterButton:(UIButton*)sender
 {
     
-    if (_taskNotification.class == EAPendingTask.class)
+   /* if (_task.status == EATaskStatusPending)
     {
         EAPendingTask *pendingTask = _taskNotification;
         
@@ -198,19 +194,19 @@
         }];
 
     }
-    
+    */
    
 }
 
 -(void)workingTaskUpdated:(NSNotification*)notification
 {
+    /*
     EAWorkingTask *task = notification.userInfo[@"workingTask"];
     
-    int index = [[EANetworkingHelper sharedHelper].workingTasks indexOfObject:task];
-    
+
     if (index != -1)
         self.taskNotification = task;
-    
+    */
 }
 
 /*

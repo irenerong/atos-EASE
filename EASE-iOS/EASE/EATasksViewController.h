@@ -21,6 +21,6 @@
 
 
 @property (weak, nonatomic) IBOutlet UICollectionView *actionsCollectionView;
-
+@property(nonatomic, retain) EASearchResults *searchResults;
 
 @end

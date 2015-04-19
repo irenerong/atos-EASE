@@ -42,6 +42,8 @@
 @property(nonatomic, strong) NSArray *agents;
 
 -(NSArray*)tasksAtDate:(NSDate*)date;
+-(NSArray*)pendingTasks;
+-(NSArray*)workingTasks;
 
 -(int)availableIngredients;
 -(int)availableAgents;

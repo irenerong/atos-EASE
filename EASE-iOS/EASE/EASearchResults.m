@@ -451,56 +451,74 @@
     if (self = [super init])
     {
         NSMutableArray *parsedWorkflows = [NSMutableArray array];
-        NSMutableArray *workflowsBeingParsed = [NSMutableArray array];
+        //NSMutableArray *workflowsBeingParsed = [NSMutableArray array];
         
         NSMutableArray *parsedMetaworkflows = [NSMutableArray array];
-        NSMutableArray *metaworkflowsBeingParsed = [NSMutableArray array];
+       // NSMutableArray *metaworkflowsBeingParsed = [NSMutableArray array];
         
-        NSMutableDictionary *metaworkflowsLinkedToWorkflows = [NSMutableDictionary dictionary];
+        //NSMutableDictionary *metaworkflowsLinkedToWorkflows = [NSMutableDictionary dictionary];
         
         NSMutableArray *flags = [[NSMutableArray alloc] initWithFlags:array.count];
         
-        dispatch_queue_t queue = dispatch_queue_create("com.EASE.searchQueue", NULL);
-        dispatch_semaphore_t semaphore = dispatch_semaphore_create(1);
+       // dispatch_queue_t queue = dispatch_queue_create("com.EASE.searchQueue", NULL);
+        //dispatch_semaphore_t semaphore = dispatch_semaphore_create(1);
         
-        
+        dispatch_group_t group = dispatch_group_create();
+
         
         for (int i = 0; i < array.count; i++)
         {
-            dispatch_async(queue, ^{
+            dispatch_group_enter(group);
                 
                 
-                dispatch_semaphore_wait(semaphore, DISPATCH_TIME_FOREVER);
-                
+                //dispatch_semaphore_wait(semaphore, DISPATCH_TIME_FOREVER);
+
                 
                 NSDictionary *subtaskDic = array[i];
-                int workflowID = ((NSNumber*)subtaskDic[@"WORKFLOW"]).intValue;
+                int workflowID;
+                
+                if (subtaskDic[@"WORKFLOW"])
+                    workflowID = ((NSNumber*)subtaskDic[@"WORKFLOW"]).intValue;
+                else if (subtaskDic[@"workflow"])
+                    workflowID = ((NSNumber*)subtaskDic[@"workflow"]).intValue;
+
                 
                 BOOL workflowExists = false;
                 
                 
-                for (NSNumber *workflowParsedID in workflowsBeingParsed)
-                    if (workflowParsedID.integerValue == workflowID)
+                /*for (NSNumber *workflowParsedID in workflowsBeingParsed)
+                {
+                    
+                if (workflowParsedID.integerValue == workflowID)
                     {
                         workflowExists = true;
                         break;
                     }
+                }*/
+                
+                for (EAWorkflow *workflow in parsedWorkflows)
+                {
+                    
+                    if (workflow.workflowID == workflowID)
+                    {
+                        workflowExists = true;
+                        break;
+                    }
+                }
                 
                 if (workflowExists)
                 {
                     [flags raiseFlag:i];
                     if (flags.allFlagsRaised)
                     {
-                        dispatch_async(dispatch_get_main_queue(), ^{
-                            completionBlock(self);
-                            
-                        });
+                        dispatch_group_leave(group);
                     }
+                    
 
-                    dispatch_semaphore_signal(semaphore);
-                    return;
+                    //dispatch_semaphore_signal(semaphore);
+                    break;
                 }
-                [workflowsBeingParsed addObject:@(workflowID)];
+                //[workflowsBeingParsed addObject:@(workflowID)];
                 
                 
                 
@@ -508,10 +526,7 @@
                     
                     if (error || !workflow)
                     {
-                        dispatch_async(dispatch_get_main_queue(), ^{
-                            completionBlock(nil);
-
-                        });
+                        dispatch_group_leave(group);
                         
                         return;
                     }
@@ -562,29 +577,32 @@
 
                     if (!metaworkflowExists)
                     {
-                        if (!metaworkflowsLinkedToWorkflows[@(metaworkflowID)])
+                       /* if (!metaworkflowsLinkedToWorkflows[@(metaworkflowID)])
                             [metaworkflowsLinkedToWorkflows addEntriesFromDictionary:@{@(metaworkflowID) : [ NSMutableArray arrayWithObject:workflow]}];
                         else
                             [metaworkflowsLinkedToWorkflows[@(metaworkflowID)] addObject:workflow];
                         
                         
                         [metaworkflowsBeingParsed addObject:@(metaworkflowID)];
+                        */
                         
                         
                         [[EANetworkingHelper sharedHelper] retrieveMetaworkflowWithID:metaworkflowID completionBlock:^(EAMetaworkflow *metaworkflow, NSError *error) {
+                            
+                            
                             [parsedMetaworkflows addObject:metaworkflow];
+                            workflow.metaworkflow = metaworkflow;
                             
-                            
-                            NSArray *workflowsWaitingForMetaworkflows = metaworkflowsLinkedToWorkflows[@(metaworkflow.metaworkflowID)];
+                            /*NSArray *workflowsWaitingForMetaworkflows = metaworkflowsLinkedToWorkflows[@(metaworkflow.metaworkflowID)];
                             
                             for (EAWorkflow *workflowWaiting in workflowsWaitingForMetaworkflows)
                                 workflowWaiting.metaworkflow = metaworkflow;
                             
                             
+                            */
                             
                             
-                            
-                            dispatch_semaphore_signal(semaphore);
+                            dispatch_group_leave(group);
                             [flags raiseFlag:i];
                             
                         }];
@@ -594,7 +612,7 @@
                     else
                     {
                         
-                        dispatch_semaphore_signal(semaphore);
+                        dispatch_group_leave(group);
                         [flags raiseFlag:i];
                         
                     }
@@ -606,19 +624,17 @@
                 
                 
                 
-                
-            });
+
+            
         }
         
         
         _workflows = parsedWorkflows;
         _metaworkflows = parsedMetaworkflows;
         
-        dispatch_async(queue, ^{
-            dispatch_async(dispatch_get_main_queue(), ^{
-                completionBlock(self);
-                
-            });
+        dispatch_group_notify(group, dispatch_get_main_queue(), ^{
+            // do this when its all done
+            completionBlock(self);
         });
         
         

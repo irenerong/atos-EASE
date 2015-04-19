@@ -10,6 +10,8 @@
 
 @interface EAPendingTasksViewController ()
 
+@property(nonatomic, strong) NSMutableArray *pendingTasks;
+
 @end
 
 @implementation EAPendingTasksViewController
@@ -20,7 +22,19 @@
     
     self.tabBarItem.badgeValue = @"100";
     
-
+    [[EANetworkingHelper sharedHelper] getPendingTasksCompletionBlock:^(EASearchResults *searchResults, NSError *error) {
+       
+        self.searchResults = searchResults;
+        self.pendingTasks= [NSMutableArray array];
+        
+        for (EAWorkflow *workflow in self.searchResults.workflows)
+            [self.pendingTasks addObjectsFromArray:workflow.pendingTasks];
+        
+        
+        
+        [self.actionsCollectionView reloadData];
+        
+    }];
 }
 
 -(void)viewWillAppear:(BOOL)animated {
@@ -48,7 +62,7 @@
 
      
  EATaskInfoViewController *vc = segue.destinationViewController;
- vc.taskNotification = cell.taskNotification;
+ vc.task = cell.task;
  
  MZFormSheetSegue *formSheetSegue = (MZFormSheetSegue *)segue;
  
@@ -76,15 +90,12 @@
  #pragma mark - Notifications Update
  
  -(void)pendingTasksDidAdd {
- [self.actionsCollectionView insertItemsAtIndexPaths:@[[NSIndexPath indexPathForItem:[EANetworkingHelper sharedHelper].pendingTasks.count-1 inSection:0]]];
+
  }
 
 -(NSInteger)collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section {
     
-    
-
-    return [EANetworkingHelper sharedHelper].pendingTasks.count;
-    
+    return self.pendingTasks.count;
 }
 
 -(UICollectionViewCell*)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath {
@@ -92,7 +103,7 @@
     EATaskCollectionViewCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:@"TaskCell" forIndexPath:indexPath];
     
     
-    cell.taskNotification = [EANetworkingHelper sharedHelper].pendingTasks[indexPath.row];
+    cell.task = self.pendingTasks[indexPath.row];
     
     
     return cell;
@@ -104,49 +115,7 @@
     [self performSegueWithIdentifier:@"TaskInfos" sender:[collectionView cellForItemAtIndexPath:indexPath]];
 }
 
-#pragma mark - EATaskCellDelegate
 
-- (void) taskCellDidTapCenterButton:(EATaskCollectionViewCell *)cell
-{
-    NSIndexPath *path = [self.actionsCollectionView indexPathForCell:cell];
-    
-    EAPendingTask *pendingTask = cell.taskNotification;
-    
-    if (!pendingTask.alertMessage) {
-        [[EANetworkingHelper sharedHelper] startPendingTask:pendingTask completionBlock:^(BOOL ok, EAWorkingTask *workingTask) {
-            if (ok) {
-                [self.actionsCollectionView deleteItemsAtIndexPaths:@[path]];
-                
-            }
-        }];
-    }
-    else {
-        SCLAlertView *alert = [[SCLAlertView alloc] init];
-        alert.showAnimationType = SlideInFromCenter;
-        alert.backgroundType = Blur;
-        alert.customViewColor = [UIColor colorWithWhite:200/255. alpha:1.0];
-        alert.iconTintColor = [UIColor whiteColor];
-        
-        [alert addButton:@"Everything's ok ! Let's do it !" actionBlock:^{
-            [[EANetworkingHelper sharedHelper] startPendingTask:pendingTask completionBlock:^(BOOL ok, EAWorkingTask *workingTask) {
-                if (ok) {
-                    [self.actionsCollectionView deleteItemsAtIndexPaths:@[path]];
-                    
-                }
-            }];
-        }];
-        
-        [alert showWarning:self.tabBarController.navigationController title:@"Warning" subTitle:pendingTask.alertMessage closeButtonTitle:@"Let me check ..." duration:0];
-        
-        
-    }
-    
-    
-    
-    
-    
-    
-}
 
 
 
