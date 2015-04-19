@@ -19,6 +19,7 @@
 @interface EASearchPopupViewController : UIViewController  <UITextFieldDelegate>
 @property (weak, nonatomic) IBOutlet UITextField *searchQueryTextField;
 @property (weak, nonatomic) IBOutlet UILabel *examplesLabel;
+@property (weak, nonatomic) IBOutlet UIButton *searchButton;
 
 @property(nonatomic, weak) id <EASearchPopupDelegate> delegate;
 

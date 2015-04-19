@@ -544,10 +544,10 @@
                         <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <imageView userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="LoginBG" translatesAutoresizingMaskIntoConstraints="NO" id="dEb-bf-tyZ">
+                            <imageView userInteractionEnabled="NO" alpha="0.0" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="LoginBG" translatesAutoresizingMaskIntoConstraints="NO" id="dEb-bf-tyZ">
                                 <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                             </imageView>
-                            <visualEffectView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="n9Q-5p-IGi">
+                            <visualEffectView opaque="NO" alpha="0.0" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="n9Q-5p-IGi">
                                 <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                                 <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" id="DSY-4B-joo">
                                     <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
@@ -556,7 +556,7 @@
                                 <constraints>
                                     <constraint firstAttribute="height" constant="246" id="bLl-rY-FfY"/>
                                 </constraints>
-                                <blurEffect style="light"/>
+                                <blurEffect style="extraLight"/>
                                 <variation key="default">
                                     <mask key="constraints">
                                         <exclude reference="bLl-rY-FfY"/>
@@ -574,7 +574,7 @@
                                 <subviews>
                                     <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="Username" textAlignment="center" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="ez0-7z-Jdh">
                                         <rect key="frame" x="0.0" y="15" width="568" height="50"/>
-                                        <color key="backgroundColor" red="0.96784248737373735" green="0.96784248737373735" blue="0.96784248737373735" alpha="1" colorSpace="calibratedRGB"/>
+                                        <color key="backgroundColor" red="0.96784248740000001" green="0.96784248740000001" blue="0.96784248740000001" alpha="1" colorSpace="calibratedRGB"/>
                                         <color key="tintColor" red="0.93725490196078431" green="0.93725490196078431" blue="0.95686274509803926" alpha="1" colorSpace="calibratedRGB"/>
                                         <constraints>
                                             <constraint firstAttribute="height" constant="50" id="UXv-ss-qI1"/>
@@ -1529,6 +1529,7 @@
                     </view>
                     <connections>
                         <outlet property="examplesLabel" destination="35I-zE-eVj" id="Gja-kG-LiN"/>
+                        <outlet property="searchButton" destination="Txi-BR-GXp" id="c4w-lw-vbu"/>
                         <outlet property="searchQueryTextField" destination="iP2-Pv-5rx" id="C8a-BT-pct"/>
                     </connections>
                 </viewController>

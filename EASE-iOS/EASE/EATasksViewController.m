@@ -19,6 +19,9 @@
     // Do any additional setup after loading the view.
     
     self.actionsCollectionView.backgroundColor = [UIColor colorWithWhite:245/255. alpha:1.];
+    self.actionsCollectionView.scrollIndicatorInsets = UIEdgeInsetsMake(0, 0, 50, 0);
+    self.actionsCollectionView.contentInset = UIEdgeInsetsMake(0, 0, 54, 0);
+
     //[self.actionsCollectionView registerClass:[EATaskCollectionViewCell class] forCellWithReuseIdentifier:@"TaskCell"];
     [self.actionsCollectionView registerNib:[UINib nibWithNibName:@"EATaskCell" bundle:nil] forCellWithReuseIdentifier:@"TaskCell"];
 }

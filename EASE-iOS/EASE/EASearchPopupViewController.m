@@ -65,12 +65,30 @@
     }
 
     
-       
+    // Create spinner
+    UIActivityIndicatorView *indicator = [[UIActivityIndicatorView alloc]
+                                          initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleWhite];
+    
+    // Position the spinner
+    [indicator setCenter:CGPointMake(self.searchButton.frame.size.width / 2, self.searchButton.frame.size.height / 2)];
+    
+    // Add to button
+    [self.searchButton addSubview:indicator];
+    [self.searchButton setTitle:@"" forState:UIControlStateNormal];
+    
+    // Start the animation
+    [indicator startAnimating];
+    
+    
     [[EANetworkingHelper sharedHelper] witProcessed:self.searchQueryTextField.text completionBlock:^(NSDictionary *results, NSError *error) {
         
         if (error)
         {
             self.examplesLabel.text = error.localizedDescription;
+            [indicator removeFromSuperview];
+            [self.searchButton setTitle:@"Search" forState:UIControlStateNormal];
+
+
             return;
         }
         self.examplesLabel.text = @"Looking for workflows ...";
@@ -80,34 +98,40 @@
         
         [searchQuery addEntriesFromDictionary:@{@"intent" : results[@"intent"]}];
         
-        if (results[@"search"])
-            [searchQuery addEntriesFromDictionary:@{@"title" : results[@"search"]}];
+        if (results[@"title"])
+            [searchQuery addEntriesFromDictionary:@{@"title" : results[@"title"]}];
         
         if (results[@"toDate"])
             [searchQuery addEntriesFromDictionary:@{@"endDate" : results[@"toDate"]}];
         
         if (results[@"fromDate"])
             [searchQuery addEntriesFromDictionary:@{@"startDate" : results[@"fromDate"]}];
-       
-
+      
         
         [[EANetworkingHelper sharedHelper] searchWorkflowsWithConstraints:searchQuery completionBlock:^(int totalNumberOfWorkflows, EASearchResults *searchResults, NSError *error) {
            
             if (error)
             {
                 self.examplesLabel.text = error.localizedDescription;
+                [self.searchButton setTitle:@"Search" forState:UIControlStateNormal];
+                [indicator removeFromSuperview];
+
                 return;
             }
             
             if (!totalNumberOfWorkflows)
             {
                 self.examplesLabel.text = @"Can't find any workflows to match your query ...\n Try changing the purpose or the date !";
+                [self.searchButton setTitle:@"Search" forState:UIControlStateNormal];
+                [indicator removeFromSuperview];
+
                 return;
             }
             
             self.examplesLabel.text = [NSString stringWithFormat:@"I found %d workflows !", totalNumberOfWorkflows];
             dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.5 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
-                
+                [indicator removeFromSuperview];
+
                // [self dismissAnimated:true completionHandler:nil];
                 [self.delegate popupFoundWorkflows:searchResults];
             });

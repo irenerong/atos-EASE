@@ -263,7 +263,7 @@ NSString* const EAWorkingTaskUpdate = @"EAWorkingTaskUpdate";
         
         NSString *search = searchQuery[@"value"];
         
-        dictionary[@"search"] = search;
+        dictionary[@"title"] = search;
         
     }
     

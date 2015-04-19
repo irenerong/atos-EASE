@@ -180,14 +180,14 @@
                 if (!workflow)
                 {
                     [flags raiseFlag:i];
-                    if (flags.allFlagsRaised)
+                    /*if (flags.allFlagsRaised)
                     {
                         dispatch_async(dispatch_get_main_queue(), ^{
                             completionBlock(self);
                             
                         });
                         
-                    }
+                    }*/
                     dispatch_semaphore_signal(semaphore);
 
                     return;
@@ -218,14 +218,14 @@
                     [flags raiseFlag:i];
                     dispatch_semaphore_signal(semaphore);
                     
-                    if (flags.allFlagsRaised)
+                    /*if (flags.allFlagsRaised)
                     {
                         dispatch_async(dispatch_get_main_queue(), ^{
                             completionBlock(self);
                             
                         });
                         
-                    }
+                    }*/
                     
                     
                     
@@ -247,14 +247,14 @@
                         }
                         dispatch_semaphore_signal(semaphore);
                         
-                        if (flags.allFlagsRaised)
+                        /*if (flags.allFlagsRaised)
                         {
                             dispatch_async(dispatch_get_main_queue(), ^{
                                 completionBlock(self);
                                 
                             });
                             
-                        }
+                        }*/
                         
                         
                     }];
@@ -270,7 +270,12 @@
         _workflows = parsedWorkflows;
         _metaworkflows = parsedMetaworkflows;
         
-        
+        dispatch_async(queue, ^{
+            dispatch_async(dispatch_get_main_queue(), ^{
+                completionBlock(self);
+                
+            });
+        });
         
         
         
@@ -581,13 +586,6 @@
                             
                             dispatch_semaphore_signal(semaphore);
                             [flags raiseFlag:i];
-                            if (flags.allFlagsRaised)
-                            {
-                                dispatch_async(dispatch_get_main_queue(), ^{
-                                    completionBlock(self);
-                                    
-                                });
-                            }
                             
                         }];
                         
@@ -598,13 +596,6 @@
                         
                         dispatch_semaphore_signal(semaphore);
                         [flags raiseFlag:i];
-                        if (flags.allFlagsRaised)
-                        {
-                            dispatch_async(dispatch_get_main_queue(), ^{
-                                completionBlock(self);
-                                
-                            });
-                        }
                         
                     }
                     
@@ -619,9 +610,16 @@
             });
         }
         
+        
         _workflows = parsedWorkflows;
         _metaworkflows = parsedMetaworkflows;
         
+        dispatch_async(queue, ^{
+            dispatch_async(dispatch_get_main_queue(), ^{
+                completionBlock(self);
+                
+            });
+        });
         
         
     }
