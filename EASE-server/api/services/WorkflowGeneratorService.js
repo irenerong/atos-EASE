@@ -274,6 +274,7 @@ module.exports = {
 								// }); // add up comsumption of each subtask
 							//console.log("total consumption "+res.consumption);
 							res.metaworkflow = metaworkflow.id;
+							res.title=metaworkflow.title;
 							generatedWorkflows.push(res);
 					}
 					

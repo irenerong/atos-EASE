@@ -199,7 +199,7 @@ module.exports = {
       ],
       function (err) {
 
-        res.json({"sucecced" :'create workflow with intent :'+params.intent})
+        res.json({status :'create workflow with intent :'+params.intent})
 
       }
     )

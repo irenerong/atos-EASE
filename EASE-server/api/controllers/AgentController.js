@@ -6,20 +6,20 @@
  */
 
 module.exports = {
-	NonDispo : function(req,res){
-		var params =req.params.all();
-		var id= params.id;
-		var nondispo=[];
-		Agent.findOne(id).exec(function(err,agent){
-			if (err) console.log(err)
-				else {
-					agent.agentNonDispo(function(non){nondispo=non,res.json({'nondispo':nondispo})});
-				}
+	// NonDispo : function(req,res){
+	// 	var params =req.params.all();
+	// 	var id= params.id;
+	// 	var nondispo=[];
+	// 	Agent.findOne(id).exec(function(err,agent){
+	// 		if (err) console.log(err)
+	// 			else {
+	// 				agent.agentNonDispo(function(non){nondispo=non,res.json({'nondispo':nondispo})});
+	// 			}
 			
 
-		})
+	// 	})
 
-	},
+	// }, just for test with postman
 
 	launch : function(req, res){
 		// if (req.isSocket && req.method === 'POST'){			

@@ -24,7 +24,7 @@ module.exports = {
     //   type: 'integer'
     // },
     agentNonDispo : function (cb){
-      console.log("in agent non dispo");
+     // console.log("in agent non dispo");
       var query = "SELECT startDate, duration FROM SubTask JOIN StartCondition ON subtask.StartCondition = startcondition.id WHERE subtask.agent=" + this.id
         Agent.query(query, 
 
