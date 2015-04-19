@@ -13,6 +13,9 @@ module.exports = {
     var WFC = this;
     var index = parseInt(req.body.index);
     //console.log(index);
+     if (req.session.generatedWorkflows != null)
+     {
+      console.log('req.session.generatedWorkflows is not null');
     var params = req.session.generatedWorkflows[index];
     var subtasks=req.session.generatedWorkflows[index].subtasks;
     //subtasks = params.array;
@@ -57,9 +60,10 @@ module.exports = {
           cb();
           }// function(workflow,cb)
           ],function(err){
+            req.session.generatedWorkflows = null;
 
             res.json({"new created workflow":workflow.id});
-            req.session.generatedWorkflows= null;
+            
 
 
           })// fin async waterfall
@@ -67,6 +71,10 @@ module.exports = {
         
 
       })
+    } // fin if req.session not null
+    else {
+      res.json({error:'you do not have any workflow to be validated'});
+    }
     
 
 
@@ -79,7 +87,7 @@ module.exports = {
     var WFC=this;
     subtasks.forEach(function(subtask,i,a){
 
-      SubTask.create({workflow:wf.id, waitforID:subtask.predecessor, taskID:subtask.subTask, 
+      SubTask.create({workflow:wf.id, waitforID:subtask.predecessor, taskID:subtask.subTask, metatask:subtask.metatask,
         agent: subtask.agentID, action: subtask.action, consumption: subtask.consumption, duration:subtask.duration}).exec(
          // after create subtask , il faut creer son startcondition
          function(err,st){
@@ -97,16 +105,28 @@ module.exports = {
   createStartCondition: function(st,subtask){
 
     var type = 'wait'; // for subtask with precedors
-      if (st.waitforID.length= 0){
+    async.waterfall([function(cb){
+     if (st.waitforID.length== 0){
+      console.log('this task has no precedors')
 
         type = 'time';// for subtask without precedors, il can be passed to pending directely
 
-        SubTask.update(st.id,{status:'pending'}).exec(function (err,update){
-        SubTask.publishUpdate(update[0].id,{status:update[0].status});
-      })
+         SubTask.update({id:st.id},{status:'pending'}).exec(function(err,updateds){
+                  if (err) console.log(err)
+                    else{
+                      SubTask.publishUpdate( updateds[0].id);
 
-    }
-    StartCondition.create({type: type, startDate: subtask.beginTime, delay:5}).exec(function(err, start){
+                      cb(null);
+                      //socket reveived pending ,and subtask should be passed in to the window pending in application
+                    }
+
+    })
+       }else {
+        cb(null);
+       }
+
+    }],function(err){
+      StartCondition.create({type: type, startDate: subtask.beginTime, delay:5}).exec(function(err, start){
 
       if (err) {console.log(err)}
 
@@ -121,6 +141,10 @@ module.exports = {
 
       // console.log('start Condition'+start.id+ '//' + 'subtask'+ start.subtask);
     })
+    })
+     
+
+    
   },
 
   assigneWaitfor: function(ST){

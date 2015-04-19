@@ -11,6 +11,10 @@ module.exports = {
     workflow:{
       model: 'Workflow'
     },
+    metatask:{
+      model:'Metatask'
+
+    },
     taskID :{
 
       type :'integer'
