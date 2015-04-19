@@ -2,6 +2,7 @@ var ricecooker2 = {}
 
 ricecooker2.subtasks = function (task) {
 		var subtask1 = {}
+		subtask1.metatask =task.metatask;
 		subtask1.waitFor = task.waitFor
 		subtask1.id = task.id*10+1;
 		subtask1.action = {action: "STEAMheat"}
@@ -9,6 +10,7 @@ ricecooker2.subtasks = function (task) {
 		//subtask1.consumption = {time: Math.random()*60, CO2: Math.random()}
 
 		var subtask2 = {}
+		subtask2.metatask =task.metatask;
 		subtask2.waitFor = task.waitFor
 		subtask2.id = task.id*10+2;
 		subtask2.action = {action: "keepwarm"}
@@ -16,6 +18,7 @@ ricecooker2.subtasks = function (task) {
 		//subtask2.consumption = {time: Math.random()*60, WATER: Math.random()*10}
 
 		var subtask3 = {}
+		subtask3.metatask =task.metatask;
 		subtask3.waitFor = task.waitFor
 		subtask3.id = task.id*10+3;
 		subtask3.action = {action: "softenrice"}

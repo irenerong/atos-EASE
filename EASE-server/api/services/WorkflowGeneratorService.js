@@ -41,7 +41,7 @@ function Task(workflow, metatask) {
 	//this.workflow = workflow
 	this.agentTypes = metatask.agentTypes
 	this.agentAdaptations = [];
-	this.metatask = metatask;
+	this.metatask = metatask.id;
 	this.id= metatask.idTask;
 	this.waitFor=metatask.waitFor;
 //	console.log("n "+this.agentTypes+" \n");
@@ -115,7 +115,7 @@ module.exports = {
 
 					function (task, cb2)
 					{	
-						//console.log(task);
+						console.log(task);
 						task.getSubtasks(function (err) {cb2(err)})
 					}, 
 
@@ -254,7 +254,8 @@ module.exports = {
 								    subtask.agentID=onetask.agentID
 								    subtask.action= onetask.action
 								    subtask.consumption=workflow.paths[i][j].subtasks[k].consumption
-								    subtask.duration=Math.round(workflow.paths[i][j].subtasks[k].consumption.time);
+								    subtask.duration=Math.round(workflow.paths[i][j].subtasks[k].consumption.time)
+								    subtask.metatask=workflow.paths[i][j].subtasks[k].metatask;
 
 								    ae.push(subtask);
 
