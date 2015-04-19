@@ -96,10 +96,15 @@ module.exports = {
 
   createStartCondition: function(st,subtask){
 
-    var type = 'time';
-      if (st.waitforID.length!= 0){
+    var type = 'wait'; // for subtask with precedors
+      if (st.waitforID.length= 0){
 
-        type = 'wait'
+        type = 'time';// for subtask without precedors, il can be passed to pending directely
+
+        SubTask.update(st.id,{status:'pending'}).exec(function (err,update){
+        SubTask.publishUpdate(update[0].id,{status:update[0].status});
+      })
+
     }
     StartCondition.create({type: type, startDate: subtask.beginTime, delay:5}).exec(function(err, start){
 
@@ -110,7 +115,9 @@ module.exports = {
       //SubTask.update(st.id,{startCondition:start.id}).exec()
       SubTask.update(st.id,{startCondition:start.id}).populate('startCondition').exec(function (err,update){
         SubTask.publishUpdate(update[0].id,{startcondition:update[0].startCondition});
-      })
+      }
+
+      )
 
       // console.log('start Condition'+start.id+ '//' + 'subtask'+ start.subtask);
     })
