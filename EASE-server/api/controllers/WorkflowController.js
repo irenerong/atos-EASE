@@ -151,7 +151,19 @@ module.exports = {
 
 						}
 
+	},
+	getPendingTask: function(req,res){
+		SubTask.find({status:'pending'}).exec(
+			function (err,pendings){
+				if(err){
+					res.json({error: 'probleme with Getpending'})
+				}
+				res.json({pending:pendings});
+
+			})
+
 	}
+
 
 
 
