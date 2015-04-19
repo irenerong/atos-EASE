@@ -41,6 +41,8 @@
 		317622D61AA873FD00B406CD /* EAPendingTasksViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 317622D51AA873FD00B406CD /* EAPendingTasksViewController.m */; };
 		317622DA1AA875CD00B406CD /* EAWorkingTasksViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 317622D91AA875CD00B406CD /* EAWorkingTasksViewController.m */; };
 		3176D78F1ABF76F600B206A7 /* EACalendarWorkflowCollectionViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 3176D78E1ABF76F600B206A7 /* EACalendarWorkflowCollectionViewCell.m */; };
+		31810DA71ADAD57600400F6D /* NSMutableArray+Flags.m in Sources */ = {isa = PBXBuildFile; fileRef = 31810DA61ADAD57600400F6D /* NSMutableArray+Flags.m */; };
+		319860201AE283580057D9E0 /* EASearchPopupViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 3198601F1AE283580057D9E0 /* EASearchPopupViewController.m */; };
 		319CCBD31AA66FC900567C14 /* EATaskInfoViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 319CCBD21AA66FC900567C14 /* EATaskInfoViewController.m */; };
 		31A2A46C1AAC7D9B00C0F77F /* EATaskCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 31A2A46B1AAC7D9B00C0F77F /* EATaskCell.xib */; };
 		31A50F0D1AC94ABF00BDF367 /* EACalendarTaskCollectionViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 31A50F0C1AC94ABF00BDF367 /* EACalendarTaskCollectionViewCell.m */; };
@@ -130,6 +132,11 @@
 		317622D91AA875CD00B406CD /* EAWorkingTasksViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EAWorkingTasksViewController.m; sourceTree = "<group>"; };
 		3176D78D1ABF76F600B206A7 /* EACalendarWorkflowCollectionViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EACalendarWorkflowCollectionViewCell.h; sourceTree = "<group>"; };
 		3176D78E1ABF76F600B206A7 /* EACalendarWorkflowCollectionViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EACalendarWorkflowCollectionViewCell.m; sourceTree = "<group>"; };
+		31810DA41ADA751F00400F6D /* EAWorkflowCreatorProtocol.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = EAWorkflowCreatorProtocol.h; sourceTree = "<group>"; };
+		31810DA51ADAD57600400F6D /* NSMutableArray+Flags.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSMutableArray+Flags.h"; sourceTree = "<group>"; };
+		31810DA61ADAD57600400F6D /* NSMutableArray+Flags.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSMutableArray+Flags.m"; sourceTree = "<group>"; };
+		3198601E1AE283580057D9E0 /* EASearchPopupViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EASearchPopupViewController.h; sourceTree = "<group>"; };
+		3198601F1AE283580057D9E0 /* EASearchPopupViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EASearchPopupViewController.m; sourceTree = "<group>"; };
 		319CCBD11AA66FC900567C14 /* EATaskInfoViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EATaskInfoViewController.h; sourceTree = "<group>"; };
 		319CCBD21AA66FC900567C14 /* EATaskInfoViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EATaskInfoViewController.m; sourceTree = "<group>"; };
 		31A2A46B1AAC7D9B00C0F77F /* EATaskCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = EATaskCell.xib; sourceTree = "<group>"; };
@@ -265,6 +272,8 @@
 		313893F11A8AB34C00D0AF11 /* Search */ = {
 			isa = PBXGroup;
 			children = (
+				3198601E1AE283580057D9E0 /* EASearchPopupViewController.h */,
+				3198601F1AE283580057D9E0 /* EASearchPopupViewController.m */,
 				313893EE1A8AB34400D0AF11 /* EASearchTableViewController.h */,
 				313893EF1A8AB34400D0AF11 /* EASearchTableViewController.m */,
 				31A7509D1A8F3FDA00FF0E7C /* EASearchSortTableViewController.h */,
@@ -379,6 +388,7 @@
 				311734C01A88B8E1006B2B39 /* MBPullDownController.m */,
 				316DBF421A8C11C600828BE2 /* EAWorkflowMasterViewController.h */,
 				316DBF431A8C11C600828BE2 /* EAWorkflowMasterViewController.m */,
+				31810DA41ADA751F00400F6D /* EAWorkflowCreatorProtocol.h */,
 				313078151A8921420080E17B /* Infos */,
 				313078161A8921470080E17B /* Timetable */,
 			);
@@ -488,6 +498,8 @@
 				316DBF461A8CB15800828BE2 /* EANetworkingHelper.m */,
 				31C02CF41AD2F22F00D4A915 /* EASearchResults.h */,
 				31C02CF51AD2F22F00D4A915 /* EASearchResults.m */,
+				31810DA51ADAD57600400F6D /* NSMutableArray+Flags.h */,
+				31810DA61ADAD57600400F6D /* NSMutableArray+Flags.m */,
 			);
 			name = Networking;
 			sourceTree = "<group>";
@@ -677,11 +689,13 @@
 				316DBF471A8CB15800828BE2 /* EANetworkingHelper.m in Sources */,
 				311915BC1AA510BB00DD4EDF /* EATaskCollectionViewCell.m in Sources */,
 				317622DA1AA875CD00B406CD /* EAWorkingTasksViewController.m in Sources */,
+				319860201AE283580057D9E0 /* EASearchPopupViewController.m in Sources */,
 				31BA9A5D1AA4719D005D4E22 /* EALeftMenuViewController.m in Sources */,
 				313893F01A8AB34400D0AF11 /* EASearchTableViewController.m in Sources */,
 				319CCBD31AA66FC900567C14 /* EATaskInfoViewController.m in Sources */,
 				311734A81A87E265006B2B39 /* EAWorkflowListCollectionViewController.m in Sources */,
 				311915B91AA50E3A00DD4EDF /* EANotification.m in Sources */,
+				31810DA71ADAD57600400F6D /* NSMutableArray+Flags.m in Sources */,
 				3146E6BA1A80E2160072FC99 /* EAWorkflowViewController.m in Sources */,
 				3146E6ED1A8165060072FC99 /* EAWorkflowTaskCollectionViewCell.m in Sources */,
 				31C02CF61AD2F22F00D4A915 /* EASearchResults.m in Sources */,
@@ -838,6 +852,7 @@
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				INFOPLIST_FILE = EASE/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.1;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "";
@@ -853,6 +868,7 @@
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				INFOPLIST_FILE = EASE/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.1;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "";

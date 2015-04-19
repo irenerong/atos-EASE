@@ -20,6 +20,7 @@ PODS:
   - AFNetworking/UIKit (2.5.2):
     - AFNetworking/NSURLConnection
     - AFNetworking/NSURLSession
+  - DTAlertView (1.4.2)
   - JTCalendar (1.2.1)
   - M13ProgressSuite (1.2.7)
   - MarqueeLabel (1.5.0)
@@ -40,22 +41,24 @@ PODS:
   - YLProgressBar (3.5.2)
 
 DEPENDENCIES:
-  - AFNetworking (~> 2.4)
+  - AFNetworking
+  - DTAlertView (~> 1.4)
   - JTCalendar
-  - M13ProgressSuite (~> 1.2.3)
-  - MarqueeLabel (~> 1.5.0)
-  - Masonry (~> 0.6)
-  - MZFormSheetController (~> 2.3.4)
-  - RESideMenu (~> 4.0.7)
+  - M13ProgressSuite
+  - MarqueeLabel
+  - Masonry
+  - MZFormSheetController
+  - RESideMenu
   - SCLAlertView-Objective-C
   - Socket.IO-Client-Swift
-  - UINavigationItem+Loading (~> 1.1)
-  - Wit (~> 3.1.0)
-  - XLRemoteImageView (~> 2.0)
-  - YLProgressBar (~> 3.5.2)
+  - UINavigationItem+Loading
+  - Wit
+  - XLRemoteImageView
+  - YLProgressBar
 
 SPEC CHECKSUMS:
   AFNetworking: fefbce9660acb17f48ae0011292d4da0f457bf36
+  DTAlertView: 5c415c75fb6be2e1093be652dfc469a428b30cf4
   JTCalendar: d635cba66a8b44e2e43737c9ce39eb4c570b9569
   M13ProgressSuite: 03d194af6359da440641ba758aed5a18b0386a86
   MarqueeLabel: e09790dbf5fbefd8cb781338f41ccf1d063d968f

@@ -14,7 +14,7 @@
             buildForAnalyzing = "YES">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "B941389F66437FD8F4483E6A"
+               BlueprintIdentifier = "6BCD7605B76EF944A9437A4F"
                BuildableName = "UINavigationItem_Loading.framework"
                BlueprintName = "Pods-UINavigationItem+Loading"
                ReferencedContainer = "container:Pods.xcodeproj">

@@ -20,6 +20,12 @@ module.exports = {
       type : 'integer',
       defaultsTo : null
     },
+    agentNDispo : {
+      type : 'array',
+      defaultsTo : [] 
+
+    },
+
     // timeLeft : {
     //   type: 'integer'
     // },
@@ -45,18 +51,18 @@ module.exports = {
       var ele = {}
       ele.duration = duration
       ele.begin = begin
-      if(this.agentNonDispo == null)
+      if(this.agentNDispo == null)
         {tmp.push(ele);
         //console.log(tmp);
         }
 
       else
-        {tmp = this.agentNonDispo;
+        {tmp = this.agentNDispo;
         tmp.push(ele)
        
         }
       
-      Agent.update(this.id,{agentNonDispo:tmp}).exec(function(err,agent){if (err){res.json({'err':err})}} );
+      Agent.update(this.id,{agentNDispo:tmp}).exec(function(err,agent){if (err){res.json({'err':err})}} );
 
     },
 

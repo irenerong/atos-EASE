@@ -28,7 +28,7 @@
 #import "UIImage+Additional.h"
 #import "MZMacro.h"
 
-CGFloat const MZFormSheetControllerDefaultBackgroundOpacity = 0.5;
+CGFloat const MZFormSheetControllerDefaultBackgroundOpacity = 0.1;
 CGFloat const MZFormSheetControllerDefaultBackgroundBlurRadius = 2.0;
 CGFloat const MZFormSheetControllerDefaultBackgroundBlurSaturation = 1.0;
 

@@ -12,9 +12,12 @@
 #import "EAMetaworkflow.h"
 @interface EASearchResults : NSObject
 
-+(instancetype)searchResultsByParsingDictionary:(NSDictionary*)dictionary;
++(instancetype)searchResultsByParsingGeneratorDictionary:(NSDictionary*)dictionary completion:(void (^) (EASearchResults *searchResult))completionBlock;
 
--(instancetype)initWithDictionary:(NSDictionary*)dictionary;
++(instancetype)searchResultsByParsingSearchDictionary:(NSDictionary*)dictionary completion:(void (^) (EASearchResults *searchResult))completionBlock;
+
+-(instancetype)initWithGeneratorDictionary:(NSDictionary*)dictionary completion:(void (^) (EASearchResults *searchResult))completionBlock;
+-(instancetype)initWithSearchDictionary:(NSDictionary *)dictionary completion:(void (^) (EASearchResults *searchResult))completionBlock;
 
 
 @property(nonatomic, strong) NSArray *metaworkflows;

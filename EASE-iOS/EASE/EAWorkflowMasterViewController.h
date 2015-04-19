@@ -11,6 +11,11 @@
 #import "EAWorkflowViewController.h"
 #import "EAWorkflowInfosViewController.h"
 
+@protocol EAWorkflowViewerDelegate <NSObject>
+
+-(void)workflowViewValidatedWorkflow;
+
+@end
 
 @interface EAWorkflowMasterViewController : MBPullDownController
 
@@ -21,5 +26,6 @@
 
 - (IBAction)validateWorkflow:(id)sender;
 
+@property(weak, nonatomic) id <EAWorkflowViewerDelegate> delegate;
 
 @end

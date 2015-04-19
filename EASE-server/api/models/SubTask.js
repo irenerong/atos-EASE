@@ -145,7 +145,36 @@ module.exports = {
         }
         cb(result);
       })
+
+
+
   },
+
+  allSubTasks2 : function(date, cb) {
+
+    var day = new Date(date);
+    day.setHours(0);
+    day.setMinutes(0);
+    day.setMilliseconds(0);
+
+    var tomorrow = new Date(day);
+    tomorrow.setDate(day.getDate()+1)
+
+    console.log('Day : ' + day + ' - Tomorrow : ' + tomorrow);
+
+    SubTask.find().populate('startCondition')
+    .exec(function (err, results)
+    {
+      if (err)
+      {
+        return cb(err);
+      }
+      cb(results);
+    })
+
+  }
+
+  ,
 
   afterDestroy: function (subtask, cb) {
     sails.log('Destroy subtask : ' + JSON.stringify(subtask))

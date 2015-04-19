@@ -35,6 +35,11 @@
     self.contentViewShadowRadius = 3;
     self.contentViewShadowEnabled = YES;
     
+    self.fadeMenuView = true;
+    self.scaleContentView = true;
+    self.scaleBackgroundImageView = true;
+    self.scaleMenuView = false;
+    
     self.backgroundImage = [[UIImage imageNamed:@"MenuBG"] applyBlurWithRadius:20 tintColor:nil saturationDeltaFactor:1 maskImage:nil];
     
     self.contentViewController = [self.storyboard instantiateViewControllerWithIdentifier:@"calendarViewController"];

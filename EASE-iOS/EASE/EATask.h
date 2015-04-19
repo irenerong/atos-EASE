@@ -7,6 +7,7 @@
 //
 
 #import <Foundation/Foundation.h>
+#import "EANetworkingHelper.h"
 
 @class EAWorkflow;
 @class EADateInterval;
@@ -17,8 +18,14 @@
     
 }
 
-+(instancetype)taskByParsingDictionary:(NSDictionary*)dictionary fromWorkflow:(EAWorkflow*)workflow;
--(instancetype)initWithDictionary:(NSDictionary*)dictionary fromWorkflow:(EAWorkflow*)workflow;
++(instancetype)taskByParsingGeneratorDictionary:(NSDictionary*)dictionary fromWorkflow:(EAWorkflow*)workflow;
+
++(instancetype)taskByParsingSearchDictionary:(NSDictionary*)dictionary fromWorkflow:(EAWorkflow*)workflow completion:(void (^)(EATask *task))completionBlock;
+
+-(instancetype)initWithGeneratorDictionary:(NSDictionary*)dictionary fromWorkflow:(EAWorkflow*)workflow;
+
+
+-(instancetype)initWithSearchDictionary:(NSDictionary*)dictionary fromWorkflow:(EAWorkflow*)workflow completion:(void (^)(EATask *task))completionBlock;
 
 @property(nonatomic, readonly) int taskID;
 @property(nonatomic, readonly) NSArray *predecessors;
@@ -30,5 +37,7 @@
 
 @property(nonatomic, weak) EAAgent *agent;
 @property(nonatomic, weak) EAWorkflow *workflow;
+
+
 
 @end

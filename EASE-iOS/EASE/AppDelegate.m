@@ -19,6 +19,11 @@
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
     // Override point for customization after application launch.
     
+    NSURLCache *sharedCache = [[NSURLCache alloc] initWithMemoryCapacity:2 * 1024 * 1024
+                                                            diskCapacity:100 * 1024 * 1024
+                                                                diskPath:nil];
+    [NSURLCache setSharedURLCache:sharedCache];
+    
     [EANetworkingHelper sharedHelper];
     [AFNetworkActivityIndicatorManager sharedManager].enabled = YES;
 
@@ -34,7 +39,7 @@
     [[UINavigationBar appearance] setBarTintColor:nil];
     [[UINavigationBar appearance] setTintColor:[UIColor colorWithRed:44/255.0 green:218/255.0 blue:252/255.0 alpha:1.0]];
     //[[UIBarButtonItem appearance] setTintColor:];
-    
+    [[UITabBar appearance] setTintColor:[UIColor colorWithRed:44/255.0 green:180/255.0 blue:232/255.0 alpha:1.0]];
     return YES;
 }
 

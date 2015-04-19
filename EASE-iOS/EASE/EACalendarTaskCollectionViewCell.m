@@ -25,32 +25,36 @@
     self.backgroundColor = [UIColor whiteColor];
     
     self.layer.masksToBounds = false;
-    self.layer.shadowColor = [UIColor colorWithWhite:100/255. alpha:1.0].CGColor;
+    self.layer.shadowColor = [UIColor colorWithWhite:200/255. alpha:1.0].CGColor;
     self.layer.shadowOffset = CGSizeMake(0, 2);
     self.layer.shadowOpacity = 0.5;
     self.layer.shadowRadius = 2;
     
+    self.workflowTitleBackgroundView.layer.masksToBounds = false;
+    self.workflowTitleBackgroundView.layer.shadowColor = [UIColor blackColor].CGColor;
+    self.workflowTitleBackgroundView.layer.shadowOffset = CGSizeMake(0, -1);
+    self.workflowTitleBackgroundView.layer.shadowOpacity = 0.2;
+    self.workflowTitleBackgroundView.layer.shadowRadius = 2;
+    
     self.workflowImageView.clipsToBounds = true;
-    self.workflowTitleBackgroundView.backgroundColor = self.task.workflow.color;
+    self.workflowTitleBackgroundView.backgroundColor = [UIColor whiteColor];
     
     self.workflowTitleLabel.text = self.task.workflow.title;
-    self.workflowTitleLabel.font = [UIFont fontWithName:@"HelveticaNeue" size:18];
-    self.workflowTitleLabel.textColor = [UIColor whiteColor];
+    self.workflowTitleLabel.font = [UIFont fontWithName:@"HelveticaNeue" size:16];
+    self.workflowTitleLabel.textColor = self.task.workflow.color;
     
     
     
-    self.taskTitleBackgroundView.backgroundColor = self.task.workflow.color;
-    self.taskTitleLabel.textColor = [UIColor whiteColor];
+    self.taskTitleBackgroundView.backgroundColor = [UIColor whiteColor];
+    self.taskTitleLabel.textColor = [UIColor colorWithWhite:180/255. alpha:1.];
     self.taskTitleLabel.text = self.task.title;
+    self.taskTitleLabel.text = @"plop";
+
     self.taskTitleLabel.font = [UIFont fontWithName:@"HelveticaNeue-Light" size:16];
 
    
     
-    [self.workflowImageView setImageWithProgressIndicatorAndURL:self.task.workflow.imageURL placeholderImage:nil imageDidAppearBlock:^(UIImageView *imageView) {
-        
-        imageView.image = [imageView.image applyBlurWithRadius:5 tintColor:nil saturationDeltaFactor:1 maskImage:nil];
-        
-    }];
+    [self.workflowImageView setImageWithProgressIndicatorAndURL:self.task.workflow.metaworkflow.imageURL];
     [self.workflowImageView.progressIndicatorView setStrokeProgressColor:self.task.workflow.color];
     [self.workflowImageView.progressIndicatorView setStrokeRemainingColor:[UIColor colorWithWhite:240/255. alpha:1.]];}
 

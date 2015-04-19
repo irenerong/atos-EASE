@@ -33,7 +33,7 @@
     {
         self.itemAttributes = [NSMutableArray array];
         self.itemWidth = 240;
-        
+        self.emptyHeight = 20;
         self.minHeight = 70;
         self.maxHeight = 150;
         
@@ -46,12 +46,16 @@
 -(void)prepareLayout
 {
     [self.itemAttributes removeAllObjects];
-
+    
     
     NSInteger numberOfItems = [self.collectionView numberOfItemsInSection:0];
     
     if (numberOfItems <= 0)
+    {
+        
+        
         return;
+    }
     
     self.dateInterval = [EADateInterval new];
     
@@ -126,13 +130,13 @@
 {
     
     /*self.timeAnchorsY = [NSMutableArray array];
-    [self.timeAnchorsY addObject:@(self.yOffset)];
-    [self.timeAnchorsY addObject:@(self.yOffset+1500)];
-
-    
-    self.timeAnchorsDate = [NSMutableArray array];
-    [self.timeAnchorsDate addObject:[NSDate dateWithTimeInterval:-10*3600 sinceDate:[NSDate date]]];
-    [self.timeAnchorsDate addObject:[NSDate dateWithTimeInterval:10*3600 sinceDate:[NSDate date]]];
+     [self.timeAnchorsY addObject:@(self.yOffset)];
+     [self.timeAnchorsY addObject:@(self.yOffset+1500)];
+     
+     
+     self.timeAnchorsDate = [NSMutableArray array];
+     [self.timeAnchorsDate addObject:[NSDate dateWithTimeInterval:-10*3600 sinceDate:[NSDate date]]];
+     [self.timeAnchorsDate addObject:[NSDate dateWithTimeInterval:10*3600 sinceDate:[NSDate date]]];
      */
     
     
@@ -144,48 +148,75 @@
     
     self.timeAnchorsDate = [NSMutableArray array];
     [self.timeAnchorsDate addObject:self.dateInterval.startDate];
-
     
-    NSDate *date = [self dateAfterDate:self.dateInterval.startDate inDateIntervals:dateIntervals];
+    
+    if (!dateIntervals)
+        return;
+    
+    BOOL fromStart;
+    
+    NSDate *date = [self dateAfterDate:self.dateInterval.startDate inDateIntervals:dateIntervals fromStartDate:&fromStart];
     
     
     [self.timeAnchorsY addObject:@((self.minHeight+self.maxHeight)/2)];
     [self.timeAnchorsDate addObject:date];
     
-    date = [self dateAfterDate:date inDateIntervals:dateIntervals];
-
+    date = [self dateAfterDate:date inDateIntervals:dateIntervals fromStartDate:&fromStart];
+    
     
     while (date) {
         
+        
         CGFloat previousDateY = [self yForDate:self.timeAnchorsDate.lastObject];
+        
+        
+        
         CGFloat dateY = [self yForDate:date];
+        
         CGFloat deltaDateY = dateY - previousDateY;
         
-        if (deltaDateY >= 0.001)
-        {
+        if (!fromStart)
+            deltaDateY  = dateY - ([self yForDate:self.timeAnchorsDate[self.timeAnchorsDate.count-2]] - [self yForDate:self.timeAnchorsDate[self.timeAnchorsDate.count-3]]);
         
-        if (deltaDateY < self.minHeight)
+        
+        
+        if (deltaDateY >= 0.001 && !fromStart)
         {
-            deltaDateY = self.minHeight;
             
+            
+            
+            if (deltaDateY < self.minHeight)
+            {
+                deltaDateY = self.minHeight;
+                
+            }
+            else if (deltaDateY > self.maxHeight)
+            {
+                deltaDateY = self.maxHeight;
+                
+            }
+            
+            [self.timeAnchorsY addObject:@(deltaDateY+previousDateY)];
+            
+            [self.timeAnchorsDate addObject:date];
         }
-        else if (deltaDateY > self.maxHeight)
+        else
         {
-            deltaDateY = self.maxHeight;
-
+            deltaDateY = self.emptyHeight;
+            [self.timeAnchorsY addObject:@(deltaDateY+previousDateY)];
+            
+            [self.timeAnchorsDate addObject:date];
         }
-        [self.timeAnchorsY addObject:@(deltaDateY+previousDateY)];
-
-        [self.timeAnchorsDate addObject:date];
-
-        }
-        date = [self dateAfterDate:date inDateIntervals:dateIntervals];
+        
+        
+        
+        date = [self dateAfterDate:date inDateIntervals:dateIntervals fromStartDate:&fromStart];
     }
     
     
 }
 
--(NSDate*)dateAfterDate:(NSDate*)date inDateIntervals:(NSArray*)dateIntervals
+-(NSDate*)dateAfterDate:(NSDate*)date inDateIntervals:(NSArray*)dateIntervals fromStartDate:(BOOL*)startDate;
 {
     
     NSDate *nextDate;
@@ -195,16 +226,21 @@
         if ([date compare:dateInterval.startDate] == NSOrderedAscending)
         {
             if (!nextDate || [nextDate compare:dateInterval.startDate] == NSOrderedDescending)
+            {
                 nextDate = dateInterval.startDate;
-            
+                *startDate = true;
+            }
             
         }
         
         else if ([date compare:dateInterval.endDate] == NSOrderedAscending)
         {
             if (!nextDate || [nextDate compare:dateInterval.endDate] == NSOrderedDescending)
+            {
                 nextDate = dateInterval.endDate;
-            
+                *startDate = false;
+                
+            }
             
         }
     }
@@ -216,7 +252,7 @@
 -(CGFloat)yForDate:(NSDate*)date
 {
     
-   
+    
     
     int indexOfDate;
     
@@ -229,7 +265,7 @@
         
     }
     
-   
+    
     if (indexOfDate == 0)
         return 0;
     
@@ -238,7 +274,7 @@
     
     float previousAnchorCoef = ((NSNumber*)self.timeAnchorsY[indexOfDate-1]).floatValue;
     float nextAnchorCoef = ((NSNumber*)self.timeAnchorsY[indexOfDate]).floatValue;
-
+    
     
     return (previousAnchorCoef+ [date timeIntervalSinceDate:previousAnchorDate]/[nextAnchorDate timeIntervalSinceDate:previousAnchorDate]*(nextAnchorCoef-previousAnchorCoef));
     
@@ -301,7 +337,7 @@
         
         if (canFitIn)
             break;
-            
+        
     }
     
     return indexOfColumn;
@@ -313,7 +349,7 @@
     
     if (!self.dateInterval)
         return CGSizeZero;
-
+    
     
     CGFloat width = (self.nbOfColumns)*self.itemWidth;
     
@@ -337,13 +373,13 @@
 //-(CGPoint)targetContentOffsetForProposedContentOffset:(CGPoint)proposedContentOffset withScrollingVelocity:(CGPoint)velocity
 //{
 //    CGFloat x = round(proposedContentOffset.x/self.itemWidth)*self.itemWidth;
-//    
+//
 //    return CGPointMake(x, proposedContentOffset.y);
 //}
 
 //-(UICollectionViewLayoutAttributes*)layoutAttributesForItemAtIndexPath:(NSIndexPath *)indexPath
 //{
-//    
+//
 //}
 
 @end

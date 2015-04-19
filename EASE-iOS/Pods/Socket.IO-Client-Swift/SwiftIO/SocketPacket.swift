@@ -62,7 +62,7 @@ class SocketPacket {
     }
     
     func getEvent() -> String {
-        return data?.removeAtIndex(0) as String
+        return data?.removeAtIndex(0) as! String
     }
     
     func addData(data:NSData) -> Bool {
@@ -203,7 +203,7 @@ class SocketPacket {
             }
         }
         
-        self.data = newArr
+        self.data = newArr as [AnyObject]
     }
     
     private func _fillInPlaceholders(data:AnyObject) -> AnyObject {
@@ -217,7 +217,7 @@ class SocketPacket {
             var newDict = NSMutableDictionary(dictionary: dict)
             
             for (key, value) in dict {
-                newDict[key as NSCopying] = _fillInPlaceholders(value)
+              newDict[key as! NSCopying] = _fillInPlaceholders(value)
             }
             
             return newDict

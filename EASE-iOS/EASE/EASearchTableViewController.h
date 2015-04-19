@@ -36,6 +36,6 @@
 
 @property (weak, nonatomic) IBOutlet UILabel *startDateLabel;
 @property (weak, nonatomic) IBOutlet UILabel *endDateLabel;
-
+@property(weak, nonatomic) id delegate;
 
 @end

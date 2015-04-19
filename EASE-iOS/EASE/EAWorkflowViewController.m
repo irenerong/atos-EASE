@@ -27,7 +27,12 @@
     self.navigationItem.title = @"Workflow";
 
     ((EACollectionViewWorkflowLayout*)self.collectionView.collectionViewLayout).delegate = self;
-    
+    ((EACollectionViewWorkflowLayout*)self.collectionView.collectionViewLayout).minHeight = 100;
+
+    ((EACollectionViewWorkflowLayout*)self.collectionView.collectionViewLayout).maxHeight = 150;
+    ((EACollectionViewWorkflowLayout*)self.collectionView.collectionViewLayout).itemWidth = 200;
+    ((EACollectionViewWorkflowLayout*)self.collectionView.collectionViewLayout).emptyHeight = 30;
+
 
     self.collectionView.contentInset = UIEdgeInsetsMake(0, 72, 0, 10);
     self.collectionView.scrollIndicatorInsets = UIEdgeInsetsMake(0, 67, 0, 0);

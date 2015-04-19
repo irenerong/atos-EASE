@@ -10,7 +10,7 @@ module.exports = {
 	signin: function(req, res) {
 
 		var bcrypt = require('bcrypt');
-
+		req.session.machin = "POUET";
 
 		console.log("Salut !");
 
@@ -32,18 +32,7 @@ module.exports = {
 						req.session.admin= true;
 					res.json({user: user});
 					// subscribe this socket to all the workflow and subtasks
-					if (req.isSocket){
-						console.log('socket signin received');
-						
-						SubTask.watch(req);
-						Workflow.watch(req);
-						SubTask.findOne(25).exec(function (err, st){
-							if (err) console.log(err)
-							SubTask.subscribe(req,st);
-						})
-						
-						req.session.socketID = sails.sockets.id(req.socket);
-					}
+					
 				}else{
 					if (req.session.user) req.session.userID={};
 					res.json({error:'invalid password'});
@@ -55,6 +44,23 @@ module.exports = {
 
 		});
 
+	},
+
+	subscribe: function(req, res) {
+		if (req.isSocket){
+
+						console.log('socket signin received' + req.session.machin);
+						
+						SubTask.watch(req);
+						Workflow.watch(req);
+						SubTask.findOne(25).exec(function (err, st){
+							if (err) console.log(err)
+							SubTask.subscribe(req,st);
+						})
+						
+						req.session.socketID = sails.sockets.id(req.socket);
+						res.json('OKAY :D');
+		}
 	},
 
 	changeAdmin: function(req,res) {

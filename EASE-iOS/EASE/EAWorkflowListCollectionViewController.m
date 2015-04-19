@@ -73,9 +73,18 @@ static NSString * const reuseIdentifier = @"Cell";
     
 }
 
--(void)viewDidAppear:(BOOL)animated {
+
+-(void)viewDidAppear:(BOOL)animated
+{
     seekingWorkflows = false;
+
+    [UIView animateWithDuration:0.5 animations:^{
+        self.navigationController.navigationBar.tintColor = [UIColor colorWithRed:44/255.0 green:218/255.0 blue:252/255.0 alpha:1.0];
+        
+    }];
+    
 }
+
 
 -(void)setSearchResults:(EASearchResults *)searchResults
 {
@@ -122,9 +131,15 @@ static NSString * const reuseIdentifier = @"Cell";
     
     EAWorkflowMasterViewController *workflowViewController = [self.storyboard instantiateViewControllerWithIdentifier:@"MasterInfo"];
     workflowViewController.workflow = workflow;
+    workflowViewController.delegate = self;
     [self.navigationController pushViewController:workflowViewController animated:true];
     
     
+}
+
+-(void)workflowViewValidatedWorkflow
+{
+    [self.delegate workflowListAskToDismiss];
 }
 
 #pragma mark <UICollectionViewDataSource>
@@ -163,7 +178,7 @@ static NSString * const reuseIdentifier = @"Cell";
         cell.imageView.progressIndicatorView.strokeRemainingColor = [UIColor colorWithWhite:230/255.0 alpha:1.0];
         cell.imageView.progressIndicatorView.strokeWidth = 2;
         
-        [cell.imageView setImageWithProgressIndicatorAndURL:workflow.imageURL];
+        [cell.imageView setImageWithProgressIndicatorAndURL:workflow.metaworkflow.imageURL];
         
         
         
@@ -236,4 +251,7 @@ heightForHeaderAtIndexPath:(NSIndexPath *)indexPath
     
 }
 
+- (IBAction)cancel:(id)sender {
+    [self.delegate workflowListAskToDismiss];
+}
 @end

@@ -58,18 +58,19 @@
 - (void)layoutSubviews
 {
     CGFloat x = 0;
+    CGFloat y = -5;
     CGFloat width = self.frame.size.width / 7.;
     CGFloat height = self.frame.size.height;
     
     if(self.calendarManager.calendarAppearance.readFromRightToLeft){
         for(UIView *view in [[self.subviews reverseObjectEnumerator] allObjects]){
-            view.frame = CGRectMake(x, 0, width, height);
+            view.frame = CGRectMake(x, y, width, height);
             x = CGRectGetMaxX(view.frame);
         }
     }
     else{
         for(UIView *view in self.subviews){
-            view.frame = CGRectMake(x, 0, width, height);
+            view.frame = CGRectMake(x, y, width, height);
             x = CGRectGetMaxX(view.frame);
         }
     }

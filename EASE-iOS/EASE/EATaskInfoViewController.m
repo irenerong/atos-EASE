@@ -118,7 +118,7 @@
         }];
         
         
-        [self.imageView setImageWithProgressIndicatorAndURL:self.taskNotification.task.workflow.imageURL placeholderImage:nil imageDidAppearBlock:^(UIImageView *imageView) {
+        [self.imageView setImageWithProgressIndicatorAndURL:self.taskNotification.task.workflow.metaworkflow.imageURL placeholderImage:nil imageDidAppearBlock:^(UIImageView *imageView) {
             
             imageView.image = [imageView.image applyBlurWithRadius:5 tintColor:nil saturationDeltaFactor:1 maskImage:nil];
             

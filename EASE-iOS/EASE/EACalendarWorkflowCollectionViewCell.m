@@ -27,7 +27,7 @@
     self.backgroundColor = [UIColor whiteColor];
     
     self.layer.masksToBounds = false;
-    self.layer.shadowColor = [UIColor colorWithWhite:100/255. alpha:1.0].CGColor;
+    self.layer.shadowColor = [UIColor colorWithWhite:200/255. alpha:1.0].CGColor;
     self.layer.shadowOffset = CGSizeMake(0, 2);
     self.layer.shadowOpacity = 0.5;
     self.layer.shadowRadius = 2;
@@ -46,7 +46,7 @@
     self.workflowNameLabel.textColor = _workflow.color;
  
     
-    [self.workflowImageView setImageWithProgressIndicatorAndURL:self.workflow.imageURL placeholderImage:nil imageDidAppearBlock:^(UIImageView *imageView) {
+    [self.workflowImageView setImageWithProgressIndicatorAndURL:self.workflow.metaworkflow.imageURL placeholderImage:nil imageDidAppearBlock:^(UIImageView *imageView) {
         
         
     }];

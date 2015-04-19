@@ -14,7 +14,7 @@
             buildForAnalyzing = "YES">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "3CB9D9BD91DAE0B6767A280D"
+               BlueprintIdentifier = "BDC0E9CC477484490969F783"
                BuildableName = "Wit.framework"
                BlueprintName = "Pods-Wit"
                ReferencedContainer = "container:Pods.xcodeproj">

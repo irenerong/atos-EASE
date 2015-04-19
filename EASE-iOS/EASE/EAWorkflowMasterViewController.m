@@ -35,7 +35,7 @@
     [super viewDidLoad];
     // Do any additional setup after loading the view.
     
-    self.navigationItem.rightBarButtonItems = @[self.editButton, self.doneButton];
+    self.navigationItem.rightBarButtonItems = @[self.doneButton];
     
     [[MZFormSheetBackgroundWindow appearance] setBackgroundBlurEffect:true];
     [[MZFormSheetBackgroundWindow appearance] setBlurRadius:5.0];
@@ -65,6 +65,9 @@
     
     if (self.isViewLoaded)
     {
+        
+        if (_workflow.isValidated)
+            self.navigationItem.rightBarButtonItems = @[];
         ((EAWorkflowInfosViewController*) self.frontController).workflow = self.workflow;
         ((EAWorkflowViewController*) self.backController) .workflow = self.workflow;
 
@@ -121,7 +124,7 @@
         }
         else
         {
-            [[[UIAlertView alloc] initWithTitle:@"Validated" message:@"Houra" delegate:nil cancelButtonTitle:@"ok" otherButtonTitles: nil] show];
+            [self.delegate workflowViewValidatedWorkflow];
         }
         
     }];

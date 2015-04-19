@@ -10,17 +10,22 @@
 
 
 #import "EANetworkingHelper.h"
-#import "EATask.h"
+#import "EAWorkflow.h"
 #import "EACollectionViewWorkflowLayout.h"
 #import "EAWorkflowDateScrollView.h"
 #import "EACalendarWorkflowCollectionViewCell.h"
 #import "EACalendarTaskCollectionViewCell.h"
 
 #import "EAWorkflowMasterViewController.h"
-
 #import "JTCalendar.h"
 
-@interface EACalendarViewController : UIViewController <EACollectionViewWorkflowLayoutDelegate, JTCalendarDataSource>
+#import "MZFormSheetController.h"
+#import "MZFormSheetSegue.h"
+
+#import "EASearchPopupViewController.h"
+#import "EAWorkflowListCollectionViewController.h"
+
+@interface EACalendarViewController : UIViewController <EACollectionViewWorkflowLayoutDelegate, JTCalendarDataSource, EASearchPopupDelegate, EAWorkflowListDelegate>
 {
 }
 
@@ -28,6 +33,7 @@
 @property(nonatomic, readwrite) BOOL displayWorkflow;
 
 
+@property (weak, nonatomic) IBOutlet UILabel *nothingToDisplayLabel;
 
 @property (weak, nonatomic) IBOutlet UICollectionView *timelineCollectionView;
 @property (weak, nonatomic) IBOutlet EAWorkflowDateScrollView *dateScrollView;
@@ -38,6 +44,9 @@
 @property (strong, nonatomic) IBOutlet UIBarButtonItem *addButton;
 
 @property (strong, nonatomic) IBOutlet UIBarButtonItem *modeSwitchButton;
+
+- (IBAction)createWorkflow:(id)sender;
+
 - (IBAction)switchMode:(id)sender;
 
 @end

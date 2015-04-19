@@ -26,7 +26,7 @@ import Foundation
 
 extension String {
     private var length:Int {
-        return countElements(self)
+        return count(self)
     }
 }
 
@@ -131,7 +131,7 @@ public class SocketEngine: NSObject, WebSocketDelegate {
                 urlWebSocket += "&\(keyEsc)="
                 
                 if value is String {
-                    let valueEsc = (value as String).stringByAddingPercentEncodingWithAllowedCharacters(
+                    let valueEsc = (value as! String).stringByAddingPercentEncodingWithAllowedCharacters(
                         NSCharacterSet.URLHostAllowedCharacterSet())!
                     urlPolling += "\(valueEsc)"
                     urlWebSocket += "\(valueEsc)"
@@ -223,7 +223,7 @@ public class SocketEngine: NSObject, WebSocketDelegate {
         var postStr = ""
         
         for packet in self.postWait {
-            let len = countElements(packet)
+            let len = count(packet)
             
             postStr += "\(len):\(packet)"
         }

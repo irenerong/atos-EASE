@@ -29,6 +29,10 @@
     self.passwordTextField.attributedPlaceholder = str;
     self.easeIPTextField.text = [EANetworkingHelper sharedHelper].easeServerAdress;
     
+    
+    self.usernameTextField.text = @"aladin";
+    self.passwordTextField.text = @"plopplop";
+    
 }
 
 - (void)didReceiveMemoryWarning {

@@ -76,16 +76,18 @@ extern NSString* const EAWorkingTaskUpdate;
 
 -(void)searchWorklowsBetweenId:(int)id1 andId:(int)id2 completionBlock:(void (^) (NSArray* workflows, NSError* error))completionBlock;
 
--(void)retrieveWorkflow:(EAWorkflow*)workflow completionBlock:(void (^) (NSError *error))completionBlock;
+-(void)retrieveWorkflowWithID:(int)workflowID completionBlock:(void (^) (EAWorkflow* workflow, int metaworkflowID, NSError *error))completionBlock;
 
 -(void)retrieveMetaworkflowWithID:(int)metaworkflowID completionBlock:(void (^) (EAMetaworkflow* metaworkflow, NSError *error))completionBlock;
+
+-(void)retrieveStartConditionWithID:(int)startConditionID completionBlock:(void (^) (NSDictionary* startCondition, NSError *error))completionBlock;
 
 
 -(void)modifyWorkflow:(EAWorkflow*)workflow withParams:(NSDictionary*)params completionBlock:(void (^) (EAWorkflow *newWorkflow, NSError *error))completionBlock;
 
 -(void)validateWorkflow:(EAWorkflow*)workflow completionBlock:(void (^)  (NSError *error) )completionBlock;
 
--(void)tasksAtDay:(NSDate*)date completionBlock:(void (^) (NSArray *tasks)) completionBlock;
+-(void)tasksAtDay:(NSDate*)date completionBlock:(void (^) (EASearchResults *result, NSError *error)) completionBlock;
 
 -(void)workflowsAtDay:(NSDate*)date completionBlock:(void (^) (NSArray *workflows)) completionBlock;
 

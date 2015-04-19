@@ -26,6 +26,8 @@
 @property(nonatomic, weak) id <EACollectionViewWorkflowLayoutDelegate> delegate;
 
 @property(nonatomic, readwrite) CGFloat itemWidth;
+@property(nonatomic, readwrite) CGFloat emptyHeight;
+
 
 @property(nonatomic, readwrite) CGFloat minHeight;
 

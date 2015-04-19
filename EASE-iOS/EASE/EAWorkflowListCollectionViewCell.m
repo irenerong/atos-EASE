@@ -58,7 +58,7 @@
     _workflow = workflow;
     
     
-    [self.imageView setImageWithProgressIndicatorAndURL:self.workflow.imageURL];
+    [self.imageView setImageWithProgressIndicatorAndURL:self.workflow.metaworkflow.imageURL];
     [self.imageView.progressIndicatorView setStrokeProgressColor:self.workflow.color];
     [self.imageView.progressIndicatorView setStrokeRemainingColor:[UIColor colorWithWhite:240/255. alpha:1.]];
     
@@ -79,7 +79,7 @@
 
     
     self.layer.shadowColor = _color.CGColor;
-    self.titleLabel.textColor = [UIColor blackColor];
+    self.titleLabel.textColor = _color;
 
     self.sortInfosView.backgroundColor = [_color colorWithAlphaComponent:1];
     self.infosCollectionView.backgroundColor = _color;

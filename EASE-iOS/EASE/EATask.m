@@ -16,19 +16,33 @@
 @implementation EATask
 
 
-+(instancetype)taskByParsingDictionary:(NSDictionary*)dictionary fromWorkflow:(EAWorkflow*)workflow
++(instancetype)taskByParsingGeneratorDictionary:(NSDictionary*)dictionary fromWorkflow:(EAWorkflow*)workflow
 {
-    return [[EATask alloc] initWithDictionary:dictionary fromWorkflow:workflow];
+    return [[EATask alloc] initWithGeneratorDictionary:dictionary fromWorkflow:workflow];
 }
 
--(instancetype)initWithDictionary:(NSDictionary*)dictionary fromWorkflow:(EAWorkflow*)workflow
+
++(instancetype)taskByParsingSearchDictionary:(NSDictionary*)dictionary fromWorkflow:(EAWorkflow*)workflow completion:(void (^)(EATask *))completionBlock
+{
+    return [[EATask alloc] initWithSearchDictionary:dictionary fromWorkflow:workflow completion:^(EATask *task) {
+        completionBlock(task);
+    }];
+}
+
+-(instancetype)initWithGeneratorDictionary:(NSDictionary*)dictionary fromWorkflow:(EAWorkflow*)workflow
 {
     
     if (self = [super init])
     {
         
         _workflow = workflow;
+        
+        
+        
+        
         _taskID = ((NSString*)dictionary[@"subTask"]).intValue;
+        
+        
         
         _predecessors = dictionary[@"predecessors"];
         
@@ -40,9 +54,55 @@
         NSDate *endTime = [beginTime dateByAddingTimeInterval:duration*60];
         _dateInterval = [EADateInterval dateIntervalFrom:beginTime to:endTime];
         
+        
+        
+        
     }
     return self;
     
+}
+
+
+-(instancetype)initWithSearchDictionary:(NSDictionary*)dictionary fromWorkflow:(EAWorkflow*)workflow completion:(void (^)(EATask *))completionBlock
+{
+    if (self = [super init])
+    {
+        
+        _workflow = workflow;
+        
+        
+        
+        
+        _taskID = ((NSString*)dictionary[@"id"]).intValue;
+        
+        int startConditionID = ((NSString*)dictionary[@"startCondition"]).intValue;
+        
+        EAAgent *agent = [[EAAgent alloc] init];
+        agent.agentID = ((NSString*)dictionary[@"agentID"]).intValue;
+        
+        [[EANetworkingHelper sharedHelper] retrieveStartConditionWithID:startConditionID completionBlock:^(NSDictionary *startCondition, NSError *error) {
+           
+            _predecessors = startCondition[@"waitforID"];
+            
+            
+            
+            NSDate *beginTime = [NSDate dateByParsingJSString:startCondition[@"startDate"]];
+            float duration =  ((NSString*)dictionary[@"duration"]).intValue;
+            NSDate *endTime = [beginTime dateByAddingTimeInterval:duration*60];
+            _dateInterval = [EADateInterval dateIntervalFrom:beginTime to:endTime];
+            
+            completionBlock(self);
+            
+        }];
+        
+        
+        
+        
+        
+        
+    }
+    return self;
+
 }
 
 @end

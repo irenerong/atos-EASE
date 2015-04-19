@@ -19,7 +19,14 @@
 
 #import "EASearchResults.h"
 
-@interface EAWorkflowListCollectionViewController : UICollectionViewController <FRGWaterfallCollectionViewDelegate>
+
+@protocol EAWorkflowListDelegate <NSObject>
+
+-(void)workflowListAskToDismiss;
+
+@end
+
+@interface EAWorkflowListCollectionViewController : UICollectionViewController <FRGWaterfallCollectionViewDelegate, EAWorkflowViewerDelegate>
 {
     
     NSArray *colors;
@@ -29,5 +36,9 @@
 
 @property(nonatomic, strong) EASearchResults *searchResults;
 @property(nonatomic, readwrite) int totalNumberOfWorkflows;
+
+@property(nonatomic, weak) id <EAWorkflowListDelegate> delegate;
+
+- (IBAction)cancel:(id)sender;
 
 @end

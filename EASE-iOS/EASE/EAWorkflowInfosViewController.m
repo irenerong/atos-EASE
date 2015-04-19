@@ -37,6 +37,7 @@
     
     
     
+    
     UIEdgeInsets contentInset = UIEdgeInsetsMake(0, 0, self.pullDownController.openBottomOffset+6, 0);
     UIEdgeInsets scrollInset = UIEdgeInsetsMake(0, 0, self.pullDownController.openBottomOffset+10, 0);
 
@@ -101,7 +102,7 @@
         self.agentsNumberLabel.attributedText = agentsString;
         
         
-        [self.imageView setImageWithProgressIndicatorAndURL:self.workflow.imageURL];
+        [self.imageView setImageWithProgressIndicatorAndURL:self.workflow.metaworkflow.imageURL indicatorCenter:CGPointMake(0, -50)];
         [self.imageView.progressIndicatorView setStrokeProgressColor:self.workflow.color];
         [self.imageView.progressIndicatorView setStrokeRemainingColor:[UIColor colorWithWhite:240/255. alpha:1.]];
 

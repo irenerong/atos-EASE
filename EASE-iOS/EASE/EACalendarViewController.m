@@ -9,12 +9,18 @@
 #import "EACalendarViewController.h"
 
 
-
+#import "EASearchResults.h"
+#import "MZFormSheetController.h"
+#import "MZFormSheetSegue.h"
 @interface EACalendarViewController ()
 
 
 @property(nonatomic, strong) NSMutableArray *tasks;
 @property(nonatomic, strong) NSMutableArray *workflows;
+@property(strong, nonatomic) EASearchResults *results;
+
+@property(nonatomic, strong) MZFormSheetController *formSheet;
+
 
 @end
 
@@ -27,8 +33,10 @@
     _displayWorkflow = YES;
     
     ((EACollectionViewWorkflowLayout*)self.timelineCollectionView.collectionViewLayout).delegate = self;
-    ((EACollectionViewWorkflowLayout*)self.timelineCollectionView.collectionViewLayout).minHeight = 100;
-    ((EACollectionViewWorkflowLayout*)self.timelineCollectionView.collectionViewLayout).maxHeight = 200;
+    ((EACollectionViewWorkflowLayout*)self.timelineCollectionView.collectionViewLayout).minHeight = 150;
+    ((EACollectionViewWorkflowLayout*)self.timelineCollectionView.collectionViewLayout).maxHeight = 150;
+    ((EACollectionViewWorkflowLayout*)self.timelineCollectionView.collectionViewLayout).emptyHeight = 30;
+    ((EACollectionViewWorkflowLayout*)self.timelineCollectionView.collectionViewLayout).itemWidth = 200;
 
     ((EACollectionViewWorkflowLayout*)self.timelineCollectionView.collectionViewLayout).cellInset = CGSizeMake(5, 7);
 
@@ -51,7 +59,6 @@
     self.timelineCollectionView.alwaysBounceHorizontal = YES;
 
     
-    self.date = [NSDate date];
     
     self.contentView.backgroundColor = [UIColor colorWithWhite:246/255. alpha:1.];
     self.contentView.backgroundColor = [UIColor clearColor];
@@ -102,15 +109,16 @@
             return [NSString stringWithFormat:@"%ld\n%@", comps.year, monthText];
         };
         
-        [self.calendar setCurrentDateSelected:self.date];
-        [self.calendar setCurrentDate:[self.date dateByAddingTimeInterval:2*7*24*3600]];
+        [self.calendar setCurrentDate:[[NSDate date] dateByAddingTimeInterval:2*7*24*3600]];
+        [self.calendar setCurrentDateSelected:[NSDate date]];
+
         
         self.calendar.calendarAppearance.isWeekMode = true;
     }
     
     [self.calendar setContentView:self.contentView];
     [self.calendar setDataSource:self];
-    
+    self.date = self.calendar.currentDateSelected;
     
     [self.calendar reloadData];
     
@@ -122,6 +130,8 @@
 
     
 }
+
+
 
 -(void)viewDidAppear:(BOOL)animated
 {
@@ -137,6 +147,8 @@
     // Dispose of any resources that can be recreated.
 }
 
+
+
 -(void)setDate:(NSDate *)date
 {
     _date = date;
@@ -144,45 +156,42 @@
     [self.tasks removeAllObjects];
     [self.workflows removeAllObjects];
     
+    
     [UIView animateWithDuration:0.3 animations:^{
         self.timelineCollectionView.alpha = 0;
         self.dateScrollView.alpha = 0;
+        self.nothingToDisplayLabel.alpha = 0;
+
     } completion:^(BOOL finished) {
         
         
-        if (self.displayWorkflow)
-        {
-            
-            [[EANetworkingHelper sharedHelper] workflowsAtDay:date completionBlock:^(NSArray *workflows) {
-                
-                [self.workflows addObjectsFromArray:workflows];
-                [self.timelineCollectionView reloadData];
-                
-                [UIView animateWithDuration:0.3 animations:^{
-                    self.timelineCollectionView.alpha = 1;
-                    self.dateScrollView.alpha = 1;
-                }];
-                
-                
-            }];
-        }
-        else
-        {
-            
-            [[EANetworkingHelper sharedHelper] tasksAtDay:date completionBlock:^(NSArray *tasks) {
-                
-                [self.tasks addObjectsFromArray:tasks];
-                [self.timelineCollectionView reloadData];
-                
-                [UIView animateWithDuration:0.3 animations:^{
-                    self.timelineCollectionView.alpha = 1;
-                    self.dateScrollView.alpha = 1;
-                }];
-                
-                
-            }];
-        }
        
+            
+            [[EANetworkingHelper sharedHelper] tasksAtDay:date completionBlock:^(EASearchResults *results, NSError *error) {
+                
+                self.results = results;
+               
+                if (results && results.workflows.count)
+                {
+                    [UIView animateWithDuration:0.3 animations:^{
+                        self.timelineCollectionView.alpha = 1;
+                        self.dateScrollView.alpha = 1;
+                        self.nothingToDisplayLabel.alpha = 0;
+
+                    }];
+                    
+                }
+                else
+                {
+                    self.nothingToDisplayLabel.text = @"Nothing today !\nTap the '+' button to create a workflow !";
+
+                    [UIView animateWithDuration:0.3 animations:^{
+                        self.nothingToDisplayLabel.alpha = 1;
+                    }];
+                }
+                
+            }];
+        
     }];
    
     
@@ -192,12 +201,25 @@
     
 }
 
--(void)setDisplayWorkflow:(BOOL)displayWorkflow
+-(void)setResults:(EASearchResults *)results
 {
-    _displayWorkflow = displayWorkflow;
+    _results = results;
     
-    self.date = _date;
+    NSMutableArray *allTasks = [NSMutableArray array];
+    
+    for (EAWorkflow *workflow in self.results.workflows)
+    {
+        [allTasks addObjectsFromArray:[workflow tasksAtDate:self.date]];
+    }
+    
+    self.tasks = allTasks;
+    self.workflows = self.results.workflows;
+    
+    [self.timelineCollectionView reloadData];
+    
+    
 }
+
 
 
 #pragma mark - Navigation
@@ -213,11 +235,54 @@
         vc.workflow = selectedWorkflow;
         
     }
+    else if ([segue.identifier isEqualToString:@"CreateWorkflow"])
+    {
+        MZFormSheetSegue *formSheetSegue = (MZFormSheetSegue *)segue;
+        
+        self.formSheet = formSheetSegue.formSheetController;
+        self.formSheet.transitionStyle = MZFormSheetTransitionStyleDropDown;
+        self.formSheet.cornerRadius = 8.0;
+        self.formSheet.shouldCenterVertically = true;
+        self.formSheet.presentedFormSheetSize = CGSizeMake(300, 255);
+        self.formSheet.movementWhenKeyboardAppears = MZFormSheetWhenKeyboardAppearsMoveToTopInset;
+        self.formSheet.didTapOnBackgroundViewCompletionHandler = ^(CGPoint location) {
+            
+        };
+        
+        self.formSheet.shouldDismissOnBackgroundViewTap = YES;
+        
+        self.formSheet.didPresentCompletionHandler = ^(UIViewController *presentedFSViewController) {
+            ((EASearchPopupViewController*)presentedFSViewController).delegate = self;
+            
+            
+        };
+
+    }
     
 }
 
+-(void)popupFoundWorkflows:(EASearchResults *)searchResults
+{
+    [self.formSheet dismissAnimated:true completionHandler:^(UIViewController *presentedFSViewController) {
+        UINavigationController *controller = [self.storyboard instantiateViewControllerWithIdentifier:@"ResultsController"];
+        
+        
+        ((EAWorkflowListCollectionViewController*)controller.viewControllers.firstObject).searchResults = searchResults;
+        ((EAWorkflowListCollectionViewController*)controller.viewControllers.firstObject).delegate = self;
 
+        [self presentViewController:controller animated:YES completion:nil];
+    }];
+}
 
+-(void)workflowListAskToDismiss
+{
+    [self dismissViewControllerAnimated:true completion:^{
+        self.date = _date;
+    }];
+    
+    
+    
+}
 
 #pragma mark - UICollectionViewDataSource
 
@@ -252,7 +317,7 @@
     {
         EACalendarTaskCollectionViewCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:@"TaskCell" forIndexPath:indexPath];
         
-
+        cell.task = self.tasks[indexPath.row];
         
         return cell;
     }
@@ -361,9 +426,11 @@
 }
 
 
+
 - (IBAction)switchMode:(id)sender {
     self.displayWorkflow = !_displayWorkflow;
     
+    self.date = _date;
     
 }
 @end

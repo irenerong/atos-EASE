@@ -103,6 +103,8 @@ static NSString *const kJTCalendarDaySelected = @"kJTCalendarDaySelected";
 // Avoid to calcul constraints (very expensive)
 - (void)configureConstraintsForSubviews
 {
+    
+    
     textLabel.frame = CGRectMake(0, 0, self.frame.size.width, self.frame.size.height);
     backgroundView.frame = CGRectMake(0, 0, self.frame.size.width, self.frame.size.height);
 

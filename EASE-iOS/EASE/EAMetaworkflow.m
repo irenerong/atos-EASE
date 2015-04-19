@@ -21,7 +21,13 @@
 
     if (self = [super init])
     {
+        
+        self.metaworkflowID = ((NSNumber*)dictionary[@"id"]).intValue;
         self.title = dictionary[@"title"];
+        //self.imageURL = dictionary[@"imageURL"];
+        self.imageURL = [NSURL URLWithString: @"http://www.supermarchesmatch.fr/userfiles/images/Poulet%20au%20curry.jpg"];
+
+        
         
     }
     

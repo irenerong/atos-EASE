@@ -7,19 +7,27 @@
 //
 
 #import "EAWorkflow.h"
-
+#import "NSMutableArray+Flags.h"
 #import "EATask.h"
 
 @implementation EAWorkflow
 
-+(instancetype)workflowByParsingDictionary:(NSDictionary*)dictionary
++(instancetype)workflowByParsingGeneratorDictionary:(NSDictionary*)dictionary
 {
     
-    return [[EAWorkflow alloc] initWithDictionary:dictionary];
+    return [[EAWorkflow alloc] initWithGeneratorDictionary:dictionary];
+}
+
++(instancetype)workflowByParsingSearchDictionary:(NSDictionary*)dictionary completion:(void (^)(EAWorkflow *))completionBlock
+{
+    
+    return [[EAWorkflow alloc] initWithSearchDictionary:dictionary completion:^(EAWorkflow *workflow) {
+        completionBlock(workflow);
+    }];
 }
 
 
--(instancetype)initWithDictionary:(NSDictionary*)dictionary
+-(instancetype)initWithGeneratorDictionary:(NSDictionary*)dictionary
 {
     
     if (self = [super init])
@@ -27,6 +35,9 @@
         
         if (![dictionary isKindOfClass:[NSDictionary class]])
             return nil;
+        
+        self.isValidated = false;
+
         
         NSArray *tasks = dictionary[@"subtasks"];
         
@@ -36,7 +47,7 @@
         {
             
             
-            EATask *task = [EATask taskByParsingDictionary:taskDic fromWorkflow:self];
+            EATask *task = [EATask taskByParsingGeneratorDictionary:taskDic fromWorkflow:self];
             [parsedTasks addObject:task];
             
         }
@@ -47,6 +58,45 @@
     
     return self;
     
+}
+
+-(instancetype)initWithSearchDictionary:(NSDictionary*)dictionary completion:(void (^)(EAWorkflow *))completionBlock
+{
+    if (self = [super init])
+    {
+        
+        if (![dictionary isKindOfClass:[NSDictionary class]])
+            return nil;
+        self.isValidated = true;
+       self.workflowID =((NSNumber*)dictionary[@"id"]).intValue;
+        
+        NSArray *tasks = dictionary[@"subtasks"];
+        
+        NSMutableArray *parsedTasks = [NSMutableArray array];
+        
+        NSMutableArray *flags = [[NSMutableArray alloc] initWithFlags:tasks.count];
+        for (int i = 0; i < tasks.count; i++)
+        {
+            NSDictionary *taskDic = tasks[i];
+            
+            [EATask taskByParsingSearchDictionary:taskDic fromWorkflow:self completion:^(EATask *task) {
+                
+                [parsedTasks addObject:task];
+                [flags raiseFlag:i];
+                
+                if (flags.allFlagsRaised)
+                    completionBlock(self);
+                
+                
+            }];
+            
+        }
+        
+        _tasks = parsedTasks;
+        
+    }
+    
+    return self;
 }
 
 -(int)availableIngredients {
@@ -103,6 +153,17 @@
     return self.metaworkflow.title;
 }
 
-
+-(NSArray*)tasksAtDate:(NSDate*)date
+{
+    
+    NSDate *tomorrow = [date dateByAddingTimeInterval:24*3600];
+    EADateInterval *dateInterval = [EADateInterval dateIntervalFrom:date to:tomorrow];
+    
+    return [self.tasks filteredArrayUsingPredicate:[NSPredicate predicateWithBlock:^BOOL(EATask *task, NSDictionary *bindings) {
+        
+        return [task.dateInterval intersects:dateInterval];
+        
+    }]];
+}
 
 @end
