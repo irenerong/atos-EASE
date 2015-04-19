@@ -15,7 +15,6 @@ module.exports = {
     intent: {
       type: 'string'
     },
-
   	metatasks: {
   		collection: 'Metatask',
   		via: 'metaworkflow'

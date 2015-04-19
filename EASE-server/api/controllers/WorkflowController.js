@@ -28,7 +28,7 @@ module.exports = {
 		console.log("generating workflows")
 		req.session.generatedWorkflows=[];
 		req.session.lastsearch = params.intent;
-		Metaworkflow.find({intent:params.intent}).populate('metatasks').exec(function(err,metaworkflows){
+		Metaworkflow.find({intent:params.intent,title:{'like':'%'+params.title+'%'}}).populate('metatasks').exec(function(err,metaworkflows){
 
 			//console.log(metaworkflow);
 
@@ -87,7 +87,7 @@ module.exports = {
 	sortwf : function(req, res){
 		var params= req.body;
 
-		if (req.session.lastsearch != null){
+		if (req.session.lastsearch != null && req.session.generatedWorkflows!=null){
 				console.log("this is a sort by"+req.session.lastsearch);
 				sortFunction = this.sort(params.sortBy);
 				req.session.generatedWorkflows.sort(sortFunction) ;
@@ -95,6 +95,9 @@ module.exports = {
 
 				res.json({"workflows":req.session.generatedWorkflows}) // with pagination
 
+		}
+		else{
+			res.json({error: 'there is not qualified workflow to sort'});
 		}
 
 	},

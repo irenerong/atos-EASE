@@ -66,7 +66,7 @@ module.exports = {
 	changeAdmin: function(req,res) {
 
 		User.findOne({id:req.session.userID}).exec(function (err,user) {
-			if (err) return res.json({status:'server error'});
+			if (err) return res.json({error:'server error'});
 			User.update({id:req.session.userID},{admin:false}).exec(function (err,oldAdmin){
 				if (err) return res.json(err);
 				req.session.admin= false;
@@ -81,10 +81,10 @@ module.exports = {
 
 		User.update({username:req.param('username')},{admin:true}).exec(function (err,newadmins)
 			{
-				if (err) return res.jason({status: 'database error'});
+				if (err) return res.jason({error: 'database error'});
 				if (newadmins[0]){
 					
-						res.json({status: 'the admin has been changed to '+ newadmins[0].username+' you\'re no longer admin' });
+						res.json({error: 'the admin has been changed to '+ newadmins[0].username+' you\'re no longer admin' });
 
 				}else{
 					return res.json({error:'you can not change administrator to'+req.param('username')});
@@ -99,7 +99,7 @@ module.exports = {
 		ingre=req.param('ingredient').split(',');
 
 		User.addIngredient(req.session.userID,ingre,function(err,user){
-			if (err) return res.json({err:'addIngredient error'});
+			if (err) return res.json({error:'addIngredient error'});
 
 			return res.json({ingredient: user.ingredient});
 			console.log("add ingredient finished");
@@ -112,7 +112,7 @@ module.exports = {
 	NBIngredientManque :function(req,res){
 
 		User.findOne({id:req.session.userID}).exec(function (err,user) {
-		    if (err) return res.json({err:'findone error'});
+		    if (err) return res.json({error:'findone error'});
 		    ingre=req.param('ingredient').split(',');
 		    console.log(user.ingredient.length+' ingredients exist');
 		    console.log(ingre.length+' ingredients demande');
