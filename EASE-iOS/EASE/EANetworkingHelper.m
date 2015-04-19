@@ -150,6 +150,7 @@ NSString* const EAWorkingTaskUpdate = @"EAWorkingTaskUpdate";
     [self.easeSocketManager on: @"reconnect" callback: ^(NSArray* data, void (^ack)(NSArray*)) {
         NSLog(@"reconnect \n %@", data);
         
+        
     }];
     
     [self.easeSocketManager on:@"error" callback:^(NSArray *data, void (^ack)(NSArray*))  {
@@ -161,9 +162,7 @@ NSString* const EAWorkingTaskUpdate = @"EAWorkingTaskUpdate";
         NSLog(@"subtasks \n %@", data);
     }];
     
-    [self.easeSocketManager onAny:^{
-        NSLog(@"ON !");
-    }];
+  
     
 }
 
@@ -523,6 +522,22 @@ NSString* const EAWorkingTaskUpdate = @"EAWorkingTaskUpdate";
     
 }
 
+
+-(void)startTask:(EATask*)task completionBlock:(void (^) (NSError *error)) completionBlock
+{
+    
+    if (task.status != EATaskStatusPending)
+        completionBlock([NSError errorWithDomain:@"Task Pending" code:0 userInfo:nil]);
+    
+    [[self.easeSocketManager emitWithAckObjc:@"post" withItems: @{@"url" : @"/subtask/start", @"data" : @{ @"id" : @(task.taskID) }}]  onAck:0 withCallback:^(NSArray *cb) {
+        
+        NSLog(@"%@", cb);
+        
+        completionBlock(nil);
+        
+    }];
+
+}
 
 -(void)tasksAtDay:(NSDate*)date completionBlock:(void (^) (EASearchResults *, NSError *)) completionBlock
 {

@@ -151,18 +151,9 @@
 -(void)didTapCenterButton:(UIButton*)sender
 {
     
-   /* if (_task.status == EATaskStatusPending)
+    if (_task.status == EATaskStatusPending)
     {
-        EAPendingTask *pendingTask = _taskNotification;
         
-        if (!pendingTask.alertMessage) {
-            [[EANetworkingHelper sharedHelper] startPendingTask:pendingTask completionBlock:^(BOOL ok, EAWorkingTask *workingTask) {
-                if (ok) {
-                    self.taskNotification = workingTask;
-                }
-            }];
-        }
-        else {
             SCLAlertView *alert = [[SCLAlertView alloc] init];
             alert.showAnimationType = SlideInFromCenter;
             alert.backgroundType = Blur;
@@ -170,31 +161,20 @@
             alert.iconTintColor = [UIColor whiteColor];
             
             [alert addButton:@"Everything's ok ! Let's do it !" actionBlock:^{
-                [[EANetworkingHelper sharedHelper] startPendingTask:pendingTask completionBlock:^(BOOL ok, EAWorkingTask *workingTask) {
-                    if (ok) {
-                        self.taskNotification = workingTask;
-                    }
+                [[EANetworkingHelper sharedHelper] startTask:self.task completionBlock:^(NSError *error) {
+                   
+                    NSLog(@"START !");
+                    
                 }];
             }];
             
-            [alert showWarning:self title:@"Warning" subTitle:pendingTask.alertMessage closeButtonTitle:@"Let me check ..." duration:0];
+            [alert showWarning:self title:@"Warning" subTitle:@"Pouet" closeButtonTitle:@"Let me check ..." duration:0];
             
             
-        }
+        
     }
-    else if (_taskNotification.class == EAWorkingTask.class)
-    {
-        [[EANetworkingHelper sharedHelper] endWorkingTask:_taskNotification completionBlock:^(BOOL ok) {
-            if (ok) {
-                [self mz_dismissFormSheetControllerAnimated:YES completionHandler:^(MZFormSheetController *formSheetController) {
-                    // do sth
-                }];
-                
-            }
-        }];
-
-    }
-    */
+   
+    
    
 }
 
