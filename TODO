@@ -1,0 +1,38 @@
+TODO
+
+Client :
+- Reconnection de la socket
+- Téléchargement des données
+
+- MAJ des (pending/working) tasks 
+- Afficher task pop up
+- Afficher Ingrédients
+- Afficher Agents
+- Afficher les différentes caractéristiques (consumption, water, time, ...)
+
+- Sort by
+
+Server :
+- Reconnection de la socket
+- Subscribe nouvelle socket
+
+- MAJ progression simulation
+- Simulation qui répond à différentes actions
+
+- Image des metaworkflows
+- Descriptions metatasks (avec image si possible)
+- Descriptions des subtasks
+
+- Creer une classe pour ingredient : nom de l'ingrédient + quantité
+- Filtre des metaworkflows par rapport aux ingrédients disponibles
+
+- Sort by consumption par défaut
+
+
+Simulation :
+- MAJ progression/etat simulation
+- Simulation qui répond à différentes actions
+
+
+Jeux d'essais : Metaworkflows + Agent Behavior
+Documentation : 

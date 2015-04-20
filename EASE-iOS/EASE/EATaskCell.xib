@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="6751" systemVersion="14A386b" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="7531" systemVersion="14A386b" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES">
     <dependencies>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="6736"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="7520"/>
         <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
     </dependencies>
     <objects>
@@ -17,20 +17,20 @@
                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="dLx-k0-GJp" userLabel="Top View">
                         <rect key="frame" x="0.0" y="0.0" width="337" height="90"/>
                         <subviews>
-                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="poulet.jpg" translatesAutoresizingMaskIntoConstraints="NO" id="geC-SZ-paP">
-                                <rect key="frame" x="0.0" y="0.0" width="90" height="90"/>
+                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="geC-SZ-paP">
+                                <rect key="frame" x="0.0" y="0.0" width="130" height="90"/>
                                 <constraints>
-                                    <constraint firstAttribute="width" constant="90" id="EYm-Pv-lhC"/>
+                                    <constraint firstAttribute="width" constant="130" id="EYm-Pv-lhC"/>
                                 </constraints>
                             </imageView>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="zaN-1Y-Ja8" userLabel="Labels Background">
-                                <rect key="frame" x="90" y="0.0" width="247" height="90"/>
+                                <rect key="frame" x="130" y="0.0" width="207" height="90"/>
                                 <subviews>
                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="bW4-Du-mbX">
-                                        <rect key="frame" x="0.0" y="0.0" width="247" height="40"/>
+                                        <rect key="frame" x="0.0" y="0.0" width="207" height="40"/>
                                         <subviews>
                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Poulet au curry" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumFontSize="7" adjustsLetterSpacingToFitWidth="YES" translatesAutoresizingMaskIntoConstraints="NO" id="ZFi-Ca-vv9">
-                                                <rect key="frame" x="8" y="9" width="231" height="21"/>
+                                                <rect key="frame" x="8" y="9" width="191" height="21"/>
                                                 <constraints>
                                                     <constraint firstAttribute="height" constant="21" id="oGs-u7-WN7"/>
                                                 </constraints>
@@ -54,7 +54,7 @@
                                         </variation>
                                     </view>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Cuire le poulet" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="mf0-1B-L2u">
-                                        <rect key="frame" x="10" y="34" width="227" height="56"/>
+                                        <rect key="frame" x="10" y="34" width="187" height="56"/>
                                         <fontDescription key="fontDescription" name="HelveticaNeue" family="Helvetica Neue" pointSize="14"/>
                                         <color key="textColor" red="0.22447127529999999" green="0.22447127529999999" blue="0.22447127529999999" alpha="1" colorSpace="calibratedRGB"/>
                                         <nil key="highlightedColor"/>
@@ -72,24 +72,40 @@
                                 </constraints>
                             </view>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="lUI-Op-hi5" userLabel="Agent Icon">
-                                <rect key="frame" x="52" y="8" width="30" height="30"/>
+                                <rect key="frame" x="92" y="8" width="30" height="30"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="30" id="DOD-0X-KDl"/>
                                     <constraint firstAttribute="width" constant="30" id="JNl-sQ-1Ng"/>
                                 </constraints>
                             </view>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="CFE-eh-Kfd">
+                                <rect key="frame" x="8" y="45" width="114" height="37"/>
+                                <subviews>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Label" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="CMM-Gc-p09">
+                                        <rect key="frame" x="8" y="0.0" width="98" height="37"/>
+                                        <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                        <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                        <nil key="highlightedColor"/>
+                                    </label>
+                                </subviews>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                            </view>
                         </subviews>
                         <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                         <constraints>
                             <constraint firstItem="lUI-Op-hi5" firstAttribute="top" secondItem="geC-SZ-paP" secondAttribute="top" constant="8" id="2r1-7E-zMD"/>
                             <constraint firstItem="zaN-1Y-Ja8" firstAttribute="leading" secondItem="geC-SZ-paP" secondAttribute="trailing" id="7xy-w2-Yhv"/>
+                            <constraint firstItem="CFE-eh-Kfd" firstAttribute="trailing" secondItem="geC-SZ-paP" secondAttribute="trailing" constant="-8" id="C3B-77-Rac"/>
                             <constraint firstItem="geC-SZ-paP" firstAttribute="leading" secondItem="dLx-k0-GJp" secondAttribute="leading" id="Ciq-sy-NUw"/>
                             <constraint firstItem="geC-SZ-paP" firstAttribute="top" secondItem="dLx-k0-GJp" secondAttribute="top" id="DTb-r7-eGR"/>
+                            <constraint firstItem="CFE-eh-Kfd" firstAttribute="top" secondItem="lUI-Op-hi5" secondAttribute="bottom" constant="7" id="KGA-Nn-MKQ"/>
                             <constraint firstItem="zaN-1Y-Ja8" firstAttribute="top" secondItem="dLx-k0-GJp" secondAttribute="top" id="N6B-tc-JZf"/>
                             <constraint firstItem="lUI-Op-hi5" firstAttribute="trailing" secondItem="geC-SZ-paP" secondAttribute="trailing" constant="-8" id="NLY-D0-Tfb"/>
+                            <constraint firstItem="CFE-eh-Kfd" firstAttribute="leading" secondItem="geC-SZ-paP" secondAttribute="leading" constant="8" id="ONE-iS-pBo"/>
                             <constraint firstAttribute="bottom" secondItem="geC-SZ-paP" secondAttribute="bottom" id="Yvp-TI-wCR"/>
                             <constraint firstAttribute="trailing" secondItem="zaN-1Y-Ja8" secondAttribute="trailing" id="cqU-Oq-kfr"/>
+                            <constraint firstItem="CFE-eh-Kfd" firstAttribute="bottom" secondItem="geC-SZ-paP" secondAttribute="bottom" constant="-8" id="hAI-8y-3p1"/>
                             <constraint firstAttribute="bottom" secondItem="zaN-1Y-Ja8" secondAttribute="bottom" id="nVQ-ya-Bmx"/>
                             <constraint firstAttribute="height" constant="90" id="wXY-ci-SJm"/>
                         </constraints>
@@ -193,8 +209,8 @@
             <connections>
                 <outlet property="actionDescriptionLabel" destination="mf0-1B-L2u" id="b5a-Se-EMN"/>
                 <outlet property="agentIconView" destination="lUI-Op-hi5" id="7c8-jA-uFM"/>
-                <outlet property="agentNameBackgroundView" destination="bW4-Du-mbX" id="qHw-p4-IfV"/>
-                <outlet property="agentNameLabel" destination="ZFi-Ca-vv9" id="q2n-kZ-Qk3"/>
+                <outlet property="agentNameBackgroundView" destination="CFE-eh-Kfd" id="HyR-9P-lNI"/>
+                <outlet property="agentNameLabel" destination="CMM-Gc-p09" id="gPp-0Z-fhA"/>
                 <outlet property="beginLabel" destination="p4S-yg-fkp" id="qXx-L1-BTI"/>
                 <outlet property="dateBackgroundView" destination="OcP-dP-EEp" id="Vn9-ex-PSU"/>
                 <outlet property="endLabel" destination="iXs-tI-FNt" id="HnC-hI-CIR"/>
@@ -202,12 +218,11 @@
                 <outlet property="progressBar" destination="g9e-r5-4JO" id="ddt-fX-eMw"/>
                 <outlet property="statusLabel" destination="evw-hW-9qm" id="vvi-Zf-eBN"/>
                 <outlet property="timeStatusLabel" destination="Mbi-cF-fKx" id="zoh-zG-D72"/>
+                <outlet property="titleBackgroundView" destination="bW4-Du-mbX" id="wVa-By-dsd"/>
+                <outlet property="titleLabel" destination="ZFi-Ca-vv9" id="3g1-Sr-GsX"/>
                 <outlet property="topBackgroundView" destination="dLx-k0-GJp" id="YiG-pS-TlE"/>
                 <outlet property="workflowImageView" destination="geC-SZ-paP" id="v0G-eY-8Po"/>
             </connections>
         </collectionViewCell>
     </objects>
-    <resources>
-        <image name="poulet.jpg" width="424" height="283"/>
-    </resources>
 </document>

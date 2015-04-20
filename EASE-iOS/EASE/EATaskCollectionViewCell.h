@@ -20,18 +20,19 @@
     NSMutableArray *buttons;
 }
 
-@property(nonatomic, weak) EANotification *taskNotification;
+@property(nonatomic, weak) EATask *task;
 
 @property (weak, nonatomic) IBOutlet UIImageView *workflowImageView;
 
 @property (weak, nonatomic) IBOutlet UIView *agentIconView;
 
-@property (weak, nonatomic) IBOutlet UILabel *agentNameLabel;
+@property (weak, nonatomic) IBOutlet UILabel *titleLabel;
 
 @property (weak, nonatomic) IBOutlet UILabel *actionDescriptionLabel;
 @property (weak, nonatomic) IBOutlet UIView *labelsBackgroundView;
 @property (weak, nonatomic) IBOutlet UIView *agentNameBackgroundView;
 @property (weak, nonatomic) IBOutlet UIView *dateBackgroundView;
+@property (weak, nonatomic) IBOutlet UIView *titleBackgroundView;
 
 @property (weak, nonatomic) IBOutlet YLProgressBar *progressBar;
 
@@ -43,5 +44,6 @@
 
 @property (weak, nonatomic) IBOutlet UILabel *statusLabel;
 
+@property (weak, nonatomic) IBOutlet UILabel *agentNameLabel;
 
 @end

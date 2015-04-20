@@ -27,8 +27,7 @@ extern NSString* const EAWorkingTaskUpdate;
 @class EAWorkflow;
 @class EADateInterval;
 @class EATask;
-@class EAPendingTask;
-@class EAWorkingTask;
+
 @class EASearchResults;
 @class EALoginViewController;
 
@@ -47,15 +46,6 @@ extern NSString* const EAWorkingTaskUpdate;
 @property(nonatomic, strong) NSString *easeServerAdress;
 
 @property(nonatomic, readonly) EAUser *currentUser;
-
-@property(nonatomic, readonly) NSMutableArray *currentWorkflows;
-
-@property(nonatomic, readonly) NSMutableArray *pendingTasks;
-
-@property(nonatomic, readonly) NSMutableArray *workingTasks;
-
-
-@property(nonatomic, readonly) NSMutableArray *completedTasks;
 
 @property(nonatomic, weak) EALoginViewController *loginViewController;
 
@@ -82,6 +72,7 @@ extern NSString* const EAWorkingTaskUpdate;
 
 -(void)retrieveStartConditionWithID:(int)startConditionID completionBlock:(void (^) (NSDictionary* startCondition, NSError *error))completionBlock;
 
+-(void)getPendingTasksCompletionBlock:(void (^) (EASearchResults* searchResults, NSError* error))completionBlock;
 
 -(void)modifyWorkflow:(EAWorkflow*)workflow withParams:(NSDictionary*)params completionBlock:(void (^) (EAWorkflow *newWorkflow, NSError *error))completionBlock;
 
@@ -91,11 +82,10 @@ extern NSString* const EAWorkingTaskUpdate;
 
 -(void)workflowsAtDay:(NSDate*)date completionBlock:(void (^) (NSArray *workflows)) completionBlock;
 
+-(void)startTask:(EATask*)task completionBlock:(void (^) (NSError *error)) completionBlock;
+
 //EASE NOTIFICATIONS
 
--(void)startPendingTask:(EAPendingTask*)task completionBlock:(void (^) (BOOL ok, EAWorkingTask *workingTask) )completionBlock;
-
--(void)endWorkingTask:(EAWorkingTask*)task completionBlock:(void (^) (BOOL ok) )completionBlock;
 
 
 @end

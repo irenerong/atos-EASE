@@ -59,8 +59,9 @@ module.exports = {
 							else{SubTask.subscribe(req,subtasks);}
 							
 						}
-						)
-						req.session.socketID = sails.sockets.id(req.socket);
+						)						
+
+						req.session.IOSsocketID = sails.sockets.id(req.socket);
 						res.json('OKAY :D');
 		}
 	},

@@ -13,6 +13,12 @@
 @class EADateInterval;
 @class EAAgent;
 
+typedef enum : NSUInteger {
+    EATaskStatusWaiting,
+    EATaskStatusWorking,
+    EATaskStatusPending
+} EATaskStatus;
+
 @interface EATask : NSObject
 {
     
@@ -38,6 +44,9 @@
 @property(nonatomic, weak) EAAgent *agent;
 @property(nonatomic, weak) EAWorkflow *workflow;
 
+@property(nonatomic, readwrite) EATaskStatus status;
 
+@property(nonatomic, strong) NSString *textStatus;
+@property(nonatomic, readwrite) float completionPercentage;
 
 @end

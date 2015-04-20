@@ -75,6 +75,14 @@
         
         _taskID = ((NSString*)dictionary[@"id"]).intValue;
         
+        
+        if ([dictionary[@"status"] isEqualToString:@"working"])
+            self.status = EATaskStatusWorking;
+        else if ([dictionary[@"status"] isEqualToString:@"waiting"])
+            self.status = EATaskStatusWaiting;
+        else if ([dictionary[@"status"] isEqualToString:@"pending"])
+            self.status = EATaskStatusPending;
+        
         int startConditionID = ((NSString*)dictionary[@"startCondition"]).intValue;
         
         EAAgent *agent = [[EAAgent alloc] init];

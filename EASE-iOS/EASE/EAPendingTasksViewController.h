@@ -8,7 +8,10 @@
 
 #import "EATasksViewController.h"
 #import "EATaskInfoViewController.h"
+#import "EASearchResults.h"
 
 @interface EAPendingTasksViewController : EATasksViewController <EATasksViewControllerDelegates>
+
+
 
 @end

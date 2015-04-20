@@ -59,7 +59,7 @@
     self.agentIconView.layer.shadowRadius = 2;
     
    
-    self.agentNameLabel.textColor = [UIColor whiteColor];
+    self.titleLabel.textColor = [UIColor whiteColor];
     
     self.actionDescriptionLabel.textColor = [UIColor colorWithWhite:180/255.0 alpha:1.0];
     
@@ -76,6 +76,11 @@
     self.labelsBackgroundView.layer.shadowOpacity = 0.1;
     self.labelsBackgroundView.layer.shadowRadius = 1;
     self.labelsBackgroundView.layer.shadowColor = [UIColor blackColor].CGColor;
+    
+    self.agentNameLabel.text = @"MicroWave";
+    self.agentNameBackgroundView.layer.cornerRadius = 5;
+    
+    self.agentNameLabel.textColor = [UIColor colorWithWhite:180/255. alpha:1.];
     
     /*
     self.startButton.imageView.clipsToBounds = true;
@@ -107,47 +112,44 @@
 -(void)update
 {
    
-    UIColor *color = self.taskNotification.color;
+    UIColor *color = self.task.workflow.color;
     
     self.progressBar.progressTintColors = @[color, color];
     
     self.beginLabel.textColor = [UIColor colorWithWhite:180/255. alpha:1.0];
     self.endLabel.textColor = [UIColor colorWithWhite:180/255. alpha:1.0];
     
-    
-    self.agentNameBackgroundView.backgroundColor = color;
+    self.titleLabel.text = self.task.workflow.title;
+    self.titleBackgroundView.backgroundColor = color;
+    self.actionDescriptionLabel.text = self.task.taskDescription;
     
     self.agentIconView.backgroundColor = color;
     
-    if (self.taskNotification.class == EAPendingTask.class)
+    if (self.task.status == EATaskStatusPending)
     {
         self.statusLabel.text = @"Pending";
         self.beginLabel.textColor = color;
 
         
     }
-    else if (self.taskNotification.class == EAWorkingTask.class)
+    if (self.task.status == EATaskStatusWorking)
     {
-        self.statusLabel.text = [NSString stringWithFormat:@"%@ (%d%%)", self.taskNotification.status, (int)(100*self.taskNotification.completionPercentage)];
+        self.statusLabel.text = [NSString stringWithFormat:@"%@ (%d%%)", self.task.textStatus, (int)(100*self.task.completionPercentage)];
         self.endLabel.textColor = color;
-        [self.progressBar setProgress: self.taskNotification.completionPercentage animated:NO];
+        [self.progressBar setProgress: self.task.completionPercentage animated:NO];
 
     }
 
     
-    [self.workflowImageView setImageWithProgressIndicatorAndURL:self.taskNotification.task.workflow.metaworkflow.imageURL placeholderImage:nil imageDidAppearBlock:^(UIImageView *imageView) {
-        
-        imageView.image = [imageView.image applyBlurWithRadius:5 tintColor:nil saturationDeltaFactor:1 maskImage:nil];
-        
-    }];
+    [self.workflowImageView setImageWithProgressIndicatorAndURL:self.task.workflow.metaworkflow.imageURL ];
     [self.workflowImageView.progressIndicatorView setStrokeProgressColor:color];
 
 }
 
--(void)setTaskNotification:(EANotification *)taskNotification {
+-(void)setTask:(EATask *)task {
     
     
-    _taskNotification = taskNotification;
+    _task = task;
     
     
     [self update];
