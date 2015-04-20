@@ -1,0 +1,68 @@
+<div id= "incoming-chat-window"></div>>
+<form id ="outgoing-chat-form">
+	<input size="50" type="text" id="outgoing-chat-field" ></input>
+	<input type="submit"> start a task </input>
+</form>>
+
+<button id="create" onclick="create()">create a new task </button>
+
+<script type="text/javascript" src="./path/to/bower_components/sails.io.js"></script>
+<script type="text/javascript">
+	function create(){
+		console.log("trying to create task");
+		io.socket.post('/subtask/create',{agent:oven, duration:30},function (newst) {
+		staskID=newst.id
+		console.log('create new task ID: '+staskID);
+	}
+</script>>
+<script type="http:/ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
+
+
+<script >
+
+
+
+	$(document).ready(function(){
+	// start a task 
+	 $('#outgoing-chat-form').submit(function(e){
+	 	e.preventDefault();
+		// function start
+
+		io.socket.post('/subtask/start/',{SubTaskID:$('#outgoing-chat-field').val()});
+
+
+	 });
+
+	 //create a task and get its ID
+
+	 $('#create'),click(function(e){
+	 	e.preventDefault();
+	 	io.socket.post('/subtask/create',{agent:oven, duration:30},function (newst) {
+		staskID=newst.id
+		console.log('create new task ID: '+staskID);
+	 })
+
+	// connect socket
+	//var socket = io.connect('http://localhost');
+	//console.log('Connecting Socket.io to Sails.js...');
+	// when the socket is connected, show message and listen to subtask update 
+	io.socket.on('connect', function socketConnected() {
+      typeof console !== 'undefined' &&
+      console.log(
+        'Socket is now connected and globally accessible as `socket`.\n' 
+      );
+
+    io.socket.on('subtask',function(obj){
+          if (obj.verb == 'updated') {
+            var previous = obj.previous;
+            var data = obj.data;
+            console.log('User '+previous.name+' has been updated to '+data.name);
+          }
+       });
+
+	
+		
+	});
+
+	
+</script>

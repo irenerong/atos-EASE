@@ -46,6 +46,19 @@ module.exports = {
 		SubTask.findOne(params.subTask).exec(function(err, subtask){
 			subtask.finish();
 		})
+	},
+	reconnectSocket : function(req,res){
+
+		if (req.isSocket){
+			SubTask.find({status:{'!':'finish'}}).exec(
+				function(err, subtasks){
+					if (err) console.log(err);
+					else{SubTask.subscribe(req,subtasks);}
+					
+				}
+				)
+		}
+
 	}
 
 };

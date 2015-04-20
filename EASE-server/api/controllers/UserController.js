@@ -53,11 +53,13 @@ module.exports = {
 						
 						SubTask.watch(req);
 						Workflow.watch(req);
-						SubTask.findOne(25).exec(function (err, st){
-							if (err) console.log(err)
-							SubTask.subscribe(req,st);
-						})
-						
+						SubTask.find({status:{'!':'finish'}}).exec(
+						function(err, subtasks){
+							if (err) console.log(err);
+							else{SubTask.subscribe(req,subtasks);}
+							
+						}
+						)
 						req.session.socketID = sails.sockets.id(req.socket);
 						res.json('OKAY :D');
 		}
