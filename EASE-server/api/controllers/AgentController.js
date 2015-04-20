@@ -50,6 +50,19 @@ module.exports = {
 		var param = req.params.all();
 		// if(req.isSocket && req.methode === 'POST')
 			console.log("Subtask "+ param.subTask +" is done on agent "+ param.agentID)
+	},
+
+
+	currentStatus : function(req, res){
+		var param = req.params.all();
+		this.sendStatusToClient(req, res);
+	},
+
+	sendStatusToClient : function(req, res){
+		var s = "free";
+		if(res.timeLeft > 0)
+			s = "busy";
+		sails.sockets.emit(req.session.IOSsocketID, "currentStatus", {agentID: res.agentID, status:s, timeLeft:res.timeLeft})
 	}
 };
 
