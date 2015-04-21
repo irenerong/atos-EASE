@@ -34,12 +34,15 @@ typedef enum : NSUInteger {
 -(instancetype)initWithSearchDictionary:(NSDictionary*)dictionary fromWorkflow:(EAWorkflow*)workflow completion:(void (^)(EATask *task))completionBlock;
 
 -(void)updateWithTask:(EATask*)task;
+-(void)updateWithFeedback:(NSDictionary*)feedback;
+@property(nonatomic, readonly) int agentID;
 
 @property(nonatomic, readonly) int taskID;
 @property(nonatomic, readonly) NSArray *predecessors;
 
 @property(nonatomic, strong) NSString *title;
 @property(nonatomic, strong) NSString *taskDescription;
+
 
 @property(nonatomic, strong) EADateInterval *dateInterval;
 
@@ -50,5 +53,8 @@ typedef enum : NSUInteger {
 
 @property(nonatomic, strong) NSString *textStatus;
 @property(nonatomic, readwrite) float completionPercentage;
+
+@property(nonatomic, readwrite) NSTimeInterval timeLeft;
+
 
 @end

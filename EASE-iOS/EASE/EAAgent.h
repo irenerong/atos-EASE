@@ -10,11 +10,13 @@
 
 @interface EAAgent : NSObject
 
++(EAAgent*)agentByParsingDictionary:(NSDictionary*)responseObject;
+
+-(instancetype)initByParsingDictionary:(NSDictionary*)responseObject;
+
 @property(nonatomic, readwrite) int agentID;
 
 @property(nonatomic, strong) NSString *type;
 @property(nonatomic, strong) NSString *name;
-
-@property(nonatomic, readwrite) BOOL available;
 
 @end

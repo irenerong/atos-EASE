@@ -53,8 +53,8 @@
 
 @implementation EANetworkingHelper
 
- NSString* const witServerAddress = @"https://api.wit.ai/";
- NSString* const witHeader = @"Authorization";
+NSString* const witServerAddress = @"https://api.wit.ai/";
+NSString* const witHeader = @"Authorization";
 
 NSString* const witToken = @"Bearer Z6RAMHMFQLP6FG2KSPTT4F23XH5GK5L4";
 NSString* const witAPIVersion = @"20150212";
@@ -100,13 +100,13 @@ NSString* const EATaskUpdate = @"EATaskUpdate";
         [self.witServerManager.requestSerializer setValue:witToken forHTTPHeaderField:witHeader];
         
         self.witServerManager.responseSerializer = [AFJSONResponseSerializer serializer];
-
-
+        
+        
         self.displayNotificationPopup = true;
         
         _currentUser = nil;
         
-
+        
     }
     
     return self;
@@ -117,17 +117,17 @@ NSString* const EATaskUpdate = @"EATaskUpdate";
     _easeServerAdress = easeServerAdress;
     self.easeServerManager = [[AFHTTPSessionManager alloc] initWithBaseURL:[NSURL URLWithString:[NSString stringWithFormat:@"http://%@/", easeServerAdress]]];
     
-   
+    
 }
 
 -(void)setCookie:(NSHTTPCookie*)cookie
 {
     
-
+    
     
     
     self.easeSocketManager = [[SocketIOClient alloc] initWithSocketURL:_easeServerAdress options:nil];
-   
+    
     if (cookie)
         self.easeSocketManager.cookies = @[cookie];
     
@@ -137,7 +137,7 @@ NSString* const EATaskUpdate = @"EATaskUpdate";
     [self.easeSocketManager on: @"connect" callback: ^(NSArray* data, void (^ack)(NSArray*)) {
         NSLog(@"connected \n %@", data);
         
-      
+        
         [self.easeSocketManager emitWithAckObjc:@"get" withItems:@[@{@"url" : @"/user/subscribe/", @"data" : @{}}]](0, ^(NSArray* data) {
             NSLog(@"%@", data);
         });
@@ -145,7 +145,7 @@ NSString* const EATaskUpdate = @"EATaskUpdate";
         
     }];
     
-
+    
     
     [self.easeSocketManager on: @"reconnect" callback: ^(NSArray* data, void (^ack)(NSArray*)) {
         NSLog(@"reconnect \n %@", data);
@@ -235,7 +235,7 @@ NSString* const EATaskUpdate = @"EATaskUpdate";
             NSLog(@"From %@ : %@", fromDateString, fromDate);
             
             if (fromDate)
-            dictionary[@"fromDate"] = fromDate;
+                dictionary[@"fromDate"] = fromDate;
             
         }
         else
@@ -246,10 +246,10 @@ NSString* const EATaskUpdate = @"EATaskUpdate";
             NSDate *fromDate = [self witStringToDate:fromDateString];
             NSDate *toDate = [self witStringToDate:toDateString];
             if (fromDate)
-            dictionary[@"fromDate"] = fromDate;
+                dictionary[@"fromDate"] = fromDate;
             
             if (toDate)
-            dictionary[@"toDate"] = toDate;
+                dictionary[@"toDate"] = toDate;
             
             
             NSLog(@"From %@ : %@\nTo %@ : %@", fromDateString, fromDate, toDateString, toDate);
@@ -300,21 +300,39 @@ NSString* const EATaskUpdate = @"EATaskUpdate";
     
     NSDictionary *parameters = @{@"username": username, @"password" : password};
     
-
+    
     self.easeServerManager.responseSerializer =  [AFJSONResponseSerializer serializerWithReadingOptions:NSJSONReadingAllowFragments];
- 
+    
     
     //[self.easeSocketManager emitObjc:@"get" withItems:@{@"url": @"/user/\"}"}];
     
     /*[[self.easeSocketManager emitWithAckObjc:@"post" withItems: @{@"url" : @"/user/signin/", @"data" : @{ @"username" : username, @"password" : password}} ]  onAck:0 withCallback:^(NSArray *cb) {
-        
-        
-        NSLog(@"cb : %@", cb);
-
-        
-        NSDictionary *responseObject = cb[0][@"body"];
-        
-        NSLog(@"cb : %@", responseObject);
+     
+     
+     NSLog(@"cb : %@", cb);
+     
+     
+     NSDictionary *responseObject = cb[0][@"body"];
+     
+     NSLog(@"cb : %@", responseObject);
+     
+     if (responseObject[@"error"])
+     {
+     completionBlock([NSError errorWithDomain:responseObject[@"error"] code:0 userInfo:nil]);
+     }
+     else
+     {
+     _currentUser = [EAUser new];
+     _currentUser.username = responseObject[@"user"][@"username"];
+     completionBlock(nil);
+     
+     }
+     
+     }];
+     */
+    
+    
+    [self.easeServerManager POST:@"User/signin" parameters:parameters success:^(NSURLSessionDataTask *task, NSDictionary * responseObject) {
         
         if (responseObject[@"error"])
         {
@@ -322,47 +340,29 @@ NSString* const EATaskUpdate = @"EATaskUpdate";
         }
         else
         {
+            
+            NSHTTPCookie *cookie = [[[NSHTTPCookieStorage sharedHTTPCookieStorage] cookiesForURL:[NSURL URLWithString:@"http://localhost:1337/"]] firstObject];
+            NSLog(@"%@", cookie.properties);
+            
+            [self setCookie:cookie];
             _currentUser = [EAUser new];
             _currentUser.username = responseObject[@"user"][@"username"];
             completionBlock(nil);
             
         }
         
-    }];
-    */
-    
-    
-        [self.easeServerManager POST:@"User/signin" parameters:parameters success:^(NSURLSessionDataTask *task, NSDictionary * responseObject) {
-            
-            if (responseObject[@"error"])
-            {
-                completionBlock([NSError errorWithDomain:responseObject[@"error"] code:0 userInfo:nil]);
-            }
-            else
-            {
-                
-                NSHTTPCookie *cookie = [[[NSHTTPCookieStorage sharedHTTPCookieStorage] cookiesForURL:[NSURL URLWithString:@"http://localhost:1337/"]] firstObject];
-                NSLog(@"%@", cookie.properties);
-                
-                [self setCookie:cookie];
-                _currentUser = [EAUser new];
-                _currentUser.username = responseObject[@"user"][@"username"];
-            completionBlock(nil);
-
-            }
-            
-            
-          
-            
-            
-            
-            
-            
-        } failure:^(NSURLSessionDataTask *task, NSError *error) {
-            
-            completionBlock(error);
         
-        }];
+        
+        
+        
+        
+        
+        
+    } failure:^(NSURLSessionDataTask *task, NSError *error) {
+        
+        completionBlock(error);
+        
+    }];
     
     
     
@@ -385,14 +385,18 @@ NSString* const EATaskUpdate = @"EATaskUpdate";
     [parameters addEntriesFromDictionary:@{@"intent": constraints[@"intent"]}];
     
     if (constraints[@"title"])
-    [parameters addEntriesFromDictionary:@{@"title": constraints[@"title"]}];
+        [parameters addEntriesFromDictionary:@{@"title": constraints[@"title"]}];
+    
+    if (constraints[@"sortBy"])
+        [parameters addEntriesFromDictionary:@{@"sortBy": constraints[@"sortBy"]}];
 
+    
     if (constraints[@"endDate"])
     {
         [parameters addEntriesFromDictionary:@{@"time": constraints[@"endDate"]}];
         [parameters addEntriesFromDictionary:@{@"type": @1}];
         [parameters addEntriesFromDictionary:@{@"option": @0}];
-
+        
     }
     else if(constraints[@"startDate"])
     {
@@ -410,8 +414,11 @@ NSString* const EATaskUpdate = @"EATaskUpdate";
     [self.easeServerManager POST:@"workflow/createwf" parameters:parameters success:^(NSURLSessionDataTask *task, NSDictionary * responseObject) {
         
         [EASearchResults searchResultsByParsingGeneratorDictionary:responseObject completion:^(EASearchResults *searchResult) {
+            
+            searchResult.constraints = constraints;
+            
             completionBlock(searchResult.workflows.count, searchResult, nil);
-
+            
         }];
         
         
@@ -421,7 +428,7 @@ NSString* const EATaskUpdate = @"EATaskUpdate";
         completionBlock(0, nil, error);
         
     }];
-
+    
     
     
     
@@ -433,7 +440,7 @@ NSString* const EATaskUpdate = @"EATaskUpdate";
         
         
         [EASearchResults searchResultsByParsingSearchDictionary:responseObject[@"pending"] completion:^(EASearchResults *searchResult) {
-           
+            
             completionBlock(searchResult, nil);
         }];
         
@@ -442,18 +449,59 @@ NSString* const EATaskUpdate = @"EATaskUpdate";
     }];
 }
 
+
+
+-(void)getWorkingTasksCompletionBlock:(void (^) (EASearchResults* searchResults, NSError* error))completionBlock
+{
+    [self.easeServerManager GET:@"workflow/getWorkingTask" parameters:nil success:^(NSURLSessionDataTask *task, NSDictionary *responseObject) {
+        
+        
+        [EASearchResults searchResultsByParsingSearchDictionary:responseObject[@"working"] completion:^(EASearchResults *searchResult) {
+            
+            completionBlock(searchResult, nil);
+        }];
+        
+    } failure:^(NSURLSessionDataTask *task, NSError *error) {
+        completionBlock(nil, error);
+    }];
+}
+
+-(void)getNumberOfPendingTasks:(void (^) (int nb, NSError* error))completionBlock
+{
+    [self.easeServerManager GET:@"workflow/getPendingTask" parameters:nil success:^(NSURLSessionDataTask *task, NSDictionary *responseObject) {
+        
+        completionBlock(((NSArray*)responseObject[@"pending"]).count, nil);
+        
+        
+    } failure:^(NSURLSessionDataTask *task, NSError *error) {
+        completionBlock(0, error);
+    }];
+}
+
+-(void)getNumberOfWorkingTasks:(void (^) (int nb, NSError* error))completionBlock
+{
+    [self.easeServerManager GET:@"workflow/getWorkingTask" parameters:nil success:^(NSURLSessionDataTask *task, NSDictionary *responseObject) {
+        
+        completionBlock(((NSArray*)responseObject[@"working"]).count, nil);
+        
+        
+    } failure:^(NSURLSessionDataTask *task, NSError *error) {
+        completionBlock(0, error);
+    }];
+}
+
 -(void)searchWorklowsBetweenId:(int)id1 andId:(int)id2 completionBlock:(void (^) (NSArray* workflows, NSError* error))completionBlock
 {
     
     /*dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(1.0 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
-        
-        workflowTest = [EAWorkflow new];
-        workflowTest.imageURL = [NSURL URLWithString:@"http://www.supermarchesmatch.fr/userfiles/images/Poulet%20au%20curry.jpg"];
-        workflowTest.workflowID = 0;
-        workflowTest.title = @"Poulet au curry";
-        workflowTest.sortTag = @"Hour";
-        completionBlock(@[workflowTest,workflowTest,workflowTest,workflowTest], nil);
-    });*/
+     
+     workflowTest = [EAWorkflow new];
+     workflowTest.imageURL = [NSURL URLWithString:@"http://www.supermarchesmatch.fr/userfiles/images/Poulet%20au%20curry.jpg"];
+     workflowTest.workflowID = 0;
+     workflowTest.title = @"Poulet au curry";
+     workflowTest.sortTag = @"Hour";
+     completionBlock(@[workflowTest,workflowTest,workflowTest,workflowTest], nil);
+     });*/
     
 }
 
@@ -467,12 +515,12 @@ NSString* const EATaskUpdate = @"EATaskUpdate";
         EAWorkflow *workflow = [EAWorkflow workflowByParsingSearchDictionary:responseObject completion:^(EAWorkflow *workflow) {
             workflow.color = colors[arc4random()%5];
             workflow.metaworkflow.imageURL = [NSURL URLWithString:@"http://www.supermarchesmatch.fr/userfiles/images/Poulet%20au%20curry.jpg"];
-
+            
             int metaworkflowID = ((NSNumber*)responseObject[@"metaworkflow"][@"id"]).intValue;
             completionBlock(workflow, metaworkflowID, nil);
         }];
         
-       
+        
         
         
         
@@ -480,8 +528,23 @@ NSString* const EATaskUpdate = @"EATaskUpdate";
         completionBlock(nil,-1, error);
     }];
     
-   
     
+    
+}
+
+-(void)retrieveAgentWithID:(int)agentID completionBlock:(void (^) (EAAgent* agent, NSError *error))completionBlock
+{
+    
+    NSDictionary *parameters = @{@"id" : @(agentID)};
+    
+    [self.easeServerManager GET:@"agent/" parameters:parameters success:^(NSURLSessionDataTask *task, NSDictionary* responseObject) {
+        
+        EAAgent *agent = [EAAgent agentByParsingDictionary:responseObject];
+        completionBlock(agent, nil);
+        
+    } failure:^(NSURLSessionDataTask *task, NSError *error) {
+        completionBlock(nil, error);
+    }];
 }
 
 -(void)retrieveMetaworkflowWithID:(int)metaworkflowID completionBlock:(void (^)(EAMetaworkflow *, NSError *))completionBlock
@@ -511,7 +574,41 @@ NSString* const EATaskUpdate = @"EATaskUpdate";
     } failure:^(NSURLSessionDataTask *task, NSError *error) {
         completionBlock(nil, error);
     }];
+    
+}
 
+-(void)retrieveTaskWithID:(int)taskID completionBlock:(void (^) (EATask* task, NSError *error))completionBlock
+{
+    
+    NSDictionary *parameters = @{@"id" : @(taskID)};
+    
+    [self.easeServerManager GET:@"startcondition/" parameters:parameters success:^(NSURLSessionDataTask *task, NSDictionary* responseObject) {
+        
+        [EATask taskByParsingSearchDictionary:responseObject fromWorkflow:nil completion:^(EATask *task) {
+            completionBlock(task, nil);
+
+        }];
+        
+    } failure:^(NSURLSessionDataTask *task, NSError *error) {
+        completionBlock(nil, error);
+    }];
+
+}
+
+-(void)retrieveWorkflowIDWithTaskID:(int)taskID completionBlock:(void (^) (int workflowID, NSError *error))completionBlock
+{
+    
+    NSDictionary *parameters = @{@"id" : @(taskID)};
+    
+    [self.easeServerManager GET:@"subtask/" parameters:parameters success:^(NSURLSessionDataTask *task, NSDictionary* responseObject) {
+        
+        completionBlock( ((NSNumber*)responseObject[@"workflow"][@"id"]).intValue, nil);
+        
+    } failure:^(NSURLSessionDataTask *task, NSError *error) {
+        completionBlock(0, error);
+    }];
+
+    
 }
 
 -(void)validateWorkflow:(EAWorkflow*)workflow completionBlock:(void (^)  (NSError *error)) completionBlock
@@ -544,7 +641,7 @@ NSString* const EATaskUpdate = @"EATaskUpdate";
         completionBlock(nil);
     });
     
-   
+    
 }
 
 -(void)tasksAtDay:(NSDate*)date completionBlock:(void (^) (EASearchResults *, NSError *)) completionBlock
@@ -552,23 +649,23 @@ NSString* const EATaskUpdate = @"EATaskUpdate";
     
     NSDictionary *parameters = @{@"day" : date.description};
     
-   [self.easeServerManager POST:@"subtask/test" parameters:parameters success:^(NSURLSessionDataTask *task, NSArray* responseObject) {
-       
-       if (responseObject.count == 0)
-           completionBlock(nil, nil);
-       
-     
-       
-       [EASearchResults searchResultsByParsingSearchDictionary:responseObject completion:^(EASearchResults *searchResult) {
-           completionBlock(searchResult, nil);
-       }];
-       
-       
-   } failure:^(NSURLSessionDataTask *task, NSError *error) {
-      
-       
-       
-   }];
+    [self.easeServerManager POST:@"subtask/test" parameters:parameters success:^(NSURLSessionDataTask *task, NSArray* responseObject) {
+        
+        if (responseObject.count == 0)
+            completionBlock(nil, nil);
+        
+        
+        
+        [EASearchResults searchResultsByParsingSearchDictionary:responseObject completion:^(EASearchResults *searchResult) {
+            completionBlock(searchResult, nil);
+        }];
+        
+        
+    } failure:^(NSURLSessionDataTask *task, NSError *error) {
+        
+        
+        
+    }];
 }
 
 -(void)workflowsAtDay:(NSDate*)date completionBlock:(void (^) (NSArray *workflows)) completionBlock
@@ -626,7 +723,7 @@ NSString* const EATaskUpdate = @"EATaskUpdate";
     workflowTest.tasks = @[task1, task2, task3, task4, task5];
     workflowTest.color = colors[arc4random()%5];
     workflowTest.metaworkflow = [EAMetaworkflow metaworkflowByParsingDictionary:@{@"title": @"Poulet Curry", @"imageURL" : @"http://www.supermarchesmatch.fr/userfiles/images/Poulet%20au%20curry.jpg"}];
-
+    
     dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(1.0 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
         
         

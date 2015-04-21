@@ -45,7 +45,6 @@
 
 @property (strong, nonatomic) IBOutlet UIBarButtonItem *modeSwitchButton;
 
-- (IBAction)createWorkflow:(id)sender;
 
 - (IBAction)switchMode:(id)sender;
 

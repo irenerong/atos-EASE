@@ -46,9 +46,8 @@
         
         _predecessors = dictionary[@"predecessors"];
         
-        EAAgent *agent = [[EAAgent alloc] init];
-        agent.agentID = ((NSString*)dictionary[@"agentID"]).intValue;
-        
+        _agentID = ((NSString*)dictionary[@"agent"]).intValue;
+
         NSDate *beginTime = [NSDate dateByParsingJSString:dictionary[@"beginTime"]];
         float duration =  ((NSString*)dictionary[@"duration"]).intValue;
         NSDate *endTime = [beginTime dateByAddingTimeInterval:duration*60];
@@ -76,17 +75,12 @@
         _taskID = ((NSString*)dictionary[@"id"]).intValue;
         
         
-        if ([dictionary[@"status"] isEqualToString:@"working"])
-            self.status = EATaskStatusWorking;
-        else if ([dictionary[@"status"] isEqualToString:@"waiting"])
-            self.status = EATaskStatusWaiting;
-        else if ([dictionary[@"status"] isEqualToString:@"pending"])
-            self.status = EATaskStatusPending;
+        
+    [self stringToStatus:dictionary[@"status"]];
         
         int startConditionID = ((NSString*)dictionary[@"startCondition"]).intValue;
         
-        EAAgent *agent = [[EAAgent alloc] init];
-        agent.agentID = ((NSString*)dictionary[@"agentID"]).intValue;
+        _agentID = ((NSString*)dictionary[@"agent"]).intValue;
         
         [[EANetworkingHelper sharedHelper] retrieveStartConditionWithID:startConditionID completionBlock:^(NSDictionary *startCondition, NSError *error) {
            
@@ -108,9 +102,21 @@
         
         
         
+        
+        
     }
     return self;
 
+}
+
+-(void)stringToStatus:(NSString*)string
+{
+    if ([string isEqualToString:@"start"])
+        self.status = EATaskStatusWorking;
+    else if ([string isEqualToString:@"waiting"])
+        self.status = EATaskStatusWaiting;
+    else if ([string isEqualToString:@"pending"])
+        self.status = EATaskStatusPending;
 }
 
 -(void)updateWithTask:(EATask*)task
@@ -119,5 +125,16 @@
     _dateInterval = task.dateInterval;
     _status = task.status;
 }
+
+-(void)updateWithFeedback:(NSDictionary*)feedback
+{
+    if (feedback[@"status"])
+        [self stringToStatus:feedback[@"status"]];
+    
+    if (feedback[@"timeLeft"])
+        _timeLeft = ((NSNumber*)feedback[@"timeLeft"]).intValue;
+
+}
+
 
 @end

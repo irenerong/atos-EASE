@@ -81,17 +81,18 @@
 -(UITableViewCell*)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     
     
-    NSArray *menuItems = @[@"New Workflow", @"Dashboard", @"Calendar", @"Tasks"];
+    NSArray *menuItems = @[@"Dashboard", @"Calendar", @"Tasks", @"Settings"];
     UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"cell"];
     
-    cell.textLabel.font = [UIFont fontWithName:@"HelveticaNeue" size:18];
+    cell.textLabel.font = [UIFont fontWithName:@"HelveticaNeue-Medium" size:18];
     cell.textLabel.text = menuItems[indexPath.row];
     //cell.textLabel.textAlignment = NSTextAlignmentCenter;
 
     cell.textLabel.highlightedTextColor = [UIColor lightGrayColor];
+    
     cell.selectedBackgroundView = [UIView new];
     
-    cell.textLabel.textColor = [UIColor colorWithWhite:100/255. alpha:1.];
+    cell.textLabel.textColor = [UIColor colorWithWhite:1 alpha:1.];
     
     
     
@@ -106,17 +107,14 @@
     [tableView deselectRowAtIndexPath:indexPath animated:NO];
     switch (indexPath.row) {
         
-        case 0:
-                    [self showViewController:[self.storyboard instantiateViewControllerWithIdentifier:@"workflowViewController"] sender:self];
-            break;
-            
-        case 2:
+  
+        case 1:
             [self.sideMenuViewController setContentViewController:[self.storyboard instantiateViewControllerWithIdentifier:@"calendarViewController"]
                                                          animated:YES];
             [self.sideMenuViewController hideMenuViewController];
 
             break;
-        case 3:
+        case 2:
             [self.sideMenuViewController setContentViewController:[self.storyboard instantiateViewControllerWithIdentifier:@"notificationsViewController"]
                                                          animated:YES];
             [self.sideMenuViewController hideMenuViewController];

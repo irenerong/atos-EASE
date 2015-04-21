@@ -33,6 +33,7 @@
     buttons = [NSMutableArray array];
     
     
+    
     self.backgroundColor = [UIColor whiteColor];
     
     
@@ -152,7 +153,7 @@
     }
     if (self.task.status == EATaskStatusWorking)
     {
-        self.statusLabel.text = [NSString stringWithFormat:@"%@ (%d%%)", self.task.textStatus, (int)(100*self.task.completionPercentage)];
+        self.statusLabel.text = [NSString stringWithFormat:@"Working (%d%%)", (int)(100*self.task.completionPercentage)];
         self.endLabel.textColor = color;
         [self.progressBar setProgress: self.task.completionPercentage animated:NO];
 
@@ -169,7 +170,21 @@
 -(void)updateDate
 {
     if (_task)
-    self.timeStatusLabel.text = [NSDate lateFromDate:self.task.dateInterval.startDate];
+    {
+        
+        if (_task.status == EATaskStatusWorking)
+        {
+            
+            self.timeStatusLabel.text = [NSString stringWithFormat:@"%@ left",[NSDate timeLeftMessage:_task.timeLeft]];
+
+        }
+        else if (_task.status == EATaskStatusPending)
+        {
+            self.timeStatusLabel.text = [NSDate lateFromDate:self.task.dateInterval.startDate];
+
+        }
+
+    }
 
 }
 

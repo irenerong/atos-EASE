@@ -10,7 +10,8 @@
 
 @interface EASearchSortTableViewController : UITableViewController
 
+-(void)setSortBy:(NSString*)string;
 
-@property(nonatomic, readwrite) int sortIndex;
+-(NSString*)sortBy;
 
 @end

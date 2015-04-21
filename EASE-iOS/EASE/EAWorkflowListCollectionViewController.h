@@ -18,7 +18,7 @@
 #import "EANetworkingHelper.h"
 
 #import "EASearchResults.h"
-
+#import "EASearchSortTableViewController.h"
 
 @protocol EAWorkflowListDelegate <NSObject>
 
@@ -35,9 +35,13 @@
 
 
 @property(nonatomic, strong) EASearchResults *searchResults;
+
+
+
 @property(nonatomic, readwrite) int totalNumberOfWorkflows;
 
 @property(nonatomic, weak) id <EAWorkflowListDelegate> delegate;
+
 
 - (IBAction)cancel:(id)sender;
 

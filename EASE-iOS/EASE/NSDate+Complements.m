@@ -27,13 +27,30 @@
     
     BOOL late = false;
     
-    NSString *string = @"";
     
     if (timeInterval < 0)
     {
         late = true;
         timeInterval *= -1;
     }
+    
+    
+    NSString *string = [NSDate timeLeftMessage:timeInterval];
+
+    
+    if (late)
+        string = [NSString stringWithFormat:@"%@ late", string];
+    
+    else
+        string = [NSString stringWithFormat:@"In %@", string];
+    
+    return string;
+    
+}
+
++(NSString*)timeLeftMessage:(NSTimeInterval)timeInterval
+{
+    NSString *string = @"";
     
     timeInterval /= 60;
     
@@ -51,16 +68,8 @@
     if (hours != 0)
         string = [string stringByAppendingFormat:@"%dh ", hours];
     
-    string = [string stringByAppendingFormat:@"%dm", minutes];
-
-    
-    if (late)
-        string = [NSString stringWithFormat:@"%@ late", string];
-    
-    else
-        string = [NSString stringWithFormat:@"In %@", string];
-    
-    return string;
+    return  [string stringByAppendingFormat:@"%dm", minutes];
+ 
     
 }
 

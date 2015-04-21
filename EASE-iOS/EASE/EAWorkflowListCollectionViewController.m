@@ -92,6 +92,7 @@ static NSString * const reuseIdentifier = @"Cell";
     if (self.isViewLoaded)
     {
         [self.collectionView reloadData];
+        
     }
 }
 
@@ -105,6 +106,12 @@ static NSString * const reuseIdentifier = @"Cell";
     
     if ([segue.identifier isEqualToString:@"SortFilter"])
     {
+        
+        EASearchSortTableViewController *vc = segue.destinationViewController;
+        
+        vc.sortBy = self.searchResults.constraints[@"sortBy"];
+        
+        
         MZFormSheetSegue *formSheetSegue = (MZFormSheetSegue *)segue;
         
         MZFormSheetController *formSheet = formSheetSegue.formSheetController;
@@ -119,7 +126,21 @@ static NSString * const reuseIdentifier = @"Cell";
         
         formSheet.willDismissCompletionHandler = ^(UIViewController *presentedFSViewController) {
             
-            NSLog(@"Dismiss");
+
+            if (![vc.sortBy isEqualToString:self.searchResults.constraints[@"sortBy"]])
+            {
+                
+                NSMutableDictionary *constraints = [NSMutableDictionary dictionaryWithDictionary:self.searchResults.constraints];
+                
+                constraints[@"sortBy"] = vc.sortBy;
+                
+                [[EANetworkingHelper sharedHelper] searchWorkflowsWithConstraints:constraints completionBlock:^(int totalNumberOfWorkflows, EASearchResults *searchResults, NSError *error) {
+                   
+                    
+                    self.searchResults = searchResults;
+                    
+                }];
+            }
             
         };
         

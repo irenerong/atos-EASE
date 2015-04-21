@@ -164,7 +164,7 @@ function taskDone(){
 	io.socket.post('/subTask/finish/', {agentID:1, subTask: currentTask});
 }
 function reportStatus(){
-	io.socket.post('/agent/currentStatus', {subTask:currentTask, timeLeft:timeLeft})
+	io.socket.post('/agent/currentStatus', {subTask:currentTask, timeLeft:timeLeft*60})
 }
 </script>
 </body>

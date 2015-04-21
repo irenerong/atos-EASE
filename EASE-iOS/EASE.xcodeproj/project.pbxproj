@@ -20,6 +20,8 @@
 		312988061AC8644F00036504 /* EAUser.m in Sources */ = {isa = PBXBuildFile; fileRef = 312988051AC8644F00036504 /* EAUser.m */; };
 		313078141A89213B0080E17B /* EAWorkflowInfosViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 313078131A89213B0080E17B /* EAWorkflowInfosViewController.m */; };
 		313893F01A8AB34400D0AF11 /* EASearchTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 313893EF1A8AB34400D0AF11 /* EASearchTableViewController.m */; };
+		314113431AE6D6ED00C30FF2 /* EATasksMasterTabViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 314113421AE6D6ED00C30FF2 /* EATasksMasterTabViewController.m */; };
+		314113461AE6D88200C30FF2 /* UITabBarItem+CustomBadge.m in Sources */ = {isa = PBXBuildFile; fileRef = 314113451AE6D88200C30FF2 /* UITabBarItem+CustomBadge.m */; };
 		3146E6B41A80E2160072FC99 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 3146E6B31A80E2160072FC99 /* main.m */; };
 		3146E6B71A80E2160072FC99 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 3146E6B61A80E2160072FC99 /* AppDelegate.m */; };
 		3146E6BA1A80E2160072FC99 /* EAWorkflowViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 3146E6B91A80E2160072FC99 /* EAWorkflowViewController.m */; };
@@ -88,6 +90,10 @@
 		313078131A89213B0080E17B /* EAWorkflowInfosViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EAWorkflowInfosViewController.m; sourceTree = "<group>"; };
 		313893EE1A8AB34400D0AF11 /* EASearchTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EASearchTableViewController.h; sourceTree = "<group>"; };
 		313893EF1A8AB34400D0AF11 /* EASearchTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EASearchTableViewController.m; sourceTree = "<group>"; };
+		314113411AE6D6ED00C30FF2 /* EATasksMasterTabViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EATasksMasterTabViewController.h; sourceTree = "<group>"; };
+		314113421AE6D6ED00C30FF2 /* EATasksMasterTabViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EATasksMasterTabViewController.m; sourceTree = "<group>"; };
+		314113441AE6D88200C30FF2 /* UITabBarItem+CustomBadge.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UITabBarItem+CustomBadge.h"; sourceTree = "<group>"; };
+		314113451AE6D88200C30FF2 /* UITabBarItem+CustomBadge.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UITabBarItem+CustomBadge.m"; sourceTree = "<group>"; };
 		3146E6AE1A80E2160072FC99 /* EASE.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = EASE.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		3146E6B21A80E2160072FC99 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		3146E6B31A80E2160072FC99 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
@@ -203,6 +209,8 @@
 		311734AF1A87E68A006B2B39 /* Workflow List Viewer */ = {
 			isa = PBXGroup;
 			children = (
+				31A7509D1A8F3FDA00FF0E7C /* EASearchSortTableViewController.h */,
+				31A7509E1A8F3FDA00FF0E7C /* EASearchSortTableViewController.m */,
 				311734A61A87E265006B2B39 /* EAWorkflowListCollectionViewController.h */,
 				311734A71A87E265006B2B39 /* EAWorkflowListCollectionViewController.m */,
 				311734B51A87E6E7006B2B39 /* Cell */,
@@ -267,8 +275,6 @@
 				3198601F1AE283580057D9E0 /* EASearchPopupViewController.m */,
 				313893EE1A8AB34400D0AF11 /* EASearchTableViewController.h */,
 				313893EF1A8AB34400D0AF11 /* EASearchTableViewController.m */,
-				31A7509D1A8F3FDA00FF0E7C /* EASearchSortTableViewController.h */,
-				31A7509E1A8F3FDA00FF0E7C /* EASearchSortTableViewController.m */,
 			);
 			name = Search;
 			sourceTree = "<group>";
@@ -334,6 +340,8 @@
 		3146E6D71A80E54D0072FC99 /* UI */ = {
 			isa = PBXGroup;
 			children = (
+				314113441AE6D88200C30FF2 /* UITabBarItem+CustomBadge.h */,
+				314113451AE6D88200C30FF2 /* UITabBarItem+CustomBadge.m */,
 				3146E6BB1A80E2160072FC99 /* Main.storyboard */,
 				3146E6BE1A80E2160072FC99 /* Images.xcassets */,
 				3146E6C01A80E2160072FC99 /* LaunchScreen.xib */,
@@ -401,6 +409,8 @@
 		319CCBCD1AA66ED000567C14 /* Tasks */ = {
 			isa = PBXGroup;
 			children = (
+				314113411AE6D6ED00C30FF2 /* EATasksMasterTabViewController.h */,
+				314113421AE6D6ED00C30FF2 /* EATasksMasterTabViewController.m */,
 				31A2A46B1AAC7D9B00C0F77F /* EATaskCell.xib */,
 				31BA9A631AA47E14005D4E22 /* EATasksViewController.h */,
 				31BA9A641AA47E14005D4E22 /* EATasksViewController.m */,
@@ -672,6 +682,7 @@
 				312988031AC861F700036504 /* EAIngredient.m in Sources */,
 				3113A8521A82373D00E972F3 /* EAWorkflowDateScrollView.m in Sources */,
 				3146E6DB1A80E57A0072FC99 /* EAWorkflow.m in Sources */,
+				314113431AE6D6ED00C30FF2 /* EATasksMasterTabViewController.m in Sources */,
 				316DBF471A8CB15800828BE2 /* EANetworkingHelper.m in Sources */,
 				311915BC1AA510BB00DD4EDF /* EATaskCollectionViewCell.m in Sources */,
 				317622DA1AA875CD00B406CD /* EAWorkingTasksViewController.m in Sources */,
@@ -682,6 +693,7 @@
 				311734A81A87E265006B2B39 /* EAWorkflowListCollectionViewController.m in Sources */,
 				31810DA71ADAD57600400F6D /* NSMutableArray+Flags.m in Sources */,
 				3146E6BA1A80E2160072FC99 /* EAWorkflowViewController.m in Sources */,
+				314113461AE6D88200C30FF2 /* UITabBarItem+CustomBadge.m in Sources */,
 				3146E6ED1A8165060072FC99 /* EAWorkflowTaskCollectionViewCell.m in Sources */,
 				31C02CF61AD2F22F00D4A915 /* EASearchResults.m in Sources */,
 				312988061AC8644F00036504 /* EAUser.m in Sources */,

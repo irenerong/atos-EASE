@@ -10,7 +10,27 @@
 
 @implementation EAAgent
 
++(EAAgent*)agentByParsingDictionary:(NSDictionary*)responseObject
+{
+    return [[EAAgent alloc] initByParsingDictionary:responseObject];
+}
 
+-(instancetype)initByParsingDictionary:(NSDictionary*)responseObject
+{
+    if (self = [super init])
+    {
+        
+        _agentID = ((NSNumber*)responseObject[@"id"]).intValue;
+        _type = responseObject[@"agentType"];
+        _name = responseObject[@"agentName"];
+
+        
+        
+    }
+    
+    return self;
+    
+}
 
 @end
 

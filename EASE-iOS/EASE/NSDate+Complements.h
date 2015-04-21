@@ -16,4 +16,6 @@
 
 +(NSString*)lateFromDate:(NSDate*)date;
 
++(NSString*)timeLeftMessage:(NSTimeInterval)timeInterval;
+
 @end

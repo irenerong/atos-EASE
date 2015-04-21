@@ -32,7 +32,7 @@
     self.progressBar.hideGloss = YES;
     
     [NSTimer scheduledTimerWithTimeInterval:60 target:self selector:@selector(updateDate) userInfo:nil repeats:true];
- [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(taskUpdate:) name:EATaskUpdate object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(taskUpdate:) name:EATaskUpdate object:nil];
 }
 
 
@@ -54,16 +54,18 @@
         
         UIColor *color = self.task.workflow.color;
         
-        self.agentNameBackgroundView.backgroundColor = [color colorWithAlphaComponent:1];
-        self.workflowTitleBackgroundView.backgroundColor = color;
+        self.agentNameBackgroundView.backgroundColor = color;
+        
+        self.workflowTitleBackgroundView.backgroundColor = [UIColor whiteColor];
         
         self.workflowTitleLabel.text = _task.workflow.title;
         self.taskNameLabel.text = _task.title;
         
         self.agentNameLabel.textColor = [UIColor whiteColor];
-        self.workflowTitleLabel.textColor = [UIColor whiteColor];
-        self.taskNameLabel.textColor = [UIColor colorWithWhite:180/255. alpha:1.0];
+        self.workflowTitleLabel.textColor = color;
+        self.taskNameLabel.textColor = [UIColor whiteColor];
         
+        self.taskNameBackgroundView.backgroundColor = color;
         self.agentNameBackgroundView.layer.masksToBounds = false;
         self.agentNameBackgroundView.layer.shadowOffset = CGSizeMake(0, -2);
         self.agentNameBackgroundView.layer.shadowOpacity = 0.2;
@@ -94,6 +96,15 @@
         
         self.progressBar.progressTintColors = @[color, color];
         
+        
+        NSMutableAttributedString *agentsString = [[NSMutableAttributedString alloc] initWithString:[NSString stringWithFormat:@" %@\n", _task.agent.name] attributes:@{NSFontAttributeName: [UIFont fontWithName:@"HelveticaNeue-Bold" size:13]}];
+        
+        [agentsString appendAttributedString:[[NSAttributedString alloc] initWithString:_task.agent.type attributes:@{NSFontAttributeName: [UIFont fontWithName:@"HelveticaNeue" size:13]}]];
+        
+        self.agentNameLabel.attributedText = agentsString;
+
+        
+
         
         NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
         dateFormatter.timeStyle = NSDateFormatterShortStyle;
@@ -155,7 +166,8 @@
         
         if (_task.status == EATaskStatusWorking)
         {
-           
+            self.statusLabel.text = @"Working";
+
         }
         
         if (_task.status == EATaskStatusPending)
@@ -166,7 +178,7 @@
         }
         if (_task.status == EATaskStatusWorking)
         {
-            self.statusLabel.text = [NSString stringWithFormat:@"%@ (%d%%)", self.task.textStatus, (int)(100*self.task.completionPercentage)];
+            self.statusLabel.text = [NSString stringWithFormat:@"Working (%d%%)",  (int)(100*self.task.completionPercentage)];
             self.progressBar.progress = self.task.completionPercentage;
             
         }
@@ -177,7 +189,21 @@
 -(void)updateDate
 {
     if (_task)
-        self.timeStatusLabel.text = [NSDate lateFromDate:self.task.dateInterval.startDate];
+    {
+        
+        if (_task.status == EATaskStatusWorking)
+        {
+            
+            self.timeStatusLabel.text = [NSString stringWithFormat:@"%@ left",[NSDate timeLeftMessage:_task.timeLeft]];
+            
+        }
+        else if (_task.status == EATaskStatusPending)
+        {
+            self.timeStatusLabel.text = [NSDate lateFromDate:self.task.dateInterval.startDate];
+            
+        }
+        
+    }
     
 }
 
@@ -214,6 +240,14 @@
 -(void)taskUpdate:(NSNotification*)notification
 {
     
+    if (!_task)
+        return;
+    int taskID = ((NSNumber*)notification.userInfo[@"id"]).intValue;
+    
+    if (taskID == _task.taskID)
+        [_task updateWithFeedback:notification.userInfo];
+    
+    self.task = _task;
 }
 
 /*

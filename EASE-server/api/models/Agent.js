@@ -16,6 +16,11 @@ module.exports = {
   	agentType : {
   		type: 'string'
   	}, 
+
+    agentName : {
+      type: 'string'
+    },
+
     subTaskInProgess : {
       type : 'integer',
       defaultsTo : null

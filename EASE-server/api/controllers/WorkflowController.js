@@ -162,6 +162,17 @@ module.exports = {
 
 			})
 
+	},
+	getWorkingTask: function(req,res){
+		SubTask.find({status:'start'}).exec(
+			function (err,workings){
+				if(err){
+					res.json({error: 'probleme with getworking'})
+				}
+				res.json({working:workings});
+
+			})
+
 	}
 
 

@@ -110,12 +110,15 @@
 
 -(int)availableAgents
 {
-    int nb = 0;
-    for (EAAgent *agent in _agents)
-        nb+=(agent.name != nil);
-    
-    return nb;
 
+
+    return self.agents.count;
+
+}
+
+-(int)availableUsers
+{
+    return self.users.count;
 }
 
 -(EADateInterval*)dateInterval
@@ -177,6 +180,18 @@
     return array;
 }
 
+-(NSArray*)workingTasks
+{
+    NSMutableArray *array = [NSMutableArray array];
+    
+    for (EATask *task in self.tasks)
+        if (task.status == EATaskStatusWorking)
+            [array addObject:task];
+    
+    return array;
+}
+
+
 -(void)updateWithWorkflow:(EAWorkflow*)workflow
 {
     _isValidated = workflow.isValidated;
@@ -205,5 +220,37 @@
     }
     
 }
+
+-(NSArray*)agents
+{
+    
+    NSMutableArray *agents = [NSMutableArray array];
+    
+    for (EATask *task in self.tasks)
+    {
+        if (![task.agent.type isEqualToString:@"user"] && ![agents containsObject:task.agent])
+            [agents addObject:task.agent];
+    }
+    
+    return agents;
+    
+}
+
+-(NSArray*)users
+{
+    
+    NSMutableArray *agents = [NSMutableArray array];
+    
+    for (EATask *task in self.tasks)
+    {
+        if ([task.agent.type isEqualToString:@"user"] && ![agents containsObject:task.agent])
+            [agents addObject:task.agent];
+    }
+    
+    return agents;
+    
+}
+
+
 
 @end
