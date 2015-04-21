@@ -33,7 +33,7 @@ p {
 <body>
 <div id= "incoming-chat-window"></div>
 <p class="results" id = "time"></p>
-<h2>EASE-Oven KO883-eco</h2>
+<h2 id="title">EASE-Oven KO883-eco</h2>
 <img id = "oven" src="images/off.jpg" width = "300" height = "250">
 
 <div>
@@ -52,6 +52,9 @@ var timeLeft = 0;
 var free = true;
 var continueTask = false;
 var currentTask;
+var action;
+var currentStatus="free";
+
 if(timeLeft == 0)
 	document.querySelector('.results').innerHTML = "I am free";
 else
@@ -78,6 +81,7 @@ io.socket.on('youcanstart', function (res){
 	console.log("i can start")
 	timeLeft = res.duration;
 	currentTask = res.subTaskID;
+	action = res.action;
 	launch();
 });
 
@@ -97,20 +101,26 @@ function myTimer() {
 	var element = document.getElementById("time");
 		if (timeLeft > 0) {
 			timeLeft = timeLeft-1; 
+			reportStatus();
 			// console.log("leftTime is " + timeLeft)
 			element.innerHTML ="There is "+timeLeft + " mins left for the current task";
 			}
 		else {
 			element.innerHTML ="Task finished, I am free again :)";
+			var ele1 = document.getElementById("title")
+			ele1.innerHTML = "EASE-Oven KO883-eco";
 		  	changePic();
 		  	clearInterval(myVar);
 		  	free = true;
+		  	currentStatus = "free";
 		  	taskDone();
 		  	return;
 		}
 }
 function turnOn(){
 	var element = document.getElementById("time");
+	var ele1 = document.getElementById("title")
+	ele1.innerHTML = action + " in progress :)"
 	if(free || continueTask){
 		var img = document.getElementById("oven");
 		img.src="images/on.jpg";
@@ -126,6 +136,8 @@ function turnOn(){
 	else{
 		element.innerHTML = "I am working man! "
 	}
+	currentStatus = "busy";
+
 }
 function changePic(){
 	var img = document.getElementById("oven");
@@ -151,7 +163,9 @@ function tl(){
 function taskDone(){
 	io.socket.post('/subTask/finish/', {agentID:1, subTask: currentTask});
 }
-
+function reportStatus(){
+	io.socket.post('/agent/currentStatus', {subTask:currentTask, timeLeft:timeLeft})
+}
 </script>
 </body>
 </html>

@@ -53,9 +53,16 @@ module.exports = {
 						
 						SubTask.watch(req);
 						Workflow.watch(req);
-						
-						req.session.socketID = sails.sockets.id(req.socket);
-						res.json('OKAY :D');
+						SubTask.find({status:{'!':'finish'}}).exec(
+						function(err, subtasks){
+							if (err) console.log(err);
+							else{SubTask.subscribe(req,subtasks);}
+							
+						}
+						)						
+
+						req.session.IOSsocketID = sails.sockets.id(req.socket);
+						res.json('OKAY :D'+req.session.IOSsocketID+' is connected');
 		}
 	},
 

@@ -32,11 +32,13 @@ module.exports = {
 
   		}
   		else if (this.type == 'wait') {
-  			var query = "SELECT COUNT(*) AS C FROM SubTask JOIN startcondition_waitFor__subtask_nextstartconditions ON subtask.id = startcondition_waitFor__subtask_nextstartconditions.startcondition_waitFor WHERE status = 'finish' AND subtask_nextstartconditions =" + this.id
+        console.log('startcondition ID '+this.id);
+  			var query = "SELECT COUNT(*) AS C FROM SubTask JOIN startcondition_waitFor__subtask_nextstartconditions ON subtask.id = startcondition_waitFor__subtask_nextstartconditions.startcondition_waitFor WHERE status <> 'finish' AND subtask_nextstartconditions =" + this.id
   			StartCondition.query(query, 
 
   				function (err, rows) {
   					if (err) {
+              console.log(err)
   						return cb(false)
   					}
             console.log('need to wait for '+rows[0].C+'of task');

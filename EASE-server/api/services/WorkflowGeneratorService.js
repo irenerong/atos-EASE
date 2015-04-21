@@ -115,7 +115,7 @@ module.exports = {
 
 					function (task, cb2)
 					{	
-						console.log(task);
+						//console.log(task);
 						task.getSubtasks(function (err) {cb2(err)})
 					}, 
 
@@ -252,7 +252,8 @@ module.exports = {
 
 								    subtask.beginTime= 0
 								    subtask.agentID=onetask.agentID
-								    subtask.action= onetask.action
+								    subtask.action= workflow.paths[i][j].subtasks[k].action.action
+								    console.log(subtask.action);
 								    subtask.consumption=workflow.paths[i][j].subtasks[k].consumption
 								    subtask.duration=Math.round(workflow.paths[i][j].subtasks[k].consumption.time)
 								    subtask.metatask=workflow.paths[i][j].subtasks[k].metatask;
@@ -263,7 +264,7 @@ module.exports = {
 
 							}
 
-							//console.log(ae);
+							console.log(ae);
 
 							var res2=arrangeTimeNew.whatTheFuck(ae);
 

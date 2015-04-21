@@ -25,7 +25,10 @@ module.exports = {
       defaultsTo : [] 
 
     },
-
+    status : {
+      type: 'string',
+      defaultsTo : 'free'
+    },
     // timeLeft : {
     //   type: 'integer'
     // },
@@ -76,7 +79,7 @@ module.exports = {
   	}, 
 
     isAvailable: function (cb) {
-      var query = "SELECT COUNT(*) AS C FROM SubTask WHERE status = 'working' AND agent = " + this.id
+      var query = "SELECT COUNT(*) AS C FROM SubTask WHERE status = 'start' AND agent = " + this.id
       Agent.query(query, 
 
         function(err, rows) {
