@@ -62,7 +62,7 @@ module.exports = {
 						)						
 
 						req.session.IOSsocketID = sails.sockets.id(req.socket);
-						res.json('OKAY :D');
+						res.json('OKAY :D'+req.session.IOSsocketID+' is connected');
 		}
 	},
 

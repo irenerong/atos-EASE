@@ -28,7 +28,7 @@ module.exports = {
     status : {
       type: 'string',
       defaultsTo : 'free'
-    }
+    },
     // timeLeft : {
     //   type: 'integer'
     // },

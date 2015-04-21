@@ -53,7 +53,7 @@ module.exports = {
 
     },
     finish: function() {
-      console.log("dans finish")
+      console.log("in finish")
       SubTask.update({id:this.id},{status:'finish'}).exec(function (err,updateds){
         if (err) console.log(err);
             SubTask.publishUpdate(updateds[0].id,{ status:updateds[0].status });
@@ -70,7 +70,7 @@ module.exports = {
                 SubTask.update({id:st2.id},{status:'pending'}).exec(function(err,updateds){
                   if (err) console.log(err)
                     else{
-                      SubTask.publishUpdate( updateds[0].id);
+                      SubTask.publishUpdate( updateds[0].id,{status: updateds[0].status});
                       //socket reveived pending ,and subtask should be passed in to the window pending in application
                     }
 
@@ -189,7 +189,7 @@ module.exports = {
     Subtask.update({id:id},{status:'finish'}).exec(function (err, subtasks) {
 
       console.log("subtask "+subtasks[0].id+" is finish");
-      SubTask.publishUpdate(subtasks[0].id);
+      SubTask.publishUpdate(subtasks[0].id,{status:subtasks[0].status});
 
     })
   }

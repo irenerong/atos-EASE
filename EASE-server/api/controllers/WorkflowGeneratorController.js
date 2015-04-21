@@ -114,7 +114,7 @@ module.exports = {
          SubTask.update({id:st.id},{status:'pending'}).exec(function(err,updateds){
                   if (err) console.log(err)
                     else{
-                      SubTask.publishUpdate( updateds[0].id);
+                      SubTask.publishUpdate( updateds[0].id,{status:updateds[0].status});
 
                       cb(null);
                       //socket reveived pending ,and subtask should be passed in to the window pending in application
