@@ -32,7 +32,7 @@ module.exports = {
 				})
 		}
 	},
-	test : function(req, res){
+	getAllSubTasks : function(req, res){
 		params = req.params.all();
 		if (req.method === 'POST'){
 			

@@ -266,7 +266,7 @@ module.exports = {
 
 							console.log(ae);
 
-							var res2=arrangeTimeNew.whatTheFuck(ae);
+							var res2=arrangeTimeNew.reconstitute(ae);
 
 							//console.log(res2);
 
