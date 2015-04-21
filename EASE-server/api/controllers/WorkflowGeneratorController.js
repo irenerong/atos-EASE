@@ -42,9 +42,7 @@ module.exports = {
           function (cb) {
             console.log('generating subtasks');
             //console.log(subtasks);
-            WFC.createSubtask(workflow, subtasks);
-
-            setTimeout(function(){cb(err,workflow)},300);
+            WFC.createSubtask(workflow, subtasks, function(){cb(err,workflow)});
           },
           function(workflow,cb){
             //console.log('1 the number of workflow is '+workflow.id)
@@ -82,27 +80,28 @@ module.exports = {
 
   },
 
-  createSubtask :function (wf, subtasks){
+  createSubtask :function (wf, subtasks,callback){
    // console.log(subtasks);
     var WFC=this;
-    subtasks.forEach(function(subtask,i,a){
-
-      SubTask.create({workflow:wf.id, waitforID:subtask.predecessor, taskID:subtask.subTask, metatask:subtask.metatask,
+    async.each(subtasks,function(subtask,cb){
+     SubTask.create({workflow:wf.id, waitforID:subtask.predecessor, taskID:subtask.subTask, metatask:subtask.metatask,
         agent: subtask.agentID, action: subtask.action, consumption: subtask.consumption, duration:subtask.duration,timeLeft:subtask.duration}).exec(
          // after create subtask , il faut creer son startcondition
          function(err,st){
           SubTask.publishCreate(st);
           //console.log('st'+JSON.stringify(st,null,4));
           //console.log('subtask'+ JSON.stringify(subtask,null,4));
-          WFC.createStartCondition(st,subtask); 
-         }
+          WFC.createStartCondition(st,subtask,function(){cb(null)}); 
+         })
+      },function(err){
 
-        )
+        callback();
 
-    })
+      })
+
   },
 
-  createStartCondition: function(st,subtask){
+  createStartCondition: function(st,subtask,callback){
 
     var type = 'wait'; // for subtask with precedors
     async.waterfall([function(cb){
@@ -135,6 +134,7 @@ module.exports = {
       //SubTask.update(st.id,{startCondition:start.id}).exec()
       SubTask.update(st.id,{startCondition:start.id}).populate('startCondition').exec(function (err,update){
         SubTask.publishUpdate(update[0].id,{startcondition:update[0].startCondition});
+        callback()
       }
 
       )
@@ -166,7 +166,7 @@ module.exports = {
                     
                   },
                   function(err){
-                    //console.log(waitFors)
+                    console.log(waitforlist);
                     cb2(null,waitforlist);
                   });
 
@@ -180,7 +180,7 @@ module.exports = {
                         startcon.waitFor.add(waitforlist.pop());
                         startcon.save(function(err){});
                       }
-                   // console.log(startcon);
+                   console.log(startcon);
                       
                       cb2(null);
                     })}
@@ -288,7 +288,16 @@ module.exports = {
     async.waterfall([
         function (cb2) {
           //Create the metaworkflow and link it to the ticket ++add ingredient
-          Metaworkflow.create({intent : intent ,title: metaworkflow.title, ticket: ticketID, ingredient: metaworkflow.ingredient}).exec(function (err, metaworkflowCreated) {cb2(err, metaworkflowCreated)})
+          Metaworkflow.create({intent : intent ,title: metaworkflow.title, ticket: ticketID}).exec(function (err, metaworkflowCreated) {
+            async.each(metaworkflow.ingredient,
+              function(ingredient,cb3){
+                  Ingredient.create({name:ingredient.name, quantity:ingredient.quantity, unit:ingredient.unit,metaworkflow:metaworkflowCreated.id}).exec(function(err,ingre){cb3(null)});
+              },
+              function(err){cb2(err, metaworkflowCreated)})
+          })
+          
+
+            
 
         },
 

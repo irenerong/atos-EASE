@@ -64,6 +64,7 @@ module.exports = {
           });
       SubTask.findOne({id:this.id}).populate('nextStartConditions').exec(function (err,st){
         st.nextStartConditions.forEach(function(nsc,i,a){
+          console.log('in next start condition '+nsc);
           nsc.conditionsMet(function callback(finish){
             if (finish==true)
             {
