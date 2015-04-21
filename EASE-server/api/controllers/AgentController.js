@@ -55,8 +55,16 @@ module.exports = {
 
 	currentStatus : function(req, res){
 		var param = req.params.all();
-		console.log('in current status '+param.timeLeft+' '+req.session.IOSsocketID);
-		sails.sockets.emit(req.session.IOSsocketID, 'currentStatus', {subTaskID: param.subTask, timeLeft:param.timeLeft})
+		console.log('in current status '+param.timeLeft);
+		SubTask.update({id:param.subTask},{timeLeft:param.timeLeft}).exec(function (err,updateds){
+				if (err){console.log(err)};
+				//console.log('current status update')
+
+						SubTask.publishUpdate(updateds[0].id,{timeLeft:updateds[0].timeLeft});
+				
+				})
+
+
 	}
 };
 

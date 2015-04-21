@@ -24,7 +24,8 @@ module.exports = {
       model: 'WorkflowGeneratorTicket'
     },
     ingredient :{
-      type: 'array'
+      collection: 'Ingredient',
+      via:'metaworkflow'
     }
     
   }, 
