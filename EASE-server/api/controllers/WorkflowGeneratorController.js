@@ -88,7 +88,7 @@ module.exports = {
     subtasks.forEach(function(subtask,i,a){
 
       SubTask.create({workflow:wf.id, waitforID:subtask.predecessor, taskID:subtask.subTask, metatask:subtask.metatask,
-        agent: subtask.agentID, action: subtask.action, consumption: subtask.consumption, duration:subtask.duration}).exec(
+        agent: subtask.agentID, action: subtask.action, consumption: subtask.consumption, duration:subtask.duration,timeLeft:subtask.duration}).exec(
          // after create subtask , il faut creer son startcondition
          function(err,st){
           SubTask.publishCreate(st);

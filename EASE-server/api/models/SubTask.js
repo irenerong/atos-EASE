@@ -52,9 +52,13 @@ module.exports = {
       required : true 
 
     },
+    timeLeft :{
+      type :'integer',
+      required: true
+    },
     finish: function() {
-      console.log("in finish")
-      SubTask.update({id:this.id},{status:'finish'}).exec(function (err,updateds){
+      console.log("in finish "+this.id);
+                SubTask.update({id:this.id},{status:'finish'}).exec(function(err,updateds){
         if (err) console.log(err);
             SubTask.publishUpdate(updateds[0].id,{ status:updateds[0].status });
           });
