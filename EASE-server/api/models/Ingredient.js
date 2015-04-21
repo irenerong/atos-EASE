@@ -20,11 +20,10 @@ module.exports = {
   		type: 'string',
       	enum:['g','kg','cup','tsp','tbsp','L','ml'],
 
- 	},
- 	metaworkflow:{
- 		collection:'Metaworkflow',
- 		via:'ingredient'
- 	}
+ 	  },
+  metaworkflow:{
+    model:'Metaworkflow'
+  }
  }
 };
 

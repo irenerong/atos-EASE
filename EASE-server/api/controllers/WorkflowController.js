@@ -15,6 +15,7 @@ module.exports = {
 			timeConstraint.option=req.body.option;
 			timeConstraint.time=req.body.time;
 		var sortFunction = null
+		var sortBy = 'consumption'
 	// if (req.session.lastsearch == params.intent){
 	// 	console.log("this is a sort by"+req.session.lastsearch);
 	// 	sortFunction = this.sort(params.sortBy);
@@ -43,7 +44,9 @@ module.exports = {
 							//console.log("all generatedWorkflows \n"+JSON.stringify(req.session.generatedWorkflows) )
 							//sort all generated workflows by params.sort
 
-							sortFunction = WFC.sort(params.sortBy);
+							if (params.sortBy) sortBy=params.sortBy;
+
+							sortFunction = WFC.sort(sortBy);
 							req.session.generatedWorkflows.sort(sortFunction) ;
 							cb(null);
 						});// fin async each

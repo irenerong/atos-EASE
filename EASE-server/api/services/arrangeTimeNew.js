@@ -33,7 +33,7 @@ Arrangement.init = function(constraint, agentsNonDispo){
  * @Param subtasks2 Subtasks need to deal with
  * @return subtasks Subtasks after modification
  */
-Arrangement.whatTheFuck = function(subtasks2){
+Arrangement.reconstitute = function(subtasks2){
 	// Copy the subtasks
 	var subtasks = JSON.parse(JSON.stringify(subtasks2));
 	var max = 0;

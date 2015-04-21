@@ -1,6 +1,29 @@
 {
   "title": "exotic chicken",
-  "ingredient":["chicken","sel","water","onion"],
+  "ingredient":[
+    {
+      "name":"chicken",
+      "quantity":1
+    },
+    {
+      "name":"water",
+      "quantity":500,
+      "unit":"ml"
+
+    },
+    {
+      "name":"sel",
+      "quantity":50,
+      "unit":"g"
+
+    },
+    {
+      "name":"onion",
+      "quantity":500,
+      "unit":"g"
+
+    }
+  ],
   "metatasks": [
     {
       "idTask": 1,
