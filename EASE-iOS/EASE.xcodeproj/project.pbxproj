@@ -47,7 +47,7 @@
 		31BA9A5A1AA46CA3005D4E22 /* EARootViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 31BA9A591AA46CA3005D4E22 /* EARootViewController.m */; };
 		31BA9A5D1AA4719D005D4E22 /* EALeftMenuViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 31BA9A5C1AA4719D005D4E22 /* EALeftMenuViewController.m */; };
 		31C02CF61AD2F22F00D4A915 /* EASearchResults.m in Sources */ = {isa = PBXBuildFile; fileRef = 31C02CF51AD2F22F00D4A915 /* EASearchResults.m */; };
-		31C02CFB1AD2F6B000D4A915 /* NSDate+JSParse.m in Sources */ = {isa = PBXBuildFile; fileRef = 31C02CFA1AD2F6B000D4A915 /* NSDate+JSParse.m */; };
+		31C02CFB1AD2F6B000D4A915 /* NSDate+Complements.m in Sources */ = {isa = PBXBuildFile; fileRef = 31C02CFA1AD2F6B000D4A915 /* NSDate+Complements.m */; };
 		31C02CFE1AD3293200D4A915 /* EAMetaworkflow.m in Sources */ = {isa = PBXBuildFile; fileRef = 31C02CFD1AD3293200D4A915 /* EAMetaworkflow.m */; };
 		31FFAE9D1AD04DE900AACD2D /* EALoginViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 31FFAE9C1AD04DE900AACD2D /* EALoginViewController.m */; };
 		60711E5F69F762FB1F7D615E /* Pods.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8B823D8B3C18F8EEB2E51D44 /* Pods.framework */; settings = {ATTRIBUTES = (Weak, ); }; };
@@ -143,8 +143,8 @@
 		31BA9A641AA47E14005D4E22 /* EATasksViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EATasksViewController.m; sourceTree = "<group>"; };
 		31C02CF41AD2F22F00D4A915 /* EASearchResults.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EASearchResults.h; sourceTree = "<group>"; };
 		31C02CF51AD2F22F00D4A915 /* EASearchResults.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EASearchResults.m; sourceTree = "<group>"; };
-		31C02CF91AD2F6B000D4A915 /* NSDate+JSParse.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSDate+JSParse.h"; sourceTree = "<group>"; };
-		31C02CFA1AD2F6B000D4A915 /* NSDate+JSParse.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSDate+JSParse.m"; sourceTree = "<group>"; };
+		31C02CF91AD2F6B000D4A915 /* NSDate+Complements.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSDate+Complements.h"; sourceTree = "<group>"; };
+		31C02CFA1AD2F6B000D4A915 /* NSDate+Complements.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSDate+Complements.m"; sourceTree = "<group>"; };
 		31C02CFC1AD3293200D4A915 /* EAMetaworkflow.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EAMetaworkflow.h; sourceTree = "<group>"; };
 		31C02CFD1AD3293200D4A915 /* EAMetaworkflow.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EAMetaworkflow.m; sourceTree = "<group>"; };
 		31FFAE9B1AD04DE900AACD2D /* EALoginViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EALoginViewController.h; sourceTree = "<group>"; };
@@ -360,8 +360,8 @@
 				312988051AC8644F00036504 /* EAUser.m */,
 				312988011AC861F700036504 /* EAIngredient.h */,
 				312988021AC861F700036504 /* EAIngredient.m */,
-				31C02CF91AD2F6B000D4A915 /* NSDate+JSParse.h */,
-				31C02CFA1AD2F6B000D4A915 /* NSDate+JSParse.m */,
+				31C02CF91AD2F6B000D4A915 /* NSDate+Complements.h */,
+				31C02CFA1AD2F6B000D4A915 /* NSDate+Complements.m */,
 			);
 			name = Class;
 			sourceTree = "<group>";
@@ -668,6 +668,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				311734AB1A87E2E4006B2B39 /* FRGWaterfallCollectionViewLayout.m in Sources */,
 				312988031AC861F700036504 /* EAIngredient.m in Sources */,
 				3113A8521A82373D00E972F3 /* EAWorkflowDateScrollView.m in Sources */,
 				3146E6DB1A80E57A0072FC99 /* EAWorkflow.m in Sources */,
@@ -697,7 +698,7 @@
 				316DBF441A8C11C600828BE2 /* EAWorkflowMasterViewController.m in Sources */,
 				311915C31AA5BB6700DD4EDF /* EAAgent.m in Sources */,
 				313078141A89213B0080E17B /* EAWorkflowInfosViewController.m in Sources */,
-				31C02CFB1AD2F6B000D4A915 /* NSDate+JSParse.m in Sources */,
+				31C02CFB1AD2F6B000D4A915 /* NSDate+Complements.m in Sources */,
 				3146E6B71A80E2160072FC99 /* AppDelegate.m in Sources */,
 				317622D61AA873FD00B406CD /* EAPendingTasksViewController.m in Sources */,
 				3146E6B41A80E2160072FC99 /* main.m in Sources */,
@@ -705,7 +706,6 @@
 				3176D78F1ABF76F600B206A7 /* EACalendarWorkflowCollectionViewCell.m in Sources */,
 				3146E6E71A8152280072FC99 /* EACollectionViewWorkflowLayout.m in Sources */,
 				31FFAE9D1AD04DE900AACD2D /* EALoginViewController.m in Sources */,
-				311734AB1A87E2E4006B2B39 /* FRGWaterfallCollectionViewLayout.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

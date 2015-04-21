@@ -13,5 +13,7 @@ pod 'SCLAlertView-Objective-C'
 pod 'YLProgressBar'
 pod 'JTCalendar'
 pod 'Masonry'
-pod 'Socket.IO-Client-Swift'
+pod 'Socket.IO-Client-Swift', '~> 2.0'
 pod 'XLRemoteImageView'
+
+pod 'PromiseKit-AFNetworking'

@@ -20,13 +20,19 @@
     NSMutableArray *buttons;
 }
 @property (weak, nonatomic) IBOutlet UIImageView *imageView;
+
+
 @property (weak, nonatomic) IBOutlet UIView *agentNameBackgroundView;
 @property (weak, nonatomic) IBOutlet UILabel *agentNameLabel;
+
+
 @property (weak, nonatomic) IBOutlet UIView *taskNameBackgroundView;
 @property (weak, nonatomic) IBOutlet UILabel *taskNameLabel;
 @property (weak, nonatomic) IBOutlet UIView *dateBackgroundView;
 @property (weak, nonatomic) IBOutlet UILabel *beginLabel;
 @property (weak, nonatomic) IBOutlet UILabel *endLabel;
+@property (weak, nonatomic) IBOutlet UIView *workflowTitleBackgroundView;
+@property (weak, nonatomic) IBOutlet UILabel *workflowTitleLabel;
 
 @property (weak, nonatomic) IBOutlet UIView *buttonsBackgroundView;
 

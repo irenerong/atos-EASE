@@ -10,6 +10,7 @@
 #import "UIImage+ImageEffects.h"
 #import "UIImageView+XLProgressIndicator.h"
 #import "EAWorkflow.h"
+#import "NSDate+Complements.h"
 @interface EATaskInfoViewController ()
 
 @end
@@ -30,6 +31,8 @@
     self.progressBar.hideStripes = YES;
     self.progressBar.hideGloss = YES;
     
+    [NSTimer scheduledTimerWithTimeInterval:60 target:self selector:@selector(updateDate) userInfo:nil repeats:true];
+
 }
 
 
@@ -51,9 +54,14 @@
         
         UIColor *color = self.task.workflow.color;
         
-        self.agentNameBackgroundView.backgroundColor = color;
+        self.agentNameBackgroundView.backgroundColor = [color colorWithAlphaComponent:1];
+        self.workflowTitleBackgroundView.backgroundColor = color;
+        
+        self.workflowTitleLabel.text = _task.workflow.title;
+        self.taskNameLabel.text = _task.title;
         
         self.agentNameLabel.textColor = [UIColor whiteColor];
+        self.workflowTitleLabel.textColor = [UIColor whiteColor];
         self.taskNameLabel.textColor = [UIColor colorWithWhite:180/255. alpha:1.0];
         
         self.agentNameBackgroundView.layer.masksToBounds = false;
@@ -86,11 +94,26 @@
         
         self.progressBar.progressTintColors = @[color, color];
         
+        
+        NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
+        dateFormatter.timeStyle = NSDateFormatterShortStyle;
+        dateFormatter.dateStyle = NSDateFormatterShortStyle;
+        dateFormatter.doesRelativeDateFormatting = YES;
+        
+        self.beginLabel.text = [[dateFormatter stringFromDate:self.task.dateInterval.startDate] stringByReplacingOccurrencesOfString:@", " withString:@"\n"];
+        self.endLabel.text = [[dateFormatter stringFromDate:self.task.dateInterval.endDate] stringByReplacingOccurrencesOfString:@", " withString:@"\n"];
+        
+        [self updateDate];
+        
         for (UIButton *button in buttons)
             [button removeFromSuperview];
         [buttons removeAllObjects];
         
         
+        if (_task.status == EATaskStatusPending || _task.status == EATaskStatusWorking)
+        {
+            self.buttonsBackgroundView.alpha = 1;
+
         
         
         UIButton *button = [[UIButton alloc] initWithFrame:CGRectMake(0, 3, self.view.frame.size.width, self.buttonsBackgroundView.frame.size.height-3)];
@@ -117,6 +140,11 @@
             make.edges.equalTo(button.superview).with.insets(UIEdgeInsetsMake(5, 5, 5, 5));
         }];
         
+        }
+        else
+        {
+            self.buttonsBackgroundView.alpha = 0;
+        }
         
         [self.imageView setImageWithProgressIndicatorAndURL:self.task.workflow.metaworkflow.imageURL];
         [self.imageView.progressIndicatorView setStrokeProgressColor:color];
@@ -146,7 +174,12 @@
     }
  }
 
-
+-(void)updateDate
+{
+    if (_task)
+        self.timeStatusLabel.text = [NSDate lateFromDate:self.task.dateInterval.startDate];
+    
+}
 
 -(void)didTapCenterButton:(UIButton*)sender
 {

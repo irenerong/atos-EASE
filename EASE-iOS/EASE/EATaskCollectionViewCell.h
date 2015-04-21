@@ -10,6 +10,7 @@
 #import "YLProgressBar.h"
 #import "EAPendingTask.h"
 #import "EAWorkingTask.h"
+#import "NSDate+Complements.h"
 
 @class EATaskCollectionViewCell;
 

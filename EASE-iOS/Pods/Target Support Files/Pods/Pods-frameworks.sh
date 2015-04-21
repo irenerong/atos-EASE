@@ -49,13 +49,14 @@ code_sign() {
 
 if [[ "$CONFIGURATION" == "Debug" ]]; then
   install_framework 'AFNetworking.framework'
-  install_framework 'DTAlertView.framework'
   install_framework 'JTCalendar.framework'
   install_framework 'M13ProgressSuite.framework'
   install_framework 'MZAppearance.framework'
   install_framework 'MZFormSheetController.framework'
   install_framework 'MarqueeLabel.framework'
   install_framework 'Masonry.framework'
+  install_framework 'PromiseKit_AFNetworking.framework'
+  install_framework 'PromiseKit.framework'
   install_framework 'RESideMenu.framework'
   install_framework 'SCLAlertView_Objective_C.framework'
   install_framework 'Socket_IO_Client_Swift.framework'
@@ -66,13 +67,14 @@ if [[ "$CONFIGURATION" == "Debug" ]]; then
 fi
 if [[ "$CONFIGURATION" == "Release" ]]; then
   install_framework 'AFNetworking.framework'
-  install_framework 'DTAlertView.framework'
   install_framework 'JTCalendar.framework'
   install_framework 'M13ProgressSuite.framework'
   install_framework 'MZAppearance.framework'
   install_framework 'MZFormSheetController.framework'
   install_framework 'MarqueeLabel.framework'
   install_framework 'Masonry.framework'
+  install_framework 'PromiseKit_AFNetworking.framework'
+  install_framework 'PromiseKit.framework'
   install_framework 'RESideMenu.framework'
   install_framework 'SCLAlertView_Objective_C.framework'
   install_framework 'Socket_IO_Client_Swift.framework'
