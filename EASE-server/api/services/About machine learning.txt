@@ -1,0 +1,15 @@
+About machine learning.
+
+
+We mentioned the machine learning part of our project but unfortunately we don't have enough time to implement it.
+
+Here I give some ideas according to this part of the project.
+
+First of all, this called "machine learning" is not THAT "machine learning" talked in data mining or statistics. What we want to talk about here is rather "memorize" that "learning". For example, a user sets the alarm clock at 8h every Thursday, then next time he wants to set the alarm clock via our application for a Thursay, we will proprose 8 o'clock to him. Idem for a choice of menu, if he chooses a curry chicken every time, we will suggest in the first place a curry chicken(a work flow to cook it).
+
+Later on, when there is enough information in the database, we could think of doing the real machine learning then. For example, when a user want to cook a fish and we do notice that he used quite a different ways to do it. Now it's time to analyse. Which recipe will he take? Which agent will he use? The answer will be given according the result of machine's decision. For example, the program notices we are at the end of the month and the user may be just out of money, he prefers maybe a work flow whose consumption is the least. Or even it's hot today and the user may just want some cold dish etc.
+
+
+The first part is easier to realize with an idea of "counter". We propose every time the most frequent way that the user chose. Then we should decide which kind of counter to use. Proposal by comsumption or by duration? There is also a preference as well.
+
+The second part is much more difficult to implement, but it's totally possible with the machine learning technoligies which are already "mature" now. 

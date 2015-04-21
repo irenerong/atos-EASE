@@ -1,0 +1,20 @@
+This is a document telling about the scheduling method we used and the hypothesis we assumed.
+
+In order to realize the scheduling of a subtask looking at the time table of the corresponding agent, we have many ideas. The ideas are difficult to implement and cause often other problems, although they are rather intuitive to think of. The problem of scheduling tasks is still a open-domain in the operational research area, which has still not a best solution.
+
+Here is the problem we came cross:
+	When users want to launch several work flows and these work flows cross each other regarding the execute time or the executor(agent). The best way is to stay at a "subtask" level when we assign time to the "subtasks", in other words, we allow "subtask" to shift left or right if it can't be done at the wanted moment. 
+	However, if we allow them to shift, it will be much more complexe and we will never get a "best" schedule. Raisons are coming from different angles, like order between the subtasks must always be respected, interval in which subtasks could be shifted is rather difficult to choose, updates of the whole schedule seem like a monster, margin between two subtasks should not be too large, different priorities of subtasks etc.   
+
+Here in our case, we consider the simplest way to realize it, deciding to stay at a lever more general -- the work flow level:
+	This means that when users want to put a new work flow into this agenda, application will firstly see if it's possible for all the subtasks altogether. If one subtask fails to be assigned a "begin time", the whole work flow is invalid. Seems a litte bit unintelligent for now.
+	However, an improvement rather easy to think of and to implement is that we shift the whole work flow if it is rejected. If we don't shift it too far away, it will still stay around the moment given by the user.
+	Furthermore, a litte cute algorithm is at our disposal, aiming to do the scheduling with shifts of subtasks but unfortunately not having been considered as a final version.
+
+
+Here are some special cases that need to be dealt with, if you want to improve the approach which is not smart enough:
+	1. Natures of subtasks(or work flows). If it concerns a kind of "kitchen work flow", meaning that you want to cook something, for example, cook a chicken with an oven. The work flow has hence a nature "the later the better". Then you'd better put it the lastest possible. For example, a user want a chicken to be cooked before 18h, it implies then this user want to eat at 18h and hope to have a hot chicken!
+	2. Some subtasks must be attached(Hmm, these are still be 2 subtasks). Subtasks like "preheat" and "heat up", you can't let an hour exist between these 2 subtasks!  
+	3. Don't shift too much the subtasks, especially the "head" and the "tail" of the work flow. Why?? Because users will give temporal constraints to a work flow(like "start the laundry after 10 o'clock), the "head" and the "tail" take these time limits!
+
+   
