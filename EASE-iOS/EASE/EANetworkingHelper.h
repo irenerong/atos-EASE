@@ -14,6 +14,8 @@
 #import "Wit.h"
 #import "EAUser.h"
 
+#import "AFNetworking+PromiseKit.h"
+
 
 extern NSString* const EAPendingTaskAdd;
 extern NSString* const EAPendingTaskRemove;

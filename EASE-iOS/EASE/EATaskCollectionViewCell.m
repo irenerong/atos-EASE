@@ -78,9 +78,11 @@
     self.labelsBackgroundView.layer.shadowColor = [UIColor blackColor].CGColor;
     
     self.agentNameLabel.text = @"MicroWave";
-    self.agentNameBackgroundView.layer.cornerRadius = 5;
+    self.agentNameBackgroundView.layer.cornerRadius = 2;
     
-    self.agentNameLabel.textColor = [UIColor colorWithWhite:180/255. alpha:1.];
+    
+    
+    self.agentNameLabel.textColor = [UIColor colorWithWhite:1 alpha:1];
     
     /*
     self.startButton.imageView.clipsToBounds = true;
@@ -106,6 +108,9 @@
     self.progressBar.hideGloss = YES;
     
        [self.workflowImageView.progressIndicatorView setStrokeRemainingColor:[UIColor colorWithWhite:240/255. alpha:1.]];
+    
+    
+    [NSTimer scheduledTimerWithTimeInterval:60 target:self selector:@selector(updateDate) userInfo:nil repeats:true];
 
 }
 
@@ -123,7 +128,20 @@
     self.titleBackgroundView.backgroundColor = color;
     self.actionDescriptionLabel.text = self.task.taskDescription;
     
+    self.agentNameBackgroundView.backgroundColor = color;
+
+    
     self.agentIconView.backgroundColor = color;
+    
+    NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
+    dateFormatter.timeStyle = NSDateFormatterShortStyle;
+    dateFormatter.dateStyle = NSDateFormatterShortStyle;
+    dateFormatter.doesRelativeDateFormatting = YES;
+    
+    self.beginLabel.text = [[dateFormatter stringFromDate:self.task.dateInterval.startDate] stringByReplacingOccurrencesOfString:@", " withString:@"\n"];
+    self.endLabel.text = [[dateFormatter stringFromDate:self.task.dateInterval.endDate] stringByReplacingOccurrencesOfString:@", " withString:@"\n"];
+
+    [self updateDate];
     
     if (self.task.status == EATaskStatusPending)
     {
@@ -143,6 +161,15 @@
     
     [self.workflowImageView setImageWithProgressIndicatorAndURL:self.task.workflow.metaworkflow.imageURL ];
     [self.workflowImageView.progressIndicatorView setStrokeProgressColor:color];
+    
+    
+
+}
+
+-(void)updateDate
+{
+    if (_task)
+    self.timeStatusLabel.text = [NSDate lateFromDate:self.task.dateInterval.startDate];
 
 }
 

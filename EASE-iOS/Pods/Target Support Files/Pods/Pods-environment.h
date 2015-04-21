@@ -48,12 +48,6 @@
 #define COCOAPODS_VERSION_MINOR_AFNetworking_UIKit 5
 #define COCOAPODS_VERSION_PATCH_AFNetworking_UIKit 2
 
-// DTAlertView
-#define COCOAPODS_POD_AVAILABLE_DTAlertView
-#define COCOAPODS_VERSION_MAJOR_DTAlertView 1
-#define COCOAPODS_VERSION_MINOR_DTAlertView 4
-#define COCOAPODS_VERSION_PATCH_DTAlertView 2
-
 // JTCalendar
 #define COCOAPODS_POD_AVAILABLE_JTCalendar
 #define COCOAPODS_VERSION_MAJOR_JTCalendar 1
@@ -96,6 +90,24 @@
 #define COCOAPODS_VERSION_MINOR_Masonry 6
 #define COCOAPODS_VERSION_PATCH_Masonry 1
 
+// PromiseKit-AFNetworking
+#define COCOAPODS_POD_AVAILABLE_PromiseKit_AFNetworking
+#define COCOAPODS_VERSION_MAJOR_PromiseKit_AFNetworking 0
+#define COCOAPODS_VERSION_MINOR_PromiseKit_AFNetworking 1
+#define COCOAPODS_VERSION_PATCH_PromiseKit_AFNetworking 6
+
+// PromiseKit/Promise
+#define COCOAPODS_POD_AVAILABLE_PromiseKit_Promise
+#define COCOAPODS_VERSION_MAJOR_PromiseKit_Promise 1
+#define COCOAPODS_VERSION_MINOR_PromiseKit_Promise 5
+#define COCOAPODS_VERSION_PATCH_PromiseKit_Promise 1
+
+// PromiseKit/When
+#define COCOAPODS_POD_AVAILABLE_PromiseKit_When
+#define COCOAPODS_VERSION_MAJOR_PromiseKit_When 1
+#define COCOAPODS_VERSION_MINOR_PromiseKit_When 5
+#define COCOAPODS_VERSION_PATCH_PromiseKit_When 1
+
 // RESideMenu
 #define COCOAPODS_POD_AVAILABLE_RESideMenu
 #define COCOAPODS_VERSION_MAJOR_RESideMenu 4
@@ -110,9 +122,9 @@
 
 // Socket.IO-Client-Swift
 #define COCOAPODS_POD_AVAILABLE_Socket_IO_Client_Swift
-#define COCOAPODS_VERSION_MAJOR_Socket_IO_Client_Swift 1
-#define COCOAPODS_VERSION_MINOR_Socket_IO_Client_Swift 3
-#define COCOAPODS_VERSION_PATCH_Socket_IO_Client_Swift 4
+#define COCOAPODS_VERSION_MAJOR_Socket_IO_Client_Swift 2
+#define COCOAPODS_VERSION_MINOR_Socket_IO_Client_Swift 0
+#define COCOAPODS_VERSION_PATCH_Socket_IO_Client_Swift 5
 
 // UINavigationItem+Loading
 #define COCOAPODS_POD_AVAILABLE_UINavigationItem_Loading

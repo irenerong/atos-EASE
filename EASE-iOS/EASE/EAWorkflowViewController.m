@@ -81,6 +81,39 @@
 
 
 
+#pragma mark - Navigation
+// In a storyboard-based application, you will often want to do a little preparation before navigation
+- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(EAWorkflowTaskCollectionViewCell*)cell {
+    // Get the new view controller using [segue destinationViewController].
+    // Pass the selected object to the new view controller.
+    
+    
+    
+    EATaskInfoViewController *vc = segue.destinationViewController;
+    vc.task = cell.task;
+    
+    MZFormSheetSegue *formSheetSegue = (MZFormSheetSegue *)segue;
+    
+    MZFormSheetController *formSheet = formSheetSegue.formSheetController;
+    formSheet.transitionStyle = MZFormSheetTransitionStyleDropDown;
+    formSheet.cornerRadius = 0;
+    formSheet.shouldCenterVertically = true;
+    
+    CGSize screenSize = [UIScreen mainScreen].bounds.size;
+    
+    formSheet.presentedFormSheetSize = CGSizeMake(screenSize.width-50, screenSize.height-100);
+    
+    
+    
+    formSheet.shouldDismissOnBackgroundViewTap = YES;
+    
+    formSheet.willDismissCompletionHandler = ^(UIViewController *presentedFSViewController) {
+        
+        
+    };
+}
+
+
 #pragma mark - UICollectionViewDataSource
 
 - (NSInteger)numberOfSectionsInCollectionView:(UICollectionView *)collectionView

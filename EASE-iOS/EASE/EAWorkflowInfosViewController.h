@@ -8,7 +8,6 @@
 
 #import <UIKit/UIKit.h>
 
-#import "MarqueeLabel.h"
 #import "EAWorkflow.h"
 
 #import "UIImageView+XLProgressIndicator.h"
@@ -19,7 +18,7 @@
 
 @property (weak, nonatomic) IBOutlet UIScrollView *scrollView;
 @property (weak, nonatomic) IBOutlet UIImageView *imageView;
-@property (weak, nonatomic) IBOutlet MarqueeLabel *titleLabel;
+@property (weak, nonatomic) IBOutlet UILabel *titleLabel;
 @property (weak, nonatomic) IBOutlet UICollectionView *infosCollectionView;
 @property (weak, nonatomic) IBOutlet UILabel *ingredientsNumberLabel;
 @property (weak, nonatomic) IBOutlet UITableView *ingredientsTableView;

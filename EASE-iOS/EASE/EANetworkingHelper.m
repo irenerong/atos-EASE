@@ -6,7 +6,7 @@
 //  Copyright (c) 2015 Aladin TALEB. All rights reserved.
 //
 
-#import "NSDate+JSParse.h"
+#import "NSDate+Complements.h"
 
 #import "EANetworkingHelper.h"
 #import "EAWorkflow.h"
@@ -127,24 +127,33 @@ NSString* const EAWorkingTaskUpdate = @"EAWorkingTaskUpdate";
 
 -(void)setCookie:(NSHTTPCookie*)cookie
 {
-    NSLog(@"%@", [[NSHTTPCookieStorage sharedHTTPCookieStorage] cookiesForURL:[NSURL URLWithString: @"http://localhost:1337/"]]);
     
 
     
     
-    
-    self.easeSocketManager = [[SocketIOClient alloc] initWithSocketURL:_easeServerAdress options:@{@"cookies" : @[cookie]}];
+    self.easeSocketManager = [[SocketIOClient alloc] initWithSocketURL:_easeServerAdress options:nil];
    
+    if (cookie)
+        self.easeSocketManager.cookies = @[cookie];
     
     
     [self.easeSocketManager connect];
     
     [self.easeSocketManager on: @"connect" callback: ^(NSArray* data, void (^ack)(NSArray*)) {
         NSLog(@"connected \n %@", data);
-        [[self.easeSocketManager emitWithAckObjc:@"get" withItems: @{@"url" : @"/user/subscribe/", @"data" : @{}}]  onAck:0 withCallback:^(NSArray *cb) {
-            NSLog(@"%@", cb);
-            
-        }];
+        
+      
+        [self.easeSocketManager emitWithAckObjc:@"get" withItems:@[@{@"url" : @"/user/subscribe/", @"data" : @{}}]](0, ^(NSArray* data) {
+            NSLog(@"%@", data);
+        });
+        
+        
+    }];
+    
+    
+    [self.easeSocketManager on: @"disconnect" callback: ^(NSArray* data, void (^ack)(NSArray*)) {
+        NSLog(@"disconnected \n %@", data);
+        
     }];
     
     [self.easeSocketManager on: @"reconnect" callback: ^(NSArray* data, void (^ack)(NSArray*)) {
@@ -471,7 +480,8 @@ NSString* const EAWorkingTaskUpdate = @"EAWorkingTaskUpdate";
     } failure:^(NSURLSessionDataTask *task, NSError *error) {
         completionBlock(nil,-1, error);
     }];
-
+    
+   
     
 }
 
@@ -529,14 +539,13 @@ NSString* const EAWorkingTaskUpdate = @"EAWorkingTaskUpdate";
     if (task.status != EATaskStatusPending)
         completionBlock([NSError errorWithDomain:@"Task Pending" code:0 userInfo:nil]);
     
-    [[self.easeSocketManager emitWithAckObjc:@"post" withItems: @{@"url" : @"/subtask/start", @"data" : @{ @"id" : @(task.taskID) }}]  onAck:0 withCallback:^(NSArray *cb) {
-        
-        NSLog(@"%@", cb);
+    [self.easeSocketManager emitWithAckObjc:@"post" withItems: @[@{@"url" : @"/subtask/start", @"data" : @{ @"id" : @(task.taskID) }}]] (0, ^(NSArray* data) {
+        NSLog(@"%@", data);
         
         completionBlock(nil);
-        
-    }];
-
+    });
+    
+   
 }
 
 -(void)tasksAtDay:(NSDate*)date completionBlock:(void (^) (EASearchResults *, NSError *)) completionBlock

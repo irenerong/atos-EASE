@@ -15,6 +15,10 @@
 
 #import "EAWorkflow.h"
 
+#import "EATaskInfoViewController.h"
+#import "MZFormSheetSegue.h"
+#import "MZFormSheetController.h"
+
 @interface EAWorkflowViewController : UICollectionViewController <UICollectionViewDataSource, EACollectionViewWorkflowLayoutDelegate>
 
 

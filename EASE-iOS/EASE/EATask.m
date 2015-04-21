@@ -6,7 +6,7 @@
 //  Copyright (c) 2015 Aladin TALEB. All rights reserved.
 //
 
-#import "NSDate+JSParse.h"
+#import "NSDate+Complements.h"
 
 #import "EATask.h"
 

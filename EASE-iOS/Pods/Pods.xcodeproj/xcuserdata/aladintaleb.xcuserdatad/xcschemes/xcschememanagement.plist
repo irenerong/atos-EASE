@@ -9,11 +9,6 @@
 			<key>isShown</key>
 			<false/>
 		</dict>
-		<key>Pods-DTAlertView.xcscheme</key>
-		<dict>
-			<key>isShown</key>
-			<false/>
-		</dict>
 		<key>Pods-JTCalendar.xcscheme</key>
 		<dict>
 			<key>isShown</key>
@@ -40,6 +35,16 @@
 			<false/>
 		</dict>
 		<key>Pods-Masonry.xcscheme</key>
+		<dict>
+			<key>isShown</key>
+			<false/>
+		</dict>
+		<key>Pods-PromiseKit-AFNetworking.xcscheme</key>
+		<dict>
+			<key>isShown</key>
+			<false/>
+		</dict>
+		<key>Pods-PromiseKit.xcscheme</key>
 		<dict>
 			<key>isShown</key>
 			<false/>
@@ -87,82 +92,87 @@
 	</dict>
 	<key>SuppressBuildableAutocreation</key>
 	<dict>
-		<key>2027FF8B93F5FD8B8B474FE7</key>
+		<key>043F738629FE18EC3AB255A6</key>
 		<dict>
 			<key>primary</key>
 			<true/>
 		</dict>
-		<key>216DDDAD39E9E4D25A667E4A</key>
+		<key>123236174A4D33CADA4282D7</key>
 		<dict>
 			<key>primary</key>
 			<true/>
 		</dict>
-		<key>366B7301FE229472ADB198CD</key>
+		<key>1E57708BC7C8DBB0C2B70E48</key>
 		<dict>
 			<key>primary</key>
 			<true/>
 		</dict>
-		<key>607A63CA0F093D7EF6A26971</key>
+		<key>24ED0C083A2EC6EEAD9CAFEF</key>
 		<dict>
 			<key>primary</key>
 			<true/>
 		</dict>
-		<key>6AFBBA4BDD01D1DDBB6C5A1A</key>
+		<key>3BB39211726411F529D0DD5B</key>
 		<dict>
 			<key>primary</key>
 			<true/>
 		</dict>
-		<key>6BCD7605B76EF944A9437A4F</key>
+		<key>481A2BC6FD2BE5176A14A607</key>
 		<dict>
 			<key>primary</key>
 			<true/>
 		</dict>
-		<key>6F247C69D8FD2339579943E9</key>
+		<key>4FEE9FE7D2537622BFE6F808</key>
 		<dict>
 			<key>primary</key>
 			<true/>
 		</dict>
-		<key>7A436975979A031725EC642D</key>
+		<key>54D493398D13746579E4BE93</key>
 		<dict>
 			<key>primary</key>
 			<true/>
 		</dict>
-		<key>89EADA2344CC469932994D16</key>
+		<key>5A590EAC3E1F03741DEC4D20</key>
 		<dict>
 			<key>primary</key>
 			<true/>
 		</dict>
-		<key>95FA929B3F4F13DF3EC589DC</key>
+		<key>92706ED8C3A7957E616F585D</key>
 		<dict>
 			<key>primary</key>
 			<true/>
 		</dict>
-		<key>AB0BEA13091FDC155E263817</key>
+		<key>A0B14DDFDF5F0C91A070CA87</key>
 		<dict>
 			<key>primary</key>
 			<true/>
 		</dict>
-		<key>B999B941FA99105945B75D8C</key>
+		<key>A2C795FFA42DD9F5B8A5687A</key>
 		<dict>
 			<key>primary</key>
 			<true/>
 		</dict>
-		<key>BDC0E9CC477484490969F783</key>
+		<key>A691411D0BEE582A065D38BC</key>
 		<dict>
 			<key>primary</key>
 			<true/>
 		</dict>
-		<key>DCA573CD24E748CEE8C74BDA</key>
+		<key>B2F0C398EF65E5BDB8D410DA</key>
 		<dict>
 			<key>primary</key>
 			<true/>
 		</dict>
-		<key>F41D3C8801B0C086F0CBF64B</key>
+		<key>B8ED269527C77B64BD9C809C</key>
 		<dict>
 			<key>primary</key>
 			<true/>
 		</dict>
-		<key>F461E33710FB0C5F53267D3C</key>
+		<key>BD1B350A7B488519A0F9A17D</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
+		<key>E4E663218DCF2FDD4006B1BB</key>
 		<dict>
 			<key>primary</key>
 			<true/>

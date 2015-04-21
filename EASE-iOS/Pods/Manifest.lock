@@ -20,7 +20,6 @@ PODS:
   - AFNetworking/UIKit (2.5.2):
     - AFNetworking/NSURLConnection
     - AFNetworking/NSURLSession
-  - DTAlertView (1.4.2)
   - JTCalendar (1.2.1)
   - M13ProgressSuite (1.2.7)
   - MarqueeLabel (1.5.0)
@@ -31,9 +30,16 @@ PODS:
     - MZFormSheetController/Core (= 2.3.6)
   - MZFormSheetController/Core (2.3.6):
     - MZAppearance (~> 1.1.3)
+  - PromiseKit-AFNetworking (0.1.6):
+    - AFNetworking (~> 2.0)
+    - PromiseKit/Promise
+    - PromiseKit/When
+  - PromiseKit/Promise (1.5.1)
+  - PromiseKit/When (1.5.1):
+    - PromiseKit/Promise
   - RESideMenu (4.0.7)
   - SCLAlertView-Objective-C (0.5.5)
-  - Socket.IO-Client-Swift (1.3.4)
+  - Socket.IO-Client-Swift (2.0.5)
   - UINavigationItem+Loading (1.1)
   - Wit (3.1.2)
   - XLRemoteImageView (2.0.0):
@@ -42,15 +48,15 @@ PODS:
 
 DEPENDENCIES:
   - AFNetworking
-  - DTAlertView (~> 1.4)
   - JTCalendar
   - M13ProgressSuite
   - MarqueeLabel
   - Masonry
   - MZFormSheetController
+  - PromiseKit-AFNetworking
   - RESideMenu
   - SCLAlertView-Objective-C
-  - Socket.IO-Client-Swift
+  - Socket.IO-Client-Swift (~> 2.0)
   - UINavigationItem+Loading
   - Wit
   - XLRemoteImageView
@@ -58,16 +64,17 @@ DEPENDENCIES:
 
 SPEC CHECKSUMS:
   AFNetworking: fefbce9660acb17f48ae0011292d4da0f457bf36
-  DTAlertView: 5c415c75fb6be2e1093be652dfc469a428b30cf4
   JTCalendar: d635cba66a8b44e2e43737c9ce39eb4c570b9569
   M13ProgressSuite: 03d194af6359da440641ba758aed5a18b0386a86
   MarqueeLabel: e09790dbf5fbefd8cb781338f41ccf1d063d968f
   Masonry: 4972309f2f134de9dd312f4dc4a21359b50e6caa
   MZAppearance: c2937318234fd782e900fb178942278881ac5490
   MZFormSheetController: e3c0accfab12ed1f9ddf2c61bb8c0abfc6b3f87b
+  PromiseKit: b1145ebb1dd0780566952689191ea31466198ee8
+  PromiseKit-AFNetworking: fbdd97205d6a78bb94d96d0d56311d1733569aae
   RESideMenu: f24c508404b49c667344c54aba7e590883533958
   SCLAlertView-Objective-C: b543c72ce654609a46e8bff3dff59906b5487980
-  Socket.IO-Client-Swift: 8f0ae5cac61324d4ffd54ee6cd79afde3d8d61b1
+  Socket.IO-Client-Swift: 8bb823fc27d947c409185a6152a6479b48e69ac6
   UINavigationItem+Loading: e61d7963495d8a19b6d3825d867ed60db9b218b6
   Wit: d200129f88c7e23d45da7f66502c400539ac382e
   XLRemoteImageView: c13d8f98591b7dc3739d7a4b91cb6af561929a2e

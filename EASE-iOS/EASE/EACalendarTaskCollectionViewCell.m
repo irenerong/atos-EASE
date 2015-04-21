@@ -25,10 +25,10 @@
     self.backgroundColor = [UIColor whiteColor];
     
     self.layer.masksToBounds = false;
-    self.layer.shadowColor = [UIColor colorWithWhite:200/255. alpha:1.0].CGColor;
-    self.layer.shadowOffset = CGSizeMake(0, 2);
-    self.layer.shadowOpacity = 0.5;
-    self.layer.shadowRadius = 2;
+    self.layer.shadowOffset = CGSizeMake(0, 1);
+    self.layer.shadowOpacity = 0.3;
+    self.layer.shadowRadius = 3;
+    self.layer.shadowColor = [UIColor colorWithWhite:180/255. alpha:1].CGColor;
     
     self.workflowTitleBackgroundView.layer.masksToBounds = false;
     self.workflowTitleBackgroundView.layer.shadowColor = [UIColor blackColor].CGColor;
