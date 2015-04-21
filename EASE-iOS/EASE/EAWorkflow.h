@@ -25,16 +25,18 @@
 -(instancetype)initWithGeneratorDictionary:(NSDictionary*)dictionary;
 -(instancetype)initWithSearchDictionary:(NSDictionary*)dictionary completion:(void (^) (EAWorkflow *workflow))completionBlock;
 
+-(void)updateWithWorkflow:(EAWorkflow*)workflow;
+
 @property(nonatomic, weak) EAMetaworkflow *metaworkflow;
 
 @property(nonatomic, readwrite) BOOL isValidated;
 
 @property(nonatomic, readwrite) int workflowID;
 
-@property(nonatomic, readonly) NSString *title;
+@property(nonatomic, strong) NSString *title;
 @property(nonatomic, strong) NSString *sortTag;
 
-@property(nonatomic, strong) NSArray *tasks;
+@property(nonatomic, strong) NSMutableArray *tasks;
 
 @property(nonatomic, strong) UIColor *color;
 

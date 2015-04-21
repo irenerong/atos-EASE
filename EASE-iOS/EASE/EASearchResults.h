@@ -10,6 +10,7 @@
 #import "EANetworkingHelper.h"
 #import "EAWorkflow.h"
 #import "EAMetaworkflow.h"
+#import "EATask.h"
 @interface EASearchResults : NSObject
 
 +(instancetype)searchResultsByParsingGeneratorDictionary:(NSDictionary*)dictionary completion:(void (^) (EASearchResults *searchResult))completionBlock;
@@ -19,9 +20,11 @@
 -(instancetype)initWithGeneratorDictionary:(NSDictionary*)dictionary completion:(void (^) (EASearchResults *searchResult))completionBlock;
 -(instancetype)initWithSearchDictionary:(NSDictionary *)dictionary completion:(void (^) (EASearchResults *searchResult))completionBlock;
 
+-(void)updateWorkflowWithID:(int)workflowID completion:(void (^) () )completionBlock;
+-(void)updateTaskWithID:(int)taskID completion:(void (^) () )completionBlock;
 
-@property(nonatomic, strong) NSArray *metaworkflows;
-@property(nonatomic, strong) NSArray *workflows;
+@property(nonatomic, strong) NSMutableArray *metaworkflows;
+@property(nonatomic, strong) NSMutableArray *workflows;
 
 
 @end

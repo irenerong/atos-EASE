@@ -18,6 +18,9 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+    
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(pendingTaskDidAdd:) name:EATaskUpdate object:nil];
+    
     // Do any additional setup after loading the view.
     
     self.tabBarItem.badgeValue = @"100";
@@ -38,13 +41,10 @@
 }
 
 -(void)viewWillAppear:(BOOL)animated {
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(pendingTasksDidAdd) name:EAPendingTaskAdd object:nil];
+   
     [self.actionsCollectionView reloadData];
 }
 
--(void)viewDidDisappear:(BOOL)animated {
-    [[NSNotificationCenter defaultCenter] removeObserver:self];
-}
 
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
@@ -58,7 +58,6 @@
  // Get the new view controller using [segue destinationViewController].
  // Pass the selected object to the new view controller.
  
-     [[NSNotificationCenter defaultCenter] removeObserver:self];
 
      
  EATaskInfoViewController *vc = segue.destinationViewController;
@@ -89,9 +88,26 @@
  
  #pragma mark - Notifications Update
  
- -(void)pendingTasksDidAdd {
+-(void)pendingTaskDidAdd:(NSNotification*)notification {
 
- }
+    
+    int taskID = ((NSNumber*)notification.userInfo[@"id"]).intValue;
+    
+    [self.searchResults updateTaskWithID:taskID completion:^{
+    
+        self.pendingTasks= [NSMutableArray array];
+        
+        for (EAWorkflow *workflow in self.searchResults.workflows)
+            [self.pendingTasks addObjectsFromArray:workflow.pendingTasks];
+        
+        
+        
+        [self.actionsCollectionView reloadData];
+
+        
+    }];
+
+}
 
 -(NSInteger)collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section {
     

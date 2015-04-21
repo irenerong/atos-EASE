@@ -20,6 +20,7 @@
     //self.backgroundImageView.image =  [[UIImage imageNamed:@"LoginBG"] applyBlurWithRadius:5 tintColor:[UIColor colorWithWhite:1 alpha:0.2] saturationDeltaFactor:1 maskImage:nil];
     
     [EANetworkingHelper sharedHelper].loginViewController = self;
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(goBackToLogin) name:@"Disconnect" object:nil];
     
     NSAttributedString *str = [[NSAttributedString alloc] initWithString:@"Username" attributes:@{ NSForegroundColorAttributeName : [UIColor colorWithWhite:180/255. alpha:1.0] }];
     
@@ -35,11 +36,19 @@
     
 }
 
+
+
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
 }
 
+-(void)goBackToLogin
+{
+    
+    [self dismissViewControllerAnimated:true completion:nil];
+    
+}
 
 #pragma mark - Navigation
 

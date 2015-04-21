@@ -33,6 +33,8 @@ typedef enum : NSUInteger {
 
 -(instancetype)initWithSearchDictionary:(NSDictionary*)dictionary fromWorkflow:(EAWorkflow*)workflow completion:(void (^)(EATask *task))completionBlock;
 
+-(void)updateWithTask:(EATask*)task;
+
 @property(nonatomic, readonly) int taskID;
 @property(nonatomic, readonly) NSArray *predecessors;
 

@@ -32,7 +32,7 @@
     self.progressBar.hideGloss = YES;
     
     [NSTimer scheduledTimerWithTimeInterval:60 target:self selector:@selector(updateDate) userInfo:nil repeats:true];
-
+ [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(taskUpdate:) name:EATaskUpdate object:nil];
 }
 
 
@@ -155,7 +155,7 @@
         
         if (_task.status == EATaskStatusWorking)
         {
-            [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(workingTaskUpdated:) name:EAWorkingTaskUpdate object:nil];
+           
         }
         
         if (_task.status == EATaskStatusPending)
@@ -211,15 +211,9 @@
    
 }
 
--(void)workingTaskUpdated:(NSNotification*)notification
+-(void)taskUpdate:(NSNotification*)notification
 {
-    /*
-    EAWorkingTask *task = notification.userInfo[@"workingTask"];
     
-
-    if (index != -1)
-        self.taskNotification = task;
-    */
 }
 
 /*

@@ -17,12 +17,7 @@
 #import "AFNetworking+PromiseKit.h"
 
 
-extern NSString* const EAPendingTaskAdd;
-extern NSString* const EAPendingTaskRemove;
-
-extern NSString* const EAWorkingTaskAdd;
-extern NSString* const EAWorkingTaskRemove;
-extern NSString* const EAWorkingTaskUpdate;
+extern NSString* const EATaskUpdate;
 
 
 @class EAMetaworkflow;
@@ -73,6 +68,8 @@ extern NSString* const EAWorkingTaskUpdate;
 -(void)retrieveMetaworkflowWithID:(int)metaworkflowID completionBlock:(void (^) (EAMetaworkflow* metaworkflow, NSError *error))completionBlock;
 
 -(void)retrieveStartConditionWithID:(int)startConditionID completionBlock:(void (^) (NSDictionary* startCondition, NSError *error))completionBlock;
+
+
 
 -(void)getPendingTasksCompletionBlock:(void (^) (EASearchResults* searchResults, NSError* error))completionBlock;
 

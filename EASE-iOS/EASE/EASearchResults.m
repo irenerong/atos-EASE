@@ -221,4 +221,87 @@
     return self;
 }
 
+-(void)updateWorkflowWithID:(int)workflowID completion:(void (^) () )completionBlock
+{
+    
+    dispatch_group_t group = dispatch_group_create();
+    
+    dispatch_group_enter(group);
+    
+
+    [[EANetworkingHelper sharedHelper] retrieveWorkflowWithID:workflowID completionBlock:^(EAWorkflow *workflow, int metaworkflowID, NSError *error) {
+        
+        NSUInteger indexWorkflow = [_workflows indexOfObjectPassingTest:^BOOL(EAWorkflow *obj, NSUInteger idx, BOOL *stop) {
+            return obj.workflowID == workflowID;
+        }];
+        
+        if (indexWorkflow  == NSNotFound)
+        {
+            [_workflows addObject:workflow];
+        }
+        else
+        {
+            [((EAWorkflow*)_workflows[indexWorkflow]) updateWithWorkflow:workflow];
+        }
+        
+        NSUInteger indexMetaworkflow = [_metaworkflows indexOfObjectPassingTest:^BOOL(EAMetaworkflow *obj, NSUInteger idx, BOOL *stop) {
+            return obj.metaworkflowID == metaworkflowID;
+        }];
+        
+        if (indexMetaworkflow == NSNotFound)
+        {
+            
+            [[EANetworkingHelper sharedHelper] retrieveMetaworkflowWithID:metaworkflowID completionBlock:^(EAMetaworkflow *metaworkflow, NSError *error) {
+               
+                [_metaworkflows addObject:metaworkflow];
+                workflow.metaworkflow = metaworkflow;
+                
+                dispatch_group_leave(group);
+                
+            }];
+            
+            
+            
+        }
+        else
+        {
+            workflow.metaworkflow = _metaworkflows[indexMetaworkflow];
+            dispatch_group_leave(group);
+        }
+         
+    }];
+    
+   dispatch_group_notify(group, dispatch_get_main_queue(), ^{
+      
+       completionBlock();
+       
+   });
+}
+
+-(void)updateTaskWithID:(int)taskID completion:(void (^) () )completionBlock
+{
+    NSUInteger indexWorkflow = [_workflows indexOfObjectPassingTest:^BOOL(EAWorkflow *workflow, NSUInteger idx, BOOL *stop) {
+        
+        return [workflow.tasks indexOfObjectPassingTest:^BOOL(EATask *task, NSUInteger idx, BOOL *stop) {
+            
+            return task.taskID == taskID;
+            
+        }] != NSNotFound;
+        
+        
+        
+    }];
+    
+    if (indexWorkflow == NSNotFound)
+        completionBlock();
+    
+    else
+    {
+        [self updateWorkflowWithID:((EAWorkflow*)_workflows[indexWorkflow]).workflowID completion:^{
+            completionBlock();
+        }];
+    }
+    
+}
+
 @end

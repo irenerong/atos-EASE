@@ -113,4 +113,11 @@
 
 }
 
+-(void)updateWithTask:(EATask*)task
+{
+    
+    _dateInterval = task.dateInterval;
+    _status = task.status;
+}
+
 @end

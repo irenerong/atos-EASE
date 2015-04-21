@@ -177,4 +177,33 @@
     return array;
 }
 
+-(void)updateWithWorkflow:(EAWorkflow*)workflow
+{
+    _isValidated = workflow.isValidated;
+    _title = workflow.title;
+    _ingredients = workflow.ingredients;
+
+    for (EATask *task in workflow.tasks)
+    {
+        
+        NSUInteger indexTask = [_tasks indexOfObjectPassingTest:^BOOL(EATask *t, NSUInteger idx, BOOL *stop) {
+           
+            return task.taskID == t.taskID;
+            
+        }];
+        
+        
+        if (indexTask == NSNotFound)
+        {
+            [self.tasks addObject:task];
+        }
+        else
+        {
+            [((EATask*)self.tasks[indexTask]) updateWithTask:task];
+        }
+        
+    }
+    
+}
+
 @end

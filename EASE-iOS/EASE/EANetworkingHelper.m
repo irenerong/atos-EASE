@@ -62,12 +62,7 @@ NSString* const witAPIVersion = @"20150212";
 
 
 
-NSString* const EAPendingTaskAdd = @"EAPendingTaskAdd";
-NSString* const EAPendingTaskRemove = @"EAPendingTaskRemove";
-
- NSString* const EAWorkingTaskAdd = @"EAWorkingTaskAdd";
- NSString* const EAWorkingTaskRemove = @"EAWorkingTaskRemove";
-NSString* const EAWorkingTaskUpdate = @"EAWorkingTaskUpdate";
+NSString* const EATaskUpdate = @"EATaskUpdate";
 
 
 
@@ -150,14 +145,13 @@ NSString* const EAWorkingTaskUpdate = @"EAWorkingTaskUpdate";
         
     }];
     
-    
-    [self.easeSocketManager on: @"disconnect" callback: ^(NSArray* data, void (^ack)(NSArray*)) {
-        NSLog(@"disconnected \n %@", data);
-        
-    }];
+
     
     [self.easeSocketManager on: @"reconnect" callback: ^(NSArray* data, void (^ack)(NSArray*)) {
         NSLog(@"reconnect \n %@", data);
+        [[NSNotificationCenter defaultCenter] postNotificationName:@"Disconnect" object:nil];
+        
+        self.easeSocketManager = nil;
         
         
     }];
@@ -168,11 +162,16 @@ NSString* const EAWorkingTaskUpdate = @"EAWorkingTaskUpdate";
     }];
     
     [self.easeSocketManager on:@"subtask" callback:^(NSArray *data, void (^ack)(NSArray*)){
+        NSDictionary *infos = data[0];
         NSLog(@"subtasks \n %@", data);
+        
+        [[NSNotificationCenter defaultCenter] postNotificationName:EATaskUpdate object:nil userInfo:infos];
+        
     }];
     
-  
-    
+    [self.easeSocketManager on:@"currentStatus" callback:^(NSArray *data, void (^ack)(NSArray*)){
+        NSLog(@"currentStatus \n %@", data);
+    }];
 }
 
 #pragma mark - WIT

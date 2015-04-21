@@ -23,11 +23,11 @@
     
     self.actionsCollectionView.contentInset = UIEdgeInsetsMake(64, 0, 59, 0);
     self.actionsCollectionView.scrollIndicatorInsets =  UIEdgeInsetsMake(64, 0, 59, 0);
+    
+
 }
 
 -(void)viewWillAppear:(BOOL)animated {
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(workingTasksDidAdd) name:EAWorkingTaskAdd object:nil];
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(workingTaskUpdated:) name:EAWorkingTaskUpdate object:nil];
 
     [self.actionsCollectionView reloadData];
     
