@@ -11,6 +11,7 @@
 #import "SCLAlertView.h"
 
 #import "EANetworkingHelper.h"
+#import "EASearchResults.h"
 #import "EATaskCollectionViewCell.h"
 #import "EATaskInfoViewController.h"
 
@@ -21,8 +22,6 @@
 @interface EATasksViewController : UIViewController <UICollectionViewDataSource, UICollectionViewDelegateFlowLayout>
 
 
-@property (weak, nonatomic) IBOutlet UICollectionView *actionsCollectionView;
-@property(nonatomic, retain) EASearchResults *searchResults;
-
+@property (weak, nonatomic) IBOutlet UICollectionView *collectionView;
 
 @end

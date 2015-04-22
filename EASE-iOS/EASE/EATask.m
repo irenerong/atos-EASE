@@ -55,12 +55,15 @@
         
         
         
-        
     }
     return self;
     
 }
 
+-(float)completionPercentage
+{
+    return 1 - self.timeLeft/self.dateInterval.timeInterval;
+}
 
 -(instancetype)initWithSearchDictionary:(NSDictionary*)dictionary fromWorkflow:(EAWorkflow*)workflow completion:(void (^)(EATask *))completionBlock
 {
@@ -94,6 +97,9 @@
             _dateInterval = [EADateInterval dateIntervalFrom:beginTime to:endTime];
             
             completionBlock(self);
+            
+            _timeLeft = duration;
+
             
         }];
         

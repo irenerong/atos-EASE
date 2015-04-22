@@ -851,86 +851,12 @@
                         <autoresizingMask key="autoresizingMask"/>
                     </navigationBar>
                     <connections>
-                        <segue destination="9q6-dV-thd" kind="relationship" relationship="rootViewController" id="MDZ-Yl-Zwg"/>
+                        <segue destination="XvX-gM-RJo" kind="relationship" relationship="rootViewController" id="Brz-BE-smf"/>
                     </connections>
                 </navigationController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="I91-BO-8J8" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="-1252" y="-768"/>
-        </scene>
-        <!--Current Tasks-->
-        <scene sceneID="2eK-Fg-ehe">
-            <objects>
-                <tabBarController extendedLayoutIncludesOpaqueBars="YES" id="9q6-dV-thd" customClass="EATasksMasterTabViewController" sceneMemberID="viewController">
-                    <navigationItem key="navigationItem" title="Current Tasks" id="kbi-jS-oqp">
-                        <barButtonItem key="leftBarButtonItem" title="Menu" id="JdW-dX-gxt">
-                            <color key="tintColor" red="0.24169030091347554" green="0.83178259381243524" blue="0.98076467803030298" alpha="1" colorSpace="calibratedRGB"/>
-                            <connections>
-                                <action selector="presentLeftMenuViewController:" destination="9q6-dV-thd" id="PO9-Gy-ZHH"/>
-                            </connections>
-                        </barButtonItem>
-                    </navigationItem>
-                    <nil key="simulatedBottomBarMetrics"/>
-                    <tabBar key="tabBar" contentMode="scaleToFill" id="tII-UV-Oa1">
-                        <rect key="frame" x="0.0" y="0.0" width="320" height="49"/>
-                        <autoresizingMask key="autoresizingMask"/>
-                        <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
-                        <color key="tintColor" red="0.24169030089999999" green="0.83178259379999997" blue="0.980764678" alpha="1" colorSpace="calibratedRGB"/>
-                        <color key="selectedImageTintColor" red="0.24169030089999999" green="0.83178259379999997" blue="0.980764678" alpha="1" colorSpace="calibratedRGB"/>
-                    </tabBar>
-                    <connections>
-                        <segue destination="pB2-Ga-hBS" kind="relationship" relationship="viewControllers" id="MVt-sl-w2l"/>
-                        <segue destination="XvX-gM-RJo" kind="relationship" relationship="viewControllers" id="VmR-Eo-a77"/>
-                    </connections>
-                </tabBarController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="edM-Dk-m1l" userLabel="First Responder" sceneMemberID="firstResponder"/>
-            </objects>
-            <point key="canvasLocation" x="-1131" y="-1698"/>
-        </scene>
-        <!--Pending-->
-        <scene sceneID="7lx-1J-OpD">
-            <objects>
-                <viewController id="pB2-Ga-hBS" customClass="EAPendingTasksViewController" sceneMemberID="viewController">
-                    <layoutGuides>
-                        <viewControllerLayoutGuide type="top" id="X27-NF-qmS"/>
-                        <viewControllerLayoutGuide type="bottom" id="BoO-XM-f5d"/>
-                    </layoutGuides>
-                    <view key="view" contentMode="scaleToFill" id="blB-DX-QwX">
-                        <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
-                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                        <subviews>
-                            <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="nek-ag-PAQ">
-                                <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
-                                <collectionViewFlowLayout key="collectionViewLayout" minimumLineSpacing="10" minimumInteritemSpacing="5" id="75Z-tC-ztB">
-                                    <size key="itemSize" width="337" height="168"/>
-                                    <size key="headerReferenceSize" width="0.0" height="0.0"/>
-                                    <size key="footerReferenceSize" width="0.0" height="0.0"/>
-                                    <inset key="sectionInset" minX="0.0" minY="10" maxX="0.0" maxY="0.0"/>
-                                </collectionViewFlowLayout>
-                                <cells/>
-                                <connections>
-                                    <outlet property="dataSource" destination="pB2-Ga-hBS" id="Sbz-Hw-QWV"/>
-                                    <outlet property="delegate" destination="pB2-Ga-hBS" id="fia-nO-jdd"/>
-                                </connections>
-                            </collectionView>
-                        </subviews>
-                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                        <constraints>
-                            <constraint firstAttribute="trailing" secondItem="nek-ag-PAQ" secondAttribute="trailing" id="FvC-76-vNO"/>
-                            <constraint firstItem="nek-ag-PAQ" firstAttribute="leading" secondItem="blB-DX-QwX" secondAttribute="leading" id="cDr-nD-ASW"/>
-                            <constraint firstAttribute="bottom" secondItem="nek-ag-PAQ" secondAttribute="bottom" id="eWr-ba-zcE"/>
-                            <constraint firstItem="nek-ag-PAQ" firstAttribute="top" secondItem="blB-DX-QwX" secondAttribute="top" id="xwk-5Y-5mu"/>
-                        </constraints>
-                    </view>
-                    <tabBarItem key="tabBarItem" title="Pending" image="Pending" id="WAp-5W-2O2"/>
-                    <connections>
-                        <outlet property="actionsCollectionView" destination="nek-ag-PAQ" id="bl1-2R-AAk"/>
-                        <segue destination="cbm-eK-rUA" kind="custom" identifier="TaskInfos" customClass="MZFormSheetSegue" id="5OE-kE-F6c"/>
-                    </connections>
-                </viewController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="4oD-uN-Xf9" userLabel="First Responder" sceneMemberID="firstResponder"/>
-            </objects>
-            <point key="canvasLocation" x="-214" y="-1556"/>
         </scene>
         <!--Task Info View Controller-->
         <scene sceneID="eRm-rT-DAM">
@@ -1984,10 +1910,10 @@
             </objects>
             <point key="canvasLocation" x="710" y="1724"/>
         </scene>
-        <!--Working-->
+        <!--Tasks-->
         <scene sceneID="ga4-fs-moj">
             <objects>
-                <viewController extendedLayoutIncludesOpaqueBars="YES" id="XvX-gM-RJo" customClass="EAWorkingTasksViewController" sceneMemberID="viewController">
+                <viewController extendedLayoutIncludesOpaqueBars="YES" id="XvX-gM-RJo" customClass="EATasksViewController" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="L7V-gT-Avb"/>
                         <viewControllerLayoutGuide type="bottom" id="kqr-5z-lSu"/>
@@ -1996,7 +1922,7 @@
                         <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="ouT-aa-mux">
+                            <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" misplaced="YES" alwaysBounceVertical="YES" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="ouT-aa-mux">
                                 <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                                 <collectionViewFlowLayout key="collectionViewLayout" minimumLineSpacing="10" minimumInteritemSpacing="10" id="fDA-Sv-ho4">
                                     <size key="itemSize" width="370" height="170"/>
@@ -2006,12 +1932,12 @@
                                 </collectionViewFlowLayout>
                                 <cells/>
                                 <connections>
-                                    <outlet property="dataSource" destination="XvX-gM-RJo" id="Iee-hC-iNX"/>
-                                    <outlet property="delegate" destination="XvX-gM-RJo" id="Typ-RK-6JS"/>
+                                    <outlet property="dataSource" destination="XvX-gM-RJo" id="4d8-3j-g47"/>
+                                    <outlet property="delegate" destination="XvX-gM-RJo" id="Ra9-h7-cko"/>
                                 </connections>
                             </collectionView>
                         </subviews>
-                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <color key="backgroundColor" red="0.96784248740000001" green="0.96784248740000001" blue="0.96784248740000001" alpha="1" colorSpace="calibratedRGB"/>
                         <constraints>
                             <constraint firstItem="ouT-aa-mux" firstAttribute="top" secondItem="L7V-gT-Avb" secondAttribute="bottom" constant="-64" id="BmF-js-hKh"/>
                             <constraint firstItem="ouT-aa-mux" firstAttribute="leading" secondItem="rCs-Ve-fP3" secondAttribute="leadingMargin" constant="-16" id="Cev-5b-ekc"/>
@@ -2020,23 +1946,29 @@
                         </constraints>
                     </view>
                     <tabBarItem key="tabBarItem" title="Working" image="Working" id="5u6-hc-icY"/>
+                    <navigationItem key="navigationItem" title="Tasks" id="Bnw-Jn-kFV">
+                        <barButtonItem key="leftBarButtonItem" title="Menu" id="vua-QE-MWF">
+                            <connections>
+                                <action selector="presentLeftMenuViewController:" destination="XvX-gM-RJo" id="RaQ-Go-QGi"/>
+                            </connections>
+                        </barButtonItem>
+                    </navigationItem>
                     <connections>
-                        <outlet property="actionsCollectionView" destination="ouT-aa-mux" id="CAj-Qc-yek"/>
+                        <outlet property="collectionView" destination="ouT-aa-mux" id="Nop-Zz-4Z9"/>
                         <segue destination="cbm-eK-rUA" kind="custom" identifier="TaskInfos" customClass="MZFormSheetSegue" id="XMH-4z-Rrc"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Xc6-zT-LnS" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-413" y="-2258"/>
+            <point key="canvasLocation" x="-908" y="-1741"/>
         </scene>
     </scenes>
     <resources>
         <image name="LoginBG" width="2560" height="1440"/>
-        <image name="Pending" width="24" height="24"/>
         <image name="Working" width="24" height="24"/>
         <image name="logo" width="777" height="480"/>
     </resources>
     <inferredMetricsTieBreakers>
-        <segue reference="2cc-q0-ku3"/>
+        <segue reference="XMH-4z-Rrc"/>
     </inferredMetricsTieBreakers>
 </document>

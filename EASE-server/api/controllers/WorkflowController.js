@@ -176,7 +176,23 @@ module.exports = {
 
 			})
 
+	},
+	getPendingAndWorkingTasks: function(req,res){
+		SubTask.find({ or : [
+    { status: 'start' },
+    { status: 'pending' }
+  ]
+}).exec(
+			function (err,t){
+				if(err){
+					res.json({error: 'probleme with getpendingandworking'})
+				}
+				res.json({tasks:t});
+
+			})
+
 	}
+
 
 
 
