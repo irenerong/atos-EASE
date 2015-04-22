@@ -21,9 +21,12 @@ module.exports = {
       	enum:['g','kg','cup','tsp','tbsp','L','ml'],
 
  	  },
-  metaworkflow:{
+    metaworkflow:{
     model:'Metaworkflow'
-  }
+    },
+    user:{
+      model:'User'
+    }
  }
 };
 
