@@ -449,7 +449,22 @@ NSString* const EATaskUpdate = @"EATaskUpdate";
     }];
 }
 
+-(void)getPendingAndWorkingTasksCompletionBlock:(void (^) (EASearchResults* searchResults, NSError* error))completionBlock
+{
+    
+    [self.easeServerManager GET:@"workflow/getPendingAndWorkingTasks" parameters:nil success:^(NSURLSessionDataTask *task, NSDictionary *responseObject) {
+        
+        
+        [EASearchResults searchResultsByParsingSearchDictionary:responseObject[@"tasks"] completion:^(EASearchResults *searchResult) {
+            
+            completionBlock(searchResult, nil);
+        }];
+        
+    } failure:^(NSURLSessionDataTask *task, NSError *error) {
+        completionBlock(nil, error);
+    }];
 
+}
 
 -(void)getWorkingTasksCompletionBlock:(void (^) (EASearchResults* searchResults, NSError* error))completionBlock
 {

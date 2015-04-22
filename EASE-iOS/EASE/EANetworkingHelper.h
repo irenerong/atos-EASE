@@ -80,7 +80,10 @@ extern NSString* const EATaskUpdate;
 
 -(void)getPendingTasksCompletionBlock:(void (^) (EASearchResults* searchResults, NSError* error))completionBlock;
 
+-(void)getPendingAndWorkingTasksCompletionBlock:(void (^) (EASearchResults* searchResults, NSError* error))completionBlock;
+
 -(void)getWorkingTasksCompletionBlock:(void (^) (EASearchResults* searchResults, NSError* error))completionBlock;
+
 
 -(void)getNumberOfPendingTasks:(void (^) (int nb, NSError* error))completionBlock;
 -(void)getNumberOfWorkingTasks:(void (^) (int nb, NSError* error))completionBlock;
