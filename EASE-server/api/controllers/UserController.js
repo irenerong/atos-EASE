@@ -96,21 +96,52 @@ module.exports = {
 			});
 
 	},
+	addIngredient: function(req, res){
+      var exist =false;
+      var params=req.params.all();
+      var newIngre=JSON.parse(params.newIngre);
+      // var newIngre=params.newIngre.split(',');
+      console.log(newIngre);
 
-	addIngredient: function(req,res){
+      User.findOne(req.session.userID).populate('ingredient').exec(function(err,user){
+        if (err) return res.json({err: "database error when add ingredient"});
 
-		ingre=req.param('ingredient').split(',');
+        if (!user) return res.json({err :"user doesn't exist"});
 
-		User.addIngredient(req.session.userID,ingre,function(err,user){
-			if (err) return res.json({error:'addIngredient error'});
+        //console.log("findone "+user.ingredient);
 
-			return res.json({ingredient: user.ingredient});
-			console.log("add ingredient finished");
+       	newIngre.forEach(function(e,i,a){
+          exist=false
+          user.ingredient.forEach(function(e1,i1,a1){
 
-		});
+            if (e.name == e1.name){
+              exist=true;
+              e.quantity += e1.quantity;
+              Ingredient.update({id:e1.id},{quantity:e.quantity}).exec(function(err,ingre){});
+            }
+
+          })
+
+          if (exist==false){
+          	console.log(e);
+            Ingredient.create({name:e.name,quantity:e.quantity,unit:e.unit,user:req.session.userID}).exec(function(err,ingre){});
+          }
 
 
-	},
+        })
+       	res.json({'success':newIngre});
+
+      })
+
+    },
+    getIngredient:function(req,res){
+
+    	User.findOne(req.session.userID).populate('ingredient').exec(function(err,user){
+    		res.json({ingredients:user.ingredient});
+    	})
+    },
+
+
 
 	NBIngredientManque :function(req,res){
 

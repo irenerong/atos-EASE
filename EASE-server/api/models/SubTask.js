@@ -56,7 +56,7 @@ module.exports = {
       type :'integer',
       required: true
     },
-    finish: function() {
+     finish: function() {
       console.log("in finish "+this.id);
                 SubTask.update({id:this.id},{status:'finish'}).exec(function(err,updateds){
         if (err) console.log(err);

@@ -21,14 +21,7 @@ module.exports = {
     //subtasks = params.array;
     var consumption = parseFloat(params.consumption);
     var duration = parseInt(params.duration);
-    console.log("consumption "+consumption+" duration "+duration)
-
-    //console.log(params);
-    subtasks.forEach(function(e,i,a){
-      Agent.findOne(e.agentID).exec(function(err, agent){
-        agent.updateNonDispo(e.beginTime,e.duration);
-      })
-    })
+    // console.log("consumption "+consumption+" duration "+duration)
    
     Workflow.create({metaworkflow : params.metaworkflow,duration:duration,consumption:consumption}).exec(
       function(err, workflow){
@@ -49,16 +42,21 @@ module.exports = {
 
             SubTask.find({workflow:workflow.id}).populate('startCondition').exec(function(err,STs){
 
-              //console.log(STs)
+              console.log(STs)
               // try to find already created subtask which are ST's Predecessor
-             STs.forEach(function(e,i,a){WFC.assigneWaitfor(e)}) 
+      
+             async.each(STs,function(e,cb2){WFC.assigneWaitfor(e,function(){cb2(null)})},function(err){cb(null)})
               //async.each(STs,function(ST,cb2){WFC.assigneWaitfor(ST,function(){cb2()})},function(){}) // end for each   
               
           })// end Subtask find
-          cb();
           }// function(workflow,cb)
           ],function(err){
             req.session.generatedWorkflows = null;
+                subtasks.forEach(function(e,i,a){
+                Agent.findOne(e.agentID).exec(function(err, agent){
+                  agent.updateNonDispo(e.beginTime,e.duration);
+                })
+              })
 
             res.json({"new created workflow":workflow.id});
             
@@ -101,7 +99,7 @@ module.exports = {
 
   },
 
-  createStartCondition: function(st,subtask,callback){
+ createStartCondition: function(st,subtask,callback){
 
     var type = 'wait'; // for subtask with precedors
     async.waterfall([function(cb){
@@ -147,7 +145,7 @@ module.exports = {
     
   },
 
-  assigneWaitfor: function(ST){
+  assigneWaitfor: function(ST,callback){
       var waitforlist=[];
              async.waterfall([
 
@@ -177,18 +175,25 @@ module.exports = {
                     //console.log('2 waitforlist'+waitforlist);
                     StartCondition.findOne(ST.startCondition.id).exec(function(err,startcon){
                       while(waitforlist.length != 0){
-                        startcon.waitFor.add(waitforlist.pop());
-                        startcon.save(function(err){});
+                        var wf = waitforlist.pop()
+                        console.log('st: '+startcon.id+' wf: '+wf);
+                        // startcon.waitFor.add(wf);
+                        // startcon.save(function(err,res){console.log(res)});
+                        var query = "INSERT INTO startcondition_waitFor__subtask_nextstartconditions(subtask_nextstartconditions,startcondition_waitFor) VALUES ("+startcon.id+","+wf+")";
+                         StartCondition.query(query,
+                          function(err,row){if (err){console.log(err)} else {console.log(row[0])}}) 
+
                       }
-                   console.log(startcon);
+                   //console.log(startcon);
                       
                       cb2(null);
                     })}
-                ],function(err){}
+                ],function(err){callback()}
            )// end asynwaterfall 2
           },
 
- // } ; 
+
+
 
 
 
