@@ -90,9 +90,9 @@
         
         
         
-        NSMutableAttributedString *agentsString = [[NSMutableAttributedString alloc] initWithString:@"1/2" attributes:@{NSFontAttributeName: [UIFont fontWithName:@"HelveticaNeue-Thin" size:17]}];
+        NSMutableAttributedString *agentsString = [[NSMutableAttributedString alloc] initWithString:[NSString stringWithFormat:@" %d/%d", _workflow.availableUsers, _workflow.users.count] attributes:@{NSFontAttributeName: [UIFont fontWithName:@"HelveticaNeue-Thin" size:17]}];
         
-        [agentsString appendAttributedString:[[NSAttributedString alloc] initWithString:@" Users  " attributes:@{NSFontAttributeName: [UIFont fontWithName:@"HelveticaNeue" size:13]}]];
+        [agentsString appendAttributedString:[[NSAttributedString alloc] initWithString:@" User  " attributes:@{NSFontAttributeName: [UIFont fontWithName:@"HelveticaNeue" size:13]}]];
         
         [agentsString appendAttributedString:[[NSAttributedString alloc] initWithString:[NSString stringWithFormat:@" %d/%d", _workflow.availableAgents, _workflow.agents.count] attributes:@{NSFontAttributeName: [UIFont fontWithName:@"HelveticaNeue-Thin" size:17]}]];
         
@@ -119,23 +119,28 @@
 
 -(NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-    NSInteger rows = 0;
     if (tableView == self.ingredientsTableView)
     {
         return _workflow.ingredients.count;
     }
     else if (tableView == self.agentsTableView)
     {
-        return _workflow.agents.count;
-
+        
+        if (section == 0)
+            return _workflow.users.count;
+        else
+            return _workflow.agents.count;
     }
     
-    return rows;
+    return 0;
 }
 
 -(NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
 {
-    return 1;
+    if (tableView == self.ingredientsTableView)
+        return 1;
+    
+    return 2;
 }
 
 -(UITableViewCell*)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
@@ -162,13 +167,19 @@
     {
         cell = [tableView dequeueReusableCellWithIdentifier:@"AgentsCell"];
         
-        EAAgent *agent = _workflow.agents[indexPath.row];
+        EAAgent *agent;
         
-        cell.textLabel.text = agent.type;
-        cell.detailTextLabel.text = agent.name;
+        if (indexPath.section == 0)
+            agent = _workflow.users[indexPath.row];
+        
+        else
+            agent = _workflow.agents[indexPath.row];
+        
+        cell.textLabel.text = agent.name;
+        cell.detailTextLabel.text = agent.type;
         cell.tintColor = self.workflow.color;
         
-        cell.accessoryType = agent.available ? UITableViewCellAccessoryCheckmark : UITableViewCellAccessoryNone;
+        cell.accessoryType = agent.agentID > 0 ? UITableViewCellAccessoryCheckmark : UITableViewCellAccessoryNone;
 
     }
     return cell;

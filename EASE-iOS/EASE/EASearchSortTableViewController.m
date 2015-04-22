@@ -11,6 +11,8 @@
 @interface EASearchSortTableViewController ()
 
 @property(nonatomic, retain) NSArray *sortStrings;
+@property(nonatomic, readwrite) int sortIndex;
+
 
 @end
 
@@ -27,7 +29,7 @@
     
     self.sortIndex = 1;
     
-    self.sortStrings = @[@"Titre", @"Heure de début", @"Heure de fin"];
+    self.sortStrings = @[@"Consumption", @"Title", @"Duration"];
     
 }
 
@@ -36,6 +38,12 @@
     // Dispose of any resources that can be recreated.
 }
 
+-(void)setSortIndex:(int)sortIndex
+{
+    _sortIndex = sortIndex;
+    
+    [self.tableView reloadData];
+}
 #pragma mark - Table view data source
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
@@ -72,10 +80,14 @@
         {
             cell.accessoryType = UITableViewCellAccessoryCheckmark;
             
-            if (self.sortIndex < 0)
+            cell.detailTextLabel.text = @"";
+
+           /* if (self.sortIndex < 0)
                 cell.detailTextLabel.text = @"Décroissant";
             else
                 cell.detailTextLabel.text = @"Croissant";
+            
+            */
         }
         else
         {
@@ -115,14 +127,37 @@
     [tableView reloadData];
     
 }
-/*
-#pragma mark - Navigation
 
-// In a storyboard-based application, you will often want to do a little preparation before navigation
-- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
-    // Get the new view controller using [segue destinationViewController].
-    // Pass the selected object to the new view controller.
+-(void)setSortBy:(NSString*)string
+{
+        if ([string isEqualToString:@"consumption"])
+            self.sortIndex = 1;
+    else if ([string isEqualToString:@"title"])
+        self.sortIndex = 2;
+    else if ([string isEqualToString:@"duration"])
+        self.sortIndex = 3;
 }
-*/
 
+-(NSString*)sortBy
+{
+    
+    switch (abs(self.sortIndex)) {
+        case 1:
+            return @"consumption";
+            break;
+            
+        case 2:
+            return @"title";
+            break;
+            
+        case 3:
+            return @"duration";
+            break;
+            
+        default:
+            break;
+    }
+    
+    return @"";
+}
 @end

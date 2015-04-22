@@ -12,6 +12,7 @@
 
 #import "EANetworkingHelper.h"
 #import "EATaskCollectionViewCell.h"
+#import "EATaskInfoViewController.h"
 
 @protocol EATasksViewControllerDelegates <NSObject, UICollectionViewDataSource, UICollectionViewDelegate>
 
@@ -22,5 +23,6 @@
 
 @property (weak, nonatomic) IBOutlet UICollectionView *actionsCollectionView;
 @property(nonatomic, retain) EASearchResults *searchResults;
+
 
 @end

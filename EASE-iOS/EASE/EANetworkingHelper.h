@@ -13,6 +13,7 @@
 #import "AFNetworking.h"
 #import "Wit.h"
 #import "EAUser.h"
+#import "EAAgent.h"
 
 #import "AFNetworking+PromiseKit.h"
 
@@ -67,11 +68,23 @@ extern NSString* const EATaskUpdate;
 
 -(void)retrieveMetaworkflowWithID:(int)metaworkflowID completionBlock:(void (^) (EAMetaworkflow* metaworkflow, NSError *error))completionBlock;
 
+-(void)retrieveTaskWithID:(int)taskID completionBlock:(void (^) (EATask* task, NSError *error))completionBlock;
+
+-(void)retrieveWorkflowIDWithTaskID:(int)taskID completionBlock:(void (^) (int workflowID, NSError *error))completionBlock;
+
+
 -(void)retrieveStartConditionWithID:(int)startConditionID completionBlock:(void (^) (NSDictionary* startCondition, NSError *error))completionBlock;
 
+-(void)retrieveAgentWithID:(int)agentID completionBlock:(void (^) (EAAgent* agent, NSError *error))completionBlock;
 
 
 -(void)getPendingTasksCompletionBlock:(void (^) (EASearchResults* searchResults, NSError* error))completionBlock;
+
+-(void)getWorkingTasksCompletionBlock:(void (^) (EASearchResults* searchResults, NSError* error))completionBlock;
+
+-(void)getNumberOfPendingTasks:(void (^) (int nb, NSError* error))completionBlock;
+-(void)getNumberOfWorkingTasks:(void (^) (int nb, NSError* error))completionBlock;
+
 
 -(void)modifyWorkflow:(EAWorkflow*)workflow withParams:(NSDictionary*)params completionBlock:(void (^) (EAWorkflow *newWorkflow, NSError *error))completionBlock;
 

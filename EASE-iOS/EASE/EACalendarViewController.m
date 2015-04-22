@@ -128,6 +128,8 @@
 
     self.navigationItem.rightBarButtonItems = @[self.addButton, self.modeSwitchButton];
 
+    [self.modeSwitchButton setTitle:@"Subtasks"];
+
     
 }
 
@@ -429,6 +431,28 @@
 
 - (IBAction)switchMode:(id)sender {
     self.displayWorkflow = !_displayWorkflow;
+    
+    
+    
+    [UIView animateWithDuration:0.3 animations:^{
+        
+        [self.modeSwitchButton setTitle:@""];
+        
+       
+ 
+    } completion:^(BOOL finished) {
+        
+        [UIView animateWithDuration:0.3 animations:^{
+            if (!self.displayWorkflow)
+                [self.modeSwitchButton setTitle:@"Workflows"];
+            
+            else
+                [self.modeSwitchButton setTitle:@"Subtasks"];
+        }];
+        
+        
+    }];
+  
     
     self.date = _date;
     

@@ -19,11 +19,11 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(pendingTaskDidAdd:) name:EATaskUpdate object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(pendingTaskUpdate:) name:EATaskUpdate object:nil];
     
     // Do any additional setup after loading the view.
+    self.actionsCollectionView.alpha = 0;
     
-    self.tabBarItem.badgeValue = @"100";
     
     [[EANetworkingHelper sharedHelper] getPendingTasksCompletionBlock:^(EASearchResults *searchResults, NSError *error) {
        
@@ -36,6 +36,10 @@
         
         
         [self.actionsCollectionView reloadData];
+        
+        [UIView animateWithDuration:0.3 animations:^{
+            self.actionsCollectionView.alpha = 1;
+        }];
         
     }];
 }
@@ -88,24 +92,63 @@
  
  #pragma mark - Notifications Update
  
--(void)pendingTaskDidAdd:(NSNotification*)notification {
+-(void)pendingTaskUpdate:(NSNotification*)notification {
 
     
     int taskID = ((NSNumber*)notification.userInfo[@"id"]).intValue;
     
-    [self.searchResults updateTaskWithID:taskID completion:^{
-    
-        self.pendingTasks= [NSMutableArray array];
+    [self.searchResults updateTaskWithFeedback:notification.userInfo completion:^{
+        
+        
+        NSMutableArray *newPendingTasks = [NSMutableArray array];
         
         for (EAWorkflow *workflow in self.searchResults.workflows)
-            [self.pendingTasks addObjectsFromArray:workflow.pendingTasks];
+            [newPendingTasks addObjectsFromArray:workflow.pendingTasks];
         
-        
-        
-        [self.actionsCollectionView reloadData];
+       
+        NSMutableArray *insertedIndexPaths = [NSMutableArray array];
+        NSMutableArray *deletedIndexPaths = [NSMutableArray array];
+        NSMutableArray *updatedIndexPaths = [NSMutableArray array];
 
+        for (int i = 0; i < self.pendingTasks.count; i++)
+        {
+            EAWorkflow *w = self.pendingTasks[i];
+            
+            if (![newPendingTasks containsObject:w])
+                [deletedIndexPaths addObject:[NSIndexPath indexPathForItem:i inSection:0]];
+            
+        }
         
+        for (int i = 0; i < newPendingTasks.count; i++)
+        {
+            EAWorkflow *w = newPendingTasks[i];
+            
+            if (![self.pendingTasks containsObject:w])
+                [insertedIndexPaths addObject:[NSIndexPath indexPathForItem:i inSection:0]];
+            else
+                [updatedIndexPaths addObject:[NSIndexPath indexPathForItem:i inSection:0]];
+
+        }
+        
+        
+        self.pendingTasks = newPendingTasks;
+        
+        [self.actionsCollectionView performBatchUpdates:^{
+           
+            [self.actionsCollectionView insertItemsAtIndexPaths:insertedIndexPaths];
+            [self.actionsCollectionView deleteItemsAtIndexPaths:deletedIndexPaths];
+            [self.actionsCollectionView reloadItemsAtIndexPaths:updatedIndexPaths];
+            
+        } completion:^(BOOL finished) {
+            
+        }];
+        
+        
+       
+
     }];
+
+    
 
 }
 

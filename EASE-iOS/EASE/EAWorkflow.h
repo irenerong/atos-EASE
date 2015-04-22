@@ -41,15 +41,20 @@
 @property(nonatomic, strong) UIColor *color;
 
 @property(nonatomic, strong) NSArray *ingredients;
-@property(nonatomic, strong) NSArray *agents;
+
 
 -(NSArray*)tasksAtDate:(NSDate*)date;
 -(NSArray*)pendingTasks;
 -(NSArray*)workingTasks;
+-(NSArray*)agents;
+-(NSArray*)users;
 
 -(int)availableIngredients;
 -(int)availableAgents;
+-(int)availableUsers;
 
 -(EADateInterval*)dateInterval;
+
+
 
 @end

@@ -10,6 +10,9 @@
 
 @interface EAWorkingTasksViewController ()
 
+@property(nonatomic, strong) NSMutableArray *workingTasks;
+
+
 @end
 
 @implementation EAWorkingTasksViewController
@@ -18,11 +21,30 @@
     [super viewDidLoad];
     // Do any additional setup after loading the view.
     
-    self.tabBarItem.badgeValue = @"10";
+    
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(workingTaskUpdate:) name:EATaskUpdate object:nil];
 
     
     self.actionsCollectionView.contentInset = UIEdgeInsetsMake(64, 0, 59, 0);
     self.actionsCollectionView.scrollIndicatorInsets =  UIEdgeInsetsMake(64, 0, 59, 0);
+    
+    self.actionsCollectionView.alpha = 0;
+
+    [[EANetworkingHelper sharedHelper] getWorkingTasksCompletionBlock:^(EASearchResults *searchResults, NSError *error) {
+        
+        self.searchResults = searchResults;
+        self.workingTasks= [NSMutableArray array];
+        
+        for (EAWorkflow *workflow in self.searchResults.workflows)
+            [self.workingTasks addObjectsFromArray:workflow.workingTasks];
+        
+        
+        [UIView animateWithDuration:0.3 animations:^{
+            self.actionsCollectionView.alpha = 1;
+        }];
+        [self.actionsCollectionView reloadData];
+        
+    }];
     
 
 }
@@ -78,7 +100,7 @@
     
     
     
-    return 0;//[EANetworkingHelper sharedHelper].workingTasks.count;
+    return self.workingTasks.count;
     
 }
 
@@ -87,8 +109,7 @@
     EATaskCollectionViewCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:@"TaskCell" forIndexPath:indexPath];
     
     
-    //cell.taskNotification = [EANetworkingHelper sharedHelper].workingTasks[indexPath.row];
-    
+    cell.task = self.workingTasks[indexPath.row];
     
     return cell;
     
@@ -99,18 +120,26 @@
     [self performSegueWithIdentifier:@"TaskInfos" sender:[collectionView cellForItemAtIndexPath:indexPath]];
 }
 
--(void)workingTasksDidAdd
-{
-    //[self.actionsCollectionView insertItemsAtIndexPaths:@[[NSIndexPath indexPathForItem:[EANetworkingHelper sharedHelper].workingTasks.count-1 inSection:0]]];
-
-}
-
--(void)workingTaskUpdated:(NSNotification*)notification
-{
-   /* int index = [[EANetworkingHelper sharedHelper].workingTasks indexOfObject:notification.userInfo[@"workingTask"]];
-    if (index != -1)
-        [self.actionsCollectionView reloadItemsAtIndexPaths:@[[NSIndexPath indexPathForItem:index inSection:0]]];
-  */
+-(void)workingTaskUpdate:(NSNotification*)notification {
+    
+    
+    int taskID = ((NSNumber*)notification.userInfo[@"id"]).intValue;
+    
+    [self.searchResults updateTaskWithFeedback:notification.userInfo completion:^{
+        
+        
+        self.workingTasks= [NSMutableArray array];
+        
+        for (EAWorkflow *workflow in self.searchResults.workflows)
+            [self.workingTasks addObjectsFromArray:workflow.workingTasks];
+        
+        
+        
+        [self.actionsCollectionView reloadData];
+    }];
+    
+    
+    
 }
 
 #pragma mark - EATaskCellDelegate

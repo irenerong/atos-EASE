@@ -96,6 +96,9 @@
        
         NSMutableDictionary *searchQuery = [NSMutableDictionary dictionary];
         
+        [searchQuery addEntriesFromDictionary:@{@"sortBy" : @"consumption"}];
+
+        
         [searchQuery addEntriesFromDictionary:@{@"intent" : results[@"intent"]}];
         
         if (results[@"title"])

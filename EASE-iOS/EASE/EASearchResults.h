@@ -23,8 +23,13 @@
 -(void)updateWorkflowWithID:(int)workflowID completion:(void (^) () )completionBlock;
 -(void)updateTaskWithID:(int)taskID completion:(void (^) () )completionBlock;
 
+-(void)updateTaskWithFeedback:(NSDictionary*)feedback completion:(void (^) ())completionBlock;
+
 @property(nonatomic, strong) NSMutableArray *metaworkflows;
 @property(nonatomic, strong) NSMutableArray *workflows;
+@property(nonatomic, strong) NSMutableArray *agents;
+
+@property(nonatomic, strong) NSDictionary *constraints;
 
 
 @end

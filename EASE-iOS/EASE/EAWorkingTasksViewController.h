@@ -9,7 +9,7 @@
 #import "EATasksViewController.h"
 
 #import "EATaskInfoViewController.h"
-
+#import "EASearchResults.h"
 
 @interface EAWorkingTasksViewController : EATasksViewController <EATasksViewControllerDelegates>
 

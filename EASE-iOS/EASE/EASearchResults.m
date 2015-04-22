@@ -45,60 +45,68 @@
         }
         NSMutableArray *parsedWorkflows = [NSMutableArray array];
         NSMutableArray *parsedMetaworkflows = [NSMutableArray array];
-        
+        NSMutableArray *parsedAgents = [NSMutableArray array];
+
         _workflows = parsedWorkflows;
         _metaworkflows = parsedMetaworkflows;
+        _agents = parsedAgents;
         
         NSMutableDictionary *metaworkflowsLink = [NSMutableDictionary dictionary];
-        
-        if (!workflows)
-        {
-            return nil;
-            
-        }
-        
-        
-        
-        
-        
+        NSMutableDictionary *agentsLink = [NSMutableDictionary dictionary];
+
+      
         
         
         for (int i = 0; i < workflows.count; i++)
         {
             
-                
-                
-                
             
-                NSDictionary *workflowDic = workflows[i];
+            
+            NSDictionary *workflowDic = workflows[i];
+            
+            
+            EAWorkflow *workflow = [EAWorkflow workflowByParsingGeneratorDictionary:workflowDic];
+            if (!workflow)
+            {
+                break;
                 
-                
-                EAWorkflow *workflow = [EAWorkflow workflowByParsingGeneratorDictionary:workflowDic];
-                if (!workflow)
-                {
-                    break;
-                
-                }
-                workflow.workflowID = i;
-                
-                
-                
-                [parsedWorkflows addObject:workflow];
-                
-                
-                int metaworkflowID = ((NSNumber*)workflowDic[@"metaworkflow"]).intValue;
-                
-                if (metaworkflowsLink[@(metaworkflowID)])
-                {
-                    [((NSMutableArray*)metaworkflowsLink[@(metaworkflowID)]) addObject:workflow];
-                }
+            }
+            workflow.workflowID = i;
+            
+            
+            
+            [parsedWorkflows addObject:workflow];
+            
+            
+            
+            
+            int metaworkflowID = ((NSNumber*)workflowDic[@"metaworkflow"]).intValue;
+            
+            if (metaworkflowsLink[@(metaworkflowID)])
+            {
+                [((NSMutableArray*)metaworkflowsLink[@(metaworkflowID)]) addObject:workflow];
+            }
             else
                 metaworkflowsLink[@(metaworkflowID)] = [NSMutableArray arrayWithObject:workflow];
+            
+            
+            for (EATask *task in workflow.tasks)
+            {
+                int agentID = task.agentID;
                 
-           
+                
+                if (agentsLink[@(agentID)])
+                {
+                    [((NSMutableArray*)agentsLink[@(agentID)]) addObject:task];
+                }
+                else
+                    agentsLink[@(agentID)] = [NSMutableArray arrayWithObject:task];
+            }
+            
+            
         }
         
-    
+        
         
         dispatch_group_t group = dispatch_group_create();
         
@@ -108,7 +116,7 @@
             dispatch_group_enter(group);
             
             [[EANetworkingHelper sharedHelper] retrieveMetaworkflowWithID:metaworkflowID.intValue completionBlock:^(EAMetaworkflow *metaworkflow, NSError *error) {
-               
+                
                 for (EAWorkflow *workflow in metaworkflowsLink[metaworkflowID])
                     workflow.metaworkflow = metaworkflow;
                 
@@ -120,9 +128,26 @@
             
         }
         
+        for (NSNumber *agentID in agentsLink)
+        {
+            dispatch_group_enter(group);
+
+            [[EANetworkingHelper sharedHelper] retrieveAgentWithID:agentID completionBlock:^(EAAgent *agent, NSError *error) {
+               
+                for (EATask *task in agentsLink[agentID])
+                    task.agent = agent;
+                
+                [parsedAgents addObject:agent];
+                
+                dispatch_group_leave(group);
+                
+            }];
+            
+        }
+        
         
         dispatch_group_notify(group, dispatch_get_main_queue(), ^{
-           
+            
             completionBlock(self);
             
         });
@@ -141,15 +166,18 @@
     {
         NSMutableArray *parsedWorkflows = [NSMutableArray array];
         NSMutableArray *parsedMetaworkflows = [NSMutableArray array];
-        
+        NSMutableArray *parsedAgents = [NSMutableArray array];
+
         _workflows = parsedWorkflows;
         _metaworkflows = parsedMetaworkflows;
+        _agents = parsedAgents;
         
         NSMutableDictionary *metaworkflowsLink = [NSMutableDictionary dictionary];
-        
+        NSMutableDictionary *agentsLink = [NSMutableDictionary dictionary];
+
         NSMutableArray *workflowsIDs = [NSMutableArray array];
         [array enumerateObjectsUsingBlock:^(NSDictionary *subtask, NSUInteger idx, BOOL *stop) {
-         
+            
             int workflowID;
             
             if (subtask[@"WORKFLOW"])
@@ -161,41 +189,88 @@
                 return obj.intValue == workflowID;
             }] == NSNotFound)
                 
-            [workflowsIDs addObject:@(workflowID)];
+                [workflowsIDs addObject:@(workflowID)];
             
             
         }];
         
         
         dispatch_group_t group = dispatch_group_create();
-
+        
         for (NSNumber *workflowID in workflowsIDs)
         {
             dispatch_group_enter(group);
             
             
             [[EANetworkingHelper sharedHelper] retrieveWorkflowWithID:workflowID.intValue completionBlock:^(EAWorkflow *workflow, int metaworkflowID, NSError *error) {
-               
+                
+                
                 [parsedWorkflows addObject:workflow];
+                
+                
+                dispatch_group_t preGroup = dispatch_group_create();
+                
+                dispatch_group_enter(preGroup);
                 
                 if (metaworkflowsLink[@(metaworkflowID)])
                 {
                     [((NSMutableArray*)metaworkflowsLink[@(metaworkflowID)]) addObject:workflow];
-                    dispatch_group_leave(group);
+                    dispatch_group_leave(preGroup);
                 }
                 else
                 {
                     metaworkflowsLink[@(metaworkflowID)] = [NSMutableArray arrayWithObject:workflow];
                     
                     [[EANetworkingHelper sharedHelper] retrieveMetaworkflowWithID:metaworkflowID completionBlock:^(EAMetaworkflow *metaworkflow, NSError *error) {
-                       
+                        
                         [parsedMetaworkflows addObject:metaworkflow];
-                        dispatch_group_leave(group);
-
+                        dispatch_group_leave(preGroup);
+                        
                         
                     }];
                     
                 }
+                
+                for (EATask *task in workflow.tasks)
+                {
+                    
+                    dispatch_group_enter(preGroup);
+
+                    
+                    if (agentsLink[@(task.agentID)])
+                    {
+                        [((NSMutableArray*)agentsLink[@(task.agentID)]) addObject:task];
+                        dispatch_group_leave(preGroup);
+                    }
+                    else
+                    {
+                        agentsLink[@(task.agentID)] = [NSMutableArray arrayWithObject:task];
+                        
+                        [[EANetworkingHelper sharedHelper] retrieveAgentWithID:task.agentID completionBlock:^(EAAgent *agent, NSError *error) {
+                            
+                        
+                            
+                            [parsedAgents addObject:agent];
+                            dispatch_group_leave(preGroup);
+                            
+                            
+                        }];
+                        
+                    }
+
+                }
+                
+                
+                
+                
+                
+                dispatch_group_notify(preGroup, dispatch_get_main_queue(), ^{
+                    
+                   
+                    
+                    dispatch_group_leave(group);
+                });
+                
                 
                 
             }];
@@ -205,11 +280,17 @@
         
         
         dispatch_group_notify(group, dispatch_get_main_queue(), ^{
-
+            
             for (EAMetaworkflow *metaworkflow in parsedMetaworkflows)
             {
                 for (EAWorkflow *workflow in metaworkflowsLink[@(metaworkflow.metaworkflowID)])
                     workflow.metaworkflow = metaworkflow;
+            }
+            
+            for (EAAgent *agent in parsedAgents)
+            {
+                for (EATask *task in agentsLink[@(agent.agentID)])
+                    task.agent = agent;
             }
             
             completionBlock(self);
@@ -228,7 +309,7 @@
     
     dispatch_group_enter(group);
     
-
+    
     [[EANetworkingHelper sharedHelper] retrieveWorkflowWithID:workflowID completionBlock:^(EAWorkflow *workflow, int metaworkflowID, NSError *error) {
         
         NSUInteger indexWorkflow = [_workflows indexOfObjectPassingTest:^BOOL(EAWorkflow *obj, NSUInteger idx, BOOL *stop) {
@@ -252,7 +333,7 @@
         {
             
             [[EANetworkingHelper sharedHelper] retrieveMetaworkflowWithID:metaworkflowID completionBlock:^(EAMetaworkflow *metaworkflow, NSError *error) {
-               
+                
                 [_metaworkflows addObject:metaworkflow];
                 workflow.metaworkflow = metaworkflow;
                 
@@ -268,14 +349,14 @@
             workflow.metaworkflow = _metaworkflows[indexMetaworkflow];
             dispatch_group_leave(group);
         }
-         
+        
     }];
     
-   dispatch_group_notify(group, dispatch_get_main_queue(), ^{
-      
-       completionBlock();
-       
-   });
+    dispatch_group_notify(group, dispatch_get_main_queue(), ^{
+        
+        completionBlock();
+        
+    });
 }
 
 -(void)updateTaskWithID:(int)taskID completion:(void (^) () )completionBlock
@@ -293,8 +374,19 @@
     }];
     
     if (indexWorkflow == NSNotFound)
-        completionBlock();
-    
+    {
+        
+        [[EANetworkingHelper sharedHelper] retrieveWorkflowIDWithTaskID:taskID completionBlock:^(int workflowID, NSError *error) {
+            
+            
+            [self updateWorkflowWithID:workflowID completion:^{
+                completionBlock();
+                
+            }];
+            
+        }];
+        
+    }
     else
     {
         [self updateWorkflowWithID:((EAWorkflow*)_workflows[indexWorkflow]).workflowID completion:^{
@@ -303,5 +395,48 @@
     }
     
 }
+
+-(void)updateTaskWithFeedback:(NSDictionary*)feedback completion:(void (^) ())completionBlock
+{
+    int taskID = ((NSNumber*)feedback[@"id"]).intValue;
+    NSString *verb = feedback[@"verb"];
+    
+    if ([verb isEqualToString:@"updated"])
+    {
+        EATask *task;
+        
+        for (EAWorkflow *workflow in _workflows)
+        {
+            for (EATask *t in workflow.tasks )
+            {
+                if (t.taskID == taskID)
+                {
+                    task = t;
+                    break;
+                }
+            }
+            if (task)
+                break;
+            
+        }
+        
+        
+        if (task)
+        {
+            [task updateWithFeedback:feedback[@"data"]];
+        }
+        
+        completionBlock();
+        
+    }
+    else if ([verb isEqualToString:@"created"])
+    {
+        [self updateTaskWithID:taskID completion:^{
+            completionBlock();
+        }];
+    }
+    
+}
+
 
 @end
