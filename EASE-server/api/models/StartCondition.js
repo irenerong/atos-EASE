@@ -28,26 +28,53 @@ module.exports = {
   	}, 
 
   	conditionsMet: function(cb) {
+      var thisID=this.id;
+      var pending=true
   		if (this.type == 'time') {
 
   		}
   		else if (this.type == 'wait') {
         console.log('startcondition ID '+this.id);
-  			var query = "SELECT COUNT(*) AS C FROM SubTask JOIN startcondition_waitFor__subtask_nextstartconditions ON subtask.id = startcondition_waitFor__subtask_nextstartconditions.startcondition_waitFor WHERE status <> 'finish' AND subtask_nextstartconditions =" + this.id
-  			StartCondition.query(query, 
+        SubTask.find({status:{'!':'finish'}}).populate('nextStartConditions').exec(function(err,sts){
 
-  				function (err, rows) {
-  					if (err) {
-              console.log(err)
-  						return cb(false)
-  					}
-            console.log('need to wait for '+rows[0].C+'of task');
-  					cb( rows[0].C == 0)
+          if (err){console.log(err),cb(false)}
+
+          else {
+            async.each(sts,function(st,cb2){
+               st.nextStartConditions.forEach(function(nsc,i,a){
+
+              if (nsc.id ==thisID ){
+
+                pending=false;
+
+              }
+
+            })
+               cb2(null);
+            },function(err){
+              cb(pending);
+            })
+
+           
+            
+          } 
+        })
+  			// var query = "SELECT * FROM SubTask AS ST JOIN startcondition_waitFor__subtask_nextstartconditions AS SWSN WHERE status <> 'finish' AND SWSN.subtask_nextstartconditions =" + this.id
+  			// StartCondition.query(query, 
+
+  			// 	function (err, rows) {
+  			// 		if (err) {
+     //          console.log(err)
+  			// 			return cb(false)
+  			// 		}
+     //        console.log('need to wait for '+rows.length+' of task');
+     //        console.log(rows);
+  			// 		cb( rows[0].length == 0)
 
   				}
 
-  				)
-  		}
+  				
+  		
   	}
 
   }
