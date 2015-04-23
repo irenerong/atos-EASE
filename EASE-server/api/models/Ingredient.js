@@ -1,7 +1,7 @@
 /**
 * Ingredient.js
 *
-* @description :: TODO: You might write a short summary of how this model works and what it represents here.
+* @description :: the relation between ingredient and metaworkflow is many to many, in the same time the relation between ingredient and user is many to many also
 * @docs        :: http://sailsjs.org/#!documentation/models
 */
 
