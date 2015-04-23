@@ -90,7 +90,8 @@ Arrangement.arrange = function(arrangeElements){
 	//var be;
 	var message = "";
 	var sortedTasks;
-	
+	var firstTime = true; // First time to try to assign time to subtasks
+	var defaultJump = 15; // A shift of 15min of the workflow if there is a comflit 
 	//By default, coef2 = 0
 	if(this.constraint.type == 1) // If "Finish"
 		coef2 = 1;
@@ -118,8 +119,18 @@ Arrangement.arrange = function(arrangeElements){
 	// Sets minutes of the begin time according to the constraints
 	beginWF.setMinutes(beginWF.getMinutes() - coef2 * wfDuration + coef1 * margin);
 	
-	// Arrange time
-	res = arrangeTimeNonDispo(sortedTasks, beginWF, this.agentsNonDispo)
+	var tmpDate;
+	while(firstTime || res.subtasks.length != length){
+		if(firstTime == false){
+			beginWF.setMinutes(beginWF.getMinutes() + coef1*defaultJump) // Shift the workflow according to the option of constraint
+			tmpDate = new Date();
+			if(tmpDate > beginWF)
+				break;
+		}
+		// Arrange time
+		res = arrangeTimeNonDispo(sortedTasks, beginWF, this.agentsNonDispo)
+		firstTime = false;
+	}
 
 	res.consumption = getConsumption(sortedTasks);
 
@@ -149,8 +160,9 @@ Arrangement.arrange = function(arrangeElements){
 		// 		message += ", "
 		// })
 		// message += " " + be + " not available"
-			// return message;
-		return "comflit";
+		// return message;
+
+		return "comflit, tried every periode and none of them works";
 	}
 	
 };
