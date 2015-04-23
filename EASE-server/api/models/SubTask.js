@@ -85,7 +85,7 @@ module.exports = {
       })
     },
 
-    start: function() {
+    start: function(cb) {
       // var subtask = this;
       // var duree= subtask.duration;
       // var myVar=setInterval(myTimer, 100);//1000
@@ -104,7 +104,21 @@ module.exports = {
       var socket = sails.sockets.subscribers(this.agent+"")[0];
       // console.s(socket)
       // console.log(sails.sockets.id(socket)+" idsddd")
+      if (socket){
       sails.sockets.emit(socket, 'youcanstart',{duration: this.duration, subTaskID:this.id, action:this.action})
+      cb(true)
+      } else {
+        Agent.findOne(this.agent).exec(function(err, agent){
+          if (err) {console.log(err)}
+            else
+            {
+               console.log(agent.agentType+' is not connected, please open the page http://localhost:1337/'+agent.agentType+'.html and try again');
+               cb(false);     
+              }
+            }
+        )
+        }
+
     },
    
 

@@ -30,8 +30,9 @@ module.exports = {
 		req.session.generatedWorkflows=[];
 		req.session.lastsearch = params.intent;
 		Metaworkflow.find({intent:params.intent,title:{'like':'%'+params.title+'%'}}).populate('metatasks').exec(function(err,metaworkflows){
+			if (err) {console.log(err)}
 
-			//console.log(metaworkflow);
+			console.log(metaworkflows);
 
 				async.waterfall([function(cb){
 
