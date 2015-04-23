@@ -268,7 +268,7 @@ module.exports = {
     async.waterfall([
         function (cb2) {
           //Create the metaworkflow and link it to the ticket ++add ingredient
-          Metaworkflow.create({intent :intent ,title: metaworkflow.title}).exec(function (err, metaworkflowCreated) {
+          Metaworkflow.create({intent :intent ,title: metaworkflow.title,image:metaworkflow.image}).exec(function (err, metaworkflowCreated) {
             async.each(metaworkflow.ingredient,
               function(ingredient,cb3){
                   Ingredient.create({name:ingredient.name, quantity:ingredient.quantity, unit:ingredient.unit,metaworkflow:metaworkflowCreated.id}).exec(function(err,ingre){cb3(null)});

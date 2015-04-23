@@ -28,7 +28,7 @@ module.exports = {
 				//SubTask.subscribe(req.session.socket,subtask,['update']);
 				//no need to subcribe socket because, when the subtask was create, socket has already been subscribed to it  
 
-				updateds[0].start();
+				updateds[0].start(function(connected){if (!connected){sails.sockets.emit(sails.sockets.id(req.socket), 'notConnected',{subTaskID:this.id})}});
 				})
 		}
 	},

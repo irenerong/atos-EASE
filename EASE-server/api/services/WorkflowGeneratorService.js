@@ -39,6 +39,8 @@ Task.prototype.getSubtasks = function(cb) {
 
 
     .exec(function (err, agents) { 
+    	if (err){console.log(err)}
+    	if(agents.length == 0){console.log('non agentType find')};
 
     	async.map(agents, function (agent, cb2)
     	{
@@ -198,7 +200,7 @@ module.exports = {
 
 							}
 
-							console.log(ae);
+							//console.log(ae);
 
 							var res2=arrangeTimeNew.reconstitute(ae);
 

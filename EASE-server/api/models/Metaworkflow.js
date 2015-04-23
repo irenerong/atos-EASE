@@ -26,6 +26,9 @@ module.exports = {
     ingredient :{
       collection: 'Ingredient',
       via:'metaworkflow'
+    },
+    image:{
+      type:'string'
     }
     
   }, 
