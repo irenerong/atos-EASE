@@ -318,7 +318,7 @@ NSString* const EATaskUpdate = @"EATaskUpdate";
         else
         {
             
-            NSHTTPCookie *cookie = [[[NSHTTPCookieStorage sharedHTTPCookieStorage] cookiesForURL:[NSURL URLWithString:@"http://localhost:1337/"]] firstObject];
+            NSHTTPCookie *cookie = [[[NSHTTPCookieStorage sharedHTTPCookieStorage] cookiesForURL:[NSURL URLWithString:[NSString stringWithFormat:@"http://%@/", self.easeServerAdress]]] firstObject];
             NSLog(@"%@", cookie.properties);
             
             [self setCookie:cookie];

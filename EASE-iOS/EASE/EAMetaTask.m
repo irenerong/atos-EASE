@@ -29,7 +29,7 @@
         self.name = dic[@"name"];
         
         self.metataskID = ((NSNumber*)dic[@"id"]).intValue;
-        
+        self.desc = dic[@"description"];
     }
     return self;
     

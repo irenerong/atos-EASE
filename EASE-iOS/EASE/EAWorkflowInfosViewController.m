@@ -35,8 +35,7 @@
     self.infosCollectionView.layer.shadowOpacity = 0.2;
     self.infosCollectionView.layer.shadowOffset = CGSizeMake(0,-1);
     
-    
-    
+    //((UICollectionViewFlowLayout*)self.infosCollectionView.collectionViewLayout)
     
     UIEdgeInsets contentInset = UIEdgeInsetsMake(0, 0, self.pullDownController.openBottomOffset+6, 0);
     UIEdgeInsets scrollInset = UIEdgeInsetsMake(0, 0, self.pullDownController.openBottomOffset+10, 0);
@@ -58,6 +57,7 @@
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
 }
+
 
 -(void)setWorkflow:(EAWorkflow *)workflow
 {
@@ -114,6 +114,8 @@
     }
 
 }
+
+
 
 #pragma mark - UITableViewDataSource
 
@@ -197,26 +199,27 @@
 
 -(NSInteger)numberOfSectionsInCollectionView:(UICollectionView *)collectionView
 {
-    return 5;
+    return 1;
 }
 
 -(NSInteger)collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section
 {
-    return 3;
+    return self.workflow.consumption.allKeys.count;
 }
 
 -(UICollectionViewCell*)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath
 {
+    
+    NSDictionary *dic = self.workflow.consumption;
+    
     UICollectionViewCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:@"InfoCell" forIndexPath:indexPath];
     
-    
-    UIImageView *image = [cell viewWithTag:2];
-    image.image = [UIImage imageNamed:@"Hour"];
+    UIImageView *imageView = [cell viewWithTag:2];
+    imageView.image = [UIImage imageNamed:dic.allKeys[indexPath.row]];
     
     UILabel *label = [cell viewWithTag:1];
+    label.text = [NSString stringWithFormat:@"%0.2f", ((NSNumber*)dic.allValues[indexPath.row]).floatValue];
     label.textColor = [UIColor whiteColor];
-    
-    label.text = [NSString stringWithFormat:@"%ld", (long)indexPath.row];
     
     
     return cell;
