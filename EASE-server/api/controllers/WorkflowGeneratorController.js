@@ -177,16 +177,17 @@ module.exports = {
                       while(waitforlist.length != 0){
                         var wf = waitforlist.pop()
                         console.log('st: '+startcon.id+' wf: '+wf);
-                        // startcon.waitFor.add(wf);
-                        // startcon.save(function(err,res){console.log(res)});
-                        var query = "INSERT INTO startcondition_waitFor__subtask_nextstartconditions(subtask_nextstartconditions,startcondition_waitFor) VALUES ("+startcon.id+","+wf+")";
-                         StartCondition.query(query,
-                          function(err,row){if (err){console.log(err)} else {console.log(row[0])}}) 
+                        startcon.waitFor.add(wf);
+                       
+                        // var query = "INSERT INTO startcondition_waitFor__subtask_nextstartconditions(subtask_nextstartconditions,startcondition_waitFor) VALUES ("+startcon.id+","+wf+")";
+                        //  StartCondition.query(query,
+                        //   function(err,row){if (err){console.log(err)} else {console.log(row[0])}}) 
 
                       }
+                       startcon.save(function(err,res){console.log(res),cb2(null);});
                    //console.log(startcon);
                       
-                      cb2(null);
+                      
                     })}
                 ],function(err){callback()}
            )// end asynwaterfall 2

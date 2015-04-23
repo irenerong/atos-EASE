@@ -6,11 +6,11 @@
 <body>
 <div id= "incoming-chat-window"></div>>
 <form id ="outgoing-chat-form">
-	<input size="50" type="text" id="outgoing-chat-field" ></input>
-	<input type="submit"> start a task </input>
-</form>>
+  <input size="50" type="number" id="numberfield" ></input>
+</form>
 
-<button id="start" onclick="start()">start task 17 </button>
+<button id="start" onclick="start()">start task  </button>
+</body>
 
 <script type="text/javascript" src="./js/dependencies/sails.io.js"></script>
 <script type="text/javascript">
@@ -44,7 +44,8 @@ socket.on('connect', function socketConnected() {
 });
 
 function start(){
-  io.socket.post('/subtask/start/',{id:29});
+  var id=document.getElementById("numberfield").value
+  io.socket.post('/subtask/start/',{id:id});
   
 
 }
@@ -80,6 +81,5 @@ io.socket.on('subtask', function (obj){
     console.log('subtask n.'+msg.subTaskID+ 'has '+msg.timeLeft+' minutes left');
   })
 </script>
-</body>
 </html>
 
