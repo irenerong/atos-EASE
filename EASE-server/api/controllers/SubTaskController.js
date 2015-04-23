@@ -32,7 +32,7 @@ module.exports = {
 				})
 		}
 	},
-	getAllSubTasks : function(req, res){
+	getSubtasksAtDay : function(req, res){
 		params = req.params.all();
 		if (req.method === 'POST'){
 			

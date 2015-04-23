@@ -15,5 +15,3 @@ pod 'JTCalendar'
 pod 'Masonry'
 pod 'Socket.IO-Client-Swift', '~> 2.0'
 pod 'XLRemoteImageView'
-
-pod 'PromiseKit-AFNetworking'

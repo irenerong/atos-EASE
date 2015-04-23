@@ -12,4 +12,8 @@
 
 @property(nonatomic, strong) NSString *username;
 
+@property(nonatomic, readwrite) int userID;
+
+@property(nonatomic, strong) NSMutableArray *ingredients;
+
 @end

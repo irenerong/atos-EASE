@@ -7,7 +7,9 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "EAWorkflow.h"
 #import "EATask.h"
+#import "EAMetatask.h"
 
 @interface EAWorkflowTaskCollectionViewCell : UICollectionViewCell
 
@@ -15,8 +17,7 @@
 
 @property (weak, nonatomic) IBOutlet UILabel *taskTitleLabel;
 
-@property (weak, nonatomic) IBOutlet UILabel *taskDescriptionLabel;
-@property (weak, nonatomic) IBOutlet UIImageView *agentTypeImageView;
+
 @property (weak, nonatomic) IBOutlet UILabel *agentNameLabel;
 
 @property(nonatomic, weak) UIColor *color;

@@ -99,14 +99,7 @@
     return self;
 }
 
--(int)availableIngredients {
-    int nb = 0;
-    for (EAIngredient *ingredient in _ingredients)
-        nb+=ingredient.available;
-    
-    return nb;
-    
-}
+
 
 -(int)availableAgents
 {
@@ -119,6 +112,16 @@
 -(int)availableUsers
 {
     return self.users.count;
+}
+
+-(int)availableIngredients
+{
+    int available = 0;
+    
+    for (EAIngredient *ing in self.ingredients)
+        available += ing.available;
+    
+    return available;
 }
 
 -(EADateInterval*)dateInterval
@@ -196,7 +199,6 @@
 {
     _isValidated = workflow.isValidated;
     _title = workflow.title;
-    _ingredients = workflow.ingredients;
 
     for (EATask *task in workflow.tasks)
     {
@@ -251,6 +253,10 @@
     
 }
 
-
+-(NSArray*)ingredients
+{
+    return self.metaworkflow.ingredients;
+    
+}
 
 @end

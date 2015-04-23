@@ -59,7 +59,16 @@
         self.workflowTitleBackgroundView.backgroundColor = [UIColor whiteColor];
         
         self.workflowTitleLabel.text = _task.workflow.title;
-        self.taskNameLabel.text = _task.title;
+        
+        
+        
+        NSMutableAttributedString *taskNameString = [[NSMutableAttributedString alloc] initWithString:[NSString stringWithFormat:@"%@\n", _task.metatask.name] attributes:@{NSFontAttributeName: [UIFont fontWithName:@"HelveticaNeue-Bold" size:13]}];
+        
+        [taskNameString appendAttributedString:[[NSAttributedString alloc] initWithString:_task.title attributes:@{NSFontAttributeName: [UIFont fontWithName:@"HelveticaNeue" size:13]}]];
+        
+        self.taskNameLabel.numberOfLines = 0;
+        self.taskNameLabel.attributedText = taskNameString;
+
         
         self.agentNameLabel.textColor = [UIColor whiteColor];
         self.workflowTitleLabel.textColor = color;
@@ -97,13 +106,13 @@
         self.progressBar.progressTintColors = @[color, color];
         
         
-        NSMutableAttributedString *agentsString = [[NSMutableAttributedString alloc] initWithString:[NSString stringWithFormat:@" %@\n", _task.agent.name] attributes:@{NSFontAttributeName: [UIFont fontWithName:@"HelveticaNeue-Bold" size:13]}];
+        NSMutableAttributedString *agentsString = [[NSMutableAttributedString alloc] initWithString:[NSString stringWithFormat:@"%@\n", _task.agent.name] attributes:@{NSFontAttributeName: [UIFont fontWithName:@"HelveticaNeue-Bold" size:13]}];
         
         [agentsString appendAttributedString:[[NSAttributedString alloc] initWithString:_task.agent.type attributes:@{NSFontAttributeName: [UIFont fontWithName:@"HelveticaNeue" size:13]}]];
         
         self.agentNameLabel.attributedText = agentsString;
 
-        
+
 
         
         NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
@@ -121,10 +130,7 @@
         [buttons removeAllObjects];
         
         
-        if (_task.status == EATaskStatusPending || _task.status == EATaskStatusWorking)
-        {
-            self.buttonsBackgroundView.alpha = 1;
-
+    
         
         
         UIButton *button = [[UIButton alloc] initWithFrame:CGRectMake(0, 3, self.view.frame.size.width, self.buttonsBackgroundView.frame.size.height-3)];
@@ -139,8 +145,8 @@
         if (_task.status == EATaskStatusPending)
             [button setTitle:@"Start" forState:UIControlStateNormal];
         
-        if (_task.status == EATaskStatusWorking)
-            [button setTitle:@"Done" forState:UIControlStateNormal];
+        else
+            [button setTitle:@"" forState:UIControlStateNormal];
         
         
         [self.buttonsBackgroundView addSubview:button];
@@ -151,11 +157,11 @@
             make.edges.equalTo(button.superview).with.insets(UIEdgeInsetsMake(5, 5, 5, 5));
         }];
         
-        }
-        else
-        {
-            self.buttonsBackgroundView.alpha = 0;
-        }
+        
+        NSString *html = @"<html><head></head> <body><center>Salut ! <br /><img src=\"http://www.consostatic.com/wp-content/uploads/2013/06/big-mac-hamburger.jpg\"> </center></body> </html>";
+        
+        [self.descriptionView loadHTMLString:html baseURL:nil];
+    
         
         [self.imageView setImageWithProgressIndicatorAndURL:self.task.workflow.metaworkflow.imageURL];
         [self.imageView.progressIndicatorView setStrokeProgressColor:color];

@@ -37,6 +37,9 @@
         return [[NSString alloc] initWithData:jsonData encoding:NSUTF8StringEncoding];
     }
 }
+
+
+
 @end
 
 @interface EANetworkingHelper ()
@@ -303,33 +306,7 @@ NSString* const EATaskUpdate = @"EATaskUpdate";
     
     self.easeServerManager.responseSerializer =  [AFJSONResponseSerializer serializerWithReadingOptions:NSJSONReadingAllowFragments];
     
-    
-    //[self.easeSocketManager emitObjc:@"get" withItems:@{@"url": @"/user/\"}"}];
-    
-    /*[[self.easeSocketManager emitWithAckObjc:@"post" withItems: @{@"url" : @"/user/signin/", @"data" : @{ @"username" : username, @"password" : password}} ]  onAck:0 withCallback:^(NSArray *cb) {
-     
-     
-     NSLog(@"cb : %@", cb);
-     
-     
-     NSDictionary *responseObject = cb[0][@"body"];
-     
-     NSLog(@"cb : %@", responseObject);
-     
-     if (responseObject[@"error"])
-     {
-     completionBlock([NSError errorWithDomain:responseObject[@"error"] code:0 userInfo:nil]);
-     }
-     else
-     {
-     _currentUser = [EAUser new];
-     _currentUser.username = responseObject[@"user"][@"username"];
-     completionBlock(nil);
-     
-     }
-     
-     }];
-     */
+
     
     
     [self.easeServerManager POST:@"User/signin" parameters:parameters success:^(NSURLSessionDataTask *task, NSDictionary * responseObject) {
@@ -345,9 +322,16 @@ NSString* const EATaskUpdate = @"EATaskUpdate";
             NSLog(@"%@", cookie.properties);
             
             [self setCookie:cookie];
-            _currentUser = [EAUser new];
+            _currentUser = [[EAUser alloc] init];
             _currentUser.username = responseObject[@"user"][@"username"];
-            completionBlock(nil);
+            _currentUser.userID = ((NSNumber*)responseObject[@"user"][@"id"]).intValue;
+
+            
+            [self retrieveUserIngredients:^{
+                completionBlock(nil);
+
+            }];
+            
             
         }
         
@@ -368,6 +352,7 @@ NSString* const EATaskUpdate = @"EATaskUpdate";
     
     
 }
+
 
 -(void)logout
 {
@@ -431,6 +416,46 @@ NSString* const EATaskUpdate = @"EATaskUpdate";
     
     
     
+    
+}
+
+-(void)retrieveUserIngredients:(void (^) () )completionBlock
+{
+    
+    
+    [self.easeServerManager GET:@"user/getIngredient" parameters:nil success:^(NSURLSessionDataTask *task, NSDictionary * responseObject) {
+        
+        if (responseObject[@"error"])
+        {
+            completionBlock([NSError errorWithDomain:responseObject[@"error"] code:0 userInfo:nil]);
+        }
+        else
+        {
+            
+           
+            for (NSDictionary *ing in responseObject[@"ingredients"])
+            {
+                
+                EAIngredient *ingredient = [EAIngredient ingredientWithDictionary:ing];
+                [_currentUser.ingredients addObject:ingredient];
+            }
+            
+            completionBlock(nil);
+            
+        }
+        
+        
+        
+        
+        
+        
+        
+        
+    } failure:^(NSURLSessionDataTask *task, NSError *error) {
+        
+        completionBlock(error);
+        
+    }];
     
 }
 
@@ -664,7 +689,7 @@ NSString* const EATaskUpdate = @"EATaskUpdate";
     
     NSDictionary *parameters = @{@"day" : date.description};
     
-    [self.easeServerManager POST:@"subtask/test" parameters:parameters success:^(NSURLSessionDataTask *task, NSArray* responseObject) {
+    [self.easeServerManager POST:@"subtask/getSubtasksAtDay" parameters:parameters success:^(NSURLSessionDataTask *task, NSArray* responseObject) {
         
         if (responseObject.count == 0)
             completionBlock(nil, nil);

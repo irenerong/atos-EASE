@@ -37,8 +37,21 @@
 {
     _task = task;
     
-    self.taskTitleLabel.text = task.title;
-    self.taskDescriptionLabel.text = task.taskDescription;
+    
+    NSMutableAttributedString *taskNameString = [[NSMutableAttributedString alloc] initWithString:[NSString stringWithFormat:@"%@\n", _task.metatask.name] attributes:@{NSFontAttributeName: [UIFont fontWithName:@"HelveticaNeue-Bold" size:14]}];
+    
+    [taskNameString appendAttributedString:[[NSAttributedString alloc] initWithString:_task.title attributes:@{NSFontAttributeName: [UIFont fontWithName:@"HelveticaNeue" size:14]}]];
+    
+    self.taskTitleLabel.numberOfLines = 0;
+    self.taskTitleLabel.attributedText = taskNameString;
+    self.taskTitleLabel.textColor = _task.workflow.color;
+    
+    NSMutableAttributedString *agentsString = [[NSMutableAttributedString alloc] initWithString:[NSString stringWithFormat:@"%@\n", _task.agent.name] attributes:@{NSFontAttributeName: [UIFont fontWithName:@"HelveticaNeue" size:14]}];
+    
+    [agentsString appendAttributedString:[[NSAttributedString alloc] initWithString:_task.agent.type attributes:@{NSFontAttributeName: [UIFont fontWithName:@"HelveticaNeue-Light" size:14]}]];
+    
+    self.agentNameLabel.numberOfLines = 0;
+    self.agentNameLabel.attributedText = agentsString;
     
     
 }

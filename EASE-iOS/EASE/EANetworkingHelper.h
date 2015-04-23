@@ -15,7 +15,7 @@
 #import "EAUser.h"
 #import "EAAgent.h"
 
-#import "AFNetworking+PromiseKit.h"
+
 
 
 extern NSString* const EATaskUpdate;
@@ -43,7 +43,7 @@ extern NSString* const EATaskUpdate;
 
 @property(nonatomic, strong) NSString *easeServerAdress;
 
-@property(nonatomic, readonly) EAUser *currentUser;
+@property(nonatomic, strong) EAUser *currentUser;
 
 @property(nonatomic, weak) EALoginViewController *loginViewController;
 
@@ -63,6 +63,8 @@ extern NSString* const EATaskUpdate;
 -(void)searchWorkflowsWithConstraints:(NSDictionary*)constraints completionBlock:(void (^) (int totalNumberOfWorkflows, EASearchResults* searchResults, NSError* error))completionBlock;
 
 -(void)searchWorklowsBetweenId:(int)id1 andId:(int)id2 completionBlock:(void (^) (NSArray* workflows, NSError* error))completionBlock;
+
+-(void)retrieveUserIngredients:(void (^) () )completionBlock;
 
 -(void)retrieveWorkflowWithID:(int)workflowID completionBlock:(void (^) (EAWorkflow* workflow, int metaworkflowID, NSError *error))completionBlock;
 

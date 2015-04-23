@@ -260,6 +260,37 @@
         };
 
     }
+    else if ([segue.identifier isEqualToString:@"ShowTask"])
+    {
+        int index = ((NSIndexPath*)self.timelineCollectionView.indexPathsForSelectedItems.firstObject).row;
+        
+        EATask *task = self.tasks[index];
+        
+        
+        MZFormSheetSegue *formSheetSegue = (MZFormSheetSegue *)segue;
+        
+        MZFormSheetController *formSheet = formSheetSegue.formSheetController;
+        
+        ((EATaskInfoViewController*)formSheet.presentedFSViewController).task = task;
+        
+        formSheet.transitionStyle = MZFormSheetTransitionStyleDropDown;
+        formSheet.cornerRadius = 0;
+        formSheet.shouldCenterVertically = true;
+        
+        CGSize screenSize = [UIScreen mainScreen].bounds.size;
+        
+        formSheet.presentedFormSheetSize = CGSizeMake(screenSize.width-50, screenSize.height-100);
+        
+        
+        
+        formSheet.shouldDismissOnBackgroundViewTap = YES;
+        
+        formSheet.willDismissCompletionHandler = ^(UIViewController *presentedFSViewController) {
+            
+            
+        };
+
+    }
     
 }
 
@@ -359,7 +390,7 @@
 
 - (BOOL)calendarHaveEvent:(JTCalendar *)calendar date:(NSDate *)date
 {
-       return YES;
+       return NO;
 }
 
 - (void)calendarDidDateSelected:(JTCalendar *)calendar date:(NSDate *)date

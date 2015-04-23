@@ -25,14 +25,53 @@
         self.metaworkflowID = ((NSNumber*)dictionary[@"id"]).intValue;
         self.title = dictionary[@"title"];
         //self.imageURL = dictionary[@"imageURL"];
-        self.imageURL = [NSURL URLWithString: @"http://www.supermarchesmatch.fr/userfiles/images/Poulet%20au%20curry.jpg"];
+        self.imageURL = [NSURL URLWithString: @"http://img1.mxstatic.com/wallpapers/331df9b319e98e3f5a18873d7093dcba_large.jpeg"];
 
         
+        
+        self.ingredients = [NSMutableArray array];
+        
+        for (NSDictionary *ing in  dictionary[@"ingredient"])
+        {
+            
+            EAIngredient *ingredient = [EAIngredient ingredientWithDictionary:ing];
+            
+                      
+            [self.ingredients addObject:ingredient];
+            
+        }
+        self.metatasks = [NSMutableArray array];
+
+        for (NSDictionary *mt in  dictionary[@"metatasks"])
+        {
+            
+            EAMetaTask *metatask = [EAMetaTask metataskWithDictionary:mt];
+            metatask.metaworkflow = self;
+            
+            [self.metatasks addObject:metatask];
+            
+        }
         
     }
     
     return self;
     
+}
+
+-(EAMetaTask*)metataskWithID:(int)metataskID
+{
+    EAMetaTask *metatask;
+    
+    for (EAMetaTask *mt in self.metatasks)
+    {
+        if (mt.metataskID == metataskID)
+        {
+            metatask = mt;
+            break;
+        }
+    }
+    
+    return metatask;
 }
 
 @end

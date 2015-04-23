@@ -25,6 +25,7 @@
 @property (weak, nonatomic) IBOutlet UIView *agentNameBackgroundView;
 @property (weak, nonatomic) IBOutlet UILabel *agentNameLabel;
 
+@property (weak, nonatomic) IBOutlet UIWebView *descriptionView;
 
 @property (weak, nonatomic) IBOutlet UIView *taskNameBackgroundView;
 @property (weak, nonatomic) IBOutlet UILabel *taskNameLabel;

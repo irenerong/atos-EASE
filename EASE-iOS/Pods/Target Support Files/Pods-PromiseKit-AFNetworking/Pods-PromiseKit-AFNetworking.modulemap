@@ -1,6 +1,0 @@
-framework module PromiseKit_AFNetworking {
-  umbrella header "Pods-PromiseKit-AFNetworking-umbrella.h"
-
-  export *
-  module * { export * }
-}

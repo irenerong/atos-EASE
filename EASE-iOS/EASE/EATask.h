@@ -12,11 +12,14 @@
 @class EAWorkflow;
 @class EADateInterval;
 @class EAAgent;
+@class EAMetaTask;
 
 typedef enum : NSUInteger {
     EATaskStatusWaiting,
     EATaskStatusWorking,
-    EATaskStatusPending
+    EATaskStatusPending,
+    EATaskStatusFinished
+
 } EATaskStatus;
 
 @interface EATask : NSObject
@@ -35,9 +38,13 @@ typedef enum : NSUInteger {
 
 -(void)updateWithTask:(EATask*)task;
 -(void)updateWithFeedback:(NSDictionary*)feedback;
-@property(nonatomic, readonly) int agentID;
+
+-(EAMetaTask*)metatask;
 
 @property(nonatomic, readonly) int taskID;
+@property(nonatomic, readonly) int metataskID;
+
+
 @property(nonatomic, readonly) NSArray *predecessors;
 
 @property(nonatomic, strong) NSString *title;
@@ -47,6 +54,9 @@ typedef enum : NSUInteger {
 @property(nonatomic, strong) EADateInterval *dateInterval;
 
 @property(nonatomic, weak) EAAgent *agent;
+@property(nonatomic, readonly) int agentID;
+
+
 @property(nonatomic, weak) EAWorkflow *workflow;
 
 @property(nonatomic, readwrite) EATaskStatus status;
