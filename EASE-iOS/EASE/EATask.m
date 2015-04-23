@@ -12,6 +12,8 @@
 
 #import "EADateInterval.h"
 #import "EAAgent.h"
+#import "EAWorkflow.h"
+#import "EAMetaTask.h"
 
 @implementation EATask
 
@@ -41,13 +43,16 @@
         
         
         _taskID = ((NSString*)dictionary[@"subTask"]).intValue;
-        
+        _metataskID = ((NSString*)dictionary[@"metatask"]).intValue;
+
         
         
         _predecessors = dictionary[@"predecessors"];
         
         _agentID = ((NSString*)dictionary[@"agent"]).intValue;
 
+        _title = dictionary[@"action"];
+        
         NSDate *beginTime = [NSDate dateByParsingJSString:dictionary[@"beginTime"]];
         float duration =  ((NSString*)dictionary[@"duration"]).intValue;
         NSDate *endTime = [beginTime dateByAddingTimeInterval:duration*60];
@@ -76,8 +81,10 @@
         
         
         _taskID = ((NSString*)dictionary[@"id"]).intValue;
-        
-        
+        _metataskID = ((NSString*)dictionary[@"metatask"]).intValue;
+
+        _title = dictionary[@"action"];
+
         
     [self stringToStatus:dictionary[@"status"]];
         
@@ -123,6 +130,9 @@
         self.status = EATaskStatusWaiting;
     else if ([string isEqualToString:@"pending"])
         self.status = EATaskStatusPending;
+    else if ([string isEqualToString:@"finish"])
+        self.status = EATaskStatusFinished;
+
 }
 
 -(void)updateWithTask:(EATask*)task
@@ -140,6 +150,13 @@
     if (feedback[@"timeLeft"])
         _timeLeft = ((NSNumber*)feedback[@"timeLeft"]).intValue;
 
+}
+
+-(EAMetaTask*)metatask
+{
+    
+    return [self.workflow.metaworkflow metataskWithID:self.metataskID];
+    
 }
 
 

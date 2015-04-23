@@ -7,11 +7,18 @@
 //
 
 #import <Foundation/Foundation.h>
+#import "EANetworkingHelper.h"
 
 @interface EAIngredient : NSObject
 
 @property(nonatomic, strong) NSString *name;
-@property(nonatomic, strong) NSString *quantity;
-@property(nonatomic, readwrite) BOOL available;
+@property(nonatomic, readwrite) float quantity;
+@property(nonatomic, strong) NSString *unit;
+
++(EAIngredient*)ingredientWithDictionary:(NSDictionary*)dic;
+-(instancetype)initWithDictionary:(NSDictionary*)dic;
+
+-(BOOL)available;
+-(BOOL)ingredientIsAvailable:(EAIngredient*)ingredient;
 
 @end

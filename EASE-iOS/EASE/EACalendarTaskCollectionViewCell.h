@@ -20,5 +20,6 @@
 @property (weak, nonatomic) IBOutlet UIView *workflowTitleBackgroundView;
 @property (weak, nonatomic) IBOutlet UILabel *taskTitleLabel;
 @property (weak, nonatomic) IBOutlet UIView *taskTitleBackgroundView;
+@property (weak, nonatomic) IBOutlet UIView *separatorView;
 
 @end

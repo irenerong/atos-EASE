@@ -90,24 +90,6 @@
 #define COCOAPODS_VERSION_MINOR_Masonry 6
 #define COCOAPODS_VERSION_PATCH_Masonry 1
 
-// PromiseKit-AFNetworking
-#define COCOAPODS_POD_AVAILABLE_PromiseKit_AFNetworking
-#define COCOAPODS_VERSION_MAJOR_PromiseKit_AFNetworking 0
-#define COCOAPODS_VERSION_MINOR_PromiseKit_AFNetworking 1
-#define COCOAPODS_VERSION_PATCH_PromiseKit_AFNetworking 6
-
-// PromiseKit/Promise
-#define COCOAPODS_POD_AVAILABLE_PromiseKit_Promise
-#define COCOAPODS_VERSION_MAJOR_PromiseKit_Promise 1
-#define COCOAPODS_VERSION_MINOR_PromiseKit_Promise 5
-#define COCOAPODS_VERSION_PATCH_PromiseKit_Promise 1
-
-// PromiseKit/When
-#define COCOAPODS_POD_AVAILABLE_PromiseKit_When
-#define COCOAPODS_VERSION_MAJOR_PromiseKit_When 1
-#define COCOAPODS_VERSION_MINOR_PromiseKit_When 5
-#define COCOAPODS_VERSION_PATCH_PromiseKit_When 1
-
 // RESideMenu
 #define COCOAPODS_POD_AVAILABLE_RESideMenu
 #define COCOAPODS_VERSION_MAJOR_RESideMenu 4

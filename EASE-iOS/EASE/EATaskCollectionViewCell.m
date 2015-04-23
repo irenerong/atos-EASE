@@ -32,7 +32,7 @@
     
     buttons = [NSMutableArray array];
     
-    
+    self.workflowImageView.clipsToBounds = true;
     
     self.backgroundColor = [UIColor whiteColor];
     
@@ -52,15 +52,20 @@
    
     UIColor *color = self.task.workflow.color;
   
-  
+    self.progressBar.progressTintColors = @[color, color];
+    self.progressBar.hideStripes = true;
+    self.progressBar.trackTintColor = [UIColor clearColor];
+    self.progressBar.type = YLProgressBarTypeFlat;
     
+  
+    self.separatorView.backgroundColor = color;
     self.workflowTitleLabel.textColor = color;
     
     self.workflowTitleLabel.text = self.task.workflow.title;
     
-    self.taskTitleLabel.text = @"Plop";
+    self.taskTitleLabel.text = self.task.title;
     
-    
+    [self.workflowImageView setImageWithProgressIndicatorAndURL:self.task.workflow.metaworkflow.imageURL];
     
     
     NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
@@ -75,19 +80,45 @@
     if (self.task.status == EATaskStatusPending)
     {
         self.agentStatusLabel.text = @"Pending";
-
+        [self.progressBar setProgress:0];
         
+        CALayer *layer = [CALayer layer];
+        
+        layer.frame = CGRectMake(0, 0, 0, self.whiteAgentNameLabel.frame.size.height);
+        layer.backgroundColor = [UIColor whiteColor].CGColor;
+
+        self.whiteAgentNameLabel.layer.mask = layer;
+        self.agentNameLabel.layer.mask = nil;
+
+
     }
     if (self.task.status == EATaskStatusWorking)
     {
         self.agentStatusLabel.text = [NSString stringWithFormat:@"Working\n%d%%", (int)(100*self.task.completionPercentage)];
         
+        [self.progressBar setProgress:self.task.completionPercentage];
+        
+        CALayer *maskLayer = [CALayer layer];
+        
+        maskLayer.frame = CGRectMake(-8, 0, self.task.completionPercentage*self.whiteAgentNameLabel.frame.size.width, self.whiteAgentNameLabel.frame.size.height);
+        maskLayer.backgroundColor = [UIColor whiteColor].CGColor;
+        
+        CALayer *invertedMaskLayer = [CALayer layer];
+        
+        invertedMaskLayer.frame = CGRectMake(self.task.completionPercentage*self.whiteAgentNameLabel.frame.size.width-8, 0, (1-self.task.completionPercentage)*self.whiteAgentNameLabel.frame.size.width, self.whiteAgentNameLabel.frame.size.height);
+        invertedMaskLayer.backgroundColor = [UIColor whiteColor].CGColor;
+        
+        self.whiteAgentNameLabel.layer.mask = maskLayer;
+        self.agentNameLabel.layer.mask = invertedMaskLayer;
+
 
     }
 
     self.agentNameLabel.text = self.task.agent.name;
+    self.whiteAgentNameLabel.text = self.task.agent.name;
     
-    self.durationLabel.text = @"20";
+    
+    self.durationLabel.text = [NSDate timeLeftMessage:self.task.dateInterval.timeInterval];
     
 
 }

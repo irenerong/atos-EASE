@@ -154,7 +154,7 @@
         EAIngredient *ingredient = _workflow.ingredients[indexPath.row];
         
         cell.textLabel.text = ingredient.name;
-        cell.detailTextLabel.text = ingredient.quantity;
+        cell.detailTextLabel.text = [NSString stringWithFormat:@"%0.1f %@", ingredient.quantity, ingredient.unit];
 
         
         
@@ -176,7 +176,11 @@
             agent = _workflow.agents[indexPath.row];
         
         cell.textLabel.text = agent.name;
+        cell.detailTextLabel.text =@"";
+
+        if (![agent.type isEqualToString:@"user"])
         cell.detailTextLabel.text = agent.type;
+        
         cell.tintColor = self.workflow.color;
         
         cell.accessoryType = agent.agentID > 0 ? UITableViewCellAccessoryCheckmark : UITableViewCellAccessoryNone;

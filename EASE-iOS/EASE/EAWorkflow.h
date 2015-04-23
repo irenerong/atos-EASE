@@ -40,7 +40,6 @@
 
 @property(nonatomic, strong) UIColor *color;
 
-@property(nonatomic, strong) NSArray *ingredients;
 
 
 -(NSArray*)tasksAtDate:(NSDate*)date;
@@ -48,10 +47,11 @@
 -(NSArray*)workingTasks;
 -(NSArray*)agents;
 -(NSArray*)users;
+-(NSArray*)ingredients;
 
--(int)availableIngredients;
 -(int)availableAgents;
 -(int)availableUsers;
+-(int)availableIngredients;
 
 -(EADateInterval*)dateInterval;
 
