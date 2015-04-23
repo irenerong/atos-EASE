@@ -25,11 +25,6 @@ module.exports = {
 
     },
 
-  	
-  	taskAgentAdaptationInfos: {
-  		model: 'TaskAgentAdaptationInfos'
-  	}, 
-
     agent: {
       model: 'Agent'
     }, 

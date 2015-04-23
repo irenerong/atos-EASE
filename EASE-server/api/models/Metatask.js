@@ -33,6 +33,10 @@ module.exports = {
     waitFor: {
       type :'array'
     },
+    description:{
+      type : 'string' 
+
+    },
    
 
     afterCreate: function (metatask, cb) {

@@ -5,24 +5,7 @@ function Workflow(metaworkflow) {
 
   //console.log(metaworkflow.metatasks.length+"\n");
   this.tasks = []
-  //var tmp = [];
-   // sails.models.metaworkflow.findOne({id:metaworkflow.id}).populate('metatasks').exec(
-  // 	function(err,metaworkflow){
-  // 		console.log(metaworkflow.metatasks.length)
-  		
-  // 		for (var i = 0; i < metaworkflow.metatasks.length; i++) {
-
-		// var task = new Task(oldthis, metaworkflow.metatasks[i])
-
-		// //console.log(task)
-		// tmp.push(task)
-
-  // };
-
-
-
-  // 	})
-  		//console.log(metaworkflow.metatasks.length)
+ 
   		
   		for (var i = 0; i < metaworkflow.metatasks.length; i++) {
 
@@ -182,56 +165,7 @@ module.exports = {
 					}
 
 					workflow.paths = paths = MathService.cartesianProduct(agentAdaptations);
-					//console.log('Cartesian : \n' + JSON.stringify(workflow.paths,null,4));
-					
-
-					// arrangeTimeNew.init({ type: 0,
-					// 					  option: 1,
-					// 					  time: new Date("Sun Feb 01 2015 2:00:00 GMT+0100 (CET)") 
-					// 					},
-
-					// 					[ 
-					// 					 { 
-					// 					  id: 0,
-					// 					  periodes: 
-					// 					   [ 
-					// 					   	 { duration: 15,
-					// 					       begin: new Date("Sun Feb 01 2015 01:40:00 GMT+0100 (CET)")},
-					// 					     { duration: 30,
-					// 					       begin: new Date("Mon Feb 01 2015 04:00:00 GMT+0100 (CET)")}
-					// 					   ]
-					// 					 },
-
-					// 					 {
-					// 					  id: 1,
-					// 					  periodes: 
-					// 					   [ { duration: 60,
-					// 					       begin: new Date("Sun Feb 01 2015 03:40:00 GMT+0100 (CET)")}
-					// 					   ]
-					// 					 },
-					// 					 {
-					// 					  id: 2,
-					// 					  periodes: 
-					// 					   [ { duration: 20,
-					// 					       begin: new Date("Sun Feb 01 2015 04:40:00 GMT+0100 (CET)")}
-					// 					   ]
-					// 					 },
-					// 					 {
-					// 					  id: 3,
-					// 					  periodes: 
-					// 					   [ { duration: 10,
-					// 					       begin: new Date("Sun Feb 01 2015 05:20:00 GMT+0100 (CET)")}
-					// 					   ]
-					// 					 },
-					// 					 {
-					// 					  id: 4,
-					// 					  periodes: 
-					// 					   [ { duration: 19,
-					// 					       begin: new Date("Sun Feb 01 2015 06:00:00 GMT+0100 (CET)")  } 
-					// 					   ] 
-					// 					 }
-					// 					]
-					// 					)
+	
 
 					for (var i =0; i < workflow.paths.length; i++){
 
@@ -253,7 +187,7 @@ module.exports = {
 								    subtask.beginTime= 0
 								    subtask.agentID=onetask.agentID
 								    subtask.action= workflow.paths[i][j].subtasks[k].action.action
-								    console.log(subtask.action);
+								    //console.log(subtask.action);
 								    subtask.consumption=workflow.paths[i][j].subtasks[k].consumption
 								    subtask.duration=Math.round(workflow.paths[i][j].subtasks[k].consumption.time)
 								    subtask.metatask=workflow.paths[i][j].subtasks[k].metatask;
