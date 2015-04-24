@@ -86,39 +86,31 @@ module.exports = {
     },
 
     start: function(cb) {
-      // var subtask = this;
-      // var duree= subtask.duration;
-      // var myVar=setInterval(myTimer, 100);//1000
-      // function myTimer() {
-      //   if (duree > 0) {
-      //     duree= duree-1;
-      //     console.log(duree+ " left before finish");
-      //   }
-      //   else{
-      //     console.log("avant d'entrer dans finish")
-      //     clearInterval(myVar);
-      //     subtask.finish();
-      //     return;
-      //   }
-      // }
-      var socket = sails.sockets.subscribers(this.agent+"")[0];
+
+      var at = "";
+      var oldThis = this;
       // console.s(socket)
       // console.log(sails.sockets.id(socket)+" idsddd")
-      if (socket){
-      sails.sockets.emit(socket, 'youcanstart',{duration: this.duration, subTaskID:this.id, action:this.action})
-      cb(true)
-      } else {
-        Agent.findOne(this.agent).exec(function(err, agent){
-          if (err) {console.log(err)}
-            else
-            {
-               console.log(agent.agentType+' is not connected, please open the page http://localhost:1337/'+agent.agentType+'.html and try again');
-               cb(false);     
-              }
-            }
-        )
-        }
+      Agent.findOne(oldThis.agent).exec(function(err,agent){
+        if (err) 
+          console.log(err) 
+        else{
+          at = agent.agentType;
+          var socket = sails.sockets.subscribers(at+"")[0];
+          // console.log(sails.sockets.id(socket)+" idsddd")
+          if (socket){
+              sails.sockets.emit(socket, 'youcanstart',{duration: oldThis.duration, subTaskID:oldThis.id, action:oldThis.action})
 
+                cb(true)
+          }
+          else{
+            console.log(agent.agentType+' is not connected, please open the page http://localhost:1337/'+agent.agentType+'.html and try again');
+               cb(false);   
+          }
+        }
+        
+      })
+    
     },
    
 

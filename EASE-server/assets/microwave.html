@@ -33,8 +33,8 @@ p {
 <body>
 <div id= "incoming-chat-window"></div>
 <p class="results" id = "time"></p>
-<h2 id="title">EASE-Oven KO883-eco</h2>
-<img id = "oven" src="images/off.jpg" width = "300" height = "250">
+<h2 id="title">EASE-Microwave KO883-eco</h2>
+<img id = "oven" src="images/microOff.jpg" width = "300" height = "250">
 
 <div>
 <button onclick = "tl()"> Time Left</button>
@@ -67,8 +67,8 @@ typeof console !== 'undefined' &&
 console.log('Connecting Socket.io to Sails.js...');
 // Attach a listener which fires when a connection is established:
 socket.on('connect', function sayHi() {
-  	console.log("hi, I am EASE-Oven KO883-eco, what do you want from me?")
-  	io.socket.post('/agent/joinRoom', {agentName:'oven'})
+  	console.log("hi, I am EASE-Microwave KO883-eco, what do you want from me?")
+  	io.socket.post('/agent/joinRoom', {agentName:'microwave'})
 });
 
 // io.socket.on('rest', function hello(res){
@@ -111,7 +111,7 @@ function myTimer() {
 		else {
 			element.innerHTML ="Task finished, I am free again :)";
 			var ele1 = document.getElementById("title")
-			ele1.innerHTML = "EASE-Oven KO883-eco";
+			ele1.innerHTML = "EASE-Microwave KO883-eco";
 		  	changePic();
 		  	clearInterval(myVar);
 		  	free = true;
@@ -126,7 +126,7 @@ function turnOn(){
 	ele1.innerHTML = action + " in progress :)"
 	if(free || continueTask){
 		var img = document.getElementById("oven");
-		img.src="images/on.jpg";
+		img.src="images/microOn.jpg";
 		myVar=setInterval(myTimer, 2000);
 		if(continueTask){
 			element.innerHTML ="Task continues :)";
@@ -144,7 +144,7 @@ function turnOn(){
 }
 function changePic(){
 	var img = document.getElementById("oven");
-	img.src="images/off.jpg";
+	img.src="images/microOff.jpg";
 }
 function turnOff(){
 	var element = document.getElementById("time");
