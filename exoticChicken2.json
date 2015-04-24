@@ -40,7 +40,7 @@
       "description": "Plop",
       "agentTypes": ["oven", "microwave"],
       "waitFor":[1],
-       "description":"<p>you can use oven or microwave, with oven be sure to prepare 5mins to preheat</p> <img src=\"pic_mountain.jpghttp://whatscookingamerica.net/Poultry/PoultryPhotos/ChickenCooked5.jpg\" alt=\"cook chicken\" style=\"width:432px;height:467px\">"
+       "description":"<p>you can use oven or microwave, with oven be sure to prepare 5mins to preheat</p> <img src=\"http://whatscookingamerica.net/Poultry/PoultryPhotos/ChickenCooked5.jpg\" alt=\"cook chicken\" style=\"width:432px;height:467px\">"
     }, 
     {
       "idTask": 3,
