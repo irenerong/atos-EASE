@@ -98,6 +98,7 @@ function myTimer() {
 	var element = document.getElementById("time");
 		if (timeLeft > 0) {
 			timeLeft = timeLeft-1; 
+			reportStatus();
 			// console.log("leftTime is " + timeLeft)
 			element.innerHTML ="There is "+timeLeft + " mins left for the current task";
 			}

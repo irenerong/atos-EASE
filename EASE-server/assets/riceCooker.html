@@ -95,7 +95,8 @@ var myVar;
 function myTimer() {
 	var element = document.getElementById("time");
 		if (timeLeft > 0) {
-			timeLeft = timeLeft-1; 
+			timeLeft = timeLeft-1;
+			reportStatus(); 
 			// console.log("leftTime is " + timeLeft)
 			element.innerHTML ="There is "+timeLeft + " mins left for the current task";
 			}
@@ -157,7 +158,7 @@ function taskDone(){
 	io.socket.post('/subTask/finish/', {subTask: currentTask});
 }
 function reportStatus(){
-	io.socket.post('/agent/currentStatus', {agentID:4, subTask:currentTask, timeLeft:timeLeft})
+	io.socket.post('/agent/currentStatus', {subTask:currentTask, timeLeft:timeLeft*60})
 }
 </script>
 </body>
