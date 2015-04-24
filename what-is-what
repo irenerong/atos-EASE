@@ -1,0 +1,24 @@
+EASE-Doc : 
+Some documentation we wrote to help you better understand how this prototype of EASE works
+
+EASE-Examples : 
+2 metaworkflows + ingredients
+
+EASE-iOS : The iOS App
+-> You can build it by opening the workspace project file
+
+EASE-server : The Sails.JS Server
+-> The main folders are : 
+	api/
+		agentBehaviors : the agentBehaviors
+		controllers/ : the RESTFul API
+		models/ : the database objects
+		services/ : contains the scheduling library (arrangeTimeNew.js)
+
+	assets/ 
+		(Those HTML pages simulate the smart devices)
+		microwave.html
+		oven.html
+		riceCooker.html
+		ricecooker2.html
+
