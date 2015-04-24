@@ -33,7 +33,7 @@ p {
 <body>
 <div id= "incoming-chat-window"></div>
 <p class="results" id = "time"></p>
-<h2 id ="title">EASE-RiceCooker KO883-eco</h2>
+<h2 id ="title">EASE-riceCooker2 KO883-eco</h2>
 <img id = "oven" src="images/cookerOff.jpg" width = "300" height = "250">
 
 <div>
@@ -66,8 +66,9 @@ typeof console !== 'undefined' &&
 console.log('Connecting Socket.io to Sails.js...');
 // Attach a listener which fires when a connection is established:
 socket.on('connect', function sayHi() {
-  	console.log("hi, I am EASE-RiceCooker KO883-eco, what do you want from me?")
-  	io.socket.post('/agent/joinRoom', {agentName:'ricecooker2'})
+  	console.log("hi, I am EASE-riceCooker2 KO883-eco, what do you want from me?")
+  	io.socket.post('/agent/joinRoom', {agentName:'riceCooker2'})
+
 });
 
 // io.socket.on('rest', function hello(res){
@@ -106,7 +107,8 @@ function myTimer() {
 		else {
 			element.innerHTML ="Task finished, I am free again :)";
 			var ele1 = document.getElementById("title")
-			ele1.innerHTML = "EASE-RiceCooker KO883-eco";
+			ele1.innerHTML = "EASE-riceCooker2 KO883-eco";
+
 		  	changePic();
 		  	clearInterval(myVar);
 		  	free = true;
