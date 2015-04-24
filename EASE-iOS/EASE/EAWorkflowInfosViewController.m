@@ -117,8 +117,12 @@
         [self.imageView.progressIndicatorView setStrokeRemainingColor:[UIColor colorWithWhite:240/255. alpha:1.]];
 
 
-
-
+        NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
+        dateFormatter.timeStyle = NSDateFormatterNoStyle;
+        dateFormatter.dateStyle = NSDateFormatterShortStyle;
+        
+        self.dateLabel.text = [dateFormatter stringFromDate:self.workflow.dateInterval.startDate];
+        
 
     }
 

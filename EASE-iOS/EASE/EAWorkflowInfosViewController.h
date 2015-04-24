@@ -26,6 +26,7 @@
 @property (weak, nonatomic) IBOutlet UIView           *separatorView;
 
 
+@property (weak, nonatomic) IBOutlet UILabel *dateLabel;
 
 
 @end
