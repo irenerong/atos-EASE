@@ -24,6 +24,8 @@
     [super viewDidLoad];
     // Do any additional setup after loading the view, typically from a nib.
 
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(updateTasks:) name:EATaskUpdate object:nil];
+    
     self.navigationItem.title = @"Workflow";
 
     ((EACollectionViewWorkflowLayout *)self.collectionView.collectionViewLayout).delegate  = self;
@@ -177,6 +179,14 @@
 
     }
 
+}
+
+-(void)updateTasks:(NSNotification*)notification
+{
+    
+    [self.workflow updateWithFeedback:notification.userInfo];
+    [self.collectionView reloadData];
+    
 }
 
 @end

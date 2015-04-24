@@ -42,6 +42,19 @@
     self.workflowNameLabel.font              = [UIFont fontWithName:@"HelveticaNeue" size:16];
     self.workflowNameLabel.textColor         = _workflow.color;
 
+    
+    self.checkView.layer.cornerRadius = self.checkView.frame.size.width / 2;
+    
+    self.checkView.layer.shadowColor   = [UIColor blackColor].CGColor;
+    self.checkView.layer.shadowOffset  = CGSizeMake(0, 2);
+    self.checkView.layer.shadowOpacity = 0.3;
+    self.checkView.layer.shadowRadius  = 2;
+    self.checkView.backgroundColor     = workflow.color;
+    
+    self.checkView.alpha = 0;
+    
+    if (_workflow.isDone)
+        self.checkView.alpha = 1;
 
     [self.workflowImageView setImageWithProgressIndicatorAndURL:self.workflow.metaworkflow.imageURL placeholderImage:nil imageDidAppearBlock:^(UIImageView *imageView) {
 
