@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html>
+<head>
+<style>
+img {
+	position: absolute;
+	left: 450px;
+	top: 250px;
+	<!-- z-index: -1; -->
+}
+
+h2 {
+	position:absolute;
+	left:470px;
+	top:150px;
+}
+div {
+	position:absolute;
+	left:470px;
+	top:550px;
+    width: 280px;
+    padding: 10px;
+    border: 1px;
+    margin: 0;
+}
+p {
+	position:absolute;
+	left:470px;
+	top:100px;
+}
+</style>
+</head>
+<body>
+<div id= "incoming-chat-window"></div>
+<p class="results" id = "time"></p>
+<h2 id="title">EASE-Microwave KO883-eco</h2>
+<img id = "oven" src="images/microOff.jpg" width = "300" height = "250">
+
+<div>
+<button onclick = "tl()"> Time Left</button>
+<button id="launch" onclick= "launch()"> Launch </button>
+<button id="turnoff" onclick="turnOff()"> Turn off </button>
+<form id ="outgoing-chat-form">
+	<input size="50" type="text" id="outgoing-chat-field" ></input>
+	<input type="submit"> Feedback </input>
+</form>
+<!-- </SPAN>
+ --> </div>
+<script type="text/javascript" src="./js/dependencies/sails.io.js"></script>
+<script type="text/javascript">
+var timeLeft = 0;
+var free = true;
+var continueTask = false;
+var currentTask;
+var action;
+var currentStatus="free";
+
+if(timeLeft == 0)
+	document.querySelector('.results').innerHTML = "I am free";
+else
+	document.querySelector('.results').innerHTML = "There is "+timeLeft + " mins left for the current task";
+
+
+
+socket = io.connect();
+typeof console !== 'undefined' &&
+console.log('Connecting Socket.io to Sails.js...');
+// Attach a listener which fires when a connection is established:
+socket.on('connect', function sayHi() {
+  	console.log("hi, I am EASE-Microwave KO883-eco, what do you want from me?")
+  	io.socket.post('/agent/joinRoom', {agentName:'microwave'})
+});
+
+// io.socket.on('rest', function hello(res){
+
+// 	console.log("receive time left.");
+// 	timeLeft = res.timeLeft
+// 	// console.log("timeleft------> " + timeLeft)
+// });
+io.socket.on('youcanstart', function (res){
+	console.log("i can start")
+	console.log(res)
+	timeLeft = res.duration;
+	currentTask = res.subTaskID;
+	action = res.action;
+		console.log("subtask "+ currentTask)
+
+	launch();
+});
+
+function launch(){
+	// if(!continueTask && free)
+	// 	io.socket.post('/agent/launch/', {agentID:1, subTask: currentTask, agentName:'oven'});
+	if(continueTask){
+		var element = document.getElementById("time");
+		
+		continueTask = true;
+	}
+	
+	turnOn();
+}
+var myVar;
+function myTimer() {
+	var element = document.getElementById("time");
+		if (timeLeft > 0) {
+			timeLeft = timeLeft-1; 
+			reportStatus();
+			// console.log("leftTime is " + timeLeft)
+			element.innerHTML ="There is "+timeLeft + " mins left for the current task";
+			}
+		else {
+			element.innerHTML ="Task finished, I am free again :)";
+			var ele1 = document.getElementById("title")
+			ele1.innerHTML = "EASE-Microwave KO883-eco";
+		  	changePic();
+		  	clearInterval(myVar);
+		  	free = true;
+		  	currentStatus = "free";
+		  	taskDone();
+		  	return;
+		}
+}
+function turnOn(){
+	var element = document.getElementById("time");
+	var ele1 = document.getElementById("title")
+	ele1.innerHTML = action + " in progress :)"
+	if(free || continueTask){
+		var img = document.getElementById("oven");
+		img.src="images/microOn.jpg";
+		myVar=setInterval(myTimer, 2000);
+		if(continueTask){
+			element.innerHTML ="Task continues :)";
+			continueTask = false;
+		}
+		else
+			element.innerHTML ="Task started";
+		free = false;
+	}
+	else{
+		element.innerHTML = "I am working man! "
+	}
+	currentStatus = "busy";
+
+}
+function changePic(){
+	var img = document.getElementById("oven");
+	img.src="images/microOff.jpg";
+}
+function turnOff(){
+	var element = document.getElementById("time");
+	if(!free){
+		changePic();
+		clearInterval(myVar);
+		element.innerHTML ="Task interupted. Press 'launch' to continue";
+		// free = true;
+		continueTask = true;		
+	}
+	else{
+		clearInterval(myVar);
+		element.innerHTML ="I am already off :)";
+	}
+}
+function tl(){
+	console.log(timeLeft)
+}
+function taskDone(){
+	io.socket.post('/subTask/finish/', {subTask: currentTask});
+}
+function reportStatus(){
+	io.socket.post('/agent/currentStatus', {subTask:currentTask, timeLeft:timeLeft*60})
+}
+</script>
+</body>
+</html>
+

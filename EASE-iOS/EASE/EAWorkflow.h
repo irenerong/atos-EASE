@@ -40,7 +40,7 @@
 
 @property(nonatomic, strong) UIColor *color;
 
-
+-(NSDictionary*)consumption;
 
 -(NSArray*)tasksAtDate:(NSDate*)date;
 -(NSArray*)pendingTasks;

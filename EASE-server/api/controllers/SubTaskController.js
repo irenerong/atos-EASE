@@ -43,7 +43,9 @@ module.exports = {
 	},
 	finish : function(req, res){
 		params = req.params.all();
-		SubTask.findOne(params.subTask).exec(function(err, subtask){
+		// console.log(params.subTask)
+
+		SubTask.findOne({id:params.subTask}).exec(function(err, subtask){
 			subtask.finish();
 		})
 	},

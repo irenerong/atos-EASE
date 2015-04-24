@@ -158,10 +158,11 @@
         }];
         
         
-        NSString *html = @"<html><head></head> <body><center>Salut ! <br /><img src=\"http://www.consostatic.com/wp-content/uploads/2013/06/big-mac-hamburger.jpg\"> </center></body> </html>";
+        NSString *html = [NSString stringWithFormat:@"<html><head><style>div {max-width: 300px;}</style></head> <body><div>%@</div></body> </html>", task.metatask.desc];
         
         [self.descriptionView loadHTMLString:html baseURL:nil];
-    
+        self.descriptionView.delegate = self;
+
         
         [self.imageView setImageWithProgressIndicatorAndURL:self.task.workflow.metaworkflow.imageURL];
         [self.imageView.progressIndicatorView setStrokeProgressColor:color];
@@ -191,6 +192,11 @@
         
     }
  }
+
+-(void)webViewDidFinishLoad:(UIWebView *)theWebView
+{
+
+}
 
 -(void)updateDate
 {

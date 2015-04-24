@@ -43,8 +43,8 @@
 
 @property (strong, nonatomic) IBOutlet UIBarButtonItem *addButton;
 
-@property (strong, nonatomic) IBOutlet UIBarButtonItem *modeSwitchButton;
-
+@property (strong, nonatomic) IBOutlet UIBarButtonItem *modeSwitchBarButton;
+@property(strong, nonatomic) UIButton *modeSwitchButton;
 
 - (IBAction)switchMode:(id)sender;
 

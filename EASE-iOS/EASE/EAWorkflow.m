@@ -7,7 +7,7 @@
 //
 
 #import "EAWorkflow.h"
-#import "NSMutableArray+Flags.h"
+
 #import "EATask.h"
 
 @implementation EAWorkflow
@@ -74,25 +74,28 @@
         
         NSMutableArray *parsedTasks = [NSMutableArray array];
         
-        NSMutableArray *flags = [[NSMutableArray alloc] initWithFlags:tasks.count];
+        dispatch_group_t group = dispatch_group_create();
         for (int i = 0; i < tasks.count; i++)
         {
             NSDictionary *taskDic = tasks[i];
-            
+            dispatch_group_enter(group);
             [EATask taskByParsingSearchDictionary:taskDic fromWorkflow:self completion:^(EATask *task) {
                 
                 [parsedTasks addObject:task];
-                [flags raiseFlag:i];
-                
-                if (flags.allFlagsRaised)
-                    completionBlock(self);
-                
+                dispatch_group_leave(group);
                 
             }];
             
         }
         
         _tasks = parsedTasks;
+        
+        
+        dispatch_group_notify(group, dispatch_get_main_queue(), ^{
+           
+            completionBlock(self);
+            
+        });
         
     }
     
@@ -257,6 +260,28 @@
 {
     return self.metaworkflow.ingredients;
     
+}
+
+-(NSDictionary*)consumption
+{
+    NSMutableDictionary *dic = [NSMutableDictionary dictionary];
+    
+    for (EATask *task in self.tasks)
+    {
+        
+        for (NSString *key in task.consumption.allKeys)
+        {
+            if (!dic[key])
+                dic[key] = task.consumption[key];
+            
+            else
+                dic[key] = @(((NSNumber*)dic[key]).intValue + ((NSNumber*)task.consumption[key]).intValue);
+            
+        }
+        
+    }
+    
+    return dic;
 }
 
 @end

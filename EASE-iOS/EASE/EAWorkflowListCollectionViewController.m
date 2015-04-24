@@ -175,7 +175,7 @@ static NSString * const reuseIdentifier = @"Cell";
     if (collectionView == self.collectionView)
         return self.searchResults.workflows.count;
     
-    return 5;
+    return ((EAWorkflow*)self.searchResults.workflows[collectionView.tag]).consumption.allKeys.count;
     
     
 }
@@ -207,13 +207,15 @@ static NSString * const reuseIdentifier = @"Cell";
         return cell;
     }
     
+    NSDictionary *dic = ((EAWorkflow*)self.searchResults.workflows[collectionView.tag]).consumption;
+    
     UICollectionViewCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:@"InfoCell" forIndexPath:indexPath];
     
     UIImageView *imageView = [cell viewWithTag:2];
-    imageView.image = [UIImage imageNamed:@"Hour"];
+    imageView.image = [UIImage imageNamed:dic.allKeys[indexPath.row]];
     
     UILabel *label = [cell viewWithTag:1];
-    label.text = [NSString stringWithFormat:@"%ld", (long)indexPath.row];
+    label.text = [NSString stringWithFormat:@"%0.2f", ((NSNumber*)dic.allValues[indexPath.row]).floatValue];
     label.textColor = [UIColor whiteColor];
     
     return cell;

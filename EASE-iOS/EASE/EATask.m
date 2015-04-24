@@ -58,6 +58,8 @@
         NSDate *endTime = [beginTime dateByAddingTimeInterval:duration*60];
         _dateInterval = [EADateInterval dateIntervalFrom:beginTime to:endTime];
         
+        self.consumption = dictionary[@"consumption"];
+
         
         
     }
@@ -77,7 +79,7 @@
         
         _workflow = workflow;
         
-        
+        self.consumption = dictionary[@"consumption"];
         
         
         _taskID = ((NSString*)dictionary[@"id"]).intValue;
