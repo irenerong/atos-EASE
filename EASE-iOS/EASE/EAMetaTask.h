@@ -16,6 +16,8 @@
 
 @property(nonatomic, strong) NSString *name;
 @property(nonatomic, readwrite) int metataskID;
+@property(nonatomic, readwrite) NSString* desc;
+
 +(EAMetaTask*)metataskWithDictionary:(NSDictionary*)dic;
 -(instancetype)initWithDictionary:(NSDictionary*)dic;
 

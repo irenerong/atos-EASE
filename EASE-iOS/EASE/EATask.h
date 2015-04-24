@@ -66,5 +66,6 @@ typedef enum : NSUInteger {
 
 @property(nonatomic, readwrite) NSTimeInterval timeLeft;
 
+@property(nonatomic, strong) NSDictionary *consumption;
 
 @end

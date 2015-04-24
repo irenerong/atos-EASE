@@ -7,7 +7,6 @@
 //
 
 #import "EASearchResults.h"
-#import "NSMutableArray+Flags.h"
 
 @implementation EASearchResults
 

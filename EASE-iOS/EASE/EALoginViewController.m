@@ -32,7 +32,7 @@
     
     
     self.usernameTextField.text = @"aladin";
-    self.passwordTextField.text = @"plopplop";
+    self.passwordTextField.text = @"Aladin";
     
 }
 

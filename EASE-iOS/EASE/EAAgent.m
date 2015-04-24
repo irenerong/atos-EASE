@@ -22,9 +22,13 @@
         
         _agentID = ((NSNumber*)responseObject[@"id"]).intValue;
         _type = responseObject[@"agentType"];
+        
+        
+        
         _name = responseObject[@"agentName"];
 
-        
+        if ([_name isKindOfClass:[NSNull class]])
+            _name = @"";
         
     }
     

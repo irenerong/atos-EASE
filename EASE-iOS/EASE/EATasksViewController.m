@@ -59,8 +59,9 @@
 {
     
     int index = ((NSIndexPath*)self.collectionView.indexPathsForSelectedItems.firstObject).row;
-    
-    EATask *task = self.tasks[index];
+    int section = ((NSIndexPath*)self.collectionView.indexPathsForSelectedItems.firstObject).section;
+
+    EATask *task = self.tasks[section][index];
     
     
     MZFormSheetSegue *formSheetSegue = (MZFormSheetSegue *)segue;

@@ -148,7 +148,7 @@ module.exports = {
         jour = jour + day.getDate();
       console.log(jour)
       var subtasks = [];
-      var querySQL = "SELECT * FROM (SELECT ST.WORKFLOW, ST.TASKID,ST.waitforID,ST.TaskAgentAdaptationInfos,ST.Agent,ST.action, ST.consumption, ST.STATUS,ST.DURATION, ST.StartCondition, ST.ID, SC.STARTDATE, SC.TYPE, SC.DELAY FROM SUBTASK ST JOIN STARTCONDITION SC ON SC.id = ST.STARTCONDITION) RES WHERE RES.STARTDATE REGEXP '"+jour+".*'  "
+      var querySQL = "SELECT * FROM (SELECT ST.WORKFLOW, ST.TASKID,ST.waitforID,ST.Agent,ST.action, ST.consumption, ST.STATUS,ST.DURATION, ST.StartCondition, ST.ID, SC.STARTDATE, SC.TYPE, SC.DELAY FROM SUBTASK ST JOIN STARTCONDITION SC ON SC.id = ST.STARTCONDITION) RES WHERE RES.STARTDATE REGEXP '"+jour+".*'  "
       SubTask.query(querySQL, function(err, result){
         if (err) {
               return cb(false)

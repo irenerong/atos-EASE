@@ -125,10 +125,24 @@
     
 
     [self updateTitleWithDate:self.date];
+    //init a normal UIButton using that image
+    
+    
+    
+    self.modeSwitchButton = [[UIButton alloc] initWithFrame:CGRectMake(0, 0, 18, 18)];
+    [self.modeSwitchButton setBackgroundImage:[[UIImage imageNamed:@"zoom-in"] imageWithRenderingMode:UIImageRenderingModeAlwaysTemplate] forState:UIControlStateNormal];
+    [self.modeSwitchButton setShowsTouchWhenHighlighted:YES];
+    
+    //set the button to handle clicks - this one calls a method called 'downloadClicked'
+    [self.modeSwitchButton addTarget:self action:@selector(switchMode:) forControlEvents:UIControlEventTouchDown];
+    self.modeSwitchButton.showsTouchWhenHighlighted = false;
 
-    self.navigationItem.rightBarButtonItems = @[self.addButton, self.modeSwitchButton];
+    //finally, create your UIBarButtonItem using that button
+    self.modeSwitchBarButton= [[UIBarButtonItem alloc] initWithCustomView:self.modeSwitchButton];
+    
+    //then set it.  phew.
 
-    [self.modeSwitchButton setTitle:@"Subtasks"];
+    self.navigationItem.rightBarButtonItems = @[self.addButton, self.modeSwitchBarButton];
 
     
 }
@@ -465,25 +479,17 @@
     
     
     
-    [UIView animateWithDuration:0.3 animations:^{
-        
-        [self.modeSwitchButton setTitle:@""];
-        
-       
- 
-    } completion:^(BOOL finished) {
-        
         [UIView animateWithDuration:0.3 animations:^{
             if (!self.displayWorkflow)
-                [self.modeSwitchButton setTitle:@"Workflows"];
+                [self.modeSwitchButton setImage:[[UIImage imageNamed:@"zoom-out"] imageWithRenderingMode:UIImageRenderingModeAlwaysTemplate] forState:UIControlStateNormal];
+            
             
             else
-                [self.modeSwitchButton setTitle:@"Subtasks"];
+                [self.modeSwitchButton setImage:[[UIImage imageNamed:@"zoom-in"] imageWithRenderingMode:UIImageRenderingModeAlwaysTemplate] forState:UIControlStateNormal];
         }];
         
         
-    }];
-  
+
     
     self.date = _date;
     

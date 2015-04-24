@@ -15,7 +15,7 @@
 #import "SCLAlertView.h"
 #import "Masonry.h"
 
-@interface EATaskInfoViewController : UIViewController
+@interface EATaskInfoViewController : UIViewController <UIWebViewDelegate>
 {
     NSMutableArray *buttons;
 }

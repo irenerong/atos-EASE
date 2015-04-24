@@ -82,11 +82,11 @@
     
     
     NSArray *menuItems = @[@"Dashboard", @"Calendar", @"Tasks", @"Settings"];
+
     UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"cell"];
     
     cell.textLabel.font = [UIFont fontWithName:@"HelveticaNeue-Medium" size:18];
     cell.textLabel.text = menuItems[indexPath.row];
-    //cell.textLabel.textAlignment = NSTextAlignmentCenter;
 
     cell.textLabel.highlightedTextColor = [UIColor lightGrayColor];
     
@@ -94,8 +94,7 @@
     
     cell.textLabel.textColor = [UIColor colorWithWhite:1 alpha:1.];
     
-    
-    
+    cell.imageView.contentMode = UIViewContentModeScaleToFill;
     
     return cell;
     
