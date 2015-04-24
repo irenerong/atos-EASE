@@ -28,32 +28,28 @@
   "metatasks": [
     {
       "idTask": 1,
-      "name": "cut some potatoes",
-      "description": "Plop",
+      "name": "Cut some potatoes",
       "agentTypes": ["user"],
       "waitFor":[],
-      "description":"<p>wash the potatos and peel them,cut into 3cm cube</p> <img src=\"http://www.paulnoll.com/Oregon/Cooking/Casserole/potato-shoestrings-01.jpg\" alt=\"wash potatoes\" style=\"width:600px;height:400px\">"
+      "description":"<p>wash the potatoes and peel them,cut into 3cm cube</p> <img src=\"http://www.paulnoll.com/Oregon/Cooking/Casserole/potato-shoestrings-01.jpg\" alt=\"wash potatoes\" style=\"width:600px;height:400px\">"
     }, 
     {
       "idTask": 2,
-      "name": "cook the chicken for 10 mins",
-      "description": "Plop",
+      "name": "Cook the chicken during 10 mins",
       "agentTypes": ["oven", "microwave"],
       "waitFor":[1],
        "description":"<p>you can use oven or microwave, with oven be sure to prepare 5mins to preheat</p> <img src=\"http://whatscookingamerica.net/Poultry/PoultryPhotos/ChickenCooked5.jpg\" alt=\"cook chicken\" style=\"width:432px;height:467px\">"
     }, 
     {
       "idTask": 3,
-      "name": "cook the potatoe with the chicken",
-      "description": "Plop",
+      "name": "Cook the potatoe with the chicken",
       "agentTypes": ["oven","ricecooker"],
       "waitFor": [1],
        "description":"<p>you can cook the potatos with steam in rice cooker , or you can also put then in oven together with the chicken</p> <img src=\"http://www.bbcgoodfood.com/sites/bbcgoodfood.com/files/recipe_images/recipe-image-legacy-id--1301_11.jpg\" alt=\"chicken with poptatoes\" style=\"width:440px;height:400px\">"
     }, 
     {
       "idTask": 4,
-      "name": "add exotic spices",
-      "description": "Plop",
+      "name": "Add exotic spices",
       "agentTypes": ["user"],
       "waitFor" :[2,3],
       "description":"<p>after ten mins during the chicken been cooking , add some spices to it, and keep heat for 30 mins</p> <img src=\"http://www.hbglobalfoods.com/images/about_us.jpg\" alt=\"exotic spices\" style=\"width:640px;height:425px\">"

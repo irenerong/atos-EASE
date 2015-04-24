@@ -36,9 +36,9 @@
     self.checkView.layer.cornerRadius = self.checkView.frame.size.width/2;
 
     self.checkView.layer.shadowColor   = [UIColor blackColor].CGColor;
-    self.checkView.layer.shadowOffset  = CGSizeMake(0, 2);
-    self.checkView.layer.shadowOpacity = 0.3;
-    self.checkView.layer.shadowRadius  = 2;
+    self.checkView.layer.shadowOffset  = CGSizeMake(0, 1);
+    self.checkView.layer.shadowOpacity = 0.2;
+    self.checkView.layer.shadowRadius  = 1;
     self.checkView.backgroundColor     = _task.workflow.color;
 
     self.checkView.alpha = 0;

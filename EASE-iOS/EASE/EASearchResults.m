@@ -116,7 +116,7 @@
         for (NSNumber *agentID in agentsLink) {
             dispatch_group_enter(group);
 
-            [[EANetworkingHelper sharedHelper] retrieveAgentWithID:agentID completionBlock:^(EAAgent *agent, NSError *error) {
+            [[EANetworkingHelper sharedHelper] retrieveAgentWithID:agentID.intValue completionBlock:^(EAAgent *agent, NSError *error) {
 
                  for (EATask *task in agentsLink[agentID])
                      task.agent = agent;

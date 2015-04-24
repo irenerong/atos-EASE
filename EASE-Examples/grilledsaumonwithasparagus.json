@@ -1,9 +1,9 @@
 {
-  "title": "grilled_saumon_with_Asparagus",
+  "title": "Grilled Salmon With Asparagus",
   "image" :"http://healthycanadians.gc.ca/alt/images/eating-nutrition/healthy-eating-saine-alimentation/recipes-recettes/salmon-saumon-360x203.jpg",
   "ingredient":[
     {
-      "name":"saumon",
+      "name":"salmon",
       "quantity":2
     },
     {
@@ -28,17 +28,17 @@
   "metatasks": [
     {
       "idTask": 1,
-      "name": "wash the saumon and season with salt",
+      "name": "Wash the salmon and season with salt",
       "agentTypes": ["user"],
       "waitFor":[],
-      "description":"<p>clean saumon</p> <img src=\"http://www.pasquier.qc.ca/wp-content/uploads/2013/09/saumon4.jpg\" alt=\"saumon\" style=\"width:1536px;height:1024px\">"
+      "description":"<p>Clean salmon</p> <img src=\"http://www.pasquier.qc.ca/wp-content/uploads/2013/09/saumon4.jpg\" alt=\"saumon\" style=\"width:1536px;height:1024px\">"
     }, 
     {
       "idTask": 2,
       "name": "boil water and dip asparagus",
       "agentTypes": ["user"],
       "waitFor":[],
-       "description":"<p>boil water, in the same time, cut the head of asparagus,and deep them into boiling water to keep them fresh green</p> <img src=\"http://www.recettes-cuisine-afrique.info/IMG/jpg/asperge.jpg\" alt=\"asperge\" style=\"width:400px;height:300px\">"
+       "description":"<p>Boil water, in the same time, cut the head of asparagus,and deep them into boiling water to keep them fresh green</p> <img src=\"http://www.recettes-cuisine-afrique.info/IMG/jpg/asperge.jpg\" alt=\"asperge\" style=\"width:400px;height:300px\">"
     }, 
     {
       "idTask": 3,

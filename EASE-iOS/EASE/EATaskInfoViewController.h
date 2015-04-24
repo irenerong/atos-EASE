@@ -14,6 +14,7 @@
 #import "EAWorkingTask.h"
 #import "SCLAlertView.h"
 #import "Masonry.h"
+#import "UIAlertView+Blocks.h"
 
 @interface EATaskInfoViewController : UIViewController <UIWebViewDelegate>
 {

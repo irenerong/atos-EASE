@@ -35,14 +35,14 @@
 
 
 
-        _taskID     = ((NSString *)dictionary[@"subTask"]).intValue;
-        _metataskID = ((NSString *)dictionary[@"metatask"]).intValue;
+        _taskID     = ((NSNumber *)dictionary[@"subTask"]).intValue;
+        _metataskID = ((NSNumber *)dictionary[@"metatask"]).intValue;
 
 
 
         _predecessors = dictionary[@"predecessors"];
 
-        _agentID = ((NSString *)dictionary[@"agent"]).intValue;
+        _agentID = ((NSNumber *)dictionary[@"agentID"]).intValue;
 
         _title = dictionary[@"action"];
 
