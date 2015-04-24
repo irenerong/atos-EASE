@@ -14,7 +14,7 @@
 - (id)initWithFrame:(CGRect)frame {
     self = [super initWithFrame:frame];
     if (self) {
-        UIImage *image = [UIImage imageNamed:@"decorationImage"];
+        UIImage     *image     = [UIImage imageNamed:@"decorationImage"];
         UIImageView *imageView = [[UIImageView alloc] initWithImage:image];
         imageView.frame = self.bounds;
         [self addSubview:imageView];

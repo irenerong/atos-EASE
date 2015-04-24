@@ -10,15 +10,13 @@
 
 @implementation EAUser
 
--(instancetype)init
-{
-    if (self = [super init])
-    {
+- (instancetype)init {
+    if (self = [super init]) {
         self.ingredients = [NSMutableArray array];
     }
-    
+
     return self;
-    
+
 }
 
 @end

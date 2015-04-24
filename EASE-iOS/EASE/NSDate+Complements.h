@@ -11,11 +11,11 @@
 @interface NSDate (Complements
                    )
 
-+ (instancetype) dateByParsingJSString:(NSString*)JSString;
++ (instancetype)dateByParsingJSString:(NSString *)JSString;
 
 
-+(NSString*)lateFromDate:(NSDate*)date;
++ (NSString *)lateFromDate:(NSDate *)date;
 
-+(NSString*)timeLeftMessage:(NSTimeInterval)timeInterval;
++ (NSString *)timeLeftMessage:(NSTimeInterval)timeInterval;
 
 @end

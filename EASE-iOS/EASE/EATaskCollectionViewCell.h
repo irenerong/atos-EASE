@@ -18,22 +18,22 @@
 
 
 @interface EATaskCollectionViewCell : UICollectionViewCell
-{
-    NSMutableArray *buttons;
-}
-@property (weak, nonatomic) IBOutlet UIImageView *workflowImageView;
 
-@property(nonatomic, weak) EATask *task;
+
+@property (nonatomic, weak) EATask *task;
+
+
+@property (weak, nonatomic) IBOutlet UIImageView *workflowImageView;
 
 @property (weak, nonatomic) IBOutlet UILabel *workflowTitleLabel;
 @property (weak, nonatomic) IBOutlet UILabel *taskTitleLabel;
 @property (weak, nonatomic) IBOutlet UILabel *whiteAgentNameLabel;
 
-@property (weak, nonatomic) IBOutlet UILabel *agentNameLabel;
-@property (weak, nonatomic) IBOutlet UILabel *agentStatusLabel;
-@property (weak, nonatomic) IBOutlet UILabel *startLabel;
+@property (weak, nonatomic) IBOutlet UILabel       *agentNameLabel;
+@property (weak, nonatomic) IBOutlet UILabel       *agentStatusLabel;
+@property (weak, nonatomic) IBOutlet UILabel       *startLabel;
 @property (weak, nonatomic) IBOutlet YLProgressBar *progressBar;
 
-@property (weak, nonatomic) IBOutlet UIView *separatorView;
+@property (weak, nonatomic) IBOutlet UIView  *separatorView;
 @property (weak, nonatomic) IBOutlet UILabel *durationLabel;
 @end

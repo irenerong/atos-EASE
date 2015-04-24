@@ -4,6 +4,7 @@
 #import "SCLAlertViewResponder.h"
 #import "SCLAlertViewStyleKit.h"
 #import "SCLButton.h"
+#import "SCLMacros.h"
 #import "UIImage+ImageEffects.h"
 
 FOUNDATION_EXPORT double SCLAlertView_Objective_CVersionNumber;

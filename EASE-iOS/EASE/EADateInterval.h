@@ -11,13 +11,16 @@
 
 @interface EADateInterval : NSObject
 
++ (instancetype)dateIntervalFrom:(NSDate *)fromDate to:(NSDate *)toDate;
+- (instancetype)initWithBegin:(NSDate *)begin andEnd:(NSDate *)end;
+
+- (BOOL)intersects:(EADateInterval *)dateInterval;
+
+
 @property(nonatomic, strong) NSDate *startDate;
 @property(nonatomic, strong) NSDate *endDate;
+- (NSTimeInterval)timeInterval;
 
--(NSTimeInterval)timeInterval;
--(BOOL)intersects:(EADateInterval*)dateInterval;
 
-+(instancetype)dateIntervalFrom:(NSDate*)fromDate to:(NSDate*)toDate;
--(instancetype)initWithBegin:(NSDate*)begin andEnd:(NSDate*)end;
 
 @end

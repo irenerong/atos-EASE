@@ -10,80 +10,76 @@
 
 @implementation EAWorkflowTaskCollectionViewCell
 
--(id)initWithCoder:(NSCoder *)aDecoder
-{
-    if (self = [super initWithCoder:aDecoder])
-    {
+- (id)initWithCoder:(NSCoder *)aDecoder {
+    if (self = [super initWithCoder:aDecoder]) {
         self.backgroundColor = [UIColor colorWithWhite:255/255.0 alpha:1.0];
-        
-        
-        
-        self.layer.shadowColor = [UIColor colorWithWhite:210/255. alpha:1.].CGColor;
+
+
+
+        self.layer.shadowColor   = [UIColor colorWithWhite:210/255. alpha:1.].CGColor;
         self.layer.shadowOpacity = 0.9;
-        self.layer.shadowOffset = CGSizeMake(0, 1);
-        self.layer.shadowRadius = 1;
-        
-       
-        
+        self.layer.shadowOffset  = CGSizeMake(0, 1);
+        self.layer.shadowRadius  = 1;
+
+
+
         self.layer.masksToBounds = false;
-        
-           }
-    
+
+    }
+
     return self;
 }
 
--(void)setTask:(EATask *)task
-{
+- (void)setTask:(EATask *)task {
     _task = task;
-    
+
     self.checkView.layer.cornerRadius = self.checkView.frame.size.width/2;
-    
-    self.checkView.layer.shadowColor = [UIColor blackColor].CGColor;
-    self.checkView.layer.shadowOffset = CGSizeMake(0, 2);
+
+    self.checkView.layer.shadowColor   = [UIColor blackColor].CGColor;
+    self.checkView.layer.shadowOffset  = CGSizeMake(0, 2);
     self.checkView.layer.shadowOpacity = 0.3;
-    self.checkView.layer.shadowRadius = 2;
-    self.checkView.backgroundColor = _task.workflow.color;
-    
+    self.checkView.layer.shadowRadius  = 2;
+    self.checkView.backgroundColor     = _task.workflow.color;
+
     self.checkView.alpha = 0;
 
-    
+
     if (_task.status == EATaskStatusFinished)
         self.checkView.alpha = 1;
     else
         self.checkView.alpha = 0;
-    
+
     self.checkView.backgroundColor = _task.workflow.color;
 
-    
+
     NSMutableAttributedString *taskNameString = [[NSMutableAttributedString alloc] initWithString:[NSString stringWithFormat:@"%@\n", _task.metatask.name] attributes:@{NSFontAttributeName: [UIFont fontWithName:@"HelveticaNeue-Bold" size:14]}];
-    
+
     [taskNameString appendAttributedString:[[NSAttributedString alloc] initWithString:_task.title attributes:@{NSFontAttributeName: [UIFont fontWithName:@"HelveticaNeue" size:14]}]];
-    
-    self.taskTitleLabel.numberOfLines = 0;
+
+    self.taskTitleLabel.numberOfLines  = 0;
     self.taskTitleLabel.attributedText = taskNameString;
-    self.taskTitleLabel.textColor = _task.workflow.color;
-    
+    self.taskTitleLabel.textColor      = _task.workflow.color;
+
     NSMutableAttributedString *agentsString = [[NSMutableAttributedString alloc] initWithString:[NSString stringWithFormat:@"%@\n", _task.agent.name] attributes:@{NSFontAttributeName: [UIFont fontWithName:@"HelveticaNeue" size:14]}];
-    
+
     [agentsString appendAttributedString:[[NSAttributedString alloc] initWithString:_task.agent.type attributes:@{NSFontAttributeName: [UIFont fontWithName:@"HelveticaNeue-Light" size:14]}]];
-    
-    self.agentNameLabel.numberOfLines = 0;
+
+    self.agentNameLabel.numberOfLines  = 0;
     self.agentNameLabel.attributedText = agentsString;
-    
-    
+
+
 }
 
--(void)setColor:(UIColor *)color
-{
+- (void)setColor:(UIColor *)color {
     if (color == _color)
         return;
-    
-    _color = color;
+
+    _color                                  = color;
     self.titleSeparatorView.backgroundColor = self.color;
-    
+
 }
 
--(void) setHighlighted:(BOOL)highlighted {
+- (void)setHighlighted:(BOOL)highlighted {
     [super setHighlighted:highlighted];
     if (highlighted)
         self.backgroundColor = [UIColor colorWithWhite:240/255. alpha:1.];

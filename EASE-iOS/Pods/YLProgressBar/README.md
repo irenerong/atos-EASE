@@ -27,7 +27,7 @@ $ touch Podfile
 $ edit Podfile
 source 'https://github.com/CocoaPods/Specs.git'
 platform :ios
-pod 'YLProgressBar', '~> 3.5.2'
+pod 'YLProgressBar', '~> 3.6.0'
 ```
 
 Install into your project:
@@ -81,7 +81,7 @@ _progressBar.indicatorTextDisplayMode = YLProgressBarIndicatorTextDisplayModePro
 _progressBar.progressTintColors       = rainbowColors;
 ```
 
-You can also use the `UIAppearence` protocol to configure all the progress bar:
+You can also use the `UIAppearence` protocol to configure all the progress bar at once:
 
 ```objc
 [[YLProgressBar appearance] setType:YLProgressBarTypeFlat];

@@ -17,25 +17,28 @@
 
 #import "EASearchResults.h"
 
-@interface EASearchTableViewController : UITableViewController <UISearchBarDelegate, EANetworkingHelperDelegate, UITextFieldDelegate>
+@interface EASearchTableViewController : UITableViewController <UISearchBarDelegate, UITextFieldDelegate>
+
+@property(weak, nonatomic) id delegate;
+
+
+
+
+
+
 
 @property (weak, nonatomic) IBOutlet UISearchBar *searchBar;
+@property (weak, nonatomic) IBOutlet UILabel     *intentLabel;
+@property (weak, nonatomic) IBOutlet UITextField *searchTextField;
+@property (weak, nonatomic) IBOutlet UILabel     *startDateLabel;
+@property (weak, nonatomic) IBOutlet UILabel     *endDateLabel;
 
+- (NSDictionary *)constraints;
 
-
-- (IBAction)datePickerValueDidChange:(UIDatePicker*)sender;
+- (IBAction)datePickerValueDidChange:(UIDatePicker *)sender;
 - (IBAction)didClickAnyDateButton:(UIButton *)sender;
 - (IBAction)didClickSearchButton:(UIBarButtonItem *)sender;
 
--(NSDictionary*)constraints;
 - (IBAction)didClickCancelButton:(id)sender;
-
-
-@property (weak, nonatomic) IBOutlet UILabel *intentLabel;
-@property (weak, nonatomic) IBOutlet UITextField *searchTextField;
-
-@property (weak, nonatomic) IBOutlet UILabel *startDateLabel;
-@property (weak, nonatomic) IBOutlet UILabel *endDateLabel;
-@property(weak, nonatomic) id delegate;
 
 @end

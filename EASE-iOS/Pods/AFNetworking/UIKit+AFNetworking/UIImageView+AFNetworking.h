@@ -28,18 +28,18 @@
 
 #import <UIKit/UIKit.h>
 
-@class AFHTTPRequestOperation;
+
 
 @protocol AFURLResponseSerialization, AFImageCache;
-
-@interface UIImageView (_AFNetworking)
-@property (readwrite, nonatomic, strong, setter = af_setImageRequestOperation:) AFHTTPRequestOperation *af_imageRequestOperation;
-+ (NSOperationQueue *)af_sharedImageRequestOperationQueue ;
-@end
 
 /**
  This category adds methods to the UIKit framework's `UIImageView` class. The methods in this category provide support for loading remote images asynchronously from a URL.
  */
+
+@interface UIImageView (_AFNetworking)
++ (NSOperationQueue *)af_sharedImageRequestOperationQueue;
+@end
+
 @interface UIImageView (AFNetworking)
 
 ///----------------------------
@@ -47,7 +47,7 @@
 ///----------------------------
 
 /**
- The image cache used to improve image loadiing performance on scroll views. By default, this is an `NSCache` subclass conforming to the `AFImageCache` protocol, which listens for notification warnings and evicts objects accordingly.
+ The image cache used to improve image loading performance on scroll views. By default, this is an `NSCache` subclass conforming to the `AFImageCache` protocol, which listens for notification warnings and evicts objects accordingly.
 */
 + (id <AFImageCache>)sharedImageCache;
 
@@ -145,6 +145,9 @@
  */
 - (void)cacheImage:(UIImage *)image
         forRequest:(NSURLRequest *)request;
+
+
+
 @end
 
 #endif

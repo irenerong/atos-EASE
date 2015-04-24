@@ -24,7 +24,7 @@
 
 import Foundation
 
-public final class SocketIOClient: NSObject, NSURLSessionDelegate, SocketEngineClient, SocketLogClient {
+public final class SocketIOClient: NSObject, SocketEngineClient, SocketLogClient {
     private lazy var params = [String: AnyObject]()
     private var anyHandler:((SocketAnyEvent) -> Void)?
     private var _closed = false
@@ -39,7 +39,6 @@ public final class SocketIOClient: NSObject, NSURLSessionDelegate, SocketEngineC
     private var _sid:String?
     private var _reconnecting = false
     private var reconnectTimer:NSTimer?
-    
     
     let reconnectAttempts:Int!
     let logType = "SocketClient"
@@ -142,6 +141,10 @@ public final class SocketIOClient: NSObject, NSURLSessionDelegate, SocketEngineC
     
     public convenience init(socketURL:String, options:NSDictionary?) {
         self.init(socketURL: socketURL, opts: options)
+    }
+    
+    deinit {
+        SocketLogger.log("Client is being deinit", client: self)
     }
     
     private func addEngine() {
@@ -277,7 +280,7 @@ public final class SocketIOClient: NSObject, NSURLSessionDelegate, SocketEngineC
     /**
     Same as emit, but meant for Objective-C
     */
-    public func emitObjc(event:String, withItems items:[AnyObject]) {
+    public func emit(event:String, withItems items:[AnyObject]) {
         if !self.connected {
             return
         }
@@ -302,7 +305,7 @@ public final class SocketIOClient: NSObject, NSURLSessionDelegate, SocketEngineC
     /**
     Same as emitWithAck, but for Objective-C
     */
-    public func emitWithAckObjc(event:String, withItems items:[AnyObject]) -> OnAckCallback {
+    public func emitWithAck(event:String, withItems items:[AnyObject]) -> OnAckCallback {
         if !self.connected {
             return self.createOnAck(event, items: items)
         }
@@ -344,7 +347,7 @@ public final class SocketIOClient: NSObject, NSURLSessionDelegate, SocketEngineC
             str = packet.createAck()
             
             SocketLogger.log("Emitting Ack: \(str)", client: self!)
-
+            
             if packet.type == SocketPacket.PacketType.BINARY_ACK {
                 self?.engine?.send(str, withData: packet.binary)
             } else {
@@ -487,7 +490,6 @@ public final class SocketIOClient: NSObject, NSURLSessionDelegate, SocketEngineC
                 
                 self?.reconnectTimer = NSTimer.scheduledTimerWithTimeInterval(Double(self!.reconnectWait),
                     target: self!, selector: "tryReconnect", userInfo: nil, repeats: true)
-                return
             }
         }
         

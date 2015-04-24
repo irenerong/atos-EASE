@@ -29,29 +29,29 @@ typedef NS_ENUM(NSInteger, SCLActionType)
  */
 @property SCLActionType actionType;
 
-/** TODO
+/** Set action button block.
  *
  * TODO
  */
 @property (nonatomic, copy) SCLActionBlock actionBlock;
 
-/** TODO
+/** Set Validation button block.
  *
- * TODO
+ * Set one kind of validation and keeps the alert visible until the validation is successful
  */
 @property (nonatomic, copy) SCLValidationBlock validationBlock;
 
 /** Set Complete button format block.
  *
  * Holds the complete button format block.
- * Support keys : backgroundColor, borderColor, textColor
+ * Support keys : backgroundColor, borderWidth, borderColor, textColor
  */
 @property (nonatomic, copy) CompleteButtonFormatBlock completeButtonFormatBlock;
 
 /** Set button format block.
  *
  * Holds the button format block.
- * Support keys : backgroundColor, borderColor, textColor
+ * Support keys : backgroundColor, borderWidth, borderColor, textColor
  */
 @property (nonatomic, copy) ButtonFormatBlock buttonFormatBlock;
 
@@ -69,7 +69,7 @@ typedef NS_ENUM(NSInteger, SCLActionType)
 
 /** Set selector id.
  *
- * A selector is the name used to select a method to execute for an object, 
+ * A selector is the name used to select a method to execute for an object,
  * or the unique identifier that replaces the name when the source code is compiled.
  */
 @property SEL selector;
@@ -77,7 +77,7 @@ typedef NS_ENUM(NSInteger, SCLActionType)
 /** Parse button configuration
  *
  * Parse ButtonFormatBlock and CompleteButtonFormatBlock setting custom configuration.
- * Set keys : backgroundColor, borderColor, textColor
+ * Set keys : backgroundColor, borderWidth, borderColor, textColor
  */
 - (void)parseConfig:(NSDictionary *)buttonConfig;
 

@@ -17,46 +17,41 @@
 
 @interface EAWorkflow : NSObject
 {
-    
 }
 
-+(instancetype)workflowByParsingGeneratorDictionary:(NSDictionary*)dictionary;
-+(instancetype)workflowByParsingSearchDictionary:(NSDictionary*)dictionary completion:(void (^) (EAWorkflow *workflow))completionBlock;
--(instancetype)initWithGeneratorDictionary:(NSDictionary*)dictionary;
--(instancetype)initWithSearchDictionary:(NSDictionary*)dictionary completion:(void (^) (EAWorkflow *workflow))completionBlock;
++ (instancetype)workflowByParsingGeneratorDictionary:(NSDictionary *)dictionary;
++ (instancetype)workflowByParsingSearchDictionary:(NSDictionary *)dictionary completion:(void (^) (EAWorkflow *workflow))completionBlock;
+- (instancetype)initWithGeneratorDictionary:(NSDictionary *)dictionary;
+- (instancetype)initWithSearchDictionary:(NSDictionary *)dictionary completion:(void (^) (EAWorkflow *workflow))completionBlock;
 
--(void)updateWithWorkflow:(EAWorkflow*)workflow;
-
-@property(nonatomic, weak) EAMetaworkflow *metaworkflow;
-
-@property(nonatomic, readwrite) BOOL isValidated;
-
-@property(nonatomic, readwrite) int workflowID;
-
-@property(nonatomic, strong) NSString *title;
-@property(nonatomic, strong) NSString *sortTag;
-
-@property(nonatomic, strong) NSMutableArray *tasks;
-
-@property(nonatomic, readwrite) int colorIndex;
+- (void)updateWithWorkflow:(EAWorkflow *)workflow;
 
 
--(UIColor*)color;
 
--(NSDictionary*)consumption;
+@property (nonatomic, weak) EAMetaworkflow   *metaworkflow;
+@property (nonatomic, readwrite) BOOL        isValidated;
+@property (nonatomic, readwrite) int         workflowID;
+@property (nonatomic, strong) NSString       *title;
+@property (nonatomic, strong) NSString       *sortTag;
+@property (nonatomic, strong) NSMutableArray *tasks;
+@property (nonatomic, readwrite) int         colorIndex;
+- (UIColor *)color;
 
--(NSArray*)tasksAtDate:(NSDate*)date;
--(NSArray*)pendingTasks;
--(NSArray*)workingTasks;
--(NSArray*)agents;
--(NSArray*)users;
--(NSArray*)ingredients;
+- (NSDictionary *)consumption;
 
--(int)availableAgents;
--(int)availableUsers;
--(int)availableIngredients;
+- (NSArray *)tasksAtDate:(NSDate *)date;
+- (NSArray *)pendingTasks;
+- (NSArray *)workingTasks;
+- (NSArray *)agents;
+- (NSArray *)users;
+- (NSArray *)ingredients;
 
--(EADateInterval*)dateInterval;
+- (int)availableAgents;
+- (int)availableUsers;
+- (int)availableIngredients;
+
+- (EADateInterval *)dateInterval;
+
 
 
 

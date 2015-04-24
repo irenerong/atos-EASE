@@ -12,11 +12,11 @@
 #import <tgmath.h>
 
 
-static CGFloat const kDefaultClosedTopOffset = 44.f;
-static CGFloat const kDefaultOpenBottomOffset = 44.f;
-static CGFloat const kDefaultOpenDragOffset = NAN;
-static CGFloat const kDefaultCloseDragOffset = NAN;
-static CGFloat const kDefaultOpenDragOffsetPercentage = .05;
+static CGFloat const kDefaultClosedTopOffset           = 44.f;
+static CGFloat const kDefaultOpenBottomOffset          = 44.f;
+static CGFloat const kDefaultOpenDragOffset            = NAN;
+static CGFloat const kDefaultCloseDragOffset           = NAN;
+static CGFloat const kDefaultOpenDragOffsetPercentage  = .05;
 static CGFloat const kDefaultCloseDragOffsetPercentage = .05;
 
 
@@ -35,7 +35,7 @@ static CGFloat const kDefaultCloseDragOffsetPercentage = .05;
 @interface MBPullDownController ()
 
 @property (nonatomic, strong) MBPullDownControllerTapUpRecognizer *tapUpRecognizer;
-@property (nonatomic, assign) BOOL adjustedScroll;
+@property (nonatomic, assign) BOOL                                adjustedScroll;
 
 @end
 
@@ -52,7 +52,7 @@ static CGFloat const kDefaultCloseDragOffsetPercentage = .05;
     self = [super init];
     if (self) {
         _frontController = front;
-        _backController = back;
+        _backController  = back;
         [self sharedInitialization];
     }
     return self;
@@ -67,34 +67,34 @@ static CGFloat const kDefaultCloseDragOffsetPercentage = .05;
 }
 
 - (void)sharedInitialization {
-    _pullToToggleEnabled = YES;
-    _closedTopOffset = kDefaultClosedTopOffset;
-    _openBottomOffset = kDefaultOpenBottomOffset;
-    _openDragOffset = kDefaultOpenDragOffset;
-    _closeDragOffset = kDefaultCloseDragOffset;
-    _openDragOffsetPercentage = kDefaultOpenDragOffsetPercentage;
+    _pullToToggleEnabled       = YES;
+    _closedTopOffset           = kDefaultClosedTopOffset;
+    _openBottomOffset          = kDefaultOpenBottomOffset;
+    _openDragOffset            = kDefaultOpenDragOffset;
+    _closeDragOffset           = kDefaultCloseDragOffset;
+    _openDragOffsetPercentage  = kDefaultOpenDragOffsetPercentage;
     _closeDragOffsetPercentage = kDefaultCloseDragOffsetPercentage;
-    _backgroundView = [MBPullDownControllerBackgroundView new];
-    
+    _backgroundView            = [MBPullDownControllerBackgroundView new];
+
     //_backgroundView.backgroundColor = [UIColor greenColor];
 }
 
 - (void)loadView {
-    CGRect frame = [UIScreen mainScreen].bounds;
+    CGRect                            frame = [UIScreen mainScreen].bounds;
     MBPullDownControllerContainerView *view = [[MBPullDownControllerContainerView alloc] initWithFrame:frame];
-    view.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight;
+    view.autoresizingMask   = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight;
     view.pullDownController = self;
-    self.view = view;
+    self.view               = view;
 }
 
 - (void)viewDidLoad {
     [super viewDidLoad];
     [self changeBackControllerFrom:nil to:self.backController];
     [self changeFrontControllerFrom:nil to:self.frontController];
-    
-    
+
+
     self.navigationController.navigationBar.tintColor = [UIColor grayColor];
-    
+
 }
 
 - (void)dealloc {
@@ -193,59 +193,54 @@ static CGFloat const kDefaultCloseDragOffsetPercentage = .05;
     [self setOpen:open animated:NO];
 }
 
-
-
-
 - (void)setOpen:(BOOL)open animated:(BOOL)animated {
     if (open != _open) {
         [self willChangeValueForKey:@"open"];
         _open = open;
         [self didChangeValueForKey:@"open"];
     }
-    
+
     UIScrollView *scrollView = [self scrollView];
     if (!scrollView) {
         return;
     }
-    
-    if([self.frontController conformsToProtocol:@protocol(MBPullDownChildController)]){
-        if(open){
-            if([self.frontController respondsToSelector:@selector(pullDownWillOpenAnimated:)]){
-                [(id<MBPullDownChildController>)self.frontController pullDownWillOpenAnimated:animated];
+
+    if ([self.frontController conformsToProtocol:@protocol(MBPullDownChildController)]) {
+        if (open) {
+            if ([self.frontController respondsToSelector:@selector(pullDownWillOpenAnimated:)]) {
+                [(id < MBPullDownChildController >)self.frontController pullDownWillOpenAnimated:animated];
             }
-        }
-        else{
-            if([self.frontController respondsToSelector:@selector(pullDownWillCloseAnimated:)]){
-                [(id<MBPullDownChildController>)self.frontController pullDownWillCloseAnimated:animated];
-            }
-        }
-    }
-    if([self.backController conformsToProtocol:@protocol(MBPullDownChildController)]){
-        if(open){
-            if([self.backController respondsToSelector:@selector(pullDownWillOpenAnimated:)]){
-                [(id<MBPullDownChildController>)self.backController pullDownWillOpenAnimated:animated];
-            }
-        }
-        else{
-            if([self.backController respondsToSelector:@selector(pullDownWillCloseAnimated:)]){
-                [(id<MBPullDownChildController>)self.backController pullDownWillCloseAnimated:animated];
+        } else {
+            if ([self.frontController respondsToSelector:@selector(pullDownWillCloseAnimated:)]) {
+                [(id < MBPullDownChildController >)self.frontController pullDownWillCloseAnimated:animated];
             }
         }
     }
-    
-    CGFloat offset = open ? self.view.bounds.size.height - self.openBottomOffset : self.closedTopOffset;
+    if ([self.backController conformsToProtocol:@protocol(MBPullDownChildController)]) {
+        if (open) {
+            if ([self.backController respondsToSelector:@selector(pullDownWillOpenAnimated:)]) {
+                [(id < MBPullDownChildController >)self.backController pullDownWillOpenAnimated:animated];
+            }
+        } else {
+            if ([self.backController respondsToSelector:@selector(pullDownWillCloseAnimated:)]) {
+                [(id < MBPullDownChildController >)self.backController pullDownWillCloseAnimated:animated];
+            }
+        }
+    }
+
+    CGFloat offset  = open ? self.view.bounds.size.height - self.openBottomOffset : self.closedTopOffset;
     CGPoint sOffset = scrollView.contentOffset;
     // Set content inset (no animation)
     UIEdgeInsets contentInset = scrollView.contentInset;
-    contentInset.top = offset;
+    contentInset.top        = offset;
     scrollView.contentInset = contentInset;
     // Restor the previous scroll offset, sicne the contentInset change coud had changed it
     [scrollView setContentOffset:sOffset];
-    
+
     // Update the scroll indicator insets
     void (^updateScrollInsets)(void) = ^{
         UIEdgeInsets scrollIndicatorInsets = scrollView.scrollIndicatorInsets;
-        scrollIndicatorInsets.top = offset;
+        scrollIndicatorInsets.top        = offset;
         scrollView.scrollIndicatorInsets = scrollIndicatorInsets;
     };
     if (animated) {
@@ -253,11 +248,11 @@ static CGFloat const kDefaultCloseDragOffsetPercentage = .05;
     } else {
         updateScrollInsets();
     }
-    
+
     // Move the content
-    
+
     CGFloat contentOffsetX = scrollView.contentOffset.x;
-    
+
     if (animated) {
         dispatch_async(dispatch_get_main_queue(), ^{
             [scrollView setContentOffset:CGPointMake(contentOffsetX, -offset) animated:YES];
@@ -265,91 +260,87 @@ static CGFloat const kDefaultCloseDragOffsetPercentage = .05;
     } else {
         [scrollView setContentOffset:CGPointMake(contentOffsetX, -offset)];
     }
-    if([self.frontController conformsToProtocol:@protocol(MBPullDownChildController)]){
-        if(open){
-            if([self.frontController respondsToSelector:@selector(pullDownDidOpenAnimated:)]){
-                [(id<MBPullDownChildController>)self.frontController pullDownDidOpenAnimated:animated];
+    if ([self.frontController conformsToProtocol:@protocol(MBPullDownChildController)]) {
+        if (open) {
+            if ([self.frontController respondsToSelector:@selector(pullDownDidOpenAnimated:)]) {
+                [(id < MBPullDownChildController >)self.frontController pullDownDidOpenAnimated:animated];
             }
-        }
-        else{
-            if([self.frontController respondsToSelector:@selector(pullDownDidCloseAnimated:)]){
-                [(id<MBPullDownChildController>)self.frontController pullDownDidCloseAnimated:animated];
-            }
-        }
-    }
-    if([self.backController conformsToProtocol:@protocol(MBPullDownChildController)]){
-        if(open){
-            if([self.backController respondsToSelector:@selector(pullDownDidOpenAnimated:)]){
-                [(id<MBPullDownChildController>)self.backController pullDownDidOpenAnimated:animated];
-            }
-        }
-        else{
-            if([self.backController respondsToSelector:@selector(pullDownDidCloseAnimated:)]){
-                [(id<MBPullDownChildController>)self.backController pullDownDidCloseAnimated:animated];
+        } else {
+            if ([self.frontController respondsToSelector:@selector(pullDownDidCloseAnimated:)]) {
+                [(id < MBPullDownChildController >)self.frontController pullDownDidCloseAnimated:animated];
             }
         }
     }
-    
-    if([self.frontController conformsToProtocol:@protocol(MBPullDownChildController)]){
-        if([self.frontController respondsToSelector:@selector(setControllerViewEnabled:)]){
-            [(id<MBPullDownChildController>)self.frontController setControllerViewEnabled:!open];
+    if ([self.backController conformsToProtocol:@protocol(MBPullDownChildController)]) {
+        if (open) {
+            if ([self.backController respondsToSelector:@selector(pullDownDidOpenAnimated:)]) {
+                [(id < MBPullDownChildController >)self.backController pullDownDidOpenAnimated:animated];
+            }
+        } else {
+            if ([self.backController respondsToSelector:@selector(pullDownDidCloseAnimated:)]) {
+                [(id < MBPullDownChildController >)self.backController pullDownDidCloseAnimated:animated];
+            }
+        }
+    }
+
+    if ([self.frontController conformsToProtocol:@protocol(MBPullDownChildController)]) {
+        if ([self.frontController respondsToSelector:@selector(setControllerViewEnabled:)]) {
+            [(id < MBPullDownChildController >)self.frontController setControllerViewEnabled:!open];
         }
     }
 }
 
 #pragma mark - Container controller
-- (UIScrollView *)scrollViewForController:(UIViewController *)controller{
-    
+- (UIScrollView *)scrollViewForController:(UIViewController *)controller {
+
     if (!controller)
         return nil;
-    
-    if([controller respondsToSelector:@selector(scrollView)]){
+
+    if ([controller respondsToSelector:@selector(scrollView)]) {
         return (UIScrollView *)[controller performSelector:@selector(scrollView)];
-    }
-    else if([controller respondsToSelector:@selector(collectionView)])
-    {
+    } else if ([controller respondsToSelector:@selector(collectionView)]) {
         return (UIScrollView *)[controller performSelector:@selector(collectionView)];
-    }
-    else{
+    } else {
         return (UIScrollView *)controller.view;
     }
-    
+
 }
+
 - (void)changeFrontControllerFrom:(UIViewController *)current to:(UIViewController *)new {
-    
-    
-    
-    
+
+
+
+
     [current removeFromParentViewController];
     [self cleanUpControllerScrollView:current];
     [current.view removeFromSuperview];
-    
+
     if (new) {
         [self addChildViewController:new];
         UIView *containerView = self.view;
-        UIView *newView = [self scrollViewForController:new];
-        		NSAssert(newView || [newView isKindOfClass:[UIScrollView class]],
-        				 @"The front controller's view is nil.");
+        UIView *newView       = [self scrollViewForController:new];
+        NSAssert(newView || [newView isKindOfClass:[UIScrollView class]],
+                 @"The front controller's view is nil.");
         if (newView) {
             newView.frame = containerView.bounds;
             [containerView addSubview:newView];
             [new didMoveToParentViewController:self];
         }
     }
-    
+
     [self prepareControllerScrollView:new];
     [self setOpen:self.open animated:NO];
 }
 
 - (void)changeBackControllerFrom:(UIViewController *)current to:(UIViewController *)new {
-    
+
     [current removeFromParentViewController];
     [current.view removeFromSuperview];
-    
+
     if (new) {
         [self addChildViewController:new];
         UIView *containerView = self.view;
-        UIView *newView = new.view;
+        UIView *newView       = new.view;
         if (newView) {
             newView.frame = containerView.bounds;
             [containerView insertSubview:newView atIndex:0];
@@ -367,9 +358,9 @@ static CGFloat const kDefaultCloseDragOffsetPercentage = .05;
 }
 
 - (void)initializeBackgroundView {
-    UIView *containerView = self.view;
-    UIView *backgroundView = self.backgroundView;
-    UIScrollView *scrollView = [self scrollView];
+    UIView       *containerView  = self.view;
+    UIView       *backgroundView = self.backgroundView;
+    UIScrollView *scrollView     = [self scrollView];
     if (scrollView && backgroundView) {
         backgroundView.frame = CGRectInset(containerView.bounds, 0, -20);
         [containerView insertSubview:backgroundView belowSubview:scrollView];
@@ -379,7 +370,7 @@ static CGFloat const kDefaultCloseDragOffsetPercentage = .05;
 
 - (void)updateBackgroundViewForScrollOfset:(CGPoint)offset {
     CGRect frame = self.backgroundView.frame;
-    frame.origin.y = MAX(0.f, -offset.y-10);
+    frame.origin.y            = MAX(0.f, -offset.y-10);
     self.backgroundView.frame = frame;
 }
 
@@ -388,10 +379,11 @@ static CGFloat const kDefaultCloseDragOffsetPercentage = .05;
 - (UIScrollView *)scrollView {
     return [self scrollViewForController:self.frontController];
 }
+
 - (void)prepareControllerScrollView:(UIViewController *)controller {
-    UIScrollView * scrollView = (UIScrollView *)[self scrollViewForController:controller];
+    UIScrollView *scrollView = (UIScrollView *)[self scrollViewForController:controller];
     if (scrollView) {
-        scrollView.backgroundColor = [UIColor clearColor];
+        scrollView.backgroundColor      = [UIColor clearColor];
         scrollView.alwaysBounceVertical = YES;
         [self registerForScrollViewKVO:scrollView];
         [self addGestureRecognizersToView:scrollView];
@@ -400,8 +392,8 @@ static CGFloat const kDefaultCloseDragOffsetPercentage = .05;
 }
 
 - (void)cleanUpControllerScrollView:(UIViewController *)controller {
-    UIScrollView * scrollView = (UIScrollView *)[self scrollViewForController:controller];
-    
+    UIScrollView *scrollView = (UIScrollView *)[self scrollViewForController:controller];
+
     if (scrollView) {
         [self unregisterFromScrollViewKVO:scrollView];
         [self.backgroundView removeFromSuperview];
@@ -410,10 +402,10 @@ static CGFloat const kDefaultCloseDragOffsetPercentage = .05;
 }
 
 - (void)checkOpenCloseConstraints {
-    BOOL open = self.open;
-    BOOL enabled = self.pullToToggleEnabled;
-    CGPoint offset = [self scrollView].contentOffset;
-    if (!open && enabled && offset.y < - [self computedOpenDragOffset] - self.closedTopOffset) {
+    BOOL    open    = self.open;
+    BOOL    enabled = self.pullToToggleEnabled;
+    CGPoint offset  = [self scrollView].contentOffset;
+    if (!open && enabled && offset.y < -[self computedOpenDragOffset] - self.closedTopOffset) {
         [self setOpen:YES animated:YES];
     } else if (open) {
         if (enabled && offset.y > [self computedCloseDragOffset] - self.view.bounds.size.height + self.openBottomOffset) {
@@ -421,14 +413,14 @@ static CGFloat const kDefaultCloseDragOffsetPercentage = .05;
         } else {
             //			[self setOpen:YES animated:YES];
             [self setOpen:(abs(offset.y) == (int)[self scrollView].bounds.size.height - self.openBottomOffset) ? NO : YES animated:YES];
-            
+
         }
     }
 }
 
 #pragma mark - Gestures
 
-- (void)addGestureRecognizersToView:(UIView  *)view {
+- (void)addGestureRecognizersToView:(UIView *)view {
     MBPullDownControllerTapUpRecognizer *tapUp;
     tapUp = [[MBPullDownControllerTapUpRecognizer alloc] initWithTarget:self action:@selector(tapUp:)];
     [view addGestureRecognizer:tapUp];
@@ -470,8 +462,8 @@ static CGFloat const kDefaultCloseDragOffsetPercentage = .05;
             // Simulate the scroll view elasticity effect while dragging in the open state
             if (self.open && [self scrollView].dragging) {
                 CGFloat delta = round((oldValue.y - newValue.y) / 3);
-                adjusted = CGPointMake(newValue.x, oldValue.y - delta);
-                self.adjustedScroll = YES; // prevent infinite recursion
+                adjusted                 = CGPointMake(newValue.x, oldValue.y - delta);
+                self.adjustedScroll      = YES; // prevent infinite recursion
                 scrollView.contentOffset = adjusted;
             }
             [self updateBackgroundViewForScrollOfset:adjusted];
@@ -508,9 +500,9 @@ static CGFloat const kDefaultCloseDragOffsetPercentage = .05;
     self = [super initWithTarget:target action:action];
     if (self) {
         self.cancelsTouchesInView = NO;
-        self.delaysTouchesBegan = NO;
-        self.delaysTouchesEnded = NO;
-        
+        self.delaysTouchesBegan   = NO;
+        self.delaysTouchesEnded   = NO;
+
     }
     return self;
 }
@@ -518,11 +510,11 @@ static CGFloat const kDefaultCloseDragOffsetPercentage = .05;
 #pragma mark - Touch handling
 
 - (void)touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event {
-    
+
 }
 
 - (void)touchesMoved:(NSSet *)touches withEvent:(UIEvent *)event {
-    
+
 }
 
 - (void)touchesEnded:(NSSet *)touches withEvent:(UIEvent *)event {
@@ -556,7 +548,7 @@ static CGFloat const kDefaultCloseDragOffsetPercentage = .05;
     self = [super initWithEffect:[UIBlurEffect effectWithStyle:UIBlurEffectStyleLight]];
     if (self) {
         //self.backgroundColor = [UIColor whiteColor];
-        self.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight;
+        self.autoresizingMask  = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight;
         self.dropShadowVisible = true;
     }
     return self;
@@ -567,8 +559,8 @@ static CGFloat const kDefaultCloseDragOffsetPercentage = .05;
 - (void)setDropShadowVisible:(BOOL)dropShadowVisible {
     if (_dropShadowVisible != dropShadowVisible) {
         CALayer *layer = self.layer;
-        layer.shadowOffset = CGSizeMake(0, -1);
-        layer.shadowRadius = 1;
+        layer.shadowOffset  = CGSizeMake(0, -1);
+        layer.shadowRadius  = 1;
         layer.shadowOpacity = dropShadowVisible ? .05f : 0.f;
         [self setNeedsLayout];
         _dropShadowVisible = dropShadowVisible;

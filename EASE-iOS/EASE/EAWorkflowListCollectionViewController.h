@@ -22,26 +22,20 @@
 
 @protocol EAWorkflowListDelegate <NSObject>
 
--(void)workflowListAskToDismiss;
+- (void)workflowListAskToDismiss;
 
 @end
 
 @interface EAWorkflowListCollectionViewController : UICollectionViewController <FRGWaterfallCollectionViewDelegate, EAWorkflowViewerDelegate>
 {
-    
+
     NSArray *colors;
-    BOOL seekingWorkflows;
 }
 
 
-@property(nonatomic, strong) EASearchResults *searchResults;
-
-
-
-@property(nonatomic, readwrite) int totalNumberOfWorkflows;
-
+@property(nonatomic, strong) EASearchResults           *searchResults;
+@property(nonatomic, readwrite) int                    totalNumberOfWorkflows;
 @property(nonatomic, weak) id <EAWorkflowListDelegate> delegate;
-
 
 - (IBAction)cancel:(id)sender;
 
