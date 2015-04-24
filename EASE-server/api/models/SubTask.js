@@ -51,6 +51,7 @@ module.exports = {
       type :'integer',
       required: true
     },
+    // When a subtask finishes, change his status and see if his successors could begin, if so, change the status of his successors to "pending"
      finish: function() {
       console.log("in finish "+this.id);
                 SubTask.update({id:this.id},{status:'finish'}).exec(function(err,updateds){
@@ -84,7 +85,7 @@ module.exports = {
         })// end foreach
       })
     },
-
+    // Finds the right agent to start a subtask by using the socket
     start: function(cb) {
 
       var at = "";
@@ -113,16 +114,6 @@ module.exports = {
     
     },
    
-
-    
-    
-
-
-    /*START CONDITION
-      
-    */
-    
-
     startCondition: {
       model: 'StartCondition'
     }, 
@@ -133,6 +124,7 @@ module.exports = {
     }
 
   }, 
+  // Gets all the subtasks of a given day
   allSubTasks : function(date,cb){
       var jour = "";
       var day = new Date(date)
@@ -159,7 +151,7 @@ module.exports = {
 
 
   },
-
+  // Another function to get all the subtasks of a day
   allSubTasks2 : function(date, cb) {
 
     var day = new Date(date);
@@ -190,7 +182,7 @@ module.exports = {
     sails.log('Destroy subtask : ' + JSON.stringify(subtask))
     cb()
   },
-
+  // After a subtask is finished
   finishSubtask : function (id, cb){
     Subtask.update({id:id},{status:'finish'}).exec(function (err, subtasks) {
 
