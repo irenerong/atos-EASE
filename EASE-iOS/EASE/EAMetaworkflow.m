@@ -24,8 +24,9 @@
         
         self.metaworkflowID = ((NSNumber*)dictionary[@"id"]).intValue;
         self.title = dictionary[@"title"];
-        //self.imageURL = dictionary[@"imageURL"];
-        self.imageURL = [NSURL URLWithString: @"http://img1.mxstatic.com/wallpapers/331df9b319e98e3f5a18873d7093dcba_large.jpeg"];
+        
+        
+        self.imageURL = [NSURL URLWithString: dictionary[@"image"]];
 
         
         

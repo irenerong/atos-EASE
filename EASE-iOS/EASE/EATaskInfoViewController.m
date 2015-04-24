@@ -145,9 +145,12 @@
         if (_task.status == EATaskStatusPending)
             [button setTitle:@"Start" forState:UIControlStateNormal];
         
+        else if (_task.status == EATaskStatusWorking)
+            [button setTitle:@"Done" forState:UIControlStateNormal];
+        
         else
             [button setTitle:@"" forState:UIControlStateNormal];
-        
+
         
         [self.buttonsBackgroundView addSubview:button];
         [buttons addObject:button];
@@ -171,11 +174,7 @@
          
 
         
-        if (_task.status == EATaskStatusWorking)
-        {
-            self.statusLabel.text = @"Working";
-
-        }
+       
         
         if (_task.status == EATaskStatusPending)
         {
@@ -183,10 +182,16 @@
             
             
         }
-        if (_task.status == EATaskStatusWorking)
+        else if (_task.status == EATaskStatusWorking)
         {
             self.statusLabel.text = [NSString stringWithFormat:@"Working (%d%%)",  (int)(100*self.task.completionPercentage)];
             self.progressBar.progress = self.task.completionPercentage;
+            
+        }
+        else if (_task.status == EATaskStatusFinished)
+        {
+            self.statusLabel.text = @"Finished";
+            self.progressBar.progress = 1;
             
         }
         
@@ -239,12 +244,19 @@
                 }];
             }];
             
-            [alert showWarning:self title:@"Warning" subTitle:@"Pouet" closeButtonTitle:@"Let me check ..." duration:0];
+            [alert showWarning:self title:@"Warning" subTitle:@"Do you really want to fire this task ? (Be sure you're next to the device !)" closeButtonTitle:@"Let me check ..." duration:0];
             
             
         
     }
-   
+   if (_task.status == EATaskStatusWorking)
+   {
+       [[EANetworkingHelper sharedHelper] finishTask:self.task completionBlock:^(NSError *error) {
+           
+           NSLog(@"FINISH !");
+           
+       }];
+   }
     
    
 }
@@ -257,7 +269,7 @@
     int taskID = ((NSNumber*)notification.userInfo[@"id"]).intValue;
     
     if (taskID == _task.taskID)
-        [_task updateWithFeedback:notification.userInfo];
+        [_task updateWithFeedback:notification.userInfo[@"data"]];
     
     self.task = _task;
 }

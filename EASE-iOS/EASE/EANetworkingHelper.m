@@ -684,6 +684,22 @@ NSString* const EATaskUpdate = @"EATaskUpdate";
     
 }
 
+-(void)finishTask:(EATask*)task completionBlock:(void (^) (NSError *error)) completionBlock
+{
+    
+    if (task.status != EATaskStatusWorking)
+        completionBlock([NSError errorWithDomain:@"Task Working" code:0 userInfo:nil]);
+    
+    [self.easeSocketManager emitWithAckObjc:@"post" withItems: @[@{@"url" : @"/subtask/finish", @"data" : @{ @"subTask" : @(task.taskID) }}]] (0, ^(NSArray* data) {
+        NSLog(@"%@", data);
+        
+        completionBlock(nil);
+    });
+    
+    
+}
+
+
 -(void)tasksAtDay:(NSDate*)date completionBlock:(void (^) (EASearchResults *, NSError *)) completionBlock
 {
     

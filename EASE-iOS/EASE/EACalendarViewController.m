@@ -33,8 +33,8 @@
     _displayWorkflow = YES;
     
     ((EACollectionViewWorkflowLayout*)self.timelineCollectionView.collectionViewLayout).delegate = self;
-    ((EACollectionViewWorkflowLayout*)self.timelineCollectionView.collectionViewLayout).minHeight = 150;
-    ((EACollectionViewWorkflowLayout*)self.timelineCollectionView.collectionViewLayout).maxHeight = 150;
+    ((EACollectionViewWorkflowLayout*)self.timelineCollectionView.collectionViewLayout).minHeight = 170;
+    ((EACollectionViewWorkflowLayout*)self.timelineCollectionView.collectionViewLayout).maxHeight = 170;
     ((EACollectionViewWorkflowLayout*)self.timelineCollectionView.collectionViewLayout).emptyHeight = 30;
     ((EACollectionViewWorkflowLayout*)self.timelineCollectionView.collectionViewLayout).itemWidth = 200;
 

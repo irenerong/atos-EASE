@@ -100,6 +100,7 @@ extern NSString* const EATaskUpdate;
 -(void)workflowsAtDay:(NSDate*)date completionBlock:(void (^) (NSArray *workflows)) completionBlock;
 
 -(void)startTask:(EATask*)task completionBlock:(void (^) (NSError *error)) completionBlock;
+-(void)finishTask:(EATask*)task completionBlock:(void (^) (NSError *error)) completionBlock;
 
 //EASE NOTIFICATIONS
 

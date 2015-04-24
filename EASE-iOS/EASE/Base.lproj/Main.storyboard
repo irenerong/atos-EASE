@@ -1161,6 +1161,23 @@
                                                 <imageView userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="bAV-PS-zDi">
                                                     <rect key="frame" x="0.0" y="0.0" width="280" height="122"/>
                                                 </imageView>
+                                                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="bVt-kz-Zkk">
+                                                    <rect key="frame" x="237" y="5" width="30" height="30"/>
+                                                    <subviews>
+                                                        <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="check" translatesAutoresizingMaskIntoConstraints="NO" id="vFl-HQ-Y94">
+                                                            <rect key="frame" x="8" y="8" width="14" height="14"/>
+                                                        </imageView>
+                                                    </subviews>
+                                                    <color key="backgroundColor" red="0.16078431369999999" green="1" blue="0.6705882353" alpha="1" colorSpace="calibratedRGB"/>
+                                                    <constraints>
+                                                        <constraint firstAttribute="width" constant="30" id="DSd-3T-sKr"/>
+                                                        <constraint firstAttribute="height" constant="30" id="FOr-nH-4zF"/>
+                                                        <constraint firstItem="vFl-HQ-Y94" firstAttribute="leading" secondItem="bVt-kz-Zkk" secondAttribute="leading" constant="8" id="OTQ-dm-dNq"/>
+                                                        <constraint firstAttribute="bottom" secondItem="vFl-HQ-Y94" secondAttribute="bottom" constant="8" id="UFh-XK-zSC"/>
+                                                        <constraint firstItem="vFl-HQ-Y94" firstAttribute="top" secondItem="bVt-kz-Zkk" secondAttribute="top" constant="8" id="nI7-sk-iLH"/>
+                                                        <constraint firstAttribute="trailing" secondItem="vFl-HQ-Y94" secondAttribute="trailing" constant="8" id="pWL-lv-FX0"/>
+                                                    </constraints>
+                                                </view>
                                                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="C2R-JW-kH2">
                                                     <rect key="frame" x="0.0" y="162" width="280" height="60"/>
                                                     <subviews>
@@ -1227,6 +1244,7 @@
                                             <constraint firstAttribute="bottomMargin" secondItem="LpG-54-m5Q" secondAttribute="bottom" id="GDc-pF-mnV"/>
                                             <constraint firstItem="qf4-cq-uKe" firstAttribute="leading" secondItem="iAA-83-pt2" secondAttribute="leadingMargin" id="IGR-J8-mWY"/>
                                             <constraint firstItem="bAV-PS-zDi" firstAttribute="top" secondItem="iAA-83-pt2" secondAttribute="topMargin" constant="-8" id="M6W-Bz-m85"/>
+                                            <constraint firstAttribute="trailingMargin" secondItem="bVt-kz-Zkk" secondAttribute="trailing" constant="5" id="UTs-fe-4mr"/>
                                             <constraint firstAttribute="trailingMargin" secondItem="LpG-54-m5Q" secondAttribute="trailing" constant="-8" id="Xub-cw-hla"/>
                                             <constraint firstAttribute="trailingMargin" secondItem="C2R-JW-kH2" secondAttribute="trailing" constant="-8" id="a5o-cy-prK"/>
                                             <constraint firstItem="qf4-cq-uKe" firstAttribute="top" secondItem="LpG-54-m5Q" secondAttribute="bottom" id="a67-jC-PlF"/>
@@ -1237,6 +1255,7 @@
                                             <constraint firstItem="C2R-JW-kH2" firstAttribute="leading" secondItem="iAA-83-pt2" secondAttribute="leadingMargin" constant="-8" id="mti-JH-Rud"/>
                                             <constraint firstAttribute="trailingMargin" secondItem="qf4-cq-uKe" secondAttribute="trailing" id="sJN-fp-NiB"/>
                                             <constraint firstAttribute="bottomMargin" secondItem="C2R-JW-kH2" secondAttribute="bottom" constant="-10" id="wxc-Nn-Hp2"/>
+                                            <constraint firstItem="bVt-kz-Zkk" firstAttribute="top" secondItem="iAA-83-pt2" secondAttribute="topMargin" constant="-3" id="yNi-gC-ENU"/>
                                         </constraints>
                                         <size key="customSize" width="280" height="220"/>
                                         <variation key="default">
@@ -1246,6 +1265,7 @@
                                             </mask>
                                         </variation>
                                         <connections>
+                                            <outlet property="checkView" destination="bVt-kz-Zkk" id="DZB-LY-gkK"/>
                                             <outlet property="separatorView" destination="qf4-cq-uKe" id="Jpd-5q-BR6"/>
                                             <outlet property="taskTitleBackgroundView" destination="C2R-JW-kH2" id="KwG-P4-iT9"/>
                                             <outlet property="taskTitleLabel" destination="L4T-Fi-YVP" id="ifQ-02-20c"/>
@@ -1330,7 +1350,6 @@
                         <outlet property="addButton" destination="Mqq-uh-3jC" id="zaY-s4-RtU"/>
                         <outlet property="contentView" destination="Why-U4-Ulm" id="bXg-d1-aZ6"/>
                         <outlet property="dateScrollView" destination="evQ-1I-RBb" id="jsX-HT-mOK"/>
-                        <outlet property="modeSwitchButton" destination="5MH-po-chw" id="l5E-sX-s9a"/>
                         <outlet property="nothingToDisplayLabel" destination="avI-Zk-umn" id="nZJ-sz-SAp"/>
                         <outlet property="timelineCollectionView" destination="9Wl-dZ-ccb" id="P9w-gO-HJR"/>
                     </connections>
@@ -1382,12 +1401,6 @@
                 <barButtonItem title="+" systemItem="add" id="Mqq-uh-3jC">
                     <connections>
                         <segue destination="yzF-mM-pj8" kind="custom" identifier="CreateWorkflow" customClass="MZFormSheetSegue" id="fYM-X2-WO3"/>
-                    </connections>
-                </barButtonItem>
-                <barButtonItem title="Mode" style="plain" id="5MH-po-chw">
-                    <inset key="imageInsets" minX="80" minY="0.0" maxX="80" maxY="0.0"/>
-                    <connections>
-                        <action selector="switchMode:" destination="Br2-Q8-2N2" id="Een-Dq-LJF"/>
                     </connections>
                 </barButtonItem>
             </objects>
@@ -1838,7 +1851,7 @@
                                                 <constraint firstAttribute="trailing" secondItem="2t8-xA-6ZD" secondAttribute="trailing" id="xPc-sQ-IsJ"/>
                                             </constraints>
                                         </view>
-                                        <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="OSe-EE-Jvg">
+                                        <view alpha="0.0" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="OSe-EE-Jvg">
                                             <rect key="frame" x="425" y="5" width="40" height="40"/>
                                             <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                             <constraints>
@@ -1943,6 +1956,7 @@
     <resources>
         <image name="LoginBG" width="2560" height="1440"/>
         <image name="Working" width="24" height="24"/>
+        <image name="check" width="256" height="256"/>
         <image name="logo" width="777" height="480"/>
     </resources>
     <inferredMetricsTieBreakers>
