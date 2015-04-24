@@ -1,32 +1,32 @@
 // post man collection import file
 //this help you to insert  data in to the localhost database
-// please import each of  the URLs below to postman(if you didn't install postman, please add this plugin to Chrome)  
+// please import each of  the URLs below to postman(if you didn't install postman, please add this plugin to Google Chrome)  
 
 //1.Signup
 https://www.getpostman.com/collections/094df05dcee37256a7bb
 //2. agentBehavior
 https://www.getpostman.com/collections/cc5f984d121b5774878c
 //3.agent
-https://www.getpostman.com/collections/dde5ca4b6b8d8618a1ca
+https://www.getpostman.com/collections/ab29abdf742f14e625aa
 //4.metaworkflowcreat
 https://www.getpostman.com/collections/b2556ca672aa7f8794a2
 //5.ingredient
 https://www.getpostman.com/collections/48ead54f957557c98ca2
 //6.creatwf
-https://www.getpostman.com/collections/07235bf7c5500b6f0706
+https://www.getpostman.com/collections/79e4b14937b848536099
 //7. userSignin
 https://www.getpostman.com/collections/d9f758c27c06b2b6e7a6
 //8.workflowgenerate
 https://www.getpostman.com/collections/201882a44819a619caca
 
 
-after import all this collection you can start to insert data to your localhost database (MAMP->phpmySQL)
-
 1. first of all : do "signup" yourself as an user: use SignUp collection
-2. add "agentBehavior": this agentBehavior simulate how does cooking device process works
-	there're three request in the collection:
+2. add "agentBehavior": this agentBehavior simulate how does devices'process work
+	there're three requests in the collection:
 	which correspond to oven, ricecooker,ricecooker2. 
 	BE SURE TO SEND THEM IN ORDER!!!!
+	Please remember the id of each agentBehavior you've added in the database.
+
 3. In the collection "Agent", add agent to database, agent here is the cooking device in your home ,
  	each device has it own process (which is the id of agentBehavior),
  	send these 5 request  and you can test them with my recipe example

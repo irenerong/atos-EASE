@@ -137,9 +137,41 @@ module.exports = {
     
     },
    
+
+
+    
+    
+
+
+    /*START CONDITION
+
+    for each subtask , il has his own start condition which stores all condition need to be confirmed to start this task
+    this startcondition contains: the precedors of the subtasks (which subtask need to wait before they finish execution )
+                                : the estimated start time of this subtask
+
+      
+    */
+    
+
+
     startCondition: {
       model: 'StartCondition'
     }, 
+   /* NEXT START CONDITION
+      in fact next start condition contains this subtask's succedors information, but two subtask  can't be linked toghether directely,
+      because there're always their startcondition between them
+      
+      startcondt1 startcondt2
+          |             |
+        Subtask1    Subtask2
+           \           /
+             \       /
+            startcondit3  (and here the startcondition3 is the nextstartconditions for subtask1 and subtask2)
+                  |
+              Subtask3
+
+
+   */
 
     nextStartConditions: {
       collection: 'StartCondition', 

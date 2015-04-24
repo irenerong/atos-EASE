@@ -11,9 +11,7 @@ module.exports = {
 	signin: function(req, res) {
 
 		var bcrypt = require('bcrypt');
-		req.session.machin = "POUET";
 
-		console.log("Salut !");
 
 		User.findOne({username: req.body.username}).exec(function (err, user)
 		{
@@ -50,7 +48,7 @@ module.exports = {
 	subscribe: function(req, res) {
 		if (req.isSocket){
 
-						console.log('socket signin received' + req.session.machin);
+						console.log('socket signin received');
 						
 						SubTask.watch(req);
 						Workflow.watch(req);

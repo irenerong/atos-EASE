@@ -47,6 +47,7 @@
 		31A7509F1A8F3FDA00FF0E7C /* EASearchSortTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 31A7509E1A8F3FDA00FF0E7C /* EASearchSortTableViewController.m */; };
 		31BA9A5A1AA46CA3005D4E22 /* EARootViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 31BA9A591AA46CA3005D4E22 /* EARootViewController.m */; };
 		31BA9A5D1AA4719D005D4E22 /* EALeftMenuViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 31BA9A5C1AA4719D005D4E22 /* EALeftMenuViewController.m */; };
+		31BE77C11AEAA1AF007D6F69 /* UIAlertView+Blocks.m in Sources */ = {isa = PBXBuildFile; fileRef = 31BE77C01AEAA1AF007D6F69 /* UIAlertView+Blocks.m */; };
 		31C02CF61AD2F22F00D4A915 /* EASearchResults.m in Sources */ = {isa = PBXBuildFile; fileRef = 31C02CF51AD2F22F00D4A915 /* EASearchResults.m */; };
 		31C02CFB1AD2F6B000D4A915 /* NSDate+Complements.m in Sources */ = {isa = PBXBuildFile; fileRef = 31C02CFA1AD2F6B000D4A915 /* NSDate+Complements.m */; };
 		31C02CFE1AD3293200D4A915 /* EAMetaworkflow.m in Sources */ = {isa = PBXBuildFile; fileRef = 31C02CFD1AD3293200D4A915 /* EAMetaworkflow.m */; };
@@ -142,6 +143,8 @@
 		31BA9A5C1AA4719D005D4E22 /* EALeftMenuViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EALeftMenuViewController.m; sourceTree = "<group>"; };
 		31BA9A631AA47E14005D4E22 /* EATasksViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EATasksViewController.h; sourceTree = "<group>"; };
 		31BA9A641AA47E14005D4E22 /* EATasksViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EATasksViewController.m; sourceTree = "<group>"; };
+		31BE77BF1AEAA1AF007D6F69 /* UIAlertView+Blocks.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIAlertView+Blocks.h"; sourceTree = "<group>"; };
+		31BE77C01AEAA1AF007D6F69 /* UIAlertView+Blocks.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIAlertView+Blocks.m"; sourceTree = "<group>"; };
 		31C02CF41AD2F22F00D4A915 /* EASearchResults.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EASearchResults.h; sourceTree = "<group>"; };
 		31C02CF51AD2F22F00D4A915 /* EASearchResults.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EASearchResults.m; sourceTree = "<group>"; };
 		31C02CF91AD2F6B000D4A915 /* NSDate+Complements.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSDate+Complements.h"; sourceTree = "<group>"; };
@@ -229,6 +232,8 @@
 		311F0F5B1AEA636E005F7D01 /* External Class */ = {
 			isa = PBXGroup;
 			children = (
+				31BE77BF1AEAA1AF007D6F69 /* UIAlertView+Blocks.h */,
+				31BE77C01AEAA1AF007D6F69 /* UIAlertView+Blocks.m */,
 				311734AC1A87E416006B2B39 /* FRGWaterfallDecorationReusableView.h */,
 				311734AD1A87E416006B2B39 /* FRGWaterfallDecorationReusableView.m */,
 				311734A91A87E2E3006B2B39 /* FRGWaterfallCollectionViewLayout.h */,
@@ -646,6 +651,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				31BE77C11AEAA1AF007D6F69 /* UIAlertView+Blocks.m in Sources */,
 				311734AB1A87E2E4006B2B39 /* FRGWaterfallCollectionViewLayout.m in Sources */,
 				312988031AC861F700036504 /* EAIngredient.m in Sources */,
 				3113A8521A82373D00E972F3 /* EAWorkflowDateScrollView.m in Sources */,

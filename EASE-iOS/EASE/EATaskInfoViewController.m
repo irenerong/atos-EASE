@@ -206,20 +206,20 @@
     [sender setEnabled:false];
 
     if (_task.status == EATaskStatusPending) {
-        SCLAlertView *alert = [[SCLAlertView alloc] init];
-        alert.showAnimationType = SlideInFromCenter;
-        alert.backgroundType    = Blur;
-        alert.customViewColor   = [UIColor colorWithWhite:200 / 255. alpha:1.0];
-        alert.iconTintColor     = [UIColor whiteColor];
-
-        [alert addButton:@"Everything's ok ! Let's do it !" actionBlock:^{
-             [[EANetworkingHelper sharedHelper] startTask:self.task completionBlock:^(NSError *error) {
-                  NSLog(@"START !");
-                  [sender setEnabled:true];
-              }];
-         }];
-
-        [alert showWarning:self title:@"Warning" subTitle:@"Do you really want to fire this task ? (Be sure you're next to the device !)" closeButtonTitle:@"Let me check ..." duration:0];
+        
+        [UIAlertView showWithTitle:@"Warning"
+                           message:@"Do you really want to fire this task ?\n(Be sure you're next to the device !)"
+                 cancelButtonTitle:@"No"
+                 otherButtonTitles:@[@"Yes"]
+                          tapBlock:^(UIAlertView *alertView, NSInteger buttonIndex) {
+                              if (buttonIndex == [alertView cancelButtonIndex]) {
+                              } else if ([[alertView buttonTitleAtIndex:buttonIndex] isEqualToString:@"Yes"]) {
+                                  [[EANetworkingHelper sharedHelper] startTask:self.task completionBlock:^(NSError *error) {
+                                      NSLog(@"START !");
+                                      [sender setEnabled:true];
+                                  }];
+                              }
+                          }] ;
     }
     if (_task.status == EATaskStatusWorking) {
         [[EANetworkingHelper sharedHelper] finishTask:self.task completionBlock:^(NSError *error) {
