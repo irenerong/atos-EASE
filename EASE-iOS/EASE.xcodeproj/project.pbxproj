@@ -355,13 +355,13 @@
 		3146E6D81A80E55C0072FC99 /* Class */ = {
 			isa = PBXGroup;
 			children = (
-				3146E6E81A8154870072FC99 /* EADateInterval.h */,
-				3146E6E91A8154870072FC99 /* EADateInterval.m */,
 				31C02CF71AD2F35600D4A915 /* Workflows */,
 				31C02CF81AD2F36900D4A915 /* Networking */,
 				311F0F5A1AEA6173005F7D01 /* House */,
 				31C02CF91AD2F6B000D4A915 /* NSDate+Complements.h */,
 				31C02CFA1AD2F6B000D4A915 /* NSDate+Complements.m */,
+				3146E6E81A8154870072FC99 /* EADateInterval.h */,
+				3146E6E91A8154870072FC99 /* EADateInterval.m */,
 			);
 			name = Class;
 			sourceTree = "<group>";
