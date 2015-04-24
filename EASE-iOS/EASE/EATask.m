@@ -107,7 +107,7 @@
             
             completionBlock(self);
             
-            _timeLeft = duration;
+            _timeLeft = _dateInterval.timeInterval;
 
             
         }];

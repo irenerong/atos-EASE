@@ -4,8 +4,7 @@ use_frameworks!
 
 pod 'AFNetworking'
 pod 'MZFormSheetController'
-pod 'MarqueeLabel'
-pod 'Wit'
+Spod 'Wit'
 pod 'UINavigationItem+Loading'
 pod 'M13ProgressSuite'
 pod 'RESideMenu'

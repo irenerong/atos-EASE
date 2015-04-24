@@ -35,6 +35,7 @@
 
 @property(nonatomic, readwrite) CGSize cellInset;
 
+
 @property(nonatomic, strong) NSMutableArray *timeAnchorsY;
 @property(nonatomic, strong) NSMutableArray *timeAnchorsDate;
 

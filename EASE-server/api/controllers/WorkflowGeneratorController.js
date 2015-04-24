@@ -21,11 +21,13 @@ module.exports = {
     //subtasks = params.array;
     var consumption = parseFloat(params.consumption);
     var duration = parseInt(params.duration);
+    var color = parseInt(params.color)
     // console.log("consumption "+consumption+" duration "+duration)
    
-    Workflow.create({metaworkflow : params.metaworkflow,duration:duration,consumption:consumption}).exec(
+    Workflow.create({metaworkflow : params.metaworkflow,duration:duration,consumption:consumption, color:color}).exec(
       function(err, workflow){
         if (err) {console.log(err)}
+
 //  send message to socket which watch Workflow model and subscribe the socket to the new instance
         Workflow.publishCreate(workflow);
 

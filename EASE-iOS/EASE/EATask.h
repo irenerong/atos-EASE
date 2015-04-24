@@ -62,7 +62,7 @@ typedef enum : NSUInteger {
 @property(nonatomic, readwrite) EATaskStatus status;
 
 @property(nonatomic, strong) NSString *textStatus;
-@property(nonatomic, readwrite) float completionPercentage;
+-(float)completionPercentage;
 
 @property(nonatomic, readwrite) NSTimeInterval timeLeft;
 

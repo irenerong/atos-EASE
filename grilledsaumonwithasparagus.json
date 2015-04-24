@@ -1,0 +1,58 @@
+{
+  "title": "grilled_saumon_with_Asparagus",
+  "image" :"http://healthycanadians.gc.ca/alt/images/eating-nutrition/healthy-eating-saine-alimentation/recipes-recettes/salmon-saumon-360x203.jpg",
+  "ingredient":[
+    {
+      "name":"saumon",
+      "quantity":2
+    },
+    {
+      "name":"water",
+      "quantity":500,
+      "unit":"ml"
+
+    },
+    {
+      "name":"salt",
+      "quantity":50,
+      "unit":"g"
+
+    },
+    {
+      "name":"asparagus",
+      "quantity":500,
+      "unit":"g"
+
+    }
+  ],
+  "metatasks": [
+    {
+      "idTask": 1,
+      "name": "wash the saumon and season with salt",
+      "agentTypes": ["user"],
+      "waitFor":[],
+      "description":"<p>clean saumon</p> <img src=\"http://www.pasquier.qc.ca/wp-content/uploads/2013/09/saumon4.jpg\" alt=\"saumon\" style=\"width:1536px;height:1024px\">"
+    }, 
+    {
+      "idTask": 2,
+      "name": "boil water and dip asparagus",
+      "agentTypes": ["user"],
+      "waitFor":[],
+       "description":"<p>boil water, in the same time, cut the head of asparagus,and deep them into boiling water to keep them fresh green</p> <img src=\"http://www.recettes-cuisine-afrique.info/IMG/jpg/asperge.jpg\" alt=\"asperge\" style=\"width:400px;height:300px\">"
+    }, 
+    {
+      "idTask": 3,
+      "name": "put saumon and asparagus together in oven ,season with spices",
+      "agentTypes": ["oven","microwave"],
+      "waitFor": [1,2],
+       "description":"<p>you can cook them with steam in microwave , or you can also put them in oven together </p> <img src=\"http://idata.over-blog.com/2/25/65/43/Photos2/asperges-au-saumon.jpg\" alt=\"chicken with poptatoes\" style=\"width:650px;height:418px\">"
+    }, 
+    {
+      "idTask": 4,
+      "name": "add lemon juice if you like",
+      "agentTypes": ["user"],
+      "waitFor" :[3],
+      "description":"<p>after ten mins during the fish been cooking , add some lemon juice to it, and serve hot</p> <img src=\"http://www.ceritazone.com/wp-content/uploads/2014/08/SNAPPLE_LEMON_TEA_16.png\" alt=\"lemon\" style=\"width:554px;height:291px\">"
+    }
+  ]
+}

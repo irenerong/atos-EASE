@@ -10,6 +10,7 @@
 </form>
 
 <button id="start" onclick="start()">start task  </button>
+<button id="finish" onclick="finish()">user finish task  </button>
 </body>
 
 <script type="text/javascript" src="./js/dependencies/sails.io.js"></script>
@@ -47,6 +48,12 @@ function start(){
   var id=document.getElementById("numberfield").value
   io.socket.post('/subtask/start/',{id:id});
   
+
+}
+
+function finish(){
+  var id=document.getElementById("numberfield").value
+  io.socket.post('/subtask/finish/',{subTask:id});
 
 }
 io.socket.on('subtask', function (obj){

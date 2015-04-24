@@ -35,4 +35,9 @@
     
 }
 
+-(NSString*)htmlDescription
+{
+    return [NSString stringWithFormat:@"<html><head><style>body {background-color: rgb(245,245,245); color:rgb(150,150,150); font-size:12pt; font-family: \"Helvetica\"; } img {  max-width:300px; max-height:300px; height: auto; width:auto;}</style></head> <body><div><center>%@</center></div></body> </html>", self.desc];
+}
+
 @end

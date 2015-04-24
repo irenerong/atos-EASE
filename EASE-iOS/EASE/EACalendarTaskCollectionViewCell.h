@@ -22,5 +22,6 @@
 @property (weak, nonatomic) IBOutlet UIView *taskTitleBackgroundView;
 @property (weak, nonatomic) IBOutlet UIView *separatorView;
 
+@property (weak, nonatomic) IBOutlet UIView *checkView;
 
 @end

@@ -36,7 +36,6 @@
         self.emptyHeight = 20;
         self.minHeight = 70;
         self.maxHeight = 150;
-        
         self.yOffset = 5;
         self.cellInset = CGSizeMake(5, 5);
     }
@@ -45,7 +44,11 @@
 
 -(void)prepareLayout
 {
+    
+    
     [self.itemAttributes removeAllObjects];
+    
+    
     
     
     NSInteger numberOfItems = [self.collectionView numberOfItemsInSection:0];
@@ -95,7 +98,11 @@
     NSArray *columnDateIntervals = [self columnDateIntervalsFromDateIntervals:taskDateIntervals];
     self.nbOfColumns = columnDateIntervals.count;
     
+    
     [self updateTimeAchorsWithDateIntervals:taskDateIntervals];
+    
+  
+    
     
     
     //Update item frames
@@ -129,16 +136,7 @@
 -(void)updateTimeAchorsWithDateIntervals:(NSArray*)dateIntervals
 {
     
-    /*self.timeAnchorsY = [NSMutableArray array];
-     [self.timeAnchorsY addObject:@(self.yOffset)];
-     [self.timeAnchorsY addObject:@(self.yOffset+1500)];
-     
-     
-     self.timeAnchorsDate = [NSMutableArray array];
-     [self.timeAnchorsDate addObject:[NSDate dateWithTimeInterval:-10*3600 sinceDate:[NSDate date]]];
-     [self.timeAnchorsDate addObject:[NSDate dateWithTimeInterval:10*3600 sinceDate:[NSDate date]]];
-     */
-    
+ 
     
     
     
@@ -157,8 +155,10 @@
     
     NSDate *date = [self dateAfterDate:self.dateInterval.startDate inDateIntervals:dateIntervals fromStartDate:&fromStart];
     
+        [self.timeAnchorsY addObject:@((self.minHeight+self.maxHeight)/2)];
     
-    [self.timeAnchorsY addObject:@((self.minHeight+self.maxHeight)/2)];
+  
+    
     [self.timeAnchorsDate addObject:date];
     
     date = [self dateAfterDate:date inDateIntervals:dateIntervals fromStartDate:&fromStart];
@@ -177,9 +177,7 @@
         
         if (!fromStart && self.timeAnchorsDate.count > 2)
             deltaDateY  = dateY - ([self yForDate:self.timeAnchorsDate[self.timeAnchorsDate.count-2]] - [self yForDate:self.timeAnchorsDate[self.timeAnchorsDate.count-3]]);
-        
-        
-        
+       
         if (deltaDateY >= 0.001 && !fromStart)
         {
             
@@ -210,8 +208,11 @@
         
         
         
+        
         date = [self dateAfterDate:date inDateIntervals:dateIntervals fromStartDate:&fromStart];
     }
+    
+    
     
     
 }
