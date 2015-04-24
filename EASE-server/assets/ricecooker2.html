@@ -67,7 +67,7 @@ console.log('Connecting Socket.io to Sails.js...');
 // Attach a listener which fires when a connection is established:
 socket.on('connect', function sayHi() {
   	console.log("hi, I am EASE-riceCooker2 KO883-eco, what do you want from me?")
-  	io.socket.post('/agent/joinRoom', {agentName:'riceCooker2'})
+  	io.socket.post('/agent/joinRoom', {agentName:'ricecooker2'})
 
 });
 
@@ -161,7 +161,7 @@ function taskDone(){
 	io.socket.post('/subTask/finish/', {subTask: currentTask});
 }
 function reportStatus(){
-	io.socket.post('/agent/currentStatus', {agentID:4, subTask:currentTask, timeLeft:timeLeft})
+	io.socket.post('/agent/currentStatus', {subTask:currentTask, timeLeft:timeLeft*60})
 }
 </script>
 </body>
