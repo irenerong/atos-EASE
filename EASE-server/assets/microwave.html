@@ -70,15 +70,9 @@ socket.on('connect', function sayHi() {
   	console.log("hi, I am EASE-Microwave KO883-eco, what do you want from me?")
   	io.socket.post('/agent/joinRoom', {agentName:'microwave'})
 });
-io.socket.on('stop', function (res){
+io.socket.on('stop', function (){
 	turnOff();
 })
-// io.socket.on('rest', function hello(res){
-
-// 	console.log("receive time left.");
-// 	timeLeft = res.timeLeft
-// 	// console.log("timeleft------> " + timeLeft)
-// });
 io.socket.on('youcanstart', function (res){
 	console.log("i can start")
 	console.log(res)
