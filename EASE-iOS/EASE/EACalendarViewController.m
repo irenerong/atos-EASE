@@ -300,6 +300,7 @@
 
 - (void)workflowListAskToDismiss {
     [self dismissViewControllerAnimated:true completion:^{
+        self.date = _date;
      }];
 
 
@@ -457,28 +458,14 @@
 {
     
     
-    [UIView animateWithDuration:0.3 animations:^{
-        self.timelineCollectionView.alpha = 0;
-        self.dateScrollView.alpha = 0;
-        self.nothingToDisplayLabel.alpha = 1;
-        self.nothingToDisplayLabel.text = @"Loading ...";
-        
-    } completion:^(BOOL finished) {
-        
-        
+
         
     
     [self.searchResults updateTaskWithFeedback:notification.userInfo completion:^{
         
         
         self.searchResults = _searchResults;
-        [UIView animateWithDuration:0.3 animations:^{
-            self.timelineCollectionView.alpha = 1;
-            self.dateScrollView.alpha = 1;
-            self.nothingToDisplayLabel.alpha = 0;
-        }];
-
-    }];
+      
     }];
 
 }
