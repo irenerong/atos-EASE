@@ -69,13 +69,9 @@ socket.on('connect', function sayHi() {
   	console.log("hi, I am EASE-RiceCooker KO883-eco, what do you want from me?")
   	io.socket.post('/agent/joinRoom', {agentName:'ricecooker'})
 });
-
-// io.socket.on('rest', function hello(res){
-
-// 	console.log("receive time left.");
-// 	timeLeft = res.timeLeft
-// 	// console.log("timeleft------> " + timeLeft)
-// });
+io.socket.on('stop', function (res){
+	turnOff();
+})
 io.socket.on('youcanstart', function (res){
 	console.log("i can start")
 	timeLeft = res.duration;

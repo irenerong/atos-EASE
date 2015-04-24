@@ -70,7 +70,9 @@ socket.on('connect', function sayHi() {
   	console.log("hi, I am EASE-Microwave KO883-eco, what do you want from me?")
   	io.socket.post('/agent/joinRoom', {agentName:'microwave'})
 });
-
+io.socket.on('stop', function (res){
+	turnOff();
+})
 // io.socket.on('rest', function hello(res){
 
 // 	console.log("receive time left.");

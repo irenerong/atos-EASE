@@ -71,12 +71,7 @@ socket.on('connect', function sayHi() {
   	io.socket.post('/agent/joinRoom', {agentName:'oven'})
 });
 
-// io.socket.on('rest', function hello(res){
 
-// 	console.log("receive time left.");
-// 	timeLeft = res.timeLeft
-// 	// console.log("timeleft------> " + timeLeft)
-// });
 io.socket.on('youcanstart', function (res){
 	console.log("i can start")
 	console.log(res)
@@ -87,7 +82,9 @@ io.socket.on('youcanstart', function (res){
 
 	launch();
 });
-
+io.socket.on('stop', function (res){
+	turnOff();
+})
 function launch(){
 	// if(!continueTask && free)
 	// 	io.socket.post('/agent/launch/', {agentID:1, subTask: currentTask, agentName:'oven'});

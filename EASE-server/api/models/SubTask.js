@@ -53,6 +53,29 @@ module.exports = {
     },
     // When a subtask finishes, change his status and see if his successors could begin, if so, change the status of his successors to "pending"
      finish: function() {
+      var at = "";
+      var oldThis = this;
+      // console.s(socket)
+      // console.log(sails.sockets.id(socket)+" idsddd")
+      Agent.findOne(oldThis.agent).exec(function(err,agent){
+        if (err) 
+          console.log(err) 
+        else{
+          at = agent.agentType;
+          var socket = sails.sockets.subscribers(at+"")[0];
+          // console.log(sails.sockets.id(socket)+" idsddd")
+          if (socket)
+              sails.sockets.emit(socket, 'stop', null)
+
+        }
+        
+         })
+
+
+
+
+
+
       console.log("in finish "+this.id);
                 SubTask.update({id:this.id},{status:'finish'}).exec(function(err,updateds){
         if (err) console.log(err);
