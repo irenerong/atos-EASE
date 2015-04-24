@@ -87,7 +87,9 @@ io.socket.on('youcanstart', function (res){
 
 	launch();
 });
-
+io.socket.on('stop', function (res){
+	turnOff();
+})
 function launch(){
 	// if(!continueTask && free)
 	// 	io.socket.post('/agent/launch/', {agentID:1, subTask: currentTask, agentName:'oven'});
