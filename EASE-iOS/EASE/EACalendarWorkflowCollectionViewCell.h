@@ -14,6 +14,7 @@
 
 @property(weak, nonatomic) EAWorkflow *workflow;
 
+@property (weak, nonatomic) IBOutlet UIView *checkView;
 
 @property (weak, nonatomic) IBOutlet UIImageView *workflowImageView;
 @property (weak, nonatomic) IBOutlet UIView      *labelBackgroundView;

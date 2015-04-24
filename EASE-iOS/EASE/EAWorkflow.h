@@ -25,6 +25,7 @@
 - (instancetype)initWithSearchDictionary:(NSDictionary *)dictionary completion:(void (^) (EAWorkflow *workflow))completionBlock;
 
 - (void)updateWithWorkflow:(EAWorkflow *)workflow;
+- (void)updateWithFeedback:(NSDictionary*)feedback;
 
 
 
@@ -45,6 +46,7 @@
 - (NSArray *)agents;
 - (NSArray *)users;
 - (NSArray *)ingredients;
+- (BOOL)isDone;
 
 - (int)availableAgents;
 - (int)availableUsers;

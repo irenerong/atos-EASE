@@ -236,4 +236,30 @@
     return [EANetworkingHelper sharedHelper].colors[self.colorIndex];
 }
 
+- (void)updateWithFeedback:(NSDictionary*)feedback
+{
+    int taskID = ((NSNumber*)feedback[@"id"]).intValue;
+    
+    for (EATask* task in self.tasks)
+    {
+        if (task.taskID == taskID)
+        {
+            [task updateWithFeedback:feedback];
+            break;
+        }
+    }
+}
+
+- (BOOL)isDone
+{
+    
+    for (EATask *task in self.tasks)
+    {
+        if (task.status != EATaskStatusFinished)
+            return false;
+    }
+    
+    return true;
+}
+
 @end

@@ -17,7 +17,7 @@
 
 @property(nonatomic, strong) NSMutableArray  *tasks;
 @property(nonatomic, strong) NSMutableArray  *workflows;
-@property(strong, nonatomic) EASearchResults *results;
+@property(strong, nonatomic) EASearchResults *searchResults;
 
 @property(nonatomic, strong) MZFormSheetController *formSheet;
 
@@ -136,6 +136,8 @@
     //then set it.  phew.
 
     self.navigationItem.rightBarButtonItems = @[self.addButton, self.modeSwitchBarButton];
+    
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(updateTasks:) name:EATaskUpdate object:nil];
 
 
 }
@@ -173,7 +175,7 @@
 
          [[EANetworkingHelper sharedHelper] tasksAtDay:date completionBlock:^(EASearchResults *results, NSError *error) {
 
-              self.results = results;
+              self.searchResults = results;
 
               if (results && results.workflows.count) {
                   [UIView animateWithDuration:0.3 animations:^{
@@ -202,17 +204,17 @@
 
 }
 
-- (void)setResults:(EASearchResults *)results {
-    _results = results;
+- (void)setSearchResults:(EASearchResults *)searchResults {
+    _searchResults = searchResults;
 
     NSMutableArray *allTasks = [NSMutableArray array];
 
-    for (EAWorkflow *workflow in self.results.workflows) {
+    for (EAWorkflow *workflow in self.searchResults.workflows) {
         [allTasks addObjectsFromArray:[workflow tasksAtDate:self.date]];
     }
 
     self.tasks     = allTasks;
-    self.workflows = self.results.workflows;
+    self.workflows = self.searchResults.workflows;
 
     [self.timelineCollectionView reloadData];
 
@@ -449,6 +451,17 @@
 
 
     self.date = _date;
+
+}
+
+-(void)updateTasks:(NSNotification*)notification
+{
+    [self.searchResults updateTaskWithFeedback:notification.userInfo completion:^{
+        
+        
+        self.searchResults = _searchResults;
+        
+    }];
 
 }
 
