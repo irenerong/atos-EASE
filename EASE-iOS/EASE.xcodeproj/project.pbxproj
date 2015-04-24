@@ -29,7 +29,6 @@
 		3146E6CE1A80E2160072FC99 /* EASETests.m in Sources */ = {isa = PBXBuildFile; fileRef = 3146E6CD1A80E2160072FC99 /* EASETests.m */; };
 		3146E6DB1A80E57A0072FC99 /* EAWorkflow.m in Sources */ = {isa = PBXBuildFile; fileRef = 3146E6DA1A80E57A0072FC99 /* EAWorkflow.m */; };
 		3146E6DE1A80E62B0072FC99 /* EATask.m in Sources */ = {isa = PBXBuildFile; fileRef = 3146E6DD1A80E62B0072FC99 /* EATask.m */; };
-		3146E6E71A8152280072FC99 /* EACollectionViewWorkflowLayout.m in Sources */ = {isa = PBXBuildFile; fileRef = 3146E6E61A8152280072FC99 /* EACollectionViewWorkflowLayout.m */; };
 		3146E6EA1A8154870072FC99 /* EADateInterval.m in Sources */ = {isa = PBXBuildFile; fileRef = 3146E6E91A8154870072FC99 /* EADateInterval.m */; };
 		3146E6ED1A8165060072FC99 /* EAWorkflowTaskCollectionViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 3146E6EC1A8165060072FC99 /* EAWorkflowTaskCollectionViewCell.m */; };
 		3157226F1AE96AFC00C3D1FA /* EAMetaTask.m in Sources */ = {isa = PBXBuildFile; fileRef = 3157226E1AE96AFC00C3D1FA /* EAMetaTask.m */; };
@@ -48,6 +47,7 @@
 		31BA9A5A1AA46CA3005D4E22 /* EARootViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 31BA9A591AA46CA3005D4E22 /* EARootViewController.m */; };
 		31BA9A5D1AA4719D005D4E22 /* EALeftMenuViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 31BA9A5C1AA4719D005D4E22 /* EALeftMenuViewController.m */; };
 		31BE77C11AEAA1AF007D6F69 /* UIAlertView+Blocks.m in Sources */ = {isa = PBXBuildFile; fileRef = 31BE77C01AEAA1AF007D6F69 /* UIAlertView+Blocks.m */; };
+		31BE77C41AEAAC41007D6F69 /* EACollectionViewWorkflowLayout.m in Sources */ = {isa = PBXBuildFile; fileRef = 31BE77C31AEAAC41007D6F69 /* EACollectionViewWorkflowLayout.m */; };
 		31C02CF61AD2F22F00D4A915 /* EASearchResults.m in Sources */ = {isa = PBXBuildFile; fileRef = 31C02CF51AD2F22F00D4A915 /* EASearchResults.m */; };
 		31C02CFB1AD2F6B000D4A915 /* NSDate+Complements.m in Sources */ = {isa = PBXBuildFile; fileRef = 31C02CFA1AD2F6B000D4A915 /* NSDate+Complements.m */; };
 		31C02CFE1AD3293200D4A915 /* EAMetaworkflow.m in Sources */ = {isa = PBXBuildFile; fileRef = 31C02CFD1AD3293200D4A915 /* EAMetaworkflow.m */; };
@@ -107,8 +107,6 @@
 		3146E6DA1A80E57A0072FC99 /* EAWorkflow.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EAWorkflow.m; sourceTree = "<group>"; };
 		3146E6DC1A80E62B0072FC99 /* EATask.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EATask.h; sourceTree = "<group>"; };
 		3146E6DD1A80E62B0072FC99 /* EATask.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EATask.m; sourceTree = "<group>"; };
-		3146E6E51A8152280072FC99 /* EACollectionViewWorkflowLayout.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = EACollectionViewWorkflowLayout.h; path = ../EACollectionViewWorkflowLayout.h; sourceTree = "<group>"; };
-		3146E6E61A8152280072FC99 /* EACollectionViewWorkflowLayout.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = EACollectionViewWorkflowLayout.m; path = ../EACollectionViewWorkflowLayout.m; sourceTree = "<group>"; };
 		3146E6E81A8154870072FC99 /* EADateInterval.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EADateInterval.h; sourceTree = "<group>"; };
 		3146E6E91A8154870072FC99 /* EADateInterval.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EADateInterval.m; sourceTree = "<group>"; };
 		3146E6EB1A8165060072FC99 /* EAWorkflowTaskCollectionViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EAWorkflowTaskCollectionViewCell.h; sourceTree = "<group>"; };
@@ -145,6 +143,8 @@
 		31BA9A641AA47E14005D4E22 /* EATasksViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EATasksViewController.m; sourceTree = "<group>"; };
 		31BE77BF1AEAA1AF007D6F69 /* UIAlertView+Blocks.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIAlertView+Blocks.h"; sourceTree = "<group>"; };
 		31BE77C01AEAA1AF007D6F69 /* UIAlertView+Blocks.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIAlertView+Blocks.m"; sourceTree = "<group>"; };
+		31BE77C21AEAAC41007D6F69 /* EACollectionViewWorkflowLayout.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EACollectionViewWorkflowLayout.h; sourceTree = "<group>"; };
+		31BE77C31AEAAC41007D6F69 /* EACollectionViewWorkflowLayout.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EACollectionViewWorkflowLayout.m; sourceTree = "<group>"; };
 		31C02CF41AD2F22F00D4A915 /* EASearchResults.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EASearchResults.h; sourceTree = "<group>"; };
 		31C02CF51AD2F22F00D4A915 /* EASearchResults.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EASearchResults.m; sourceTree = "<group>"; };
 		31C02CF91AD2F6B000D4A915 /* NSDate+Complements.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSDate+Complements.h"; sourceTree = "<group>"; };
@@ -180,8 +180,8 @@
 		3113A84D1A82328800E972F3 /* Layout */ = {
 			isa = PBXGroup;
 			children = (
-				3146E6E51A8152280072FC99 /* EACollectionViewWorkflowLayout.h */,
-				3146E6E61A8152280072FC99 /* EACollectionViewWorkflowLayout.m */,
+				31BE77C21AEAAC41007D6F69 /* EACollectionViewWorkflowLayout.h */,
+				31BE77C31AEAAC41007D6F69 /* EACollectionViewWorkflowLayout.m */,
 			);
 			name = Layout;
 			sourceTree = "<group>";
@@ -662,6 +662,7 @@
 				31BA9A5D1AA4719D005D4E22 /* EALeftMenuViewController.m in Sources */,
 				313893F01A8AB34400D0AF11 /* EASearchTableViewController.m in Sources */,
 				319CCBD31AA66FC900567C14 /* EATaskInfoViewController.m in Sources */,
+				31BE77C41AEAAC41007D6F69 /* EACollectionViewWorkflowLayout.m in Sources */,
 				311734A81A87E265006B2B39 /* EAWorkflowListCollectionViewController.m in Sources */,
 				3146E6BA1A80E2160072FC99 /* EAWorkflowViewController.m in Sources */,
 				3146E6ED1A8165060072FC99 /* EAWorkflowTaskCollectionViewCell.m in Sources */,
@@ -687,7 +688,6 @@
 				31A7509F1A8F3FDA00FF0E7C /* EASearchSortTableViewController.m in Sources */,
 				3176D78F1ABF76F600B206A7 /* EACalendarWorkflowCollectionViewCell.m in Sources */,
 				3157226F1AE96AFC00C3D1FA /* EAMetaTask.m in Sources */,
-				3146E6E71A8152280072FC99 /* EACollectionViewWorkflowLayout.m in Sources */,
 				31FFAE9D1AD04DE900AACD2D /* EALoginViewController.m in Sources */,
 				315722741AE999F200C3D1FA /* MYNStickyFlowLayout.m in Sources */,
 			);
