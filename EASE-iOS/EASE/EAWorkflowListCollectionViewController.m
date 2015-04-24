@@ -129,16 +129,13 @@ static NSString * const reuseIdentifier = @"Cell";
 
             if (![vc.sortBy isEqualToString:self.searchResults.constraints[@"sortBy"]])
             {
-                
                 NSMutableDictionary *constraints = [NSMutableDictionary dictionaryWithDictionary:self.searchResults.constraints];
                 
                 constraints[@"sortBy"] = vc.sortBy;
-                
-                [[EANetworkingHelper sharedHelper] searchWorkflowsWithConstraints:constraints completionBlock:^(int totalNumberOfWorkflows, EASearchResults *searchResults, NSError *error) {
-                   
-                    
+
+                [[EANetworkingHelper sharedHelper] sortWorkflowBy:vc.sortBy completionBlock:^(EASearchResults *searchResults, NSError *error) {
+                    searchResults.constraints = constraints;
                     self.searchResults = searchResults;
-                    
                 }];
             }
             
@@ -189,7 +186,6 @@ static NSString * const reuseIdentifier = @"Cell";
         // Configure the cell
         
         EAWorkflow *workflow = self.searchResults.workflows[indexPath.row];
-        workflow.color = colors[indexPath.row%5];
         
         cell.infosCollectionView.tag = indexPath.row;
         cell.workflow = workflow;
@@ -209,14 +205,39 @@ static NSString * const reuseIdentifier = @"Cell";
     
     NSDictionary *dic = ((EAWorkflow*)self.searchResults.workflows[collectionView.tag]).consumption;
     
+    
     UICollectionViewCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:@"InfoCell" forIndexPath:indexPath];
     
+    NSString *key = dic.allKeys[indexPath.row];
+    
     UIImageView *imageView = [cell viewWithTag:2];
-    imageView.image = [UIImage imageNamed:dic.allKeys[indexPath.row]];
+    imageView.image = [UIImage imageNamed:key];
     
     UILabel *label = [cell viewWithTag:1];
-    label.text = [NSString stringWithFormat:@"%0.2f", ((NSNumber*)dic.allValues[indexPath.row]).floatValue];
+    
+    
+    if ([key isEqualToString:@"time"])
+    {
+
+        int TI = ceil(((NSNumber*)dic.allValues[indexPath.row]).floatValue)/60;
+        
+        int minutes = TI%60;
+        int hours =  TI/60;
+        
+        label.text = [NSString stringWithFormat:@"%dh%dm", hours, minutes];
+
+        
+    }
+    else if ([key isEqualToString:@"WATER"])
+        label.text = [NSString stringWithFormat:@"%0.1fL", ((NSNumber*)dic.allValues[indexPath.row]).floatValue];
+    
+    else if ([key isEqualToString:@"CO2"])
+        label.text = [NSString stringWithFormat:@"%0.2fg/CO2", ((NSNumber*)dic.allValues[indexPath.row]).floatValue];
+    
+    
+    
     label.textColor = [UIColor whiteColor];
+    
     
     return cell;
 }
@@ -257,6 +278,20 @@ static NSString * const reuseIdentifier = @"Cell";
         }
         
     }*/
+}
+
+-(UIEdgeInsets)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewFlowLayout *)collectionViewLayout insetForSectionAtIndex:(NSInteger)section
+{
+    int nbItems = [self collectionView:collectionView numberOfItemsInSection:0];
+    int itemWidth = collectionViewLayout.itemSize.width;
+    int space = collectionViewLayout.minimumInteritemSpacing;
+    
+    int w = nbItems*(itemWidth+space);
+    
+    int delta = (collectionView.frame.size.width-w)/2;
+    return UIEdgeInsetsMake(0, MAX(delta, 0), 0, 0);
+    
+    
 }
 
 #pragma mark - FRGWaterfallCollectionViewDelegate

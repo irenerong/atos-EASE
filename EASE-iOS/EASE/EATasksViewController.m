@@ -35,13 +35,30 @@
     
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(updateTask:) name:EATaskUpdate object:nil];
     
+    self.collectionView.alpha = 0;
+
+    
     [[EANetworkingHelper sharedHelper] getPendingAndWorkingTasksCompletionBlock:^(EASearchResults *searchResults, NSError *error) {
        
         self.searchResults = searchResults;
         [self updateArray];
-
         
-        [self.collectionView reloadData];
+        
+        [UIView animateWithDuration:0.3 animations:^{
+            if (self.dates.count == 0)
+            {
+                self.noTaskMessageLabel.alpha = 1;
+            }
+            else
+            {
+                self.noTaskMessageLabel.alpha = 0;
+                self.collectionView.alpha = 1;
+                [self.collectionView reloadData];
+                
+            }
+        }];
+        
+       
         
     }];
     
@@ -178,7 +195,18 @@
         
         [self updateArray];
         
-        [self.collectionView reloadData];
+        
+        if (self.dates.count == 0)
+        {
+            self.noTaskMessageLabel.alpha = 1;
+        }
+        else
+        {
+            self.noTaskMessageLabel.alpha = 0;
+            
+            [self.collectionView reloadData];
+            
+        }
         
     }];
     

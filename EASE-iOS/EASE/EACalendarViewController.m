@@ -33,8 +33,8 @@
     _displayWorkflow = YES;
     
     ((EACollectionViewWorkflowLayout*)self.timelineCollectionView.collectionViewLayout).delegate = self;
-    ((EACollectionViewWorkflowLayout*)self.timelineCollectionView.collectionViewLayout).minHeight = 150;
-    ((EACollectionViewWorkflowLayout*)self.timelineCollectionView.collectionViewLayout).maxHeight = 150;
+    ((EACollectionViewWorkflowLayout*)self.timelineCollectionView.collectionViewLayout).minHeight = 170;
+    ((EACollectionViewWorkflowLayout*)self.timelineCollectionView.collectionViewLayout).maxHeight = 170;
     ((EACollectionViewWorkflowLayout*)self.timelineCollectionView.collectionViewLayout).emptyHeight = 30;
     ((EACollectionViewWorkflowLayout*)self.timelineCollectionView.collectionViewLayout).itemWidth = 200;
 
@@ -176,7 +176,8 @@
     [UIView animateWithDuration:0.3 animations:^{
         self.timelineCollectionView.alpha = 0;
         self.dateScrollView.alpha = 0;
-        self.nothingToDisplayLabel.alpha = 0;
+        self.nothingToDisplayLabel.alpha = 1;
+        self.nothingToDisplayLabel.text = @"Loading ...";
 
     } completion:^(BOOL finished) {
         

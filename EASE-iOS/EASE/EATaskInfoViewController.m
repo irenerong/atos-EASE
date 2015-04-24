@@ -26,6 +26,7 @@
     
     self.progressBar.trackTintColor = [UIColor colorWithWhite:230/255. alpha:1.];
     
+    [self.fullScreenButton setImage:[UIImage imageNamed:@"fullScreen"] forState:UIControlStateNormal];
     
     self.progressBar.type = YLProgressBarTypeFlat;
     self.progressBar.hideStripes = YES;
@@ -61,7 +62,8 @@
         self.workflowTitleLabel.text = _task.workflow.title;
         
         
-        
+        self.fullScreenButton.tintColor = _task.workflow.color;
+
         NSMutableAttributedString *taskNameString = [[NSMutableAttributedString alloc] initWithString:[NSString stringWithFormat:@"%@\n", _task.metatask.name] attributes:@{NSFontAttributeName: [UIFont fontWithName:@"HelveticaNeue-Bold" size:13]}];
         
         [taskNameString appendAttributedString:[[NSAttributedString alloc] initWithString:_task.title attributes:@{NSFontAttributeName: [UIFont fontWithName:@"HelveticaNeue" size:13]}]];
@@ -145,9 +147,12 @@
         if (_task.status == EATaskStatusPending)
             [button setTitle:@"Start" forState:UIControlStateNormal];
         
+        else if (_task.status == EATaskStatusWorking)
+            [button setTitle:@"Done" forState:UIControlStateNormal];
+        
         else
             [button setTitle:@"" forState:UIControlStateNormal];
-        
+
         
         [self.buttonsBackgroundView addSubview:button];
         [buttons addObject:button];
@@ -158,10 +163,9 @@
         }];
         
         
-        NSString *html = [NSString stringWithFormat:@"<html><head><style>div {max-width: 300px;}</style></head> <body><div>%@</div></body> </html>", task.metatask.desc];
         
-        [self.descriptionView loadHTMLString:html baseURL:nil];
-        self.descriptionView.delegate = self;
+        
+        [self.descriptionView loadHTMLString:task.metatask.htmlDescription baseURL:nil];
 
         
         [self.imageView setImageWithProgressIndicatorAndURL:self.task.workflow.metaworkflow.imageURL];
@@ -171,11 +175,7 @@
          
 
         
-        if (_task.status == EATaskStatusWorking)
-        {
-            self.statusLabel.text = @"Working";
-
-        }
+       
         
         if (_task.status == EATaskStatusPending)
         {
@@ -183,10 +183,16 @@
             
             
         }
-        if (_task.status == EATaskStatusWorking)
+        else if (_task.status == EATaskStatusWorking)
         {
             self.statusLabel.text = [NSString stringWithFormat:@"Working (%d%%)",  (int)(100*self.task.completionPercentage)];
             self.progressBar.progress = self.task.completionPercentage;
+            
+        }
+        else if (_task.status == EATaskStatusFinished)
+        {
+            self.statusLabel.text = @"Finished";
+            self.progressBar.progress = 1;
             
         }
         
@@ -214,6 +220,10 @@
             self.timeStatusLabel.text = [NSDate lateFromDate:self.task.dateInterval.startDate];
             
         }
+        else
+        {
+            self.timeStatusLabel.text = @"";
+        }
         
     }
     
@@ -221,6 +231,8 @@
 
 -(void)didTapCenterButton:(UIButton*)sender
 {
+    
+    [sender setEnabled: false];
     
     if (_task.status == EATaskStatusPending)
     {
@@ -235,16 +247,25 @@
                 [[EANetworkingHelper sharedHelper] startTask:self.task completionBlock:^(NSError *error) {
                    
                     NSLog(@"START !");
-                    
+                    [sender setEnabled: true];
+
                 }];
             }];
             
-            [alert showWarning:self title:@"Warning" subTitle:@"Pouet" closeButtonTitle:@"Let me check ..." duration:0];
+            [alert showWarning:self title:@"Warning" subTitle:@"Do you really want to fire this task ? (Be sure you're next to the device !)" closeButtonTitle:@"Let me check ..." duration:0];
             
             
         
     }
-   
+   if (_task.status == EATaskStatusWorking)
+   {
+       [[EANetworkingHelper sharedHelper] finishTask:self.task completionBlock:^(NSError *error) {
+           
+           NSLog(@"FINISH !");
+           [sender setEnabled: true];
+
+       }];
+   }
     
    
 }
@@ -257,7 +278,7 @@
     int taskID = ((NSNumber*)notification.userInfo[@"id"]).intValue;
     
     if (taskID == _task.taskID)
-        [_task updateWithFeedback:notification.userInfo];
+        [_task updateWithFeedback:notification.userInfo[@"data"]];
     
     self.task = _task;
 }
@@ -272,4 +293,55 @@
 }
 */
 
+- (IBAction)descFullScreen:(id)sender {
+    
+    self.fullScreenWebView = [[UIWebView alloc] initWithFrame:self.view.bounds];
+    
+    self.fullScreenWebView.scrollView.contentOffset = self.descriptionView.scrollView.contentOffset;
+
+    _disableFullScreenButton = [[UIButton alloc] initWithFrame:CGRectMake(self.view.bounds.size.width-35, self.view.bounds.size.height-35, 30, 30)];
+    [_disableFullScreenButton setImage:[[UIImage imageNamed:@"notFullScreen"] imageWithRenderingMode:UIImageRenderingModeAlwaysTemplate] forState:UIControlStateNormal];
+    
+    _disableFullScreenButton.tintColor = _task.workflow.color;
+    _disableFullScreenButton.alpha = 0;
+    [_disableFullScreenButton addTarget:self action:@selector(descDisableFullScreen:) forControlEvents:UIControlEventTouchUpInside];
+    
+    
+    self.fullScreenWebView.alpha = 0;
+    
+    NSString *html = _task.metatask.htmlDescription;
+    [self.fullScreenWebView loadHTMLString:html baseURL:nil];
+    
+    [self.view addSubview:self.fullScreenWebView];
+    
+    [UIView animateWithDuration:0.3 delay:0 usingSpringWithDamping:0.9 initialSpringVelocity:10 options:0 animations:^{
+        self.descriptionView.alpha = 0;
+        self.fullScreenWebView.alpha = 1;
+    } completion:^(BOOL finished) {
+        
+        [self.view addSubview:_disableFullScreenButton];
+
+        [UIView animateWithDuration:0.3 animations:^{
+            _disableFullScreenButton.alpha = 1;
+        }];
+        
+    }];
+    
+    
+    
+}
+
+-(void)descDisableFullScreen:(id)sender
+{
+    [UIView animateWithDuration:0.5 delay:0 usingSpringWithDamping:0.9 initialSpringVelocity:10 options:0 animations:^{
+        self.descriptionView.scrollView.contentOffset = self.fullScreenWebView.scrollView.contentOffset;
+        self.fullScreenWebView.alpha = 0;
+        self.disableFullScreenButton.alpha = 0;
+        self.descriptionView.alpha = 1;
+        
+    } completion:^(BOOL finished) {
+        [self.disableFullScreenButton removeFromSuperview];
+        [self.fullScreenWebView removeFromSuperview];
+    }];
+}
 @end

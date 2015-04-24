@@ -27,8 +27,7 @@
         
         self.layer.masksToBounds = false;
         
-        
-    }
+           }
     
     return self;
 }
@@ -37,6 +36,24 @@
 {
     _task = task;
     
+    self.checkView.layer.cornerRadius = self.checkView.frame.size.width/2;
+    
+    self.checkView.layer.shadowColor = [UIColor blackColor].CGColor;
+    self.checkView.layer.shadowOffset = CGSizeMake(0, 2);
+    self.checkView.layer.shadowOpacity = 0.3;
+    self.checkView.layer.shadowRadius = 2;
+    self.checkView.backgroundColor = _task.workflow.color;
+    
+    self.checkView.alpha = 0;
+
+    
+    if (_task.status == EATaskStatusFinished)
+        self.checkView.alpha = 1;
+    else
+        self.checkView.alpha = 0;
+    
+    self.checkView.backgroundColor = _task.workflow.color;
+
     
     NSMutableAttributedString *taskNameString = [[NSMutableAttributedString alloc] initWithString:[NSString stringWithFormat:@"%@\n", _task.metatask.name] attributes:@{NSFontAttributeName: [UIFont fontWithName:@"HelveticaNeue-Bold" size:14]}];
     

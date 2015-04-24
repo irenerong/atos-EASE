@@ -81,7 +81,7 @@
 -(UITableViewCell*)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     
     
-    NSArray *menuItems = @[@"Dashboard", @"Calendar", @"Tasks", @"Settings"];
+    NSArray *menuItems = @[@"Dashboard (NOTHING)", @"Calendar", @"Tasks", @"Settings (NOTHING)"];
 
     UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"cell"];
     
