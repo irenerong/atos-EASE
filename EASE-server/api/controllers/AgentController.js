@@ -9,28 +9,65 @@ module.exports = {
 // launch is controlled by user side, when user start a task 'preheat the oven', 
 //then the agent 'oven' will call his function Launch
 // this methode is communicate by socket
-	launch : function(req, res){
+	// launch : function(req, res){
 				
-		var	socketId = sails.sockets.id(req.socket);
+	// 	var	socketId = sails.sockets.id(req.socket);
 	
-		var param = req.params.all()
-		SubTask.findOne(param.subTask).exec(function(err, subTask){
-			Agent.findOne(param.agentID).exec(function(err, agent){
-
-	      		agent.subTaskInProgress = param.subTask;
-	      		agent.timeLeft = subTask.duration;
+	// 	var param = req.params.all()
+	// 	SubTask.findOne({id:param.subTask}).exec(function(err, subTask){
+	// 		Agent.findOne(param.agentID).exec(function(err, agent){
+				
+	//       		// agent.subTaskInProgress = param.subTask;
+	//       		agent.timeLeft = subTask.duration;
 	      	
-		})	
+	// 	})	
 		
-		res.json({
-     		 message: 'TimeLeft sent!'
-   		});
-	})
-	},
+	// 	res.json({
+ //     		 message: 'TimeLeft sent!'
+ //   		});
+	// })
+	// },
+	// NonDispo : function(req,res){
+	// 	var params =req.params.all();
+	// 	var id= params.id;
+	// 	var nondispo=[];
+	// 	Agent.findOne(id).exec(function(err,agent){
+	// 		if (err) console.log(err)
+	// 			else {
+	// 				agent.agentNonDispo(function(non){nondispo=non,res.json({'nondispo':nondispo})});
+	// 			}
+			
+
+	// 	})
+
+	// }, just for test with postman
+
+	// launch : function(req, res){
+	// 	var	socketId = sails.sockets.id(req.socket);  // Gets socketID
+
+	// 	var param = req.params.all()// Gets all the parameters in the socket
+
+	// 	// SubTask.findOne(param.subTask).exec(function(err, subTask){
+	// 	// 	Agent.findOne(param.agentID).exec(function(err, agent){
+	//  //      		// console.log("agentID "+ agent.id)
+	//  //      		agent.subTaskInProgress = param.subTask;
+	//  //      		agent.timeLeft = subTask.duration;
+	//  //      		// console.log("subtask" + param.subTask + " launched, subTask duration is "+ subTask.duration);
+	//  //      		// sails.sockets.emit(socketId, 'rest', {timeLeft:subTask.duration});
+ //  //     		})
+	// 	// })	
+		
+	// 	res.json({
+ //     		 message: 'TimeLeft sent!'
+ //   		});
+
+	// },
+	// See sails documentation: sails.sockets.join
 	joinRoom: function (req, res){
 		var param = req.params.all()
-		sails.sockets.join(req.socket, param.agentID)
+		sails.sockets.join(req.socket, param.agentName)
 	},
+	
 	taskDone : function(req, res){
 		var param = req.params.all();
 

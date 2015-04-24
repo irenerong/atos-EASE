@@ -21,10 +21,12 @@ module.exports = {
       type: 'string'
     },
 
-    subTaskInProgess : {
-      type : 'integer',
-      defaultsTo : null
-    },
+    
+    // subTaskInProgess : {
+    //   type : 'integer',
+    //   defaultsTo : null
+    // },
+    
     agentNDispo : {
       type : 'array',
       defaultsTo : [] 
