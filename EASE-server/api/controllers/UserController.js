@@ -7,6 +7,7 @@
 
 module.exports = {
 	
+	// Helps users to sign in with their login and password
 	signin: function(req, res) {
 
 		var bcrypt = require('bcrypt');
@@ -43,7 +44,7 @@ module.exports = {
 		});
 
 	},
-
+	// Subcribes each user to all their subtasks
 	subscribe: function(req, res) {
 		if (req.isSocket){
 
@@ -63,7 +64,7 @@ module.exports = {
 						res.json('OKAY :D'+req.session.IOSsocketID+' is connected');
 		}
 	},
-
+	// Change administrator rights
 	changeAdmin: function(req,res) {
 
 		User.findOne({id:req.session.userID}).exec(function (err,user) {
@@ -94,6 +95,7 @@ module.exports = {
 			});
 
 	},
+	//Add ingredients to a user
 	addIngredient: function(req, res){
       var exist =false;
       var params=req.params.all();
@@ -132,6 +134,7 @@ module.exports = {
       })
 
     },
+    // Gets all the ingredients of a user
     getIngredient:function(req,res){
 
     	User.findOne(req.session.userID).populate('ingredient').exec(function(err,user){
@@ -140,7 +143,7 @@ module.exports = {
     },
 
 
-
+    // Number of ingredients lacked to do a workflow
 	NBIngredientManque :function(req,res){
 
 		User.findOne({id:req.session.userID}).exec(function (err,user) {

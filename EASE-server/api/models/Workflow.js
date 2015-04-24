@@ -25,11 +25,6 @@ module.exports = {
   		type: 'json'
   	},
 
-    // tasks: {
-    //   collection: 'Task',
-    //   via: 'workflow'
-    // }, 
-
     subtasks: {
       collection: 'SubTask',
       via: 'workflow'

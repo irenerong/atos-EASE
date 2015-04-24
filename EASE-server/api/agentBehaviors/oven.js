@@ -1,4 +1,4 @@
-
+// This module simulates the behaviors of an oven
 
 var oven = {
 }
@@ -16,7 +16,9 @@ oven.subtasks = function (task) {
 		subtask2.metatask =task.metatask;
 		subtask2.waitFor = task.waitFor
 		subtask2.id = task.id*10+2;
+
 		subtask2.action = {action: "Cook at the right temprature"}
+
 		subtask2.consumption = {time: 10, WATER: Math.random()*10}
 		//subtask2.consumption = {time: Math.random()*60, WATER: Math.random()*10}
 

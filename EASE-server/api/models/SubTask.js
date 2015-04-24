@@ -51,6 +51,7 @@ module.exports = {
       type :'integer',
       required: true
     },
+    // When a subtask finishes, change his status and see if his successors could begin, if so, change the status of his successors to "pending"
      finish: function() {
       console.log("in finish "+this.id);
                 SubTask.update({id:this.id},{status:'finish'}).exec(function(err,updateds){
@@ -84,7 +85,7 @@ module.exports = {
         })// end foreach
       })
     },
-
+    // Finds the right agent to start a subtask by using the socket
     start: function(cb) {
 
       var at = "";
@@ -114,18 +115,40 @@ module.exports = {
     },
    
 
+
     
     
 
 
     /*START CONDITION
+
+    for each subtask , il has his own start condition which stores all condition need to be confirmed to start this task
+    this startcondition contains: the precedors of the subtasks (which subtask need to wait before they finish execution )
+                                : the estimated start time of this subtask
+
       
     */
     
 
+
     startCondition: {
       model: 'StartCondition'
     }, 
+   /* NEXT START CONDITION
+      in fact next start condition contains this subtask's succedors information, but two subtask  can't be linked toghether directely,
+      because there're always their startcondition between them
+      
+      startcondt1 startcondt2
+          |             |
+        Subtask1    Subtask2
+           \           /
+             \       /
+            startcondit3  (and here the startcondition3 is the nextstartconditions for subtask1 and subtask2)
+                  |
+              Subtask3
+
+
+   */
 
     nextStartConditions: {
       collection: 'StartCondition', 
@@ -133,6 +156,7 @@ module.exports = {
     }
 
   }, 
+  // Gets all the subtasks of a given day
   allSubTasks : function(date,cb){
       var jour = "";
       var day = new Date(date)
@@ -159,7 +183,7 @@ module.exports = {
 
 
   },
-
+  // Another function to get all the subtasks of a day
   allSubTasks2 : function(date, cb) {
 
     var day = new Date(date);
@@ -190,7 +214,7 @@ module.exports = {
     sails.log('Destroy subtask : ' + JSON.stringify(subtask))
     cb()
   },
-
+  // After a subtask is finished
   finishSubtask : function (id, cb){
     Subtask.update({id:id},{status:'finish'}).exec(function (err, subtasks) {
 

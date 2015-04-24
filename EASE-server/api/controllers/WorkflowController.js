@@ -6,7 +6,7 @@
  */
 
 module.exports = {
-
+	// Create a workflow
 	createwf : function(req,res){
 		WFC=this;
 		var params= req.body;
@@ -16,19 +16,13 @@ module.exports = {
 			timeConstraint.time=req.body.time;
 		var sortFunction = null
 		var sortBy = 'consumption'
-	// if (req.session.lastsearch == params.intent){
-	// 	console.log("this is a sort by"+req.session.lastsearch);
-	// 	sortFunction = this.sort(params.sortBy);
-	// 	req.session.generatedWorkflows.sort(sortFunction) ;
-	// 	// if the the user just wants to do a workflow sort
-
-	// 	res.json({"workflows":req.session.generatedWorkflows}) // with pagination
-
-	// }else{
+	
 		// generate new workflows
 		console.log("generating workflows")
 		req.session.generatedWorkflows=[];
 		req.session.lastsearch = params.intent;
+
+		// Finds the right workflow
 		Metaworkflow.find({intent:params.intent,title:{'like':'%'+params.title+'%'}}).populate('metatasks').exec(function(err,metaworkflows){
 			if (err) {console.log(err)}
 
@@ -52,21 +46,6 @@ module.exports = {
 							cb(null);
 						});// fin async each
 					
-					// WorkflowGeneratorService.generateWorkflows(metaworkflows[0], 15, 
-					// 		function(generatedWorkflows)
-					// 		{ console.log(metaworkflows[0]);
-					// 		req.session.generatedWorkflows=req.session.generatedWorkflows.concat(generatedWorkflows);
-					// 		sortFunction = WFC.sort(params.sortBy);
-					//  		req.session.generatedWorkflows.sort(sortFunction) ;
-					//  		cb(null);})
-
-
-
-					
-					
-					
-					
-			
 
 				}// first cb of waterfall
 
@@ -82,12 +61,8 @@ module.exports = {
 			
 
 			})
-	//}
-	
-	
-
-
 	},
+	// Sort the workflows according to a rule
 	sortwf : function(req, res){
 		var params= req.body;
 
@@ -105,12 +80,10 @@ module.exports = {
 		}
 
 	},
+	// Sort the workflows
 	sort :function(sortBy){
 
 						if (sortBy == 'title') {
-
-
-
 						return sortFunction = function(a, b) {
 
 								var order = 1
@@ -147,9 +120,6 @@ module.exports = {
 								return 0
 
 								}
-								
-
-								
 		
 							}
 
