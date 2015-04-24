@@ -9,9 +9,7 @@
 #import <UIKit/UIKit.h>
 
 @interface EASearchSortTableViewController : UITableViewController
-
--(void)setSortBy:(NSString*)string;
-
--(NSString*)sortBy;
+- (void)setSortBy:(NSString *)string;
+- (NSString *)sortBy;
 
 @end

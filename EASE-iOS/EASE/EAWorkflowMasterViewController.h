@@ -13,16 +13,15 @@
 
 @protocol EAWorkflowViewerDelegate <NSObject>
 
--(void)workflowViewValidatedWorkflow;
+- (void)workflowViewValidatedWorkflow;
 
 @end
 
 @interface EAWorkflowMasterViewController : MBPullDownController
 
 
-@property(nonatomic, weak) EAWorkflow *workflow;
+@property (weak, nonatomic) EAWorkflow                 *workflow;
 @property (strong, nonatomic) IBOutlet UIBarButtonItem *doneButton;
-@property (strong, nonatomic) IBOutlet UIBarButtonItem *editButton;
 
 - (IBAction)validateWorkflow:(id)sender;
 

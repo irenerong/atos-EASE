@@ -16,96 +16,71 @@
 #import "EAAgent.h"
 
 
-
-
-extern NSString* const EATaskUpdate;
+extern NSString *const EATaskUpdate;
 
 
 @class EAMetaworkflow;
 @class EAWorkflow;
 @class EADateInterval;
 @class EATask;
-
 @class EASearchResults;
 @class EALoginViewController;
 
-@protocol EANetworkingHelperDelegate <NSObject>
-
-@end
 
 @interface EANetworkingHelper : NSObject <WitDelegate>
-{
-    EAWorkflow *workflowTest;
-}
-
-@property(nonatomic, weak) id <EANetworkingHelperDelegate> delegate;
-
-@property(nonatomic, strong) NSString *easeServerAdress;
-
-@property(nonatomic, strong) EAUser *currentUser;
-
-@property(nonatomic, weak) EALoginViewController *loginViewController;
-
-@property(nonatomic, readwrite) BOOL displayNotificationPopup;
 
 + (EANetworkingHelper *)sharedHelper;
 
-@property(nonatomic, strong)     NSArray *colors;
+
+@property (nonatomic, strong) NSString            *easeServerAdress;
+@property (nonatomic, strong) EAUser              *currentUser;
+@property (nonatomic, weak) EALoginViewController *loginViewController;
+@property (nonatomic, strong) NSArray             *colors;
+
+#pragma mark - Wit Processing
+
+- (void)witProcessed:(NSString *)string completionBlock:(void (^)(NSDictionary *results, NSError *error))completionBlock;
 
 
--(void)witProcessed:(NSString*)string completionBlock:(void (^)(NSDictionary* results, NSError* error))completionBlock;
+#pragma mark - EASE SERVER NETWORKING
+
+//LOGIN & USER
+- (void)loginWithUsername:(NSString *)username andPassword:(NSString *)password completionBlock:(void (^) (NSError *error) )completionBlock;
+- (void)logout;
+
+- (void)retrieveUserIngredients:(void (^) () )completionBlock;
+
+//GENERATE WORKFLOWS
+
+- (void)searchWorkflowsWithConstraints:(NSDictionary *)constraints completionBlock:(void (^) (int totalNumberOfWorkflows, EASearchResults *searchResults, NSError *error))completionBlock;
+- (void)sortWorkflowBy:(NSString *)sortBy completionBlock:(void (^) (EASearchResults *searchResults, NSError *error))completionBlock;
 
 
-//EASE SERVER NETWORKING
+- (void)validateWorkflow:(EAWorkflow *)workflow completionBlock:(void (^)  (NSError *error) )completionBlock;
 
--(void)loginWithUsername:(NSString*)username andPassword:(NSString*)password completionBlock:(void (^) (NSError *error) )completionBlock;
+//GET DATA
 
--(void)logout;
-
--(void)searchWorkflowsWithConstraints:(NSDictionary*)constraints completionBlock:(void (^) (int totalNumberOfWorkflows, EASearchResults* searchResults, NSError* error))completionBlock;
-
--(void)searchWorklowsBetweenId:(int)id1 andId:(int)id2 completionBlock:(void (^) (NSArray* workflows, NSError* error))completionBlock;
-
--(void)retrieveUserIngredients:(void (^) () )completionBlock;
-
--(void)retrieveWorkflowWithID:(int)workflowID completionBlock:(void (^) (EAWorkflow* workflow, int metaworkflowID, NSError *error))completionBlock;
-
--(void)retrieveMetaworkflowWithID:(int)metaworkflowID completionBlock:(void (^) (EAMetaworkflow* metaworkflow, NSError *error))completionBlock;
-
--(void)retrieveTaskWithID:(int)taskID completionBlock:(void (^) (EATask* task, NSError *error))completionBlock;
-
--(void)retrieveWorkflowIDWithTaskID:(int)taskID completionBlock:(void (^) (int workflowID, NSError *error))completionBlock;
+- (void)retrieveWorkflowWithID:(int)workflowID completionBlock:(void (^) (EAWorkflow *workflow, int metaworkflowID, NSError *error))completionBlock;
+- (void)retrieveMetaworkflowWithID:(int)metaworkflowID completionBlock:(void (^) (EAMetaworkflow *metaworkflow, NSError *error))completionBlock;
+- (void)retrieveTaskWithID:(int)taskID completionBlock:(void (^) (EATask *task, NSError *error))completionBlock;
+- (void)retrieveWorkflowIDWithTaskID:(int)taskID completionBlock:(void (^) (int workflowID, NSError *error))completionBlock;
+- (void)retrieveStartConditionWithID:(int)startConditionID completionBlock:(void (^) (NSDictionary *startCondition, NSError *error))completionBlock;
+- (void)retrieveAgentWithID:(int)agentID completionBlock:(void (^) (EAAgent *agent, NSError *error))completionBlock;
 
 
--(void)retrieveStartConditionWithID:(int)startConditionID completionBlock:(void (^) (NSDictionary* startCondition, NSError *error))completionBlock;
+- (void)getPendingTasksCompletionBlock:(void (^) (EASearchResults *searchResults, NSError *error))completionBlock;
+- (void)getPendingAndWorkingTasksCompletionBlock:(void (^) (EASearchResults *searchResults, NSError *error))completionBlock;
+- (void)getWorkingTasksCompletionBlock:(void (^) (EASearchResults *searchResults, NSError *error))completionBlock;
+- (void)getNumberOfPendingTasks:(void (^) (int nb, NSError *error))completionBlock;
+- (void)getNumberOfWorkingTasks:(void (^) (int nb, NSError *error))completionBlock;
 
--(void)retrieveAgentWithID:(int)agentID completionBlock:(void (^) (EAAgent* agent, NSError *error))completionBlock;
+- (void)tasksAtDay:(NSDate *)date completionBlock:(void (^) (EASearchResults *result, NSError *error))completionBlock;
 
+//START TASK
 
--(void)getPendingTasksCompletionBlock:(void (^) (EASearchResults* searchResults, NSError* error))completionBlock;
+- (void)startTask:(EATask *)task completionBlock:(void (^) (NSError *error))completionBlock;
+- (void)finishTask:(EATask *)task completionBlock:(void (^) (NSError *error))completionBlock;
 
--(void)getPendingAndWorkingTasksCompletionBlock:(void (^) (EASearchResults* searchResults, NSError* error))completionBlock;
-
--(void)getWorkingTasksCompletionBlock:(void (^) (EASearchResults* searchResults, NSError* error))completionBlock;
-
-
--(void)getNumberOfPendingTasks:(void (^) (int nb, NSError* error))completionBlock;
--(void)getNumberOfWorkingTasks:(void (^) (int nb, NSError* error))completionBlock;
-
-
--(void)modifyWorkflow:(EAWorkflow*)workflow withParams:(NSDictionary*)params completionBlock:(void (^) (EAWorkflow *newWorkflow, NSError *error))completionBlock;
-
--(void)validateWorkflow:(EAWorkflow*)workflow completionBlock:(void (^)  (NSError *error) )completionBlock;
-
--(void)tasksAtDay:(NSDate*)date completionBlock:(void (^) (EASearchResults *result, NSError *error)) completionBlock;
-
-
--(void)startTask:(EATask*)task completionBlock:(void (^) (NSError *error)) completionBlock;
--(void)sortWorkflowBy:(NSString*)sortBy completionBlock:(void (^) (EASearchResults* searchResults, NSError* error))completionBlock;
-
--(void)finishTask:(EATask*)task completionBlock:(void (^) (NSError *error)) completionBlock;
-
-//EASE NOTIFICATIONS
 
 
 

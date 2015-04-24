@@ -13,15 +13,12 @@
 
 @interface EAWorkflowTaskCollectionViewCell : UICollectionViewCell
 
-@property(nonatomic, weak) EATask *task;
+@property (nonatomic, weak) EATask  *task;
+@property (nonatomic, weak) UIColor *color;
 
 @property (weak, nonatomic) IBOutlet UILabel *taskTitleLabel;
-
-@property (weak, nonatomic) IBOutlet UIView *checkView;
-
+@property (weak, nonatomic) IBOutlet UIView  *checkView;
 @property (weak, nonatomic) IBOutlet UILabel *agentNameLabel;
-
-@property(nonatomic, weak) UIColor *color;
-@property (weak, nonatomic) IBOutlet UIView *titleSeparatorView;
+@property (weak, nonatomic) IBOutlet UIView  *titleSeparatorView;
 
 @end

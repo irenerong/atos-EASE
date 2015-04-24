@@ -11,20 +11,16 @@
 #import "EAMetaTask.h"
 @interface EAMetaworkflow : NSObject
 
-+(instancetype)metaworkflowByParsingDictionary:(NSDictionary*)dictionary;
--(instancetype)initWithDictionary:(NSDictionary*)dictionary;
++ (instancetype)metaworkflowByParsingDictionary:(NSDictionary *)dictionary;
+- (instancetype)initWithDictionary:(NSDictionary *)dictionary;
 
--(EAMetaTask*)metataskWithID:(int)metataskID;
+- (EAMetaTask *)metataskWithID:(int)metataskID;
 
-@property(nonatomic, readwrite) int metaworkflowID;
-
-@property(nonatomic, strong) NSString *title;
-
-@property(nonatomic, strong) NSURL *imageURL;
-
-@property(nonatomic, strong) NSMutableArray *ingredients;
-@property(nonatomic, strong) NSMutableArray *metatasks;
-
+@property (nonatomic, readwrite) int         metaworkflowID;
+@property (nonatomic, strong) NSString       *title;
+@property (nonatomic, strong) NSURL          *imageURL;
+@property (nonatomic, strong) NSMutableArray *ingredients;
+@property (nonatomic, strong) NSMutableArray *metatasks;
 
 
 @end

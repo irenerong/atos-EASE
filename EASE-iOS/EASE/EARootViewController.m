@@ -25,37 +25,26 @@
     // Dispose of any resources that can be recreated.
 }
 
-- (void)awakeFromNib
-{
-    
+- (void)awakeFromNib {
+
     self.menuPreferredStatusBarStyle = UIStatusBarStyleLightContent;
-    self.contentViewShadowColor = [UIColor blackColor];
-    self.contentViewShadowOffset = CGSizeMake(0, 2);
-    self.contentViewShadowOpacity = 0.6;
-    self.contentViewShadowRadius = 3;
-    self.contentViewShadowEnabled = YES;
-    
-    self.fadeMenuView = true;
-    self.scaleContentView = true;
+    self.contentViewShadowColor      = [UIColor blackColor];
+    self.contentViewShadowOffset     = CGSizeMake(0, 2);
+    self.contentViewShadowOpacity    = 0.6;
+    self.contentViewShadowRadius     = 3;
+    self.contentViewShadowEnabled    = YES;
+
+    self.fadeMenuView             = true;
+    self.scaleContentView         = true;
     self.scaleBackgroundImageView = true;
-    self.scaleMenuView = false;
-    
+    self.scaleMenuView            = false;
+
     self.backgroundImage = [[UIImage imageNamed:@"MenuBG"] applyBlurWithRadius:20 tintColor:nil saturationDeltaFactor:1 maskImage:nil];
-    
-    self.contentViewController = [self.storyboard instantiateViewControllerWithIdentifier:@"calendarViewController"];
+
+    self.contentViewController  = [self.storyboard instantiateViewControllerWithIdentifier:@"calendarViewController"];
     self.leftMenuViewController = [self.storyboard instantiateViewControllerWithIdentifier:@"leftMenuController"];
-    
-    
-}
 
-/*
-#pragma mark - Navigation
 
-// In a storyboard-based application, you will often want to do a little preparation before navigation
-- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
-    // Get the new view controller using [segue destinationViewController].
-    // Pass the selected object to the new view controller.
 }
-*/
 
 @end

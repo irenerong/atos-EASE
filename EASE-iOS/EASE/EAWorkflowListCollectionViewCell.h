@@ -11,18 +11,13 @@
 
 @interface EAWorkflowListCollectionViewCell : UICollectionViewCell
 
-@property (weak, nonatomic) IBOutlet UIImageView *imageView;
-
-@property (weak, nonatomic) IBOutlet UILabel *titleLabel;
-
-@property (weak, nonatomic) IBOutlet UIView *infosView;
-
+@property (weak, nonatomic) IBOutlet UIImageView      *imageView;
+@property (weak, nonatomic) IBOutlet UILabel          *titleLabel;
+@property (weak, nonatomic) IBOutlet UIView           *infosView;
 @property (weak, nonatomic) IBOutlet UICollectionView *infosCollectionView;
-@property (weak, nonatomic) IBOutlet UIView *sortInfosView;
+@property (weak, nonatomic) IBOutlet UIView           *sortInfosView;
 
 @property(nonatomic, weak) EAWorkflow *workflow;
-
-
-@property(nonatomic, weak) UIColor *color;
+@property(nonatomic, weak) UIColor    *color;
 
 @end

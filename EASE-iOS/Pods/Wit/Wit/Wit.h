@@ -7,6 +7,7 @@
 #import <AVFoundation/AVFoundation.h>
 #import "WITVadConfig.h"
 #import "WITMicButton.h"
+#import "WITRecordingSession.h"
 
 
 @class WITRecordingSession;
@@ -16,7 +17,7 @@
 
 @interface Wit : NSObject  <WITRecordingSessionDelegate>
 
-@property(strong) WITContextSetter *wcs;
+@property(strong, readonly) WITContextSetter *wcs;
 
 /**
  Delegate to send feedback for the application

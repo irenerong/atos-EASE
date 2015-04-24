@@ -14,7 +14,7 @@
             buildForAnalyzing = "YES">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "FD5C9E8C23A9DEA3D74F9294"
+               BlueprintIdentifier = "1D2EA0F5B943FE56DEE8537A"
                BuildableName = "SCLAlertView_Objective_C.framework"
                BlueprintName = "Pods-SCLAlertView-Objective-C"
                ReferencedContainer = "container:Pods.xcodeproj">

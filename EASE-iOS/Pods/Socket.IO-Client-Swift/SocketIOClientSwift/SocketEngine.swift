@@ -39,6 +39,7 @@ public final class SocketEngine: NSObject, WebSocketDelegate, SocketLogClient {
     private let parseQueue = dispatch_queue_create("engineParseQueue", DISPATCH_QUEUE_SERIAL)
     private let handleQueue = dispatch_queue_create("engineHandleQueue", DISPATCH_QUEUE_SERIAL)
     private let session:NSURLSession!
+    
     private var closed = false
     private var _connected = false
     private var fastUpgrade = false
@@ -104,6 +105,10 @@ public final class SocketEngine: NSObject, WebSocketDelegate, SocketLogClient {
                 delegate: sessionDelegate, delegateQueue: self.workQueue)
     }
     
+    deinit {
+        SocketLogger.log("Engine is being deinit", client: self)
+    }
+    
     public func close(#fast:Bool) {
         self.pingTimer?.invalidate()
         self.closed = true
@@ -121,7 +126,9 @@ public final class SocketEngine: NSObject, WebSocketDelegate, SocketLogClient {
             var byteArray = [UInt8](count: 1, repeatedValue: 0x0)
             byteArray[0] = 4
             var mutData = NSMutableData(bytes: &byteArray, length: 1)
+            
             mutData.appendData(data)
+            
             return (mutData, nil)
         } else {
             var str = "b4"
@@ -150,15 +157,17 @@ public final class SocketEngine: NSObject, WebSocketDelegate, SocketLogClient {
         }
         
         if params != nil {
+            let allowedCharacterSet = NSCharacterSet(charactersInString: "!*'();:@&=+$,/?%#[]\" ").invertedSet
+            
             for (key, value) in params! {
                 let keyEsc = key.stringByAddingPercentEncodingWithAllowedCharacters(
-                    NSCharacterSet.URLHostAllowedCharacterSet())!
+                    allowedCharacterSet)!
                 urlPolling += "&\(keyEsc)="
                 urlWebSocket += "&\(keyEsc)="
                 
                 if value is String {
                     let valueEsc = (value as! String).stringByAddingPercentEncodingWithAllowedCharacters(
-                        NSCharacterSet.URLHostAllowedCharacterSet())!
+                        allowedCharacterSet)!
                     urlPolling += "\(valueEsc)"
                     urlWebSocket += "\(valueEsc)"
                 } else {
@@ -202,12 +211,12 @@ public final class SocketEngine: NSObject, WebSocketDelegate, SocketLogClient {
         
         self.waitingForPoll = true
         let req = NSMutableURLRequest(URL: NSURL(string: self.urlPolling! + "&sid=\(self.sid)&b64=1")!)
-      
+        
         if self.cookies != nil {
             let headers = NSHTTPCookie.requestHeaderFieldsWithCookies(self.cookies!)
             req.allHTTPHeaderFields = headers
         }
-      
+        
         self.doRequest(req)
     }
     
@@ -248,8 +257,7 @@ public final class SocketEngine: NSObject, WebSocketDelegate, SocketLogClient {
                 return
             } else if !self!.closed && self!.polling {
                 self?.doPoll()
-            }
-            }.resume()
+            }}.resume()
     }
     
     private func flushProbeWait() {
@@ -291,12 +299,12 @@ public final class SocketEngine: NSObject, WebSocketDelegate, SocketLogClient {
         self.postWait.removeAll(keepCapacity: false)
         
         let req = NSMutableURLRequest(URL: NSURL(string: self.urlPolling! + "&sid=\(self.sid)")!)
-      
+        
         if self.cookies != nil {
             let headers = NSHTTPCookie.requestHeaderFieldsWithCookies(self.cookies!)
             req.allHTTPHeaderFields = headers
         }
-      
+        
         req.HTTPMethod = "POST"
         req.setValue("text/plain; charset=UTF-8", forHTTPHeaderField: "Content-Type")
         
@@ -409,11 +417,10 @@ public final class SocketEngine: NSObject, WebSocketDelegate, SocketLogClient {
         func testLength(length:String, inout n:Int) -> Bool {
             if let num = length.toInt() {
                 n = num
+                return false
             } else {
                 return true
             }
-            
-            return false
         }
         
         for var i = 0, l = str.length; i < l; i = i &+ 1 {
@@ -498,7 +505,8 @@ public final class SocketEngine: NSObject, WebSocketDelegate, SocketLogClient {
             message.removeAtIndex(message.startIndex)
             let mesData = message.dataUsingEncoding(NSUTF8StringEncoding, allowLossyConversion: false)!
             
-            if let json = NSJSONSerialization.JSONObjectWithData(mesData, options: NSJSONReadingOptions.AllowFragments,
+            if let json = NSJSONSerialization.JSONObjectWithData(mesData,
+                options: NSJSONReadingOptions.AllowFragments,
                 error: &err) as? NSDictionary, let sid = json["sid"] as? String {
                     self.sid = sid
                     self._connected = true
@@ -532,22 +540,19 @@ public final class SocketEngine: NSObject, WebSocketDelegate, SocketLogClient {
             }
             
             return
-        } else {
-            if message.hasPrefix("b4") {
-                // binary in base64 string
-                
-                message.removeRange(Range<String.Index>(start: message.startIndex,
-                    end: advance(message.startIndex, 2)))
-                
-                if let data = NSData(base64EncodedString: message,
-                    options: NSDataBase64DecodingOptions.IgnoreUnknownCharacters)
-                    where self.client != nil {
-                        // println("sending \(data)")
-                        
-                        dispatch_async(self.client!.handleQueue) {[weak self] in
-                            self?.client?.parseBinaryData(data)
-                        }
-                }
+        } else if message.hasPrefix("b4") {
+            // binary in base64 string
+            message.removeRange(Range<String.Index>(start: message.startIndex,
+                end: advance(message.startIndex, 2)))
+            
+            if let data = NSData(base64EncodedString: message,
+                options: NSDataBase64DecodingOptions.IgnoreUnknownCharacters)
+                where self.client != nil {
+                    // println("sending \(data)")
+                    
+                    dispatch_async(self.client!.handleQueue) {[weak self] in
+                        self?.client?.parseBinaryData(data)
+                    }
             }
         }
     }
@@ -638,6 +643,9 @@ public final class SocketEngine: NSObject, WebSocketDelegate, SocketLogClient {
         }
     }
     
+    /**
+    Write a message, independent of transport.
+    */
     public func write(msg:String, withType type:PacketType, withData data:ContiguousArray<NSData>?) {
         dispatch_async(self.emitQueue) {[weak self] in
             if self == nil || !self!.connected {
@@ -651,6 +659,23 @@ public final class SocketEngine: NSObject, WebSocketDelegate, SocketLogClient {
                 SocketLogger.log("Writing poll: \(msg):\(data)", client: self!)
                 self?.sendPollMessage(msg, withType: type, datas: data)
             }
+        }
+    }
+    
+    /**
+    Write a message, independent of transport. For Objective-C. withData should be an NSArray of NSData
+    */
+    public func writeObjc(msg:String, withType type:Int, withData data:NSArray?) {
+        if let pType = PacketType(rawValue: type) {
+            var arr = ContiguousArray<NSData>()
+            
+            if data != nil {
+                for d in data! {
+                    arr.append(d as! NSData)
+                }
+            }
+            
+            self.write(msg, withType: pType, withData: arr)
         }
     }
     

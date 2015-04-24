@@ -29,23 +29,21 @@
 {
 }
 
-@property(nonatomic, strong) NSDate *date;
+@property(nonatomic, strong) NSDate  *date;
 @property(nonatomic, readwrite) BOOL displayWorkflow;
 
-
-@property (weak, nonatomic) IBOutlet UILabel *nothingToDisplayLabel;
-
-@property (weak, nonatomic) IBOutlet UICollectionView *timelineCollectionView;
-@property (weak, nonatomic) IBOutlet EAWorkflowDateScrollView *dateScrollView;
-@property (weak, nonatomic) IBOutlet JTCalendarContentView *contentView;
 @property(strong, nonatomic) JTCalendar *calendar;
 
 
+@property (weak, nonatomic) IBOutlet UILabel                  *nothingToDisplayLabel;
+@property (weak, nonatomic) IBOutlet UICollectionView         *timelineCollectionView;
+@property (weak, nonatomic) IBOutlet EAWorkflowDateScrollView *dateScrollView;
+@property (weak, nonatomic) IBOutlet JTCalendarContentView    *contentView;
+
 @property (strong, nonatomic) IBOutlet UIBarButtonItem *addButton;
 
-@property (strong, nonatomic) IBOutlet UIBarButtonItem *modeSwitchBarButton;
-@property(strong, nonatomic) UIButton *modeSwitchButton;
+@property (strong, nonatomic) UIBarButtonItem *modeSwitchBarButton;
+@property(strong, nonatomic) UIButton         *modeSwitchButton;
 
-- (IBAction)switchMode:(id)sender;
 
 @end

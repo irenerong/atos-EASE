@@ -14,13 +14,14 @@
 @interface EACalendarTaskCollectionViewCell : UICollectionViewCell
 
 @property(nonatomic, weak) EATask *task;
+
 @property (weak, nonatomic) IBOutlet UIImageView *workflowImageView;
 
 @property (weak, nonatomic) IBOutlet UILabel *workflowTitleLabel;
-@property (weak, nonatomic) IBOutlet UIView *workflowTitleBackgroundView;
+@property (weak, nonatomic) IBOutlet UIView  *workflowTitleBackgroundView;
 @property (weak, nonatomic) IBOutlet UILabel *taskTitleLabel;
-@property (weak, nonatomic) IBOutlet UIView *taskTitleBackgroundView;
-@property (weak, nonatomic) IBOutlet UIView *separatorView;
+@property (weak, nonatomic) IBOutlet UIView  *taskTitleBackgroundView;
+@property (weak, nonatomic) IBOutlet UIView  *separatorView;
 
 @property (weak, nonatomic) IBOutlet UIView *checkView;
 

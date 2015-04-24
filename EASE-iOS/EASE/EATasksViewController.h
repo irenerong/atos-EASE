@@ -15,14 +15,10 @@
 #import "EATaskCollectionViewCell.h"
 #import "EATaskInfoViewController.h"
 
-@protocol EATasksViewControllerDelegates <NSObject, UICollectionViewDataSource, UICollectionViewDelegate>
-
-@end
 
 @interface EATasksViewController : UIViewController <UICollectionViewDataSource, UICollectionViewDelegateFlowLayout>
 
-
 @property (weak, nonatomic) IBOutlet UICollectionView *collectionView;
-@property (weak, nonatomic) IBOutlet UILabel *noTaskMessageLabel;
+@property (weak, nonatomic) IBOutlet UILabel          *noTaskMessageLabel;
 
 @end

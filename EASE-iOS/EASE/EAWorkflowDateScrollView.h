@@ -9,14 +9,9 @@
 #import <UIKit/UIKit.h>
 
 @interface EAWorkflowDateScrollView : UIScrollView
-{
-    
-    
-    
-}
 
 
--(void)updateScrollViewWithTimeAnchorsDate:(NSArray*)timeAnchorsDate andTimeAnchorsY:(NSArray*)timeAnchorsY;
+- (void)updateScrollViewWithTimeAnchorsDate:(NSArray *)timeAnchorsDate andTimeAnchorsY:(NSArray *)timeAnchorsY;
 
 @property(nonatomic, strong) UIColor *color;
 

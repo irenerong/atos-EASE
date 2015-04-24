@@ -1,3 +1,10 @@
+[![](http://inspace.io/github-cover.jpg)](http://inspace.io)
+
+MZFormSheetController v3 (MZFormSheetPresentationController)
+===========
+
+### MZFormSheetPresentationController was rewritten and build on iOS 8 API. You can still use MZFormSheetController if you want to support iOS5 >, but if you have deployment target set to iOS8 i recommed you to use  MZFormSheetPresentationController. It don't use any tricky hacks to present form sheet as a UIWindow, it use native modalPresentationStyle UIModalPresentationOverFullScreen.
+
 MZFormSheetController
 ===========
 
@@ -541,3 +548,6 @@ MZFormSheetController uses ARC.
 [Michal Zaborowski](http://github.com/m1entus)
 
 [Twitter](https://twitter.com/iMientus)
+
+
+[![Bitdeli Badge](https://d2weczhvl823v0.cloudfront.net/m1entus/mzformsheetcontroller/trend.png)](https://bitdeli.com/free "Bitdeli Badge")
