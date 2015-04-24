@@ -8,6 +8,7 @@
 
 module.exports = {
 
+  // Validates one of the proprosed workflows
   validate: function (req, res){
     var waitforlist = []; 
     var WFC = this;
@@ -48,7 +49,6 @@ module.exports = {
               // try to find already created subtask which are ST's Predecessor
       
              async.each(STs,function(e,cb2){WFC.assigneWaitfor(e,function(){cb2(null)})},function(err){cb(null)})
-              //async.each(STs,function(ST,cb2){WFC.assigneWaitfor(ST,function(){cb2()})},function(){}) // end for each   
               
           })// end Subtask find
           }// function(workflow,cb)
@@ -79,9 +79,8 @@ module.exports = {
 
 
   },
-
+  // Create subtasks of a workflow
   createSubtask :function (wf, subtasks,callback){
-   // console.log(subtasks);
     var WFC=this;
     async.each(subtasks,function(subtask,cb){
      SubTask.create({workflow:wf.id, waitforID:subtask.predecessor, taskID:subtask.subTask, metatask:subtask.metatask,
@@ -89,8 +88,6 @@ module.exports = {
          // after create subtask , il faut creer son startcondition
          function(err,st){
           SubTask.publishCreate(st);
-          //console.log('st'+JSON.stringify(st,null,4));
-          //console.log('subtask'+ JSON.stringify(subtask,null,4));
           WFC.createStartCondition(st,subtask,function(){cb(null)}); 
          })
       },function(err){
@@ -100,7 +97,7 @@ module.exports = {
       })
 
   },
-
+ // Creates the start conditions of this workflow
  createStartCondition: function(st,subtask,callback){
 
     var type = 'wait'; // for subtask with precedors
@@ -129,9 +126,6 @@ module.exports = {
 
       if (err) {console.log(err)}
 
-     // console.log(st.id+ '  '+ start.id)
-
-      //SubTask.update(st.id,{startCondition:start.id}).exec()
       SubTask.update(st.id,{startCondition:start.id}).populate('startCondition').exec(function (err,update){
         SubTask.publishUpdate(update[0].id,{startcondition:update[0].startCondition});
         callback()
@@ -139,7 +133,6 @@ module.exports = {
 
       )
 
-      // console.log('start Condition'+start.id+ '//' + 'subtask'+ start.subtask);
     })
     })
      
@@ -152,8 +145,6 @@ module.exports = {
              async.waterfall([
 
                   function(cb2){
-                    //console.log(ST);
-                   // console.log('async Each the number of workflow is '+ST.workflow)
                     async.each(ST.waitforID,
                       function(waitFor,cb3){
                         SubTask.findOne({taskID:waitFor, workflow:ST.workflow}).exec(function(err,nextst){
@@ -170,24 +161,16 @@ module.exports = {
                     cb2(null,waitforlist);
                   });
 
-                  //console.log('hoho')
                   },
                     
                   function(waitforlist,cb2){
-                    //console.log('2 waitforlist'+waitforlist);
                     StartCondition.findOne(ST.startCondition.id).exec(function(err,startcon){
                       while(waitforlist.length != 0){
                         var wf = waitforlist.pop()
                         console.log('st: '+startcon.id+' wf: '+wf);
                         startcon.waitFor.add(wf);
-                       
-                        // var query = "INSERT INTO startcondition_waitFor__subtask_nextstartconditions(subtask_nextstartconditions,startcondition_waitFor) VALUES ("+startcon.id+","+wf+")";
-                        //  StartCondition.query(query,
-                        //   function(err,row){if (err){console.log(err)} else {console.log(row[0])}}) 
-
                       }
                        startcon.save(function(err,res){console.log(res),cb2(null);});
-                   //console.log(startcon);
                       
                       
                     })}

@@ -22,261 +22,238 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
-    
-    self.collectionView.backgroundColor = [UIColor colorWithWhite:245/255. alpha:1.];
+
+    self.collectionView.backgroundColor       = [UIColor colorWithWhite:245/255. alpha:1.];
     self.collectionView.scrollIndicatorInsets = UIEdgeInsetsMake(0, 0, 50, 0);
-    self.collectionView.contentInset = UIEdgeInsetsMake(0, 0, 54, 0);
+    self.collectionView.contentInset          = UIEdgeInsetsMake(0, 0, 54, 0);
 
     [self.collectionView registerNib:[UINib nibWithNibName:@"EATaskCell" bundle:nil] forCellWithReuseIdentifier:@"TaskCell"];
     [self.collectionView registerNib:[UINib nibWithNibName:@"EATaskHeader" bundle:nil] forSupplementaryViewOfKind:UICollectionElementKindSectionHeader withReuseIdentifier:@"header"];
 
-    
 
-    
+
+
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(updateTask:) name:EATaskUpdate object:nil];
-    
+
     self.collectionView.alpha = 0;
 
-    
+
     [[EANetworkingHelper sharedHelper] getPendingAndWorkingTasksCompletionBlock:^(EASearchResults *searchResults, NSError *error) {
-       
-        self.searchResults = searchResults;
-        [self updateArray];
-        
-        
-        [UIView animateWithDuration:0.3 animations:^{
-            if (self.dates.count == 0)
-            {
-                self.noTaskMessageLabel.alpha = 1;
-            }
-            else
-            {
-                self.noTaskMessageLabel.alpha = 0;
-                self.collectionView.alpha = 1;
-                [self.collectionView reloadData];
-                
-            }
-        }];
-        
-       
-        
-    }];
-    
+
+         self.searchResults = searchResults;
+         [self updateArray];
+
+
+         [UIView animateWithDuration:0.3 animations:^{
+              if (self.dates.count == 0) {
+                  self.noTaskMessageLabel.alpha = 1;
+              } else {
+                  self.noTaskMessageLabel.alpha = 0;
+                  self.collectionView.alpha = 1;
+                  [self.collectionView reloadData];
+
+              }
+          }];
+
+
+
+     }];
+
 }
-
-
 
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
 }
 
+- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
 
--(void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
-{
-    
-    int index = ((NSIndexPath*)self.collectionView.indexPathsForSelectedItems.firstObject).row;
-    int section = ((NSIndexPath*)self.collectionView.indexPathsForSelectedItems.firstObject).section;
+    int index   = ((NSIndexPath *)self.collectionView.indexPathsForSelectedItems.firstObject).row;
+    int section = ((NSIndexPath *)self.collectionView.indexPathsForSelectedItems.firstObject).section;
 
     EATask *task = self.tasks[section][index];
-    
-    
+
+
     MZFormSheetSegue *formSheetSegue = (MZFormSheetSegue *)segue;
-    
+
     MZFormSheetController *formSheet = formSheetSegue.formSheetController;
-    
-    ((EATaskInfoViewController*)formSheet.presentedFSViewController).task = task;
-    
-    formSheet.transitionStyle = MZFormSheetTransitionStyleDropDown;
-    formSheet.cornerRadius = 0;
+
+    ((EATaskInfoViewController *)formSheet.presentedFSViewController).task = task;
+
+    formSheet.transitionStyle        = MZFormSheetTransitionStyleDropDown;
+    formSheet.cornerRadius           = 0;
     formSheet.shouldCenterVertically = true;
-    
+
     CGSize screenSize = [UIScreen mainScreen].bounds.size;
-    
+
     formSheet.presentedFormSheetSize = CGSizeMake(screenSize.width-50, screenSize.height-100);
-    
-    
-    
+
+
+
     formSheet.shouldDismissOnBackgroundViewTap = YES;
-    
+
     formSheet.willDismissCompletionHandler = ^(UIViewController *presentedFSViewController) {
-        
-        
+
+
     };
 
 
-    
+
 }
 
 #pragma mark - UICollectionViewDelegate
 
 
 
--(CGSize)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout *)collectionViewLayout sizeForItemAtIndexPath:(NSIndexPath *)indexPath {
-    
+- (CGSize)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout *)collectionViewLayout sizeForItemAtIndexPath:(NSIndexPath *)indexPath {
+
     return CGSizeMake(collectionView.frame.size.width-20, 100);
-    
+
 }
 
--(CGSize)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout *)collectionViewLayout referenceSizeForHeaderInSection:(NSInteger)section
-{
+- (CGSize)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout *)collectionViewLayout referenceSizeForHeaderInSection:(NSInteger)section {
     return CGSizeMake(collectionView.frame.size.width, 50);
 }
 
--(void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath
-{
+- (void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath {
     [self performSegueWithIdentifier:@"TaskInfos" sender:self];
-    
+
     [self.collectionView deselectItemAtIndexPath:indexPath animated:false];
-    
+
 }
 
 #pragma mark - UICollectionViewDataSource
 
--(NSInteger)numberOfSectionsInCollectionView:(UICollectionView *)collectionView {
+- (NSInteger)numberOfSectionsInCollectionView:(UICollectionView *)collectionView {
     return self.dates.count;
 }
 
--(NSInteger)collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section {
-    
-    
-    
+- (NSInteger)collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section {
+
+
+
     if (self.tasks)
-    return ((NSArray*)self.tasks[section]).count;
-    
-    
+        return ((NSArray *)self.tasks[section]).count;
+
+
     return 0;
 }
 
 - (UICollectionReusableView *)collectionView:(UICollectionView *)collectionView viewForSupplementaryElementOfKind:(NSString *)kind atIndexPath:(NSIndexPath *)indexPath {
-    
-    
-    
-   UICollectionReusableView *cell = [collectionView dequeueReusableSupplementaryViewOfKind:kind
-                                                                            withReuseIdentifier:@"header"
-                                                                                   forIndexPath:indexPath];
+
+
+
+    UICollectionReusableView *cell = [collectionView dequeueReusableSupplementaryViewOfKind:kind
+                                                                        withReuseIdentifier:@"header"
+                                                                               forIndexPath:indexPath];
     cell.backgroundColor = [UIColor colorWithWhite:245/255. alpha:1.];
-    
-    
+
+
     UILabel *label = [cell viewWithTag:1];
-    
+
     NSDateFormatter *df = [NSDateFormatter new];
     df.timeStyle = NSDateFormatterNoStyle;
     df.dateStyle = NSDateFormatterLongStyle;
-    
+
     label.text = [df stringFromDate:self.dates[indexPath.section]];
-    
-            return cell;
 
-    
-
-    
-    
-
-}
-
--(UICollectionViewCell*)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath
-{
-    
-    EATaskCollectionViewCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:@"TaskCell" forIndexPath:indexPath];
-    
-    cell.task = self.tasks[indexPath.section][indexPath.row];
-    
     return cell;
-    
+
+
+
+
+
+
 }
 
+- (UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath {
 
--(void)updateTask:(NSNotification*)notification
-{
-    
+    EATaskCollectionViewCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:@"TaskCell" forIndexPath:indexPath];
+
+    cell.task = self.tasks[indexPath.section][indexPath.row];
+
+    return cell;
+
+}
+
+- (void)updateTask:(NSNotification *)notification {
+
     [self.searchResults updateTaskWithFeedback:notification.userInfo completion:^{
-       
-        
-        [self updateArray];
-        
-        
-        if (self.dates.count == 0)
-        {
-            self.noTaskMessageLabel.alpha = 1;
-        }
-        else
-        {
-            self.noTaskMessageLabel.alpha = 0;
-            
-            [self.collectionView reloadData];
-            
-        }
-        
-    }];
-    
+
+
+         [self updateArray];
+
+
+         if (self.dates.count == 0) {
+             self.noTaskMessageLabel.alpha = 1;
+         } else {
+             self.noTaskMessageLabel.alpha = 0;
+
+             [self.collectionView reloadData];
+
+         }
+
+     }];
+
 }
 
--(void)updateArray
-{
-    
+- (void)updateArray {
+
     NSMutableArray *tasksArray = [NSMutableArray array];
-    
-    for (EAWorkflow *workflow in self.searchResults.workflows)
-    {
+
+    for (EAWorkflow *workflow in self.searchResults.workflows) {
         [tasksArray addObjectsFromArray:workflow.pendingTasks];
         [tasksArray addObjectsFromArray:workflow.workingTasks];
     }
-    
-    [tasksArray sortUsingComparator:^NSComparisonResult(EATask* obj1, EATask* obj2) {
-     
-        return [obj1.dateInterval.startDate compare:obj2.dateInterval.startDate];
-        
-    }];
-    
-    
+
+    [tasksArray sortUsingComparator:^NSComparisonResult (EATask *obj1, EATask *obj2) {
+
+         return [obj1.dateInterval.startDate compare:obj2.dateInterval.startDate];
+
+     }];
+
+
     self.dates = [NSMutableArray array];
     self.tasks = [NSMutableArray array];
-    
-    for (EATask *task in tasksArray)
-    {
-        NSCalendar *cal = [NSCalendar currentCalendar];
-        NSDateComponents *components = [cal components:( NSCalendarUnitMonth | NSCalendarUnitYear | NSCalendarUnitDay ) fromDate:task.dateInterval.startDate];
-        
 
-        
+    for (EATask *task in tasksArray) {
+        NSCalendar       *cal        = [NSCalendar currentCalendar];
+        NSDateComponents *components = [cal components:(NSCalendarUnitMonth | NSCalendarUnitYear | NSCalendarUnitDay) fromDate:task.dateInterval.startDate];
+
+
+
         NSDate *beginningOfDay = [cal dateFromComponents:components];
-        
+
         int i;
-        for (i = 0; i < _dates.count; i++)
-        {
+        for (i = 0; i < _dates.count; i++) {
             NSDate *date = _dates[i];
-            
+
             NSComparisonResult compare = [date compare:beginningOfDay];
-            
-            if (compare == NSOrderedSame)
-            {
-                [((NSMutableArray*)self.tasks[i]) addObject:task];
-                
+
+            if (compare == NSOrderedSame) {
+                [((NSMutableArray *)self.tasks[i]) addObject:task];
+
                 break;
-            }
-            else if (compare == NSOrderedDescending)
-            {
+            } else if (compare == NSOrderedDescending) {
                 [self.tasks insertObject:[NSMutableArray arrayWithObject:task] atIndex:i];
                 [self.dates addObject:beginningOfDay];
 
                 break;
             }
         }
-        
-        if (i == _dates.count)
-        {
+
+        if (i == _dates.count) {
             [self.tasks addObject:[NSMutableArray arrayWithObject:task] ];
             [self.dates addObject:beginningOfDay];
 
         }
-        
-        
-        
-        
+
+
+
+
     }
-    
-    
+
+
 
 
 }

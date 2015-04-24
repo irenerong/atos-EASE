@@ -23,8 +23,7 @@
 
 
 @property (strong, nonatomic) EAWorkflowDateScrollView *dateScrollView;
-
-@property(nonatomic, weak) EAWorkflow *workflow;
+@property (nonatomic, weak) EAWorkflow                 *workflow;
 
 @end
 

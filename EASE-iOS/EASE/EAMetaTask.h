@@ -12,14 +12,15 @@
 
 @interface EAMetaTask : NSObject
 
-@property(nonatomic, weak) EAMetaworkflow *metaworkflow;
++ (EAMetaTask *)metataskWithDictionary:(NSDictionary *)dic;
+- (instancetype)initWithDictionary:(NSDictionary *)dic;
 
-@property(nonatomic, strong) NSString *name;
-@property(nonatomic, readwrite) int metataskID;
-@property(nonatomic, readwrite) NSString* desc;
--(NSString*)htmlDescription;
+@property (nonatomic, weak) EAMetaworkflow *metaworkflow;
+@property (nonatomic, strong) NSString     *name;
+@property (nonatomic, readwrite) int       metataskID;
+@property (nonatomic, readwrite) NSString  *desc;
+- (NSString *)htmlDescription;
 
-+(EAMetaTask*)metataskWithDictionary:(NSDictionary*)dic;
--(instancetype)initWithDictionary:(NSDictionary*)dic;
+
 
 @end

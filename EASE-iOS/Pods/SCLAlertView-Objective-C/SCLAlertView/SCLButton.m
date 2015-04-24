@@ -10,31 +10,39 @@
 
 @implementation SCLButton
 
-- (id)init
+- (instancetype)init
 {
     self = [super init];
-    if (self) {
-        // Do something
+    if (self)
+    {
+        [self setup];
     }
     return self;
 }
 
-- (id)initWithCoder:(NSCoder *)aDecoder
+- (instancetype)initWithCoder:(NSCoder *)aDecoder
 {
     self = [super initWithCoder:aDecoder];
-    if(self) {
-        // Do something
+    if(self)
+    {
+        [self setup];
     }
     return self;
 }
 
-- (id)initWithFrame:(CGRect)frame
+- (instancetype)initWithFrame:(CGRect)frame
 {
     self = [super initWithFrame:frame];
-    if (self) {
-        // Do something
+    if (self)
+    {
+        [self setup];
     }
     return self;
+}
+
+- (void)setup
+{
+    self.frame = CGRectMake(0.0f, 0.0f, 216.0f, 35.0f);
 }
 
 - (void)setHighlighted:(BOOL)highlighted
@@ -56,13 +64,18 @@
     {
         self.defaultBackgroundColor = buttonConfig[@"backgroundColor"];
     }
-    if (buttonConfig[@"borderColor"])
-    {
-        self.layer.borderColor = ((UIColor*)buttonConfig[@"borderColor"]).CGColor;
-    }
     if (buttonConfig[@"textColor"])
     {
         [self setTitleColor:buttonConfig[@"textColor"] forState:UIControlStateNormal];
+    }
+    if ((buttonConfig[@"borderColor"]) && (buttonConfig[@"borderWidth"]))
+    {
+        self.layer.borderColor = ((UIColor*)buttonConfig[@"borderColor"]).CGColor;
+        self.layer.borderWidth = [buttonConfig[@"borderWidth"] floatValue];
+    }
+    else if (buttonConfig[@"borderWidth"])
+    {
+        self.layer.borderWidth = [buttonConfig[@"borderWidth"] floatValue];
     }
 }
 

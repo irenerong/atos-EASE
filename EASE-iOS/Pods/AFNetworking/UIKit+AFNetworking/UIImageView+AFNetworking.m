@@ -35,7 +35,6 @@
 
 @interface UIImageView (_AFNetworking)
 @property (readwrite, nonatomic, strong, setter = af_setImageRequestOperation:) AFHTTPRequestOperation *af_imageRequestOperation;
-+ (NSOperationQueue *)af_sharedImageRequestOperationQueue ;
 @end
 
 @implementation UIImageView (_AFNetworking)

@@ -15,10 +15,10 @@
 @property(nonatomic, readwrite) float quantity;
 @property(nonatomic, strong) NSString *unit;
 
-+(EAIngredient*)ingredientWithDictionary:(NSDictionary*)dic;
--(instancetype)initWithDictionary:(NSDictionary*)dic;
++ (EAIngredient *)ingredientWithDictionary:(NSDictionary *)dic;
+- (instancetype)initWithDictionary:(NSDictionary *)dic;
 
--(BOOL)available;
--(BOOL)ingredientIsAvailable:(EAIngredient*)ingredient;
+- (BOOL)available;
+- (BOOL)ingredientIsAvailable:(EAIngredient *)ingredient;
 
 @end

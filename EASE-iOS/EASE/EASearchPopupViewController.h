@@ -11,17 +11,21 @@
 
 @protocol EASearchPopupDelegate <NSObject>
 
--(void)popupFoundWorkflows:(EASearchResults*)searchResults;
+- (void)popupFoundWorkflows:(EASearchResults *)searchResults;
 
 @end
 
 
 @interface EASearchPopupViewController : UIViewController  <UITextFieldDelegate>
-@property (weak, nonatomic) IBOutlet UITextField *searchQueryTextField;
-@property (weak, nonatomic) IBOutlet UILabel *examplesLabel;
-@property (weak, nonatomic) IBOutlet UIButton *searchButton;
+
 
 @property(nonatomic, weak) id <EASearchPopupDelegate> delegate;
+
+
+@property (weak, nonatomic) IBOutlet UITextField *searchQueryTextField;
+@property (weak, nonatomic) IBOutlet UILabel     *examplesLabel;
+@property (weak, nonatomic) IBOutlet UIButton    *searchButton;
+
 
 - (IBAction)search:(id)sender;
 

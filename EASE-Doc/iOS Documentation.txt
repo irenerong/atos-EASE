@@ -1,0 +1,63 @@
+The iOS Client was developed with Cocoa/Objective-C. It was mainly designed for iOS 8.2, and iPhone 6.
+We didn't test it for prior versions of iOS nor other iPhone versions.
+You should be able to compile it thanks to Xcode without any issue.
+
+Our files are prefixed by EA (for EAse).
+
+----
+
+It allows the user to :
+- Login/Logout
+- Search and generate new workflows thanks to a natural language processing done by Wit.ai
+- Look at validated workflows & tasks
+- Trigger/End a task
+
+----
+
+The UI is contained in the Main.storyboard, EATaskCell.xib and EATaskHeader.xib.
+
+----
+
+It uses 2 different protocols to communicate with the Server :
+- Via HTTP for the basic RESTFul queries. We used the excellent library AFNetworking
+- Via WebSocket for real time communication. We used the "official" client of Socket.IO, which the only part of the application made with Swift. Unfortunately, it is very still buggy and can make the App crash.
+
+Most of the networking process is done in the singleton EANetworkingHelper. When the app logs in, it sends an HTTP request to get a cookie, which is then sent to the server via a WebSocket request. This trick allows the server to understand that the Socket and the HTTP Client are basically the same.
+The login process doesn't use any safety protocol, such as OAuth.
+
+When a controller wants to get some data from the server, it asks the EANetworkingHelper to create a EASearchResults. This contains all the workflows/agents/metaworkflows/... the controller may need. 
+
+----
+
+The EACollectionViewWorkflowLayout is a collection view layout we made to display a timetable in a new way. The timeline unit adapts itself so that every item is fully visible.
+
+----
+
+The iOS Client contains many external librairies, most of which are mentionned in the PodFile. We mainly used :
+- AFNetworking
+- MZFormSheetController, to create neat modal views
+- JTCalendar for the week scroll view (it behaves weirdly sometimes)
+- XLRemoteImageView to asynchronously download and display images
+
+PLEASE DON'T REINSTALL ANY OF THE PODS OF THE COCOAPOD FILE !
+-> We had to change a few lines of their source code to be able to compile.
+-> If you reinstall one of them, the source code might not be correct.
+
+----
+
+The Wit.Ai is responsible for understanding user queries. With user experience considerations, it is currently the only way to generate a workflow from the device. So, if the Wit.Ai server is down, or if a query is misunderstood, the service might not work.
+We totally rely on it, and we hope you will not encounter any issue.
+
+Moreover, the Wit.Ai reliability is based upon a proper training. We didn't have much time to do so, that's why it can only understand queries of this form :
+"Cook <something> <date>"
+
+Like : 
+"Cook a chicken at 9pm" "Cook a fish before noon", ...
+
+
+Here is the Wit.Ai instance : 
+https://wit.ai/xevious78/Instance%20ead5-49c/intents/cook
+
+----
+
+The icons was taken from flaticons.net

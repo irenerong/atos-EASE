@@ -70,11 +70,6 @@ Task.prototype.getSubtasks = function(cb) {
 }
 
 
-function SubTask() {
-
-}
-
-
 module.exports = {
 
 	workflow : Workflow,

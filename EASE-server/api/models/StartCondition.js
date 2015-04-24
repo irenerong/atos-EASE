@@ -12,7 +12,6 @@ module.exports = {
   	type: {
   		type: 'string'
   	}, 
-
   	waitFor: {
   		collection: 'SubTask', 
   		via: 'nextStartConditions',
@@ -27,6 +26,7 @@ module.exports = {
   		type: 'integer'
   	}, 
 
+    // When all the predecessors of a subtask are finished
   	conditionsMet: function(cb) {
       var thisID=this.id;
       var pending=true
@@ -59,17 +59,7 @@ module.exports = {
             
           } 
         })
-  			// var query = "SELECT * FROM SubTask AS ST JOIN startcondition_waitFor__subtask_nextstartconditions AS SWSN WHERE status <> 'finish' AND SWSN.subtask_nextstartconditions =" + this.id
-  			// StartCondition.query(query, 
-
-  			// 	function (err, rows) {
-  			// 		if (err) {
-     //          console.log(err)
-  			// 			return cb(false)
-  			// 		}
-     //        console.log('need to wait for '+rows.length+' of task');
-     //        console.log(rows);
-  			// 		cb( rows[0].length == 0)
+  			
 
   				}
 

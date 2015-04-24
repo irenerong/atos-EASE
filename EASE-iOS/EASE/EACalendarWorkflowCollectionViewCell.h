@@ -11,10 +11,12 @@
 #import "EAWorkflow.h"
 
 @interface EACalendarWorkflowCollectionViewCell : UICollectionViewCell
-@property (weak, nonatomic) IBOutlet UIImageView *workflowImageView;
 
 @property(weak, nonatomic) EAWorkflow *workflow;
-@property (weak, nonatomic) IBOutlet UIView *labelBackgroundView;
-@property (weak, nonatomic) IBOutlet UILabel *workflowNameLabel;
+
+
+@property (weak, nonatomic) IBOutlet UIImageView *workflowImageView;
+@property (weak, nonatomic) IBOutlet UIView      *labelBackgroundView;
+@property (weak, nonatomic) IBOutlet UILabel     *workflowNameLabel;
 
 @end

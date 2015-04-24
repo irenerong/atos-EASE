@@ -1,6 +1,0 @@
-framework module MarqueeLabel {
-  umbrella header "Pods-MarqueeLabel-umbrella.h"
-
-  export *
-  module * { export * }
-}

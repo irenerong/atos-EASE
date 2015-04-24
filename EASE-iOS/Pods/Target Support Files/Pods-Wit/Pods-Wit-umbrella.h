@@ -1,8 +1,5 @@
 #import <UIKit/UIKit.h>
 
-#import "_kiss_fft_guts.h"
-#import "kiss_fft.h"
-#import "kiss_fftr.h"
 #import "RecordingSessionStarter.h"
 #import "util.h"
 #import "Wit.h"

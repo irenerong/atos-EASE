@@ -24,7 +24,7 @@
 //  THE SOFTWARE.
 
 #import <UIKit/UIKit.h>
-#import "MZAppearance.h"
+#import <MZAppearance/MZAppearance.h>
 
 extern UIWindowLevel const MZFormSheetBackgroundWindowLevelAboveStatusBar;
 extern UIWindowLevel const MZFormSheetBackgroundWindowLevelBelowStatusBar;
@@ -104,6 +104,17 @@ extern UIWindowLevel const MZFormSheetBackgroundWindowLevelBelowStatusBar;
  By default, this is NO
  */
 @property (nonatomic, assign) BOOL backgroundBlurEffect MZ_APPEARANCE_SELECTOR;
+
+/*
+ Apply native background blur effect, you have to set backgroundBlurEffect to YES to apply blur!
+ By default, this is YES for iOS8, it is only available for iOS8
+ */
+@property (nonatomic, assign) BOOL shouldUseNativeBlurEffect MZ_APPEARANCE_SELECTOR;
+
+/*
+ Native blur effect style, available from iOS8
+ */
+@property (nonatomic, assign) UIBlurEffectStyle blurEffectStyle NS_AVAILABLE_IOS(8_0) MZ_APPEARANCE_SELECTOR;
 
 /*
  Specifies the blur radius used to render the blur background view

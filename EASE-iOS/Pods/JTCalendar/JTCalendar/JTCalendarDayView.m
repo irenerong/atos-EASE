@@ -103,8 +103,6 @@ static NSString *const kJTCalendarDaySelected = @"kJTCalendarDaySelected";
 // Avoid to calcul constraints (very expensive)
 - (void)configureConstraintsForSubviews
 {
-    
-    
     textLabel.frame = CGRectMake(0, 0, self.frame.size.width, self.frame.size.height);
     backgroundView.frame = CGRectMake(0, 0, self.frame.size.width, self.frame.size.height);
 
@@ -123,7 +121,7 @@ static NSString *const kJTCalendarDaySelected = @"kJTCalendarDaySelected";
     circleView.layer.cornerRadius = sizeCircle / 2.;
     
     dotView.frame = CGRectMake(0, 0, sizeDot, sizeDot);
-    dotView.center = CGPointMake(self.frame.size.width / 2., (self.frame.size.height / 2.) + sizeDot * 2.5);
+    dotView.center = CGPointMake(self.frame.size.width / 2., (self.frame.size.height / 2.) +sizeDot * 2.5);
     dotView.layer.cornerRadius = sizeDot / 2.;
 }
 
@@ -146,6 +144,12 @@ static NSString *const kJTCalendarDaySelected = @"kJTCalendarDaySelected";
 
 - (void)didTouch
 {
+    if([self.calendarManager.dataSource respondsToSelector:@selector(calendar:canSelectDate:)]){
+        if(![self.calendarManager.dataSource calendar:self.calendarManager canSelectDate:self.date]){
+            return;
+        }
+    }
+    
     [self setSelected:YES animated:YES];
     [self.calendarManager setCurrentDateSelected:self.date];
     

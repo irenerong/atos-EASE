@@ -103,11 +103,11 @@ class SocketParser {
                 }
             }
             
-            if buf.toInt() == nil || arr[i] != "-" {
+            if let holders = buf.toInt() where arr[i] == "-" {
+                placeholders = holders
+            } else {
                 NSLog("Error parsing \(str)")
                 return nil
-            } else {
-                placeholders = buf.toInt()!
             }
         }
         
@@ -242,10 +242,7 @@ class SocketParser {
         }
     }
     
-    // Handles binary data
     static func parseBinaryData(data:NSData, socket:SocketIOClient) {
-        // NSLog(data.base64EncodedStringWithOptions(NSDataBase64EncodingOptions.allZeros))
-        
         if socket.waitingData.count == 0 {
             SocketLogger.err("Got data when not remaking packet", client: socket, altType: "SocketParser")
             return

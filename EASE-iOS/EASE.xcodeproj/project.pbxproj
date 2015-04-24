@@ -127,7 +127,6 @@
 		316DBF461A8CB15800828BE2 /* EANetworkingHelper.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EANetworkingHelper.m; sourceTree = "<group>"; };
 		3176D78D1ABF76F600B206A7 /* EACalendarWorkflowCollectionViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EACalendarWorkflowCollectionViewCell.h; sourceTree = "<group>"; };
 		3176D78E1ABF76F600B206A7 /* EACalendarWorkflowCollectionViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EACalendarWorkflowCollectionViewCell.m; sourceTree = "<group>"; };
-		31810DA41ADA751F00400F6D /* EAWorkflowCreatorProtocol.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = EAWorkflowCreatorProtocol.h; sourceTree = "<group>"; };
 		3198601E1AE283580057D9E0 /* EASearchPopupViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EASearchPopupViewController.h; sourceTree = "<group>"; };
 		3198601F1AE283580057D9E0 /* EASearchPopupViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EASearchPopupViewController.m; sourceTree = "<group>"; };
 		319CCBD11AA66FC900567C14 /* EATaskInfoViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EATaskInfoViewController.h; sourceTree = "<group>"; };
@@ -187,19 +186,10 @@
 		3113A84E1A82328E00E972F3 /* Cell */ = {
 			isa = PBXGroup;
 			children = (
-				3113A8501A82373D00E972F3 /* EAWorkflowDateScrollView.h */,
-				3113A8511A82373D00E972F3 /* EAWorkflowDateScrollView.m */,
 				3146E6EB1A8165060072FC99 /* EAWorkflowTaskCollectionViewCell.h */,
 				3146E6EC1A8165060072FC99 /* EAWorkflowTaskCollectionViewCell.m */,
 			);
 			name = Cell;
-			sourceTree = "<group>";
-		};
-		3113A84F1A82329300E972F3 /* Supplementary */ = {
-			isa = PBXGroup;
-			children = (
-			);
-			name = Supplementary;
 			sourceTree = "<group>";
 		};
 		311734AF1A87E68A006B2B39 /* Workflow List Viewer */ = {
@@ -210,28 +200,8 @@
 				311734A61A87E265006B2B39 /* EAWorkflowListCollectionViewController.h */,
 				311734A71A87E265006B2B39 /* EAWorkflowListCollectionViewController.m */,
 				311734B51A87E6E7006B2B39 /* Cell */,
-				311734B11A87E6B5006B2B39 /* Layout */,
-				311734B01A87E6AA006B2B39 /* Supplementary */,
 			);
 			name = "Workflow List Viewer";
-			sourceTree = "<group>";
-		};
-		311734B01A87E6AA006B2B39 /* Supplementary */ = {
-			isa = PBXGroup;
-			children = (
-				311734AC1A87E416006B2B39 /* FRGWaterfallDecorationReusableView.h */,
-				311734AD1A87E416006B2B39 /* FRGWaterfallDecorationReusableView.m */,
-			);
-			name = Supplementary;
-			sourceTree = "<group>";
-		};
-		311734B11A87E6B5006B2B39 /* Layout */ = {
-			isa = PBXGroup;
-			children = (
-				311734A91A87E2E3006B2B39 /* FRGWaterfallCollectionViewLayout.h */,
-				311734AA1A87E2E4006B2B39 /* FRGWaterfallCollectionViewLayout.m */,
-			);
-			name = Layout;
 			sourceTree = "<group>";
 		};
 		311734B51A87E6E7006B2B39 /* Cell */ = {
@@ -241,6 +211,36 @@
 				311734B31A87E6E1006B2B39 /* EAWorkflowListCollectionViewCell.m */,
 			);
 			name = Cell;
+			sourceTree = "<group>";
+		};
+		311F0F5A1AEA6173005F7D01 /* House */ = {
+			isa = PBXGroup;
+			children = (
+				311915C11AA5BB6700DD4EDF /* EAAgent.h */,
+				311915C21AA5BB6700DD4EDF /* EAAgent.m */,
+				312988041AC8644F00036504 /* EAUser.h */,
+				312988051AC8644F00036504 /* EAUser.m */,
+				312988011AC861F700036504 /* EAIngredient.h */,
+				312988021AC861F700036504 /* EAIngredient.m */,
+			);
+			name = House;
+			sourceTree = "<group>";
+		};
+		311F0F5B1AEA636E005F7D01 /* External Class */ = {
+			isa = PBXGroup;
+			children = (
+				311734AC1A87E416006B2B39 /* FRGWaterfallDecorationReusableView.h */,
+				311734AD1A87E416006B2B39 /* FRGWaterfallDecorationReusableView.m */,
+				311734A91A87E2E3006B2B39 /* FRGWaterfallCollectionViewLayout.h */,
+				311734AA1A87E2E4006B2B39 /* FRGWaterfallCollectionViewLayout.m */,
+				315722721AE999F200C3D1FA /* MYNStickyFlowLayout.h */,
+				315722731AE999F200C3D1FA /* MYNStickyFlowLayout.m */,
+				315722751AE9B1DA00C3D1FA /* FSQCollectionViewAlignedLayout.h */,
+				315722761AE9B1DA00C3D1FA /* FSQCollectionViewAlignedLayout.m */,
+				311734BF1A88B8E1006B2B39 /* MBPullDownController.h */,
+				311734C01A88B8E1006B2B39 /* MBPullDownController.m */,
+			);
+			name = "External Class";
 			sourceTree = "<group>";
 		};
 		313078151A8921420080E17B /* Infos */ = {
@@ -257,9 +257,10 @@
 			children = (
 				3146E6B81A80E2160072FC99 /* EAWorkflowViewController.h */,
 				3146E6B91A80E2160072FC99 /* EAWorkflowViewController.m */,
+				3113A8501A82373D00E972F3 /* EAWorkflowDateScrollView.h */,
+				3113A8511A82373D00E972F3 /* EAWorkflowDateScrollView.m */,
 				3113A84D1A82328800E972F3 /* Layout */,
 				3113A84E1A82328E00E972F3 /* Cell */,
-				3113A84F1A82329300E972F3 /* Supplementary */,
 			);
 			name = Timetable;
 			sourceTree = "<group>";
@@ -300,10 +301,7 @@
 			children = (
 				3146E6B51A80E2160072FC99 /* AppDelegate.h */,
 				3146E6B61A80E2160072FC99 /* AppDelegate.m */,
-				315722721AE999F200C3D1FA /* MYNStickyFlowLayout.h */,
-				315722731AE999F200C3D1FA /* MYNStickyFlowLayout.m */,
-				315722751AE9B1DA00C3D1FA /* FSQCollectionViewAlignedLayout.h */,
-				315722761AE9B1DA00C3D1FA /* FSQCollectionViewAlignedLayout.m */,
+				311F0F5B1AEA636E005F7D01 /* External Class */,
 				3146E6D81A80E55C0072FC99 /* Class */,
 				3146E6D71A80E54D0072FC99 /* UI */,
 				3146E6B11A80E2160072FC99 /* Supporting Files */,
@@ -357,18 +355,13 @@
 		3146E6D81A80E55C0072FC99 /* Class */ = {
 			isa = PBXGroup;
 			children = (
-				3146E6E81A8154870072FC99 /* EADateInterval.h */,
-				3146E6E91A8154870072FC99 /* EADateInterval.m */,
 				31C02CF71AD2F35600D4A915 /* Workflows */,
 				31C02CF81AD2F36900D4A915 /* Networking */,
-				311915C11AA5BB6700DD4EDF /* EAAgent.h */,
-				311915C21AA5BB6700DD4EDF /* EAAgent.m */,
-				312988041AC8644F00036504 /* EAUser.h */,
-				312988051AC8644F00036504 /* EAUser.m */,
-				312988011AC861F700036504 /* EAIngredient.h */,
-				312988021AC861F700036504 /* EAIngredient.m */,
+				311F0F5A1AEA6173005F7D01 /* House */,
 				31C02CF91AD2F6B000D4A915 /* NSDate+Complements.h */,
 				31C02CFA1AD2F6B000D4A915 /* NSDate+Complements.m */,
+				3146E6E81A8154870072FC99 /* EADateInterval.h */,
+				3146E6E91A8154870072FC99 /* EADateInterval.m */,
 			);
 			name = Class;
 			sourceTree = "<group>";
@@ -376,11 +369,8 @@
 		3146E6EE1A8165110072FC99 /* Workflow Viewer */ = {
 			isa = PBXGroup;
 			children = (
-				311734BF1A88B8E1006B2B39 /* MBPullDownController.h */,
-				311734C01A88B8E1006B2B39 /* MBPullDownController.m */,
 				316DBF421A8C11C600828BE2 /* EAWorkflowMasterViewController.h */,
 				316DBF431A8C11C600828BE2 /* EAWorkflowMasterViewController.m */,
-				31810DA41ADA751F00400F6D /* EAWorkflowCreatorProtocol.h */,
 				313078151A8921420080E17B /* Infos */,
 				313078161A8921470080E17B /* Timetable */,
 			);
