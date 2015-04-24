@@ -46,6 +46,10 @@ module.exports = {
     consumption :{
       type : 'float'
     },
+    color :
+    {
+      type : 'integer'
+    }
   },
      
 

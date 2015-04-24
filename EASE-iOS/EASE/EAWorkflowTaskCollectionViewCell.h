@@ -17,6 +17,7 @@
 
 @property (weak, nonatomic) IBOutlet UILabel *taskTitleLabel;
 
+@property (weak, nonatomic) IBOutlet UIView *checkView;
 
 @property (weak, nonatomic) IBOutlet UILabel *agentNameLabel;
 

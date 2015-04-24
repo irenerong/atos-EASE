@@ -40,6 +40,7 @@
 
         
         NSArray *tasks = dictionary[@"subtasks"];
+        self.colorIndex = ((NSNumber*)dictionary[@"color"]).intValue;
         
         NSMutableArray *parsedTasks = [NSMutableArray array];
         
@@ -69,7 +70,11 @@
             return nil;
         self.isValidated = true;
        self.workflowID =((NSNumber*)dictionary[@"id"]).intValue;
+        self.colorIndex = 0;
         
+        if (![dictionary[@"color"] isKindOfClass:[NSNull class]])
+        self.colorIndex = ((NSNumber*)dictionary[@"color"]).intValue;
+
         NSArray *tasks = dictionary[@"subtasks"];
         
         NSMutableArray *parsedTasks = [NSMutableArray array];
@@ -164,9 +169,14 @@
 
 -(NSArray*)tasksAtDate:(NSDate*)date
 {
+    NSCalendar *cal = [NSCalendar currentCalendar];
+    NSDateComponents *components = [cal components:( NSCalendarUnitMonth | NSCalendarUnitYear | NSCalendarUnitDay ) fromDate:date];
     
-    NSDate *tomorrow = [date dateByAddingTimeInterval:24*3600];
-    EADateInterval *dateInterval = [EADateInterval dateIntervalFrom:date to:tomorrow];
+    
+    
+    NSDate *beginning = [cal dateFromComponents:components];
+    NSDate *tomorrow = [beginning dateByAddingTimeInterval:24*3600];
+    EADateInterval *dateInterval = [EADateInterval dateIntervalFrom:beginning to:tomorrow];
     
     return [self.tasks filteredArrayUsingPredicate:[NSPredicate predicateWithBlock:^BOOL(EATask *task, NSDictionary *bindings) {
         
@@ -281,7 +291,15 @@
         
     }
     
+    [dic removeObjectForKey:@"time"];
+    dic[@"time"] = @(self.dateInterval.timeInterval);
+    
     return dic;
+}
+
+-(UIColor*)color
+{
+    return [EANetworkingHelper sharedHelper].colors[self.colorIndex];
 }
 
 @end

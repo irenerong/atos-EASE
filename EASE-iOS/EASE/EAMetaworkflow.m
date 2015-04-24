@@ -25,7 +25,7 @@
         self.metaworkflowID = ((NSNumber*)dictionary[@"id"]).intValue;
         self.title = dictionary[@"title"];
         
-        
+        if (dictionary[@"image"])
         self.imageURL = [NSURL URLWithString: dictionary[@"image"]];
 
         

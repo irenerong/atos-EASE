@@ -36,7 +36,6 @@ extern NSString* const EATaskUpdate;
 @interface EANetworkingHelper : NSObject <WitDelegate>
 {
     EAWorkflow *workflowTest;
-    NSArray *colors;
 }
 
 @property(nonatomic, weak) id <EANetworkingHelperDelegate> delegate;
@@ -50,6 +49,9 @@ extern NSString* const EATaskUpdate;
 @property(nonatomic, readwrite) BOOL displayNotificationPopup;
 
 + (EANetworkingHelper *)sharedHelper;
+
+@property(nonatomic, strong)     NSArray *colors;
+
 
 -(void)witProcessed:(NSString*)string completionBlock:(void (^)(NSDictionary* results, NSError* error))completionBlock;
 
@@ -97,9 +99,10 @@ extern NSString* const EATaskUpdate;
 
 -(void)tasksAtDay:(NSDate*)date completionBlock:(void (^) (EASearchResults *result, NSError *error)) completionBlock;
 
--(void)workflowsAtDay:(NSDate*)date completionBlock:(void (^) (NSArray *workflows)) completionBlock;
 
 -(void)startTask:(EATask*)task completionBlock:(void (^) (NSError *error)) completionBlock;
+-(void)sortWorkflowBy:(NSString*)sortBy completionBlock:(void (^) (EASearchResults* searchResults, NSError* error))completionBlock;
+
 -(void)finishTask:(EATask*)task completionBlock:(void (^) (NSError *error)) completionBlock;
 
 //EASE NOTIFICATIONS

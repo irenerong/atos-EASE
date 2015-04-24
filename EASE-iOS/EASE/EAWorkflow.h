@@ -38,7 +38,10 @@
 
 @property(nonatomic, strong) NSMutableArray *tasks;
 
-@property(nonatomic, strong) UIColor *color;
+@property(nonatomic, readwrite) int colorIndex;
+
+
+-(UIColor*)color;
 
 -(NSDictionary*)consumption;
 

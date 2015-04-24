@@ -88,7 +88,7 @@ NSString* const EATaskUpdate = @"EATaskUpdate";
     if (self = [super init])
     {
         
-        colors = @[[UIColor colorWithRed:44/255.0 green:218/255.0 blue:252/255.0 alpha:1.0], [UIColor colorWithRed:28/255.0 green:253/255.0 blue:171/255.0 alpha:1.0], [UIColor colorWithRed:252/255.0 green:200/255.0 blue:53/255.0 alpha:1.0], [UIColor colorWithRed:253/255.0 green:101/255.0 blue:107/255.0 alpha:1.0], [UIColor colorWithRed:254/255.0 green:100/255.0 blue:192/255.0 alpha:1.0]];
+        _colors = @[[UIColor colorWithRed:44/255.0 green:218/255.0 blue:252/255.0 alpha:1.0], [UIColor colorWithRed:28/255.0 green:253/255.0 blue:171/255.0 alpha:1.0], [UIColor colorWithRed:252/255.0 green:200/255.0 blue:53/255.0 alpha:1.0], [UIColor colorWithRed:253/255.0 green:101/255.0 blue:107/255.0 alpha:1.0], [UIColor colorWithRed:254/255.0 green:100/255.0 blue:192/255.0 alpha:1.0]];
         self.easeServerAdress = @"localhost:1337";
         
         
@@ -419,6 +419,29 @@ NSString* const EATaskUpdate = @"EATaskUpdate";
     
 }
 
+-(void)sortWorkflowBy:(NSString*)sortBy completionBlock:(void (^) (EASearchResults* searchResults, NSError* error))completionBlock
+{
+    NSDictionary *parameters = @{@"sortBy": sortBy};
+    
+    [self.easeServerManager POST:@"workflow/sortwf" parameters:parameters success:^(NSURLSessionDataTask *task, NSDictionary * responseObject) {
+        
+        [EASearchResults searchResultsByParsingGeneratorDictionary:responseObject completion:^(EASearchResults *searchResult) {
+            
+            
+            completionBlock(searchResult, nil);
+            
+        }];
+        
+        
+        
+    } failure:^(NSURLSessionDataTask *task, NSError *error) {
+        
+        completionBlock(nil, error);
+        
+    }];
+    
+}
+
 -(void)retrieveUserIngredients:(void (^) () )completionBlock
 {
     
@@ -553,7 +576,6 @@ NSString* const EATaskUpdate = @"EATaskUpdate";
     [self.easeServerManager GET:@"workflow/" parameters:parameters success:^(NSURLSessionDataTask *task, NSDictionary* responseObject) {
         
         EAWorkflow *workflow = [EAWorkflow workflowByParsingSearchDictionary:responseObject completion:^(EAWorkflow *workflow) {
-            workflow.color = colors[arc4random()%5];
             workflow.metaworkflow.imageURL = [NSURL URLWithString:@"http://www.supermarchesmatch.fr/userfiles/images/Poulet%20au%20curry.jpg"];
             
             int metaworkflowID = ((NSNumber*)responseObject[@"metaworkflow"][@"id"]).intValue;
@@ -654,7 +676,7 @@ NSString* const EATaskUpdate = @"EATaskUpdate";
 -(void)validateWorkflow:(EAWorkflow*)workflow completionBlock:(void (^)  (NSError *error)) completionBlock
 {
     
-    [self.easeServerManager POST:@"WorkflowGenerator/validate" parameters:@{@"index" : @(workflow.workflowID)} success:^(NSURLSessionDataTask *task, NSDictionary * responseObject) {
+    [self.easeServerManager POST:@"WorkflowGenerator/validate" parameters:@{@"index" : @(workflow.workflowID), @"color" : @(workflow.colorIndex)} success:^(NSURLSessionDataTask *task, NSDictionary * responseObject) {
         
         
         completionBlock(nil);
@@ -724,70 +746,7 @@ NSString* const EATaskUpdate = @"EATaskUpdate";
     }];
 }
 
--(void)workflowsAtDay:(NSDate*)date completionBlock:(void (^) (NSArray *workflows)) completionBlock
-{
-    
-    EADateInterval *dateInterval;
-    
-    EATask *task1 = [EATask new];
-    task1.title = @"Préparer le poulet";
-    task1.taskDescription = @"Task1 - Description";
-    dateInterval = [EADateInterval new];
-    dateInterval.startDate = [NSDate date];
-    dateInterval.endDate = [NSDate dateWithTimeIntervalSinceNow:10*60];
-    task1.dateInterval = dateInterval;
-    task1.workflow = workflowTest;
-    
-    EATask *task2 = [EATask new];
-    task2.title = @"Task2";
-    task2.taskDescription = @"Task2 - Description";
-    dateInterval = [EADateInterval new];
-    dateInterval.startDate = [NSDate dateWithTimeIntervalSinceNow:10*60];
-    dateInterval.endDate = [NSDate dateWithTimeIntervalSinceNow:30*60];
-    task2.dateInterval = dateInterval;
-    task2.workflow = workflowTest;
-    
-    EATask *task3 = [EATask new];
-    task3.title = @"Task3";
-    task3.taskDescription = @"Task3 - Description";
-    dateInterval = [EADateInterval new];
-    dateInterval.startDate = [NSDate dateWithTimeIntervalSinceNow:30*60];
-    dateInterval.endDate = [NSDate dateWithTimeIntervalSinceNow:70*60];
-    task3.dateInterval = dateInterval;
-    task3.workflow = workflowTest;
-    
-    EATask *task4 = [EATask new];
-    task4.title = @"Task4";
-    task4.taskDescription = @"Task4 - Description";
-    dateInterval = [EADateInterval new];
-    dateInterval.startDate = [NSDate dateWithTimeIntervalSinceNow:75*60];
-    dateInterval.endDate = [NSDate dateWithTimeIntervalSinceNow:100*60];
-    task4.dateInterval = dateInterval;
-    task4.workflow = workflowTest;
-    
-    EATask *task5 = [EATask new];
-    task5.title = @"Cuire le poulet";
-    task5.taskDescription = @"Task5 - Description";
-    dateInterval = [EADateInterval new];
-    dateInterval.startDate = [NSDate dateWithTimeIntervalSinceNow:25*60];
-    dateInterval.endDate = [NSDate dateWithTimeIntervalSinceNow:45*60];
-    task5.dateInterval = dateInterval;
-    task5.workflow = workflowTest;
-    
-    workflowTest = [[EAWorkflow alloc] init];
-    //workflowTest.title = @"Poulet au Curry";
-    workflowTest.tasks = @[task1, task2, task3, task4, task5];
-    workflowTest.color = colors[arc4random()%5];
-    workflowTest.metaworkflow = [EAMetaworkflow metaworkflowByParsingDictionary:@{@"title": @"Poulet Curry", @"imageURL" : @"http://www.supermarchesmatch.fr/userfiles/images/Poulet%20au%20curry.jpg"}];
-    
-    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(1.0 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
-        
-        
-        
-        completionBlock( [NSArray arrayWithObjects:workflowTest, nil]);
-    });
-    
-}
+
 
 #pragma mark - Notifications
 

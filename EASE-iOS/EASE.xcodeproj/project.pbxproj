@@ -347,6 +347,7 @@
 				31BA9A611AA47DEB005D4E22 /* Root */,
 				31BA9A621AA47DF0005D4E22 /* Left Menu */,
 				31BA9A661AA47E18005D4E22 /* Notifications */,
+				3146E6EE1A8165110072FC99 /* Workflow Viewer */,
 				31BA9A601AA47DE4005D4E22 /* New Workflow */,
 				31A50F0E1AC94ACD00BDF367 /* Calendar */,
 			);
@@ -419,7 +420,6 @@
 			children = (
 				313893F11A8AB34C00D0AF11 /* Search */,
 				311734AF1A87E68A006B2B39 /* Workflow List Viewer */,
-				3146E6EE1A8165110072FC99 /* Workflow Viewer */,
 			);
 			name = "New Workflow";
 			sourceTree = "<group>";

@@ -83,22 +83,40 @@
         
         
         
+        if (_workflow.ingredients.count)
+        {
+            NSMutableAttributedString *ingredientsString = [[NSMutableAttributedString alloc] initWithString:[NSString stringWithFormat:@"%d/%d", _workflow.availableIngredients, _workflow.ingredients.count] attributes:@{NSFontAttributeName: [UIFont fontWithName:@"HelveticaNeue-Thin" size:17]}];
+            
+            [ingredientsString appendAttributedString:[[NSAttributedString alloc] initWithString:@" Ingredients" attributes:@{NSFontAttributeName: [UIFont fontWithName:@"HelveticaNeue" size:13]}]];
+            
+            self.ingredientsNumberLabel.attributedText = ingredientsString;
+        }
+       else
+       {
+           self.ingredientsNumberLabel.text = @"";
+
+       }
+
         
-        NSMutableAttributedString *ingredientsString = [[NSMutableAttributedString alloc] initWithString:[NSString stringWithFormat:@"%d/%d", _workflow.availableIngredients, _workflow.ingredients.count] attributes:@{NSFontAttributeName: [UIFont fontWithName:@"HelveticaNeue-Thin" size:17]}];
+        NSMutableAttributedString *agentsString = [[NSMutableAttributedString alloc] initWithString:@""];
         
-        [ingredientsString appendAttributedString:[[NSAttributedString alloc] initWithString:@" Ingredients" attributes:@{NSFontAttributeName: [UIFont fontWithName:@"HelveticaNeue" size:13]}]];
+        if (_workflow.users.count)
+        {
+            [agentsString appendAttributedString:[[NSAttributedString alloc] initWithString:[NSString stringWithFormat:@" %d/%d", _workflow.availableUsers, _workflow.users.count] attributes:@{NSFontAttributeName: [UIFont fontWithName:@"HelveticaNeue-Thin" size:17]}]];
+            
+            [agentsString appendAttributedString:[[NSAttributedString alloc] initWithString:@" User  " attributes:@{NSFontAttributeName: [UIFont fontWithName:@"HelveticaNeue" size:13]}]];
+        }
+        
+        if (_workflow.agents.count)
+        {
+            [agentsString appendAttributedString:[[NSAttributedString alloc] initWithString:[NSString stringWithFormat:@" %d/%d", _workflow.availableAgents, _workflow.agents.count] attributes:@{NSFontAttributeName: [UIFont fontWithName:@"HelveticaNeue-Thin" size:17]}]];
+            
+            [agentsString appendAttributedString:[[NSAttributedString alloc] initWithString:@" Agents" attributes:@{NSFontAttributeName: [UIFont fontWithName:@"HelveticaNeue" size:13]}]];
+            
+        }
         
         
         
-        NSMutableAttributedString *agentsString = [[NSMutableAttributedString alloc] initWithString:[NSString stringWithFormat:@" %d/%d", _workflow.availableUsers, _workflow.users.count] attributes:@{NSFontAttributeName: [UIFont fontWithName:@"HelveticaNeue-Thin" size:17]}];
-        
-        [agentsString appendAttributedString:[[NSAttributedString alloc] initWithString:@" User  " attributes:@{NSFontAttributeName: [UIFont fontWithName:@"HelveticaNeue" size:13]}]];
-        
-        [agentsString appendAttributedString:[[NSAttributedString alloc] initWithString:[NSString stringWithFormat:@" %d/%d", _workflow.availableAgents, _workflow.agents.count] attributes:@{NSFontAttributeName: [UIFont fontWithName:@"HelveticaNeue-Thin" size:17]}]];
-        
-        [agentsString appendAttributedString:[[NSAttributedString alloc] initWithString:@" Agents" attributes:@{NSFontAttributeName: [UIFont fontWithName:@"HelveticaNeue" size:13]}]];
-        
-        self.ingredientsNumberLabel.attributedText = ingredientsString;
         self.agentsNumberLabel.attributedText = agentsString;
         
         
@@ -118,6 +136,20 @@
 
 
 #pragma mark - UITableViewDataSource
+
+-(UIEdgeInsets)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewFlowLayout *)collectionViewLayout insetForSectionAtIndex:(NSInteger)section
+{
+    int nbItems = [self collectionView:collectionView numberOfItemsInSection:0];
+    int itemWidth = collectionViewLayout.itemSize.width;
+    int space = collectionViewLayout.minimumInteritemSpacing;
+    
+    int w = nbItems*(itemWidth+space);
+    
+    int delta = (collectionView.frame.size.width-w)/2;
+    
+    return UIEdgeInsetsMake(0, delta, 0, 0);
+    
+}
 
 -(NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
@@ -214,11 +246,32 @@
     
     UICollectionViewCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:@"InfoCell" forIndexPath:indexPath];
     
+    NSString *key = dic.allKeys[indexPath.row];
+    
     UIImageView *imageView = [cell viewWithTag:2];
-    imageView.image = [UIImage imageNamed:dic.allKeys[indexPath.row]];
+    imageView.image = [UIImage imageNamed:key];
     
     UILabel *label = [cell viewWithTag:1];
-    label.text = [NSString stringWithFormat:@"%0.2f", ((NSNumber*)dic.allValues[indexPath.row]).floatValue];
+    
+    
+    if ([key isEqualToString:@"time"])
+    {
+        
+        int TI = ceil(((NSNumber*)dic.allValues[indexPath.row]).floatValue)/60;
+        int minutes = TI%60;
+        int hours =  TI/60;
+        
+        label.text = [NSString stringWithFormat:@"%dh%dm", hours, minutes];
+        
+        
+    }
+    else if ([key isEqualToString:@"WATER"])
+        label.text = [NSString stringWithFormat:@"%0.1fL", ((NSNumber*)dic.allValues[indexPath.row]).floatValue];
+    else if ([key isEqualToString:@"CO2"])
+        label.text = [NSString stringWithFormat:@"%0.2fg/CO2", ((NSNumber*)dic.allValues[indexPath.row]).floatValue];
+
+    
+    
     label.textColor = [UIColor whiteColor];
     
     

@@ -5,7 +5,7 @@ function Workflow(metaworkflow) {
 
   //console.log(metaworkflow.metatasks.length+"\n");
   this.tasks = []
- 
+
   		
   		for (var i = 0; i < metaworkflow.metatasks.length; i++) {
 
@@ -213,6 +213,8 @@ module.exports = {
 							//console.log("total consumption "+res.consumption);
 							res.metaworkflow = metaworkflow.id;
 							res.title=metaworkflow.title;
+							res.color = res.metaworkflow%5;
+
 							generatedWorkflows.push(res);
 					}
 					
